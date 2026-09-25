@@ -25,8 +25,11 @@ Where Cuenta Clara stands, and what's next.
 5. [ ] Emails
        [x] `RESEND_API_KEY` and `CRON_SECRET` in Vercel
        [ ] Get a PO box, add it as `MAILING_ADDRESS` (footer says "Cuenta Clara · Newark, NJ" until then) — required before emailing real users
-       [ ] Own domain verified in Resend (without it, Resend only delivers to your own account email)
-6. [ ] Own domain (Vercel → Settings → Domains), then update Supabase URLs and `APP_URL`
+       [~] micuentaclara.app added in Resend (auto-configured via Vercel), waiting for Verified
+6. [ ] Own domain
+       [x] Bought micuentaclara.app on Vercel, connected to the project
+       [ ] Vercel `APP_URL` → `https://micuentaclara.app`
+       [ ] Supabase Site URL → `https://micuentaclara.app`, add redirect `https://micuentaclara.app/auth/callback`
 7. [ ] Confirm "Hecho en Newark, NJ" on the landing page
 8. [ ] 10 test users, then ads with the PRD's daily launch check
 

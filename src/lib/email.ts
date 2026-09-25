@@ -92,7 +92,7 @@ export async function sendEmail(opts: { to: string; userId: string; kind: EmailK
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: process.env.REMINDER_FROM_EMAIL ?? "Cuenta Clara <onboarding@resend.dev>",
+      from: process.env.REMINDER_FROM_EMAIL ?? "Cuenta Clara <hola@micuentaclara.app>",
       to: opts.to,
       subject: opts.subject,
       html,
