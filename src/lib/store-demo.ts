@@ -1,4 +1,4 @@
-import type { AuthResult, Store } from "./store";
+import type { AuthResult, CheckoutStart, EditableProfile, Store } from "./store";
 import type {
   Bill, Budget, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient,
 } from "./types";
@@ -70,6 +70,9 @@ export class DemoStore implements Store {
           home_currency: null,
           reminders_on: true,
           created_at: new Date().toISOString(),
+          premium: false,
+          premium_period_end: null,
+          premium_cancel_at_period_end: false,
         };
       }
     });
@@ -92,9 +95,11 @@ export class DemoStore implements Store {
   }
 
   async getProfile() {
-    return load().profile;
+    const p = load().profile;
+    // Profiles saved before Premium existed lack its fields.
+    return p ? Object.assign({ premium: false, premium_period_end: null, premium_cancel_at_period_end: false }, p) : null;
   }
-  async updateProfile(patch: Partial<Profile>) {
+  async updateProfile(patch: EditableProfile) {
     this.update((d) => {
       if (d.profile) d.profile = { ...d.profile, ...patch };
     });
@@ -140,6 +145,9 @@ export class DemoStore implements Store {
       .entries.filter((e) => e.date.startsWith(month))
       .sort((a, b) => b.date.localeCompare(a.date));
   }
+  async listAllEntries() {
+    return [...load().entries].sort((a, b) => b.date.localeCompare(a.date));
+  }
   async addEntry(e: NewEntry) {
     this.update((d) => d.entries.push({ ...e, id: id(), user_id: USER_ID }));
   }
@@ -164,6 +172,17 @@ export class DemoStore implements Store {
   async deleteGoal(goalId: string) {
     this.update((d) => {
       d.goals = d.goals.filter((g) => g.id !== goalId);
+    });
+  }
+
+  async startCheckout(): Promise<CheckoutStart> {
+    return { kind: "demo" };
+  }
+
+  /** Demo mode has no payments: the paywall offers this instead of a checkout. */
+  async activateDemoPremium() {
+    this.update((d) => {
+      if (d.profile) d.profile.premium = true;
     });
   }
 

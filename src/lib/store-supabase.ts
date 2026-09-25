@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { AuthResult, Store } from "./store";
+import type { AuthResult, CheckoutStart, EditableProfile, Store } from "./store";
 import { supabaseBrowser } from "./supabase-browser";
 import type {
   Bill, Budget, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient,
@@ -59,7 +59,7 @@ export class SupabaseStore implements Store {
   async getProfile() {
     return must(await this.db.from("users").select("*").maybeSingle()) as Profile | null;
   }
-  async updateProfile(patch: Partial<Profile>) {
+  async updateProfile(patch: EditableProfile) {
     must(await this.db.from("users").update(patch).eq("id", await this.uid()));
   }
 
@@ -106,6 +106,9 @@ export class SupabaseStore implements Store {
         .order("date", { ascending: false }),
     ) as Entry[];
   }
+  async listAllEntries() {
+    return must(await this.db.from("entries").select("*").order("date", { ascending: false })) as Entry[];
+  }
   async addEntry(e: NewEntry) {
     must(await this.db.from("entries").insert({ ...e, user_id: await this.uid() }));
   }
@@ -124,6 +127,17 @@ export class SupabaseStore implements Store {
   }
   async deleteGoal(id: string) {
     must(await this.db.from("goals").delete().eq("id", id));
+  }
+
+  async startCheckout(interval: "monthly" | "yearly"): Promise<CheckoutStart> {
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ interval }),
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) return { kind: "error", error: body.error ?? `status ${res.status}` };
+    return { kind: "whop", sessionId: body.sessionId, planId: body.planId };
   }
 
   async deleteAccount() {

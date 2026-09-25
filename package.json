@@ -11,6 +11,8 @@
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.1",
+    "@whop/checkout": "^0.7.0",
+    "@whop/sdk": "^2.0.0",
     "next": "^15.5.26",
     "next-intl": "^4.14.7",
     "react": "^19.3.0",

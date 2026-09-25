@@ -66,3 +66,28 @@ Built from the Cuenta Clara Landing Page PRD: hero with before/after cards, trus
 - **Measurement:** set `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` for page views, scroll depth and `CTA click` events (tagged with placement and language), and `NEXT_PUBLIC_META_PIXEL_ID` for the Meta Pixel. Both fire a signup event when an account is created. Plausible reads `utm_source` and `utm_campaign` itself.
 - **Lighthouse (mobile, local build):** performance 99, accessibility 100, best practices 100.
 - **Before launch:** confirm "Hecho en Newark, NJ". The browser-tab icon is a placeholder until there's a logo.
+
+## Premium (Whop)
+
+The basics stay free. **Premium is $4.99/month or $39.99/year** and unlocks:
+
+| Free | Premium |
+| --- | --- |
+| 1 savings goal | Unlimited goals |
+| Family in 1 country | Family in several countries |
+| — | Download everything as CSV |
+
+Limits live in `src/lib/plan.ts` and are enforced again by database triggers in `supabase/schema.sql`. When someone reaches a limit, a Premium sheet explains it, offers yearly or monthly, and opens Whop's embedded checkout in the app. In demo mode the sheet offers a "demo Premium" switch instead of a payment.
+
+How payment reaches the account:
+
+1. `/api/checkout` creates a Whop checkout session with the signed-in user's id as metadata.
+2. Whop copies that metadata onto the membership and sends signed webhooks to `/api/webhooks/whop`.
+3. The webhook verifies the signature and sets `premium` on the user. Only the service role can write that column; the browser can't.
+
+### Set it up
+
+1. In Whop, create an API key and note your business id (`biz_…`).
+2. Run `WHOP_API_KEY=… WHOP_ACCOUNT_ID=biz_… node scripts/whop-setup.mjs`. It creates the product and both plans and prints the plan ids. Check the prices in the Whop dashboard afterwards.
+3. In Whop → Developer → Webhooks, add `https://<your-domain>/api/webhooks/whop` with `membership.activated`, `membership.deactivated` and `membership.cancel_at_period_end_changed`.
+4. Set `WHOP_API_KEY`, `WHOP_ACCOUNT_ID`, `WHOP_PLAN_MONTHLY`, `WHOP_PLAN_YEARLY`, `WHOP_WEBHOOK_SECRET` and `SUPABASE_SERVICE_ROLE_KEY` on Vercel.

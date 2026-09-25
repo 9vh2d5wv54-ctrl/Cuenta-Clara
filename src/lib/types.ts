@@ -10,6 +10,9 @@ export type Profile = {
   home_currency: string | null;
   reminders_on: boolean;
   created_at: string;
+  premium: boolean;
+  premium_period_end: string | null;
+  premium_cancel_at_period_end: boolean;
 };
 
 export type Budget = {

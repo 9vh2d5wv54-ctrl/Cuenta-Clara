@@ -7,6 +7,10 @@ import { useData } from "@/components/DataProvider";
 import { BillForm } from "@/components/forms";
 import { Icon } from "@/components/Icon";
 import { setLocaleCookie } from "@/components/LanguageToggle";
+import { usePremium } from "@/components/Premium";
+import { entriesToCsv, downloadText } from "@/lib/csv";
+import { formatLongDate, todayISO } from "@/lib/dates";
+import { isPremium } from "@/lib/plan";
 import { Button, Card, Dialog, Explain, Field, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
 import { COUNTRIES, countryByCode } from "@/lib/currencies";
 import { centsToInput, formatUSD, parseCents } from "@/lib/money";
@@ -16,6 +20,8 @@ export default function Ajustes() {
   const t = useTranslations("settings");
   const c = useTranslations("common");
   const s = useTranslations("setup");
+  const p = useTranslations("premium");
+  const { openPremium } = usePremium();
   const x = useTranslations("explain");
   const locale = useLocale() as Locale;
   const router = useRouter();
@@ -55,6 +61,15 @@ export default function Ajustes() {
     } catch {
       setIncomeError(c("somethingWrong"));
     }
+  }
+
+  async function exportCsv() {
+    if (!isPremium(profile)) {
+      openPremium("export");
+      return;
+    }
+    const all = await store.listAllEntries();
+    downloadText(`cuenta-clara-${todayISO()}.csv`, entriesToCsv(all));
   }
 
   async function signOut() {
@@ -97,6 +112,41 @@ export default function Ajustes() {
               </Select>
             )}
           </Field>
+        </div>
+      </Card>
+
+      <Card tone={isPremium(profile) ? "clara" : undefined}>
+        <div className="stack-sm">
+          <div className="row row--between">
+            <p className="t-heading">{isPremium(profile) ? p("active") : p("name")}</p>
+            <span className="premium-badge t-caption">{p("badge")}</span>
+          </div>
+          {isPremium(profile) ? (
+            <>
+              {profile?.premium_period_end && (
+                <p className="t-body muted">
+                  {p(profile.premium_cancel_at_period_end ? "ends" : "renews", {
+                    date: formatLongDate(profile.premium_period_end.slice(0, 10), locale),
+                  })}
+                </p>
+              )}
+              {store.mode === "supabase" && (
+                <a className="t-label" href="https://whop.com" target="_blank" rel="noopener">
+                  {p("manage")}
+                </a>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="t-body muted">{p("lead")}</p>
+              <Button variant="secondary" block onClick={() => openPremium()}>
+                {p("upgrade")}
+              </Button>
+            </>
+          )}
+          <Button variant="ghost" block onClick={exportCsv}>
+            {p("exportCsv")}
+          </Button>
         </div>
       </Card>
 

@@ -4,6 +4,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
 import { GoalForm } from "@/components/forms";
+import { PremiumCard } from "@/components/PremiumCard";
+import { canAddGoal } from "@/lib/plan";
 import { Icon } from "@/components/Icon";
 import { Button, Card, Dialog, Explain, Field, MoneyInput, ProgressBar } from "@/components/ui";
 import { goalMonthlyCents } from "@/lib/budget";
@@ -16,7 +18,7 @@ export default function Metas() {
   const c = useTranslations("common");
   const x = useTranslations("explain");
   const locale = useLocale();
-  const { goals, mutate } = useData();
+  const { goals, profile, mutate } = useData();
   const [adding, setAdding] = useState<Goal | null>(null);
   const [amount, setAmount] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -101,9 +103,13 @@ export default function Metas() {
 
       <section className="stack-sm">
         <h2 className="t-heading">{t("addTitle")}</h2>
-        <Card>
-          <GoalForm submitLabel={c("add")} onSave={(g) => mutate((s) => s.addGoal(g))} />
-        </Card>
+        {canAddGoal(profile, goals) ? (
+          <Card>
+            <GoalForm submitLabel={c("add")} onSave={(g) => mutate((s) => s.addGoal(g))} />
+          </Card>
+        ) : (
+          <PremiumCard feature="goals" />
+        )}
       </section>
 
       <Dialog

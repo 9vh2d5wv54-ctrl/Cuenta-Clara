@@ -4,6 +4,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useData } from "@/components/DataProvider";
 import { RecipientForm } from "@/components/forms";
+import { usePremium } from "@/components/Premium";
+import { canSendTo } from "@/lib/plan";
 import { Icon } from "@/components/Icon";
 import { Card, Explain } from "@/components/ui";
 import { monthlySendCents } from "@/lib/budget";
@@ -19,6 +21,7 @@ export default function Envios() {
   const x = useTranslations("explain");
   const locale = useLocale() as "es" | "en";
   const { recipients, entries, profile, mutate } = useData();
+  const { openPremium } = usePremium();
   const [rates, setRates] = useState<Rates | null>(null);
   const [ratesFailed, setRatesFailed] = useState(false);
 
@@ -120,6 +123,7 @@ export default function Envios() {
           <RecipientForm
             submitLabel={s("addSend")}
             defaultCountry={profile?.home_country}
+            allow={(r) => canSendTo(profile, recipients, r.country) || (openPremium("countries"), false)}
             onSave={(r) => mutate((st) => st.addRecipient(r))}
           />
         </Card>

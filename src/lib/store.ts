@@ -5,6 +5,13 @@ import type {
 // One interface, two backends: Supabase when its keys are set, otherwise a demo
 // store that keeps everything in this browser so the app runs with no setup.
 
+export type EditableProfile = Partial<Pick<Profile, "language" | "home_country" | "home_currency" | "reminders_on">>;
+
+export type CheckoutStart =
+  | { kind: "whop"; sessionId: string; planId: string }
+  | { kind: "demo" }
+  | { kind: "error"; error: string };
+
 export type AuthResult = { ok: true } | { ok: false; error: string };
 
 export interface Store {
@@ -19,7 +26,7 @@ export interface Store {
 
   // Data
   getProfile(): Promise<Profile | null>;
-  updateProfile(patch: Partial<Omit<Profile, "id" | "email" | "created_at">>): Promise<void>;
+  updateProfile(patch: EditableProfile): Promise<void>;
   getBudget(month: string): Promise<Budget | null>;
   setIncome(month: string, cents: number): Promise<void>;
   listBills(): Promise<Bill[]>;
@@ -29,6 +36,7 @@ export interface Store {
   addRecipient(r: NewRecipient): Promise<void>;
   deleteRecipient(id: string): Promise<void>;
   listEntries(month: string): Promise<Entry[]>;
+  listAllEntries(): Promise<Entry[]>;
   addEntry(e: NewEntry): Promise<void>;
   deleteEntry(id: string): Promise<void>;
   listGoals(): Promise<Goal[]>;
@@ -36,6 +44,9 @@ export interface Store {
   addToGoal(id: string, cents: number): Promise<void>;
   deleteGoal(id: string): Promise<void>;
   deleteAccount(): Promise<void>;
+
+  // Premium
+  startCheckout(interval: "monthly" | "yearly"): Promise<CheckoutStart>;
 }
 
 let store: Store | null = null;

@@ -85,10 +85,13 @@ export function RecipientForm({
   onSave,
   submitLabel,
   defaultCountry,
+  allow,
 }: {
   onSave: SaveFn<NewRecipient>;
   submitLabel: string;
   defaultCountry?: string | null;
+  /** Return false to stop the save (e.g. a Premium limit); the form keeps its values. */
+  allow?: (value: NewRecipient) => boolean;
 }) {
   const t = useTranslations("setup");
   const c = useTranslations("common");
@@ -107,14 +110,16 @@ export function RecipientForm({
     setErrors(next);
     if (next.name || next.amount || !cents) return;
     const ctry = countryByCode(country)!;
+    const value: NewRecipient = {
+      name: name.trim(),
+      country: ctry.code,
+      currency: ctry.currency,
+      default_amount_cents: cents,
+      frequency,
+    };
+    if (allow && !allow(value)) return;
     run(async () => {
-      await onSave({
-        name: name.trim(),
-        country: ctry.code,
-        currency: ctry.currency,
-        default_amount_cents: cents,
-        frequency,
-      });
+      await onSave(value);
       setName("");
       setAmount("");
     });

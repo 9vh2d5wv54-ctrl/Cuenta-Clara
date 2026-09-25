@@ -106,3 +106,50 @@ language sql security definer set search_path = public as $$
   delete from auth.users where id = auth.uid();
 $$;
 revoke execute on function public.delete_my_account() from anon;
+
+-- ── Premium (Whop) ──────────────────────────────────────────────────────────
+-- Free: everything in the MVP, with 1 savings goal and family in 1 country.
+-- Premium ($4.99/month or $39.99/year): unlimited goals, family in several
+-- countries, CSV export. Only the Whop webhook (service role) can change these
+-- columns; people can't grant themselves Premium from the browser.
+
+alter table public.users
+  add column premium boolean not null default false,
+  add column premium_period_end timestamptz,
+  add column premium_cancel_at_period_end boolean not null default false,
+  add column whop_membership_id text;
+
+revoke update on public.users from authenticated, anon;
+grant update (language, home_country, home_currency, reminders_on) on public.users to authenticated;
+
+create function public.is_premium(uid uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select coalesce((select premium from public.users where id = uid), false);
+$$;
+
+-- Free plan limits, enforced here as well as in the app.
+create function public.enforce_goal_limit() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_premium(new.user_id)
+     and (select count(*) from public.goals where user_id = new.user_id) >= 1 then
+    raise exception 'premium_required: goals' using errcode = 'P0001';
+  end if;
+  return new;
+end;
+$$;
+create trigger goals_free_limit before insert on public.goals
+  for each row execute function public.enforce_goal_limit();
+
+create function public.enforce_country_limit() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_premium(new.user_id)
+     and exists (select 1 from public.recipients where user_id = new.user_id and country <> new.country) then
+    raise exception 'premium_required: countries' using errcode = 'P0001';
+  end if;
+  return new;
+end;
+$$;
+create trigger recipients_free_limit before insert on public.recipients
+  for each row execute function public.enforce_country_limit();

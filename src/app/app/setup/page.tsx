@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
 import { BillForm, GoalForm, RecipientForm } from "@/components/forms";
+import { usePremium } from "@/components/Premium";
+import { canAddGoal, canSendTo } from "@/lib/plan";
 import { Icon } from "@/components/Icon";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { Button, Card, Explain, Field, MoneyInput, ProgressBar } from "@/components/ui";
@@ -19,6 +21,7 @@ export default function Setup() {
   const x = useTranslations("explain");
   const router = useRouter();
   const { income, bills, recipients, goals, month, profile, mutate } = useData();
+  const { openPremium } = usePremium();
   const [step, setStep] = useState(1);
   const [incomeText, setIncomeText] = useState(income ? centsToInput(income) : "");
   const [incomeError, setIncomeError] = useState<string | null>(null);
@@ -123,6 +126,7 @@ export default function Setup() {
           <RecipientForm
             submitLabel={t("addSend")}
             defaultCountry={profile?.home_country}
+            allow={(r) => canSendTo(profile, recipients, r.country) || (openPremium("countries"), false)}
             onSave={async (r) => {
               await mutate(async (s) => {
                 await s.addRecipient(r);
@@ -148,7 +152,9 @@ export default function Setup() {
               </ul>
             </Card>
           )}
-          <GoalForm submitLabel={c("add")} onSave={(g) => mutate((s) => s.addGoal(g))} />
+          {canAddGoal(profile, goals) && (
+            <GoalForm submitLabel={c("add")} onSave={(g) => mutate((s) => s.addGoal(g))} />
+          )}
           <Button block onClick={next}>
             {t("finish")}
           </Button>

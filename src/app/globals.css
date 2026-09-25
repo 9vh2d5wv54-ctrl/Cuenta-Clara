@@ -936,3 +936,62 @@ textarea {
 .credit a {
   color: var(--ink-muted);
 }
+
+/* Premium */
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--mango-soft);
+  color: var(--mango-ink);
+  align-self: flex-start;
+}
+.premium-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.premium-features .row {
+  align-items: flex-start;
+}
+.premium-check {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--clara-soft);
+  color: var(--clara);
+}
+.premium-plans {
+  display: grid;
+  gap: var(--space-2);
+}
+.premium-plan {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  text-align: left;
+  cursor: pointer;
+}
+.premium-plan[aria-checked="true"] {
+  border-color: var(--clara);
+  background: var(--clara-soft);
+}
+.premium-save {
+  color: var(--clara);
+}
+.premium-checkout {
+  min-height: 360px;
+}
