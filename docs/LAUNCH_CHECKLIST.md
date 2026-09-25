@@ -12,8 +12,8 @@ Where Cuenta Clara stands, and what's next.
 - [x] Redeploy pushed (commit d02808e) so the app uses the real database
 
 ## Next
-1. [ ] Confirm the deploy is Ready and signing up shows no "Modo de prueba" banner
-2. [ ] Supabase → Authentication → URL Configuration
+1. [x] Confirm the deploy is Ready and signing up shows no "Modo de prueba" banner (first real signup worked)
+2. [x] Supabase → Authentication → URL Configuration
        Site URL: `https://cuenta-clara-six.vercel.app`
        Redirect URL: `https://cuenta-clara-six.vercel.app/auth/callback`
 3. [ ] Payments: Whop API key, run `scripts/whop-setup.mjs`, add plan ids + webhook secret to Vercel
