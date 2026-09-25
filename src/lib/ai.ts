@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { CheckupInput } from "./store";
+import { isDemo } from "./demo";
 import { formatUSD } from "./money";
 
 // Server-only. The app does all the math; Claude only writes the words.
@@ -37,7 +38,7 @@ function hasKey() {
   if (!process.env.ANTHROPIC_API_KEY) return false;
   // Demo mode has no sign-in, so the AI endpoints would be open to anyone.
   // Only call Claude there when explicitly allowed (local development).
-  const demo = !process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const demo = isDemo;
   return !demo || process.env.ALLOW_DEMO_AI === "true";
 }
 

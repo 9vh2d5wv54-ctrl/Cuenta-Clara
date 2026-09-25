@@ -1,1 +1,3 @@
-export const isDemo = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+import { SUPABASE_PUBLIC_KEY, SUPABASE_URL } from "./supabase-env";
+
+export const isDemo = !SUPABASE_URL || !SUPABASE_PUBLIC_KEY;

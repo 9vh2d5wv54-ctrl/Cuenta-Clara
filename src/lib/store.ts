@@ -1,3 +1,4 @@
+import { isDemo } from "./demo";
 import type {
   Bill, Budget, Checkup, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
 } from "./types";
@@ -82,7 +83,7 @@ let store: Store | null = null;
 
 export async function getStore(): Promise<Store> {
   if (store) return store;
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!isDemo) {
     const { SupabaseStore } = await import("./store-supabase");
     store = new SupabaseStore();
   } else {

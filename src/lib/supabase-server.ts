@@ -1,11 +1,12 @@
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
+import { SUPABASE_PUBLIC_KEY, SUPABASE_URL, supabaseSecretKey } from "./supabase-env";
 
 /** Acts as the signed-in user, from their session cookie. */
 export async function supabaseFromCookies() {
   const store = await cookies();
-  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+  return createServerClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
     cookies: {
       getAll: () => store.getAll(),
       setAll: (list) => {
@@ -21,7 +22,7 @@ export async function supabaseFromCookies() {
 
 /** Bypasses row-level security. Server-only: webhooks and cron. */
 export function supabaseAdmin() {
-  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
+  return createClient(SUPABASE_URL, supabaseSecretKey(), {
     auth: { persistSession: false },
   });
 }

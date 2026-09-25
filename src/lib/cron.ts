@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { SUPABASE_URL, supabaseSecretKey } from "./supabase-env";
 
 /** Vercel sends `Authorization: Bearer $CRON_SECRET` to cron routes. */
 export function cronUnauthorized(request: NextRequest): NextResponse | null {
@@ -6,7 +7,7 @@ export function cronUnauthorized(request: NextRequest): NextResponse | null {
   if (!secret || request.headers.get("authorization") !== `Bearer ${secret}`) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (!SUPABASE_URL || !supabaseSecretKey()) {
     return NextResponse.json({ error: "not configured" }, { status: 500 });
   }
   return null;
