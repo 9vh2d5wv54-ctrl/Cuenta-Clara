@@ -10,8 +10,7 @@ export async function POST(request: NextRequest) {
   if (interval !== "monthly" && interval !== "yearly") {
     return NextResponse.json({ error: "bad interval" }, { status: 400 });
   }
-  const planId = planIdFor(interval);
-  if (!planId || !process.env.WHOP_API_KEY) {
+  if (!process.env.WHOP_API_KEY) {
     return NextResponse.json({ error: "payments not configured" }, { status: 503 });
   }
 
@@ -20,6 +19,11 @@ export async function POST(request: NextRequest) {
   if (!data.user) return NextResponse.json({ error: "not signed in" }, { status: 401 });
 
   try {
+    const planId = await planIdFor(interval);
+    if (!planId) {
+      console.error(`no Whop plan found for ${interval}`);
+      return NextResponse.json({ error: "plan not found" }, { status: 503 });
+    }
     const session = await whopClient().checkoutConfigurations.create({
       account_id: process.env.WHOP_ACCOUNT_ID,
       plan_id: planId,
