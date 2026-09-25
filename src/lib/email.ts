@@ -50,7 +50,8 @@ export type EmailBody = {
 };
 
 function render(body: EmailBody, unsubscribe: string | null): { html: string; text: string } {
-  const address = process.env.MAILING_ADDRESS ?? "";
+  // Placeholder until the PO box exists (LAUNCH_CHECKLIST). Set MAILING_ADDRESS to the real one.
+  const address = process.env.MAILING_ADDRESS ?? "Cuenta Clara · Newark, NJ";
   const unsubLabel = body.lang === "es" ? "Dejar de recibir estos correos" : "Unsubscribe from these emails";
   const paras = body.paragraphs
     .map((p) => `<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:${COLORS.ink}">${escape(p)}</p>`)
@@ -101,9 +102,15 @@ export async function sendEmail(opts: { to: string; userId: string; kind: EmailK
         : undefined,
     }),
   });
-  if (!res.ok) console.error("resend failed", res.status, await res.text().catch(() => ""));
+  if (!res.ok) {
+    lastSendError = `${res.status} ${await res.text().catch(() => "")}`.slice(0, 400);
+    console.error("resend failed", lastSendError);
+  }
   return res.ok;
 }
+
+/** Resend's reply to the most recent failed send (for the test page). */
+export let lastSendError: string | null = null;
 
 /** For tests and previews. */
 export const renderEmail = render;

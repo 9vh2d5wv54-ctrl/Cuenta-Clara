@@ -22,7 +22,10 @@ Where Cuenta Clara stands, and what's next.
        [x] Whop webhook → `https://cuenta-clara-six.vercel.app/api/webhooks/whop`, secret in Vercel as `WHOP_WEBHOOK_SECRET`
        [ ] Test: finish setup → checkup → "Pruébalo gratis 7 días" → trial starts → Settings shows "Estás probando Plus" → cancel
 4. [ ] AI checkup: `ANTHROPIC_API_KEY` in Vercel (optional; a template is used without it)
-5. [ ] Emails: Resend key, `MAILING_ADDRESS`, `EMAIL_LINK_SECRET`, `CRON_SECRET` in Vercel
+5. [ ] Emails
+       [x] `RESEND_API_KEY` and `CRON_SECRET` in Vercel
+       [ ] Get a PO box, add it as `MAILING_ADDRESS` (footer says "Cuenta Clara · Newark, NJ" until then) — required before emailing real users
+       [ ] Own domain verified in Resend (without it, Resend only delivers to your own account email)
 6. [ ] Own domain (Vercel → Settings → Domains), then update Supabase URLs and `APP_URL`
 7. [ ] Confirm "Hecho en Newark, NJ" on the landing page
 8. [ ] 10 test users, then ads with the PRD's daily launch check
