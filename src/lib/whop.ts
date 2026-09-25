@@ -7,6 +7,15 @@ export function whopClient() {
   return new WhopClient({ token });
 }
 
+let accountCache: string | undefined;
+
+/** The Whop business (biz_…) this API key belongs to. WHOP_ACCOUNT_ID wins when set. */
+export async function whopAccountId(): Promise<string> {
+  if (process.env.WHOP_ACCOUNT_ID) return process.env.WHOP_ACCOUNT_ID;
+  accountCache ??= (await whopClient().accounts.me()).id;
+  return accountCache;
+}
+
 type Interval = "monthly" | "yearly";
 
 // What each Plus plan looks like in Whop (MVP PRD → Premium plan).
@@ -29,7 +38,7 @@ export async function planIdFor(interval: Interval): Promise<string | undefined>
 
   const want = TARGET[interval];
   const plans = await whopClient().plans.list({
-    account_id: process.env.WHOP_ACCOUNT_ID,
+    account_id: await whopAccountId(),
     first: 100,
   });
   for await (const plan of plans) {

@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { supabaseFromCookies } from "@/lib/supabase-server";
-import { planIdFor, whopClient } from "@/lib/whop";
+import { planIdFor, whopAccountId, whopClient } from "@/lib/whop";
 
 // Creates a Whop checkout session for the signed-in user. The user id rides along
 // as metadata, and Whop copies it onto the membership, which is how the webhook
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "plan not found" }, { status: 503 });
     }
     const session = await whopClient().checkoutConfigurations.create({
-      account_id: process.env.WHOP_ACCOUNT_ID,
+      account_id: await whopAccountId(),
       plan_id: planId,
       metadata: { user_id: data.user.id },
     });

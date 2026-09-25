@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { planIdFor, whopClient } from "@/lib/whop";
+import { planIdFor, whopAccountId, whopClient } from "@/lib/whop";
 
 // Payment setup check: open /api/plus/status in a browser. Shows which step
 // fails without exposing any secret (plan ids and prices are public anyway).
@@ -22,8 +22,16 @@ export async function GET() {
   };
   if (!process.env.WHOP_API_KEY) return NextResponse.json({ ...out, problem: "WHOP_API_KEY is missing in this deployment" });
 
+  let accountId: string;
   try {
-    const page = await whopClient().plans.list({ account_id: process.env.WHOP_ACCOUNT_ID, first: 50 });
+    accountId = await whopAccountId();
+    out.account_id = accountId;
+  } catch (err) {
+    return NextResponse.json({ ...out, problem: "finding the Whop business failed", error: describe(err) });
+  }
+
+  try {
+    const page = await whopClient().plans.list({ account_id: accountId, first: 50 });
     const plans: unknown[] = [];
     for await (const p of page) {
       plans.push({
