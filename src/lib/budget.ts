@@ -1,5 +1,6 @@
 import type { Bill, Entry, Goal, Recipient } from "./types";
 import { monthsUntil } from "./dates";
+import type { CheckupInput } from "./store";
 
 // "What's left" = income − bills − planned sends − goal contributions − logged expenses.
 // Bills, sends and goal contributions count at their planned amounts, so logging a
@@ -59,3 +60,30 @@ export const EXPENSE_CATEGORIES = [
   "fun",
   "other",
 ] as const;
+
+const RENT = /\b(rent|renta|alquiler|hipoteca|mortgage)\b/i;
+
+/** The totals the checkup and "¿Me alcanza?" receive. The AI never does math. */
+export function checkupInput(
+  language: "es" | "en",
+  month: string,
+  incomeCents: number,
+  bills: Bill[],
+  recipients: Recipient[],
+  goals: Goal[],
+  monthEntries: Entry[],
+  from = new Date(),
+): CheckupInput {
+  const s = summarize(incomeCents, bills, recipients, goals, monthEntries, from);
+  return {
+    language,
+    month,
+    income_cents: s.income,
+    rent_cents: bills.filter((b) => RENT.test(b.name)).reduce((t, b) => t + b.amount_cents, 0),
+    bills_cents: s.bills,
+    family_cents: s.family,
+    savings_cents: s.savings,
+    spending_cents: s.spending,
+    left_cents: s.left,
+  };
+}

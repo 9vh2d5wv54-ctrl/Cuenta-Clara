@@ -7,7 +7,11 @@ create table public.users (
   language text not null default 'es' check (language in ('es', 'en')),
   home_country text,
   home_currency text,
-  reminders_on boolean not null default true,
+  email_bills_on boolean not null default true,
+  email_weekly_on boolean not null default true,
+  timezone text not null default 'America/New_York',
+  rate_alert_on boolean not null default false,
+  rate_alert_baseline numeric,
   created_at timestamptz not null default now()
 );
 
@@ -59,6 +63,41 @@ create table public.goals (
   saved_cents bigint not null default 0 check (saved_cents >= 0)
 );
 
+-- Plus subscription, one row per user. Written only by the Whop webhook (service role).
+create table public.subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references public.users (id) on delete cascade,
+  plan text not null default 'free' check (plan in ('free', 'plus')),
+  status text not null default 'active' check (status in ('trialing', 'active', 'canceled')),
+  trial_ends_at timestamptz,
+  renews_at timestamptz,
+  cancel_at_period_end boolean not null default false,
+  provider_customer_id text,     -- Whop user id
+  provider_membership_id text    -- Whop membership id, used to cancel
+);
+
+-- One saved AI money checkup per user per month.
+create table public.checkups (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.users (id) on delete cascade,
+  month text not null check (month ~ '^\d{4}-\d{2}$'),
+  language text not null check (language in ('es', 'en')),
+  summary_text text not null,
+  created_at timestamptz not null default now(),
+  unique (user_id, month)
+);
+
+-- "¿Me alcanza?" questions; counts toward the 30-a-day Plus limit.
+create table public.ai_questions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.users (id) on delete cascade,
+  date date not null default current_date,
+  question text not null,
+  answer text not null,
+  created_at timestamptz not null default now()
+);
+create index ai_questions_user_date on public.ai_questions (user_id, date);
+
 -- Row-level security: every table is limited to its owner.
 alter table public.users enable row level security;
 alter table public.budgets enable row level security;
@@ -66,9 +105,16 @@ alter table public.bills enable row level security;
 alter table public.recipients enable row level security;
 alter table public.entries enable row level security;
 alter table public.goals enable row level security;
+alter table public.subscriptions enable row level security;
+alter table public.checkups enable row level security;
+alter table public.ai_questions enable row level security;
 
 create policy "own profile" on public.users
   for all using (id = auth.uid()) with check (id = auth.uid());
+-- People edit their settings; rate_alert_baseline and email are server-managed.
+revoke update on public.users from authenticated, anon;
+grant update (language, home_country, home_currency, email_bills_on, email_weekly_on, timezone, rate_alert_on)
+  on public.users to authenticated;
 create policy "own budgets" on public.budgets
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 create policy "own bills" on public.bills
@@ -79,12 +125,20 @@ create policy "own entries" on public.entries
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 create policy "own goals" on public.goals
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+-- Read-only for people; the server writes these.
+create policy "read own subscription" on public.subscriptions
+  for select using (user_id = auth.uid());
+create policy "read own checkups" on public.checkups
+  for select using (user_id = auth.uid());
+create policy "read own questions" on public.ai_questions
+  for select using (user_id = auth.uid());
 
 -- Create the profile row when someone signs up.
 create function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
   insert into public.users (id, email) values (new.id, new.email);
+  insert into public.subscriptions (user_id) values (new.id);
   return new;
 end;
 $$;
@@ -107,33 +161,23 @@ language sql security definer set search_path = public as $$
 $$;
 revoke execute on function public.delete_my_account() from anon;
 
--- ── Premium (Whop) ──────────────────────────────────────────────────────────
--- Free: everything in the MVP, with 1 savings goal and family in 1 country.
--- Premium ($4.99/month or $39.99/year): unlimited goals, family in several
--- countries, CSV export. Only the Whop webhook (service role) can change these
--- columns; people can't grant themselves Premium from the browser.
 
-alter table public.users
-  add column premium boolean not null default false,
-  add column premium_period_end timestamptz,
-  add column premium_cancel_at_period_end boolean not null default false,
-  add column whop_membership_id text;
-
-revoke update on public.users from authenticated, anon;
-grant update (language, home_country, home_currency, reminders_on) on public.users to authenticated;
-
-create function public.is_premium(uid uuid) returns boolean
+-- ── Plus ────────────────────────────────────────────────────────────────────
+create function public.has_plus(uid uuid) returns boolean
 language sql stable security definer set search_path = public as $$
-  select coalesce((select premium from public.users where id = uid), false);
+  select exists (
+    select 1 from public.subscriptions
+    where user_id = uid and plan = 'plus' and status in ('trialing', 'active')
+  );
 $$;
 
--- Free plan limits, enforced here as well as in the app.
+-- Free plan: 1 savings goal. Enforced here as well as in the app.
 create function public.enforce_goal_limit() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  if not public.is_premium(new.user_id)
+  if not public.has_plus(new.user_id)
      and (select count(*) from public.goals where user_id = new.user_id) >= 1 then
-    raise exception 'premium_required: goals' using errcode = 'P0001';
+    raise exception 'plus_required: goals' using errcode = 'P0001';
   end if;
   return new;
 end;
@@ -141,15 +185,16 @@ $$;
 create trigger goals_free_limit before insert on public.goals
   for each row execute function public.enforce_goal_limit();
 
-create function public.enforce_country_limit() returns trigger
-language plpgsql security definer set search_path = public as $$
+-- A new alert or a new currency starts from today's rate.
+create function public.reset_rate_baseline() returns trigger
+language plpgsql as $$
 begin
-  if not public.is_premium(new.user_id)
-     and exists (select 1 from public.recipients where user_id = new.user_id and country <> new.country) then
-    raise exception 'premium_required: countries' using errcode = 'P0001';
+  if new.rate_alert_on is distinct from old.rate_alert_on
+     or new.home_currency is distinct from old.home_currency then
+    new.rate_alert_baseline := null;
   end if;
   return new;
 end;
 $$;
-create trigger recipients_free_limit before insert on public.recipients
-  for each row execute function public.enforce_country_limit();
+create trigger users_rate_baseline before update on public.users
+  for each row execute function public.reset_rate_baseline();

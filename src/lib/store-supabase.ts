@@ -1,8 +1,8 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { AuthResult, CheckoutStart, EditableProfile, Store } from "./store";
+import type { AskResult, AuthResult, CheckoutStart, CheckupInput, EditableProfile, Store } from "./store";
 import { supabaseBrowser } from "./supabase-browser";
 import type {
-  Bill, Budget, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient,
+  Bill, Budget, Checkup, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
 } from "./types";
 
 // Row-level security (supabase/schema.sql) limits every table to the signed-in
@@ -63,8 +63,11 @@ export class SupabaseStore implements Store {
     must(await this.db.from("users").update(patch).eq("id", await this.uid()));
   }
 
+  /** This month's budget, or the latest earlier one carried forward. */
   async getBudget(month: string) {
-    return must(await this.db.from("budgets").select("*").eq("month", month).maybeSingle()) as Budget | null;
+    return must(
+      await this.db.from("budgets").select("*").lte("month", month).order("month", { ascending: false }).limit(1).maybeSingle(),
+    ) as Budget | null;
   }
   async setIncome(month: string, cents: number) {
     must(
@@ -106,9 +109,6 @@ export class SupabaseStore implements Store {
         .order("date", { ascending: false }),
     ) as Entry[];
   }
-  async listAllEntries() {
-    return must(await this.db.from("entries").select("*").order("date", { ascending: false })) as Entry[];
-  }
   async addEntry(e: NewEntry) {
     must(await this.db.from("entries").insert({ ...e, user_id: await this.uid() }));
   }
@@ -127,6 +127,47 @@ export class SupabaseStore implements Store {
   }
   async deleteGoal(id: string) {
     must(await this.db.from("goals").delete().eq("id", id));
+  }
+
+  async getCheckup(month: string) {
+    return must(await this.db.from("checkups").select("*").eq("month", month).maybeSingle()) as Checkup | null;
+  }
+  async listCheckups() {
+    return must(await this.db.from("checkups").select("*").order("month", { ascending: false })) as Checkup[];
+  }
+  async generateCheckup(input: CheckupInput) {
+    const res = await fetch("/api/checkup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+    });
+    if (!res.ok) throw new Error(`checkup ${res.status}`);
+    return (await res.json()) as Checkup;
+  }
+
+  async getSubscription() {
+    return must(
+      await this.db
+        .from("subscriptions")
+        .select("plan, status, trial_ends_at, renews_at, cancel_at_period_end")
+        .maybeSingle(),
+    ) as Subscription | null;
+  }
+  async cancelPlus() {
+    const res = await fetch("/api/plus/cancel", { method: "POST" });
+    return res.ok;
+  }
+  async ask(question: string, input: CheckupInput): Promise<AskResult> {
+    const res = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, input }),
+    });
+    if (res.status === 429) return { kind: "limit" };
+    if (res.status === 402) return { kind: "plus_required" };
+    if (!res.ok) return { kind: "error" };
+    const body = (await res.json()) as { answer: string; remaining: number };
+    return { kind: "answer", answer: body.answer, remaining: body.remaining };
   }
 
   async startCheckout(interval: "monthly" | "yearly"): Promise<CheckoutStart> {

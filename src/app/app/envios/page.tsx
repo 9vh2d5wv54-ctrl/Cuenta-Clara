@@ -4,8 +4,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useData } from "@/components/DataProvider";
 import { RecipientForm } from "@/components/forms";
-import { usePremium } from "@/components/Premium";
-import { canSendTo } from "@/lib/plan";
+import { PlusCard } from "@/components/Plus";
+import { hasPlus } from "@/lib/plan";
 import { Icon } from "@/components/Icon";
 import { Card, Explain } from "@/components/ui";
 import { monthlySendCents } from "@/lib/budget";
@@ -20,8 +20,10 @@ export default function Envios() {
   const s = useTranslations("setup");
   const x = useTranslations("explain");
   const locale = useLocale() as "es" | "en";
-  const { recipients, entries, profile, mutate } = useData();
-  const { openPremium } = usePremium();
+  const { recipients, entries, profile, subscription, mutate } = useData();
+  const homeCurrency = profile?.home_currency && profile.home_currency !== "USD" ? profile.home_currency : null;
+  const r = useTranslations("rates");
+  const p = useTranslations("plus");
   const [rates, setRates] = useState<Rates | null>(null);
   const [ratesFailed, setRatesFailed] = useState(false);
 
@@ -123,11 +125,30 @@ export default function Envios() {
           <RecipientForm
             submitLabel={s("addSend")}
             defaultCountry={profile?.home_country}
-            allow={(r) => canSendTo(profile, recipients, r.country) || (openPremium("countries"), false)}
             onSave={(r) => mutate((st) => st.addRecipient(r))}
           />
         </Card>
       </section>
+
+      {homeCurrency &&
+        (hasPlus(subscription) ? (
+          <Card>
+            <label className="row" style={{ cursor: "pointer" }}>
+              <div className="grow">
+                <p className="t-label">{r("title")}</p>
+                <p className="t-caption muted">{r("help", { currency: homeCurrency })}</p>
+              </div>
+              <input
+                type="checkbox"
+                className="toggle"
+                checked={profile?.rate_alert_on ?? false}
+                onChange={(e) => mutate((st) => st.updateProfile({ rate_alert_on: e.target.checked })).catch(() => {})}
+              />
+            </label>
+          </Card>
+        ) : (
+          <PlusCard feature="rates" title={p("ratesTitle")} />
+        ))}
 
       {/* Required attribution for ExchangeRate-API's open access endpoint. */}
       <p className="credit">

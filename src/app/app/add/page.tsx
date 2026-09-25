@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useCallback, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
 import { Button, Field, Input, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
 import { EXPENSE_CATEGORIES } from "@/lib/budget";
@@ -28,6 +29,20 @@ export default function AddEntry() {
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const clearToast = useCallback(() => setToast(null), []);
+
+  // The bill reminder email links here with ?type=bill_paid&bill=<id>.
+  const params = useSearchParams();
+  const applied = useRef(false);
+  useEffect(() => {
+    if (applied.current) return;
+    applied.current = true;
+    const billParam = params.get("bill");
+    if (params.get("type") === "bill_paid" && billParam && bills.some((b) => b.id === billParam)) {
+      setType("bill_paid");
+      pickBill(billParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Picking a bill or a person fills in its usual amount.
   function pickRecipient(id: string) {

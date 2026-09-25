@@ -1,6 +1,8 @@
-import type { AuthResult, CheckoutStart, EditableProfile, Store } from "./store";
+import type { AskResult, AuthResult, CheckoutStart, CheckupInput, EditableProfile, Store } from "./store";
+import { ASK_DAILY_LIMIT, TRIAL_DAYS } from "./plan";
+import { todayISO } from "./dates";
 import type {
-  Bill, Budget, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient,
+  Bill, Budget, Checkup, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
 } from "./types";
 
 // Demo mode: one account per browser, saved in localStorage. No password checks.
@@ -13,19 +15,52 @@ type DemoData = {
   recipients: Recipient[];
   entries: Entry[];
   goals: Goal[];
+  subscription: Subscription;
+  checkups: Checkup[];
+  asked: { date: string; count: number };
+};
+
+const FREE: Subscription = {
+  plan: "free",
+  status: "active",
+  trial_ends_at: null,
+  renews_at: null,
+  cancel_at_period_end: false,
 };
 
 const KEY = "cuenta-clara-demo";
 const USER_ID = "demo-user";
 
 function empty(): DemoData {
-  return { profile: null, signedIn: false, budgets: [], bills: [], recipients: [], entries: [], goals: [] };
+  return {
+    profile: null,
+    signedIn: false,
+    budgets: [],
+    bills: [],
+    recipients: [],
+    entries: [],
+    goals: [],
+    subscription: FREE,
+    checkups: [],
+    asked: { date: "", count: 0 },
+  };
 }
 
 function load(): DemoData {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? { ...empty(), ...JSON.parse(raw) } : empty();
+    if (!raw) return empty();
+    const data = { ...empty(), ...JSON.parse(raw) } as DemoData;
+    if (data.profile && data.profile.email_bills_on === undefined) {
+      data.profile = {
+        ...data.profile,
+        email_bills_on: true,
+        email_weekly_on: true,
+        timezone: "America/New_York",
+        rate_alert_on: false,
+      };
+    }
+    return data;
   } catch {
     return empty();
   }
@@ -68,11 +103,11 @@ export class DemoStore implements Store {
           language: document.documentElement.lang === "en" ? "en" : "es",
           home_country: null,
           home_currency: null,
-          reminders_on: true,
+          email_bills_on: true,
+          email_weekly_on: true,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          rate_alert_on: false,
           created_at: new Date().toISOString(),
-          premium: false,
-          premium_period_end: null,
-          premium_cancel_at_period_end: false,
         };
       }
     });
@@ -95,9 +130,7 @@ export class DemoStore implements Store {
   }
 
   async getProfile() {
-    const p = load().profile;
-    // Profiles saved before Premium existed lack its fields.
-    return p ? Object.assign({ premium: false, premium_period_end: null, premium_cancel_at_period_end: false }, p) : null;
+    return load().profile;
   }
   async updateProfile(patch: EditableProfile) {
     this.update((d) => {
@@ -105,8 +138,12 @@ export class DemoStore implements Store {
     });
   }
 
+  /** This month's budget, or the latest earlier one carried forward. */
   async getBudget(month: string) {
-    return load().budgets.find((b) => b.month === month) ?? null;
+    const earlier = load()
+      .budgets.filter((b) => b.month <= month)
+      .sort((a, b) => b.month.localeCompare(a.month));
+    return earlier[0] ?? null;
   }
   async setIncome(month: string, cents: number) {
     this.update((d) => {
@@ -145,9 +182,6 @@ export class DemoStore implements Store {
       .entries.filter((e) => e.date.startsWith(month))
       .sort((a, b) => b.date.localeCompare(a.date));
   }
-  async listAllEntries() {
-    return [...load().entries].sort((a, b) => b.date.localeCompare(a.date));
-  }
   async addEntry(e: NewEntry) {
     this.update((d) => d.entries.push({ ...e, id: id(), user_id: USER_ID }));
   }
@@ -175,15 +209,63 @@ export class DemoStore implements Store {
     });
   }
 
+  async getCheckup(month: string) {
+    return load().checkups.find((c) => c.month === month) ?? null;
+  }
+  async listCheckups() {
+    return [...load().checkups].sort((a, b) => b.month.localeCompare(a.month));
+  }
+  async generateCheckup(input: CheckupInput) {
+    const existing = await this.getCheckup(input.month);
+    if (existing) return existing;
+    // The server writes the words (Claude, or a plain template without a key).
+    const res = await fetch("/api/checkup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+    });
+    if (!res.ok) throw new Error(`checkup ${res.status}`);
+    const checkup = (await res.json()) as Checkup;
+    this.update((d) => d.checkups.push(checkup));
+    return checkup;
+  }
+
+  async getSubscription() {
+    return load().subscription ?? FREE;
+  }
   async startCheckout(): Promise<CheckoutStart> {
     return { kind: "demo" };
   }
-
-  /** Demo mode has no payments: the paywall offers this instead of a checkout. */
-  async activateDemoPremium() {
+  /** Demo mode has no payments: the paywall starts a pretend 7-day trial instead. */
+  async startDemoTrial() {
     this.update((d) => {
-      if (d.profile) d.profile.premium = true;
+      const ends = new Date(Date.now() + TRIAL_DAYS * 86_400_000).toISOString();
+      d.subscription = { plan: "plus", status: "trialing", trial_ends_at: ends, renews_at: ends, cancel_at_period_end: false };
     });
+  }
+  async cancelPlus() {
+    this.update((d) => {
+      d.subscription = { ...d.subscription, cancel_at_period_end: true };
+    });
+    return true;
+  }
+  async ask(question: string, input: CheckupInput): Promise<AskResult> {
+    const d = load();
+    if (d.subscription.plan !== "plus") return { kind: "plus_required" };
+    const today = todayISO();
+    const count = d.asked.date === today ? d.asked.count : 0;
+    if (count >= ASK_DAILY_LIMIT) return { kind: "limit" };
+    const res = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, input }),
+    });
+    if (!res.ok) return { kind: "error" };
+    const { answer } = (await res.json()) as { answer: string };
+    this.update((x) => {
+      x.asked = { date: today, count: count + 1 };
+    });
+    return { kind: "answer", answer, remaining: ASK_DAILY_LIMIT - count - 1 };
   }
 
   async deleteAccount() {

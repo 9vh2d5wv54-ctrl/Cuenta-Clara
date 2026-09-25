@@ -1,11 +1,32 @@
 import type {
-  Bill, Budget, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient,
+  Bill, Budget, Checkup, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
 } from "./types";
 
 // One interface, two backends: Supabase when its keys are set, otherwise a demo
 // store that keeps everything in this browser so the app runs with no setup.
 
-export type EditableProfile = Partial<Pick<Profile, "language" | "home_country" | "home_currency" | "reminders_on">>;
+export type EditableProfile = Partial<
+  Pick<Profile, "language" | "home_country" | "home_currency" | "email_bills_on" | "email_weekly_on" | "timezone" | "rate_alert_on">
+>;
+
+/** Totals the AI receives. Computed in code so every number is right. */
+export type CheckupInput = {
+  language: "es" | "en";
+  month: string;
+  income_cents: number;
+  rent_cents: number;
+  bills_cents: number;
+  family_cents: number;
+  savings_cents: number;
+  spending_cents: number;
+  left_cents: number;
+};
+
+export type AskResult =
+  | { kind: "answer"; answer: string; remaining: number }
+  | { kind: "limit" }
+  | { kind: "plus_required" }
+  | { kind: "error" };
 
 export type CheckoutStart =
   | { kind: "whop"; sessionId: string; planId: string }
@@ -36,7 +57,6 @@ export interface Store {
   addRecipient(r: NewRecipient): Promise<void>;
   deleteRecipient(id: string): Promise<void>;
   listEntries(month: string): Promise<Entry[]>;
-  listAllEntries(): Promise<Entry[]>;
   addEntry(e: NewEntry): Promise<void>;
   deleteEntry(id: string): Promise<void>;
   listGoals(): Promise<Goal[]>;
@@ -45,8 +65,17 @@ export interface Store {
   deleteGoal(id: string): Promise<void>;
   deleteAccount(): Promise<void>;
 
-  // Premium
+  // Checkup
+  getCheckup(month: string): Promise<Checkup | null>;
+  listCheckups(): Promise<Checkup[]>;
+  /** Writes (or returns the existing) checkup for the month. */
+  generateCheckup(input: CheckupInput): Promise<Checkup>;
+
+  // Plus
+  getSubscription(): Promise<Subscription | null>;
   startCheckout(interval: "monthly" | "yearly"): Promise<CheckoutStart>;
+  cancelPlus(): Promise<boolean>;
+  ask(question: string, input: CheckupInput): Promise<AskResult>;
 }
 
 let store: Store | null = null;

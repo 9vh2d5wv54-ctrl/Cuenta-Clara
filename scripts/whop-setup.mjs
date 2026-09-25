@@ -17,13 +17,14 @@ const whop = new WhopClient({ token });
 
 const product = await whop.products.create({
   account_id,
-  title: "Cuenta Clara Premium",
-  headline: "Más metas, más países, tus datos en CSV",
+  title: "Cuenta Clara Plus",
+  headline: "Pronóstico de 3 meses, metas ilimitadas, alertas de cambio",
   description:
-    "Cuenta Clara es gratis. Premium suma metas de ahorro ilimitadas, familia en varios países y exportar tus datos. / Cuenta Clara is free. Premium adds unlimited savings goals, family in several countries, and data export.",
+    "Cuenta Clara es gratis. Plus suma el pronóstico de 3 meses, metas de ahorro ilimitadas, alertas cuando el cambio te favorece y la ayuda \"¿Me alcanza?\". / Cuenta Clara is free. Plus adds a 3-month forecast, unlimited savings goals, exchange-rate alerts, and the \"¿Me alcanza?\" helper.",
 });
 
-const common = { account_id, product_id: product.id, currency: "usd", plan_type: "renewal" };
+// 7-day free trial on both plans (MVP PRD → Premium plan).
+const common = { account_id, product_id: product.id, currency: "usd", plan_type: "renewal", trial_period_days: 7 };
 
 const monthly = await whop.plans.create({
   ...common,

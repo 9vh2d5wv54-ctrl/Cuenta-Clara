@@ -15,7 +15,8 @@ export default function Dashboard() {
   const x = useTranslations("explain");
   const cat = useTranslations("add.categories");
   const locale = useLocale();
-  const { income, bills, recipients, goals, entries } = useData();
+  const ch = useTranslations("checkup");
+  const { income, bills, recipients, goals, entries, checkup } = useData();
 
   const s = summarize(income ?? 0, bills, recipients, goals, entries);
   const base = Math.max(s.income, 1);
@@ -78,6 +79,23 @@ export default function Dashboard() {
         )}
         <Explain text={x("whatsLeft")} />
       </Card>
+
+      {income !== null && (
+        <Link href="/app/chequeo" className="card card--mango checkup-teaser">
+          <span className="checkup-teaser__icon" aria-hidden>
+            <Icon name="heart" />
+          </span>
+          <span className="grow stack-sm">
+            <span className="t-label">
+              {checkup ? ch("teaser", { month: today.toLocaleDateString(locale === "es" ? "es-US" : "en-US", { month: "long" }) }) : ch("title")}
+            </span>
+            {checkup && (
+              <span className="t-body checkup-teaser__text">{checkup.summary_text.split(/\n/)[0]}</span>
+            )}
+            <span className="t-label checkup-teaser__link">{ch("open")}</span>
+          </span>
+        </Link>
+      )}
 
       <Card>
         <div className="breakdown">

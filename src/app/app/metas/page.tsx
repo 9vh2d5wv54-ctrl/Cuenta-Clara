@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
 import { GoalForm } from "@/components/forms";
-import { PremiumCard } from "@/components/PremiumCard";
+import { PlusCard } from "@/components/Plus";
 import { canAddGoal } from "@/lib/plan";
 import { Icon } from "@/components/Icon";
 import { Button, Card, Dialog, Explain, Field, MoneyInput, ProgressBar } from "@/components/ui";
@@ -18,7 +18,8 @@ export default function Metas() {
   const c = useTranslations("common");
   const x = useTranslations("explain");
   const locale = useLocale();
-  const { goals, profile, mutate } = useData();
+  const { goals, subscription, mutate } = useData();
+  const p = useTranslations("plus");
   const [adding, setAdding] = useState<Goal | null>(null);
   const [amount, setAmount] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -103,12 +104,12 @@ export default function Metas() {
 
       <section className="stack-sm">
         <h2 className="t-heading">{t("addTitle")}</h2>
-        {canAddGoal(profile, goals) ? (
+        {canAddGoal(subscription, goals) ? (
           <Card>
             <GoalForm submitLabel={c("add")} onSave={(g) => mutate((s) => s.addGoal(g))} />
           </Card>
         ) : (
-          <PremiumCard feature="goals" />
+          <PlusCard feature="goals" title={p("goalsTitle")} />
         )}
       </section>
 

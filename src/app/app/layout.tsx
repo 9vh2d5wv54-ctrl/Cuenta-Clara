@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import { DataProvider } from "@/components/DataProvider";
-import { PremiumProvider } from "@/components/Premium";
 import { TabBar } from "@/components/TabBar";
 import { isDemo } from "@/lib/demo";
 
@@ -18,10 +17,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </main>
         }
       >
-        <PremiumProvider>
-          {children}
-          <TabBar />
-        </PremiumProvider>
+        {children}
+        <TabBar />
       </DataProvider>
     </>
   );

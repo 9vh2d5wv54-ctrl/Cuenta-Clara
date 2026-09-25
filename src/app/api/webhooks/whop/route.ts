@@ -2,8 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { unwrapWebhook, WebhookVerificationError } from "@whop/sdk/helpers";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-// Whop → Cuenta Clara. Every membership change sets the user's Premium flag.
-// Subscribe the webhook in Whop to: membership.activated, membership.deactivated,
+// Whop → Cuenta Clara. Keeps the subscriptions table in sync with the membership.
+// Subscribe in Whop to: membership.activated, membership.deactivated,
 // membership.cancel_at_period_end_changed.
 
 type MembershipEvent = {
@@ -11,14 +11,20 @@ type MembershipEvent = {
   data?: {
     id?: string;
     status?: string;
+    user_id?: string | null;
     metadata?: Record<string, unknown> | null;
     current_period_end?: string | null;
     cancel_at_period_end?: boolean;
   };
 };
 
-// Statuses that keep access (past_due is Whop's grace period after a failed charge).
-const ACCESS = new Set(["active", "trialing", "past_due", "canceling", "completed"]);
+// Whop status → our status. past_due is Whop's grace period after a failed charge.
+function mapStatus(event: string, whop: string | undefined): "trialing" | "active" | "canceled" {
+  if (event === "membership.deactivated") return "canceled";
+  if (whop === "trialing") return "trialing";
+  if (whop === "active" || whop === "past_due" || whop === "canceling" || whop === "completed") return "active";
+  return "canceled";
+}
 
 export async function POST(request: NextRequest) {
   const raw = await request.text();
@@ -40,19 +46,23 @@ export async function POST(request: NextRequest) {
   const userId = typeof m.metadata?.user_id === "string" ? m.metadata.user_id : null;
   if (!userId) return NextResponse.json({ ignored: "no user_id" });
 
-  const premium = event.type !== "membership.deactivated" && ACCESS.has(m.status ?? "");
-  const { error } = await supabaseAdmin()
-    .from("users")
-    .update({
-      premium,
-      premium_period_end: m.current_period_end ?? null,
-      premium_cancel_at_period_end: m.cancel_at_period_end ?? false,
-      whop_membership_id: m.id ?? null,
-    })
-    .eq("id", userId);
+  const status = mapStatus(event.type, m.status);
+  const row: Record<string, unknown> = {
+    user_id: userId,
+    plan: status === "canceled" ? "free" : "plus",
+    status,
+    renews_at: m.current_period_end ?? null,
+    cancel_at_period_end: m.cancel_at_period_end ?? false,
+    provider_customer_id: m.user_id ?? null,
+    provider_membership_id: m.id ?? null,
+  };
+  // Remember the trial end once; it also tells us they've had a trial.
+  if (status === "trialing") row.trial_ends_at = m.current_period_end ?? null;
+
+  const { error } = await supabaseAdmin().from("subscriptions").upsert(row, { onConflict: "user_id" });
   if (error) {
-    console.error("premium update failed", error);
+    console.error("subscription update failed", error);
     return NextResponse.json({ error: "update failed" }, { status: 500 });
   }
-  return NextResponse.json({ ok: true, premium });
+  return NextResponse.json({ ok: true, status });
 }

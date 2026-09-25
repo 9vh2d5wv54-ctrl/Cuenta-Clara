@@ -19,13 +19,6 @@ With no Supabase keys, the app runs in **demo mode**: any email signs in, and da
 2. In Supabase → Authentication → URL configuration, add `http://localhost:3000/auth/callback` and your production `/auth/callback` URL as redirect URLs.
 3. Copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 
-## Bill reminder emails
-
-`/api/cron/reminders` runs daily via `vercel.json` and emails anyone with a bill due in 3 days, in their language. Set these on Vercel:
-
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `RESEND_API_KEY`, and `REMINDER_FROM_EMAIL` from a domain verified in Resend
-- `CRON_SECRET`: Vercel sends it automatically to cron routes
 
 ## How it's built
 
@@ -54,6 +47,8 @@ Money is stored as integer cents in USD and always shown as `$1,250.00`. Home-co
 | 6 | `/app/envios` | Family sends with live exchange rates |
 | 7 | `/app/metas` | Savings goals |
 | 8 | `/app/ajustes` | Settings |
+| 9 | `/app/chequeo` | Money checkup |
+| 10 | `/app/plus` | Plus (paywall) |
 
 Language is chosen on the landing page, can be switched on every screen, and is saved to the profile.
 
@@ -67,27 +62,54 @@ Built from the Cuenta Clara Landing Page PRD: hero with before/after cards, trus
 - **Lighthouse (mobile, local build):** performance 99, accessibility 100, best practices 100.
 - **Before launch:** confirm "Hecho en Newark, NJ". The browser-tab icon is a placeholder until there's a logo.
 
-## Premium (Whop)
 
-The basics stay free. **Premium is $4.99/month or $39.99/year** and unlocks:
+## Money checkup (free)
 
-| Free | Premium |
+Right after setup, `/app/chequeo` shows "Revisando tu mes…" and writes the free "Chequeo de dinero" with the Claude API, using the MVP PRD's system prompt word for word. The app does every calculation in `src/lib/budget.ts` and sends Claude only the totals; Claude writes the words. One checkup per person per month, saved in `checkups`, never paywalled. A new one is written on the 1st of each month.
+
+Without `ANTHROPIC_API_KEY` (or if the API fails), a plain template writes the same four parts from the same numbers, so the flow never breaks. Demo mode only calls Claude when `ALLOW_DEMO_AI=true`, because demo mode has no sign-in.
+
+The Claude calls use `claude-opus-5` with server-side refusal fallbacks (`fallbacks: "default"`) and medium effort. Change `MODEL` in `src/lib/ai.ts` if you want a cheaper model.
+
+## Cuenta Clara Plus (Whop)
+
+**$4.99/month or $39.99/year, with a 7-day free trial.**
+
+| Free | Plus |
 | --- | --- |
+| Monthly budget and "what's left" | Everything in Free |
+| Money checkup every month | 3-month forecast |
 | 1 savings goal | Unlimited goals |
-| Family in 1 country | Family in several countries |
-| — | Download everything as CSV |
+| Family sends with exchange rates | Rate alerts when the dollar buys 1% more |
+| Email bill reminders | "¿Me alcanza?" helper, 30 questions a day |
 
-Limits live in `src/lib/plan.ts` and are enforced again by database triggers in `supabase/schema.sql`. When someone reaches a limit, a Premium sheet explains it, offers yearly or monthly, and opens Whop's embedded checkout in the app. In demo mode the sheet offers a "demo Premium" switch instead of a payment.
+Paywall rules from the PRD, all in code: the Plus screen and every Plus button stay hidden until the person's first checkup; Plus extras are blurred previews, never the person's own budget; prices sit side by side with "ahorras 33%"; the trial ends with an email 2 days before; cancel is two taps in Settings; no countdowns or scarcity.
 
 How payment reaches the account:
 
-1. `/api/checkout` creates a Whop checkout session with the signed-in user's id as metadata.
-2. Whop copies that metadata onto the membership and sends signed webhooks to `/api/webhooks/whop`.
-3. The webhook verifies the signature and sets `premium` on the user. Only the service role can write that column; the browser can't.
+1. `/api/checkout` creates a Whop checkout session with the user's id as metadata.
+2. Whop copies it onto the membership and sends signed webhooks to `/api/webhooks/whop`.
+3. The webhook updates `subscriptions`. Only the service role writes that table; the goal limit is also enforced by a database trigger.
+4. Settings → Cancel Plus calls `/api/plus/cancel`, which cancels the Whop membership at the end of the period.
 
-### Set it up
+## Emails
 
-1. In Whop, create an API key and note your business id (`biz_…`).
-2. Run `WHOP_API_KEY=… WHOP_ACCOUNT_ID=biz_… node scripts/whop-setup.mjs`. It creates the product and both plans and prints the plan ids. Check the prices in the Whop dashboard afterwards.
-3. In Whop → Developer → Webhooks, add `https://<your-domain>/api/webhooks/whop` with `membership.activated`, `membership.deactivated` and `membership.cancel_at_period_end_changed`.
-4. Set `WHOP_API_KEY`, `WHOP_ACCOUNT_ID`, `WHOP_PLAN_MONTHLY`, `WHOP_PLAN_YEARLY`, `WHOP_WEBHOOK_SECRET` and `SUPABASE_SERVICE_ROLE_KEY` on Vercel.
+Sent through Resend in each person's language. Every marketing email has a one-click unsubscribe (footer link and `List-Unsubscribe` headers) and your mailing address.
+
+| Email | When | Route |
+| --- | --- | --- |
+| Tu resumen / Your week | Sundays 6 PM in the person's timezone | `/api/cron/weekly` (hourly on Sundays) |
+| Bill reminder, with "Mark as paid" | 3 days before the due day | `/api/cron/daily` |
+| Chequeo listo / Checkup ready | 1st of the month | `/api/cron/checkups` |
+| Plus trial ends in 2 days | 2 days before the trial ends | `/api/cron/daily` |
+| Exchange-rate alert (Plus) | When the dollar buys 1% more than its recent low | `/api/cron/daily` |
+
+The weekly cron runs every hour on Sundays so each timezone gets 6 PM. Vercel's Hobby plan only allows daily crons; that schedule needs Pro, or run it from another scheduler with the `CRON_SECRET` header.
+
+## Launch setup
+
+1. Run `supabase/schema.sql` in Supabase.
+2. Whop: create an API key, then `WHOP_API_KEY=… WHOP_ACCOUNT_ID=biz_… node scripts/whop-setup.mjs`. It creates "Cuenta Clara Plus" with both plans and the 7-day trial, and prints the plan ids. Check the prices in the Whop dashboard afterwards.
+3. Whop → Developer → Webhooks: add `https://<your-domain>/api/webhooks/whop` with `membership.activated`, `membership.deactivated` and `membership.cancel_at_period_end_changed`.
+4. Resend: verify your sending domain.
+5. Set every variable in `.env.example` on Vercel.

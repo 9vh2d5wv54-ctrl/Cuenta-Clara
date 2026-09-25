@@ -8,11 +8,27 @@ export type Profile = {
   language: Locale;
   home_country: string | null;
   home_currency: string | null;
-  reminders_on: boolean;
+  email_bills_on: boolean;
+  email_weekly_on: boolean;
+  timezone: string;
+  rate_alert_on: boolean;
   created_at: string;
-  premium: boolean;
-  premium_period_end: string | null;
-  premium_cancel_at_period_end: boolean;
+};
+
+/** Plus subscription. Written only by the Whop webhook; the app reads it. */
+export type Subscription = {
+  plan: "free" | "plus";
+  status: "trialing" | "active" | "canceled";
+  trial_ends_at: string | null;
+  renews_at: string | null;
+  cancel_at_period_end: boolean;
+};
+
+export type Checkup = {
+  month: string; // YYYY-MM
+  language: Locale;
+  summary_text: string;
+  created_at: string;
 };
 
 export type Budget = {

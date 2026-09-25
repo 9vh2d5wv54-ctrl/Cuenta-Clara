@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 import { useRouter } from "next/navigation";
 import { getStore, type Store } from "@/lib/store";
 import { monthKey } from "@/lib/dates";
-import type { Bill, Entry, Goal, Profile, Recipient } from "@/lib/types";
+import type { Bill, Checkup, Entry, Goal, Profile, Recipient, Subscription } from "@/lib/types";
 
 // Loads everything the app screens need for the current month and reloads after each change.
 
@@ -17,6 +17,11 @@ type Data = {
   recipients: Recipient[];
   entries: Entry[];
   goals: Goal[];
+  subscription: Subscription | null;
+  /** This month's checkup, if written. */
+  checkup: Checkup | null;
+  /** Any checkup ever: the paywall only shows after the first one. */
+  hasCheckup: boolean;
 };
 
 type Ctx = Data & {
@@ -34,15 +39,29 @@ export function useData(): Ctx {
 
 async function loadAll(store: Store): Promise<Data> {
   const month = monthKey();
-  const [profile, budget, bills, recipients, entries, goals] = await Promise.all([
+  const [profile, budget, bills, recipients, entries, goals, subscription, checkups] = await Promise.all([
     store.getProfile(),
     store.getBudget(month),
     store.listBills(),
     store.listRecipients(),
     store.listEntries(month),
     store.listGoals(),
+    store.getSubscription(),
+    store.listCheckups(),
   ]);
-  return { store, month, profile, income: budget?.income_cents ?? null, bills, recipients, entries, goals };
+  return {
+    store,
+    month,
+    profile,
+    income: budget?.income_cents ?? null,
+    bills,
+    recipients,
+    entries,
+    goals,
+    subscription,
+    checkup: checkups.find((c) => c.month === month) ?? null,
+    hasCheckup: checkups.length > 0,
+  };
 }
 
 export function DataProvider({ children, fallback }: { children: ReactNode; fallback: ReactNode }) {
@@ -59,6 +78,11 @@ export function DataProvider({ children, fallback }: { children: ReactNode; fall
       }
       const loaded = await loadAll(store);
       if (!cancelled) setData(loaded);
+      // The weekly email goes out Sunday 6 PM in each person's own timezone.
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (loaded.profile && tz && loaded.profile.timezone !== tz) {
+        store.updateProfile({ timezone: tz }).catch(() => {});
+      }
     })();
     return () => {
       cancelled = true;

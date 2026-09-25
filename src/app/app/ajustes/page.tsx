@@ -7,10 +7,10 @@ import { useData } from "@/components/DataProvider";
 import { BillForm } from "@/components/forms";
 import { Icon } from "@/components/Icon";
 import { setLocaleCookie } from "@/components/LanguageToggle";
-import { usePremium } from "@/components/Premium";
-import { entriesToCsv, downloadText } from "@/lib/csv";
-import { formatLongDate, todayISO } from "@/lib/dates";
-import { isPremium } from "@/lib/plan";
+import Link from "next/link";
+import { paywallHref } from "@/components/Plus";
+import { formatLongDate } from "@/lib/dates";
+import { hadTrial, hasPlus } from "@/lib/plan";
 import { Button, Card, Dialog, Explain, Field, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
 import { COUNTRIES, countryByCode } from "@/lib/currencies";
 import { centsToInput, formatUSD, parseCents } from "@/lib/money";
@@ -20,13 +20,14 @@ export default function Ajustes() {
   const t = useTranslations("settings");
   const c = useTranslations("common");
   const s = useTranslations("setup");
-  const p = useTranslations("premium");
-  const { openPremium } = usePremium();
+  const p = useTranslations("plus");
   const x = useTranslations("explain");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const [, startTransition] = useTransition();
-  const { profile, income, bills, month, store, mutate } = useData();
+  const { profile, income, bills, month, store, subscription, hasCheckup, mutate } = useData();
+  const plus = hasPlus(subscription);
+  const [cancelOpen, setCancelOpen] = useState(false);
 
   const [incomeText, setIncomeText] = useState(income ? centsToInput(income) : "");
   const [incomeError, setIncomeError] = useState<string | null>(null);
@@ -63,14 +64,23 @@ export default function Ajustes() {
     }
   }
 
-  async function exportCsv() {
-    if (!isPremium(profile)) {
-      openPremium("export");
-      return;
+  // Cancel in two taps: "Cancelar Plus" → "Sí, cancelar".
+  async function cancelPlus() {
+    setCancelOpen(false);
+    try {
+      await mutate(async (st) => {
+        if (!(await st.cancelPlus())) throw new Error("cancel failed");
+      });
+    } catch {
+      setToast(p("cancelFailed"));
     }
-    const all = await store.listAllEntries();
-    downloadText(`cuenta-clara-${todayISO()}.csv`, entriesToCsv(all));
   }
+
+  function setting(key: "email_weekly_on" | "email_bills_on", on: boolean) {
+    mutate((st) => st.updateProfile({ [key]: on })).catch(() => setToast(c("somethingWrong")));
+  }
+
+  const periodEnd = subscription?.renews_at ? formatLongDate(subscription.renews_at.slice(0, 10), locale) : "";
 
   async function signOut() {
     await store.signOut();
@@ -115,40 +125,43 @@ export default function Ajustes() {
         </div>
       </Card>
 
-      <Card tone={isPremium(profile) ? "clara" : undefined}>
-        <div className="stack-sm">
-          <div className="row row--between">
-            <p className="t-heading">{isPremium(profile) ? p("active") : p("name")}</p>
-            <span className="premium-badge t-caption">{p("badge")}</span>
+      {(plus || hasCheckup) && (
+        <Card tone={plus ? "clara" : undefined}>
+          <div className="stack-sm">
+            <div className="row row--between">
+              <p className="t-heading">
+                {plus ? (subscription?.status === "trialing" ? p("trialActive") : p("active")) : p("name")}
+              </p>
+              <span className="plus-badge t-caption">{p("badge")}</span>
+            </div>
+            {plus ? (
+              <>
+                {periodEnd && (
+                  <p className="t-body muted">
+                    {subscription?.cancel_at_period_end
+                      ? p("ends", { date: periodEnd })
+                      : subscription?.status === "trialing"
+                        ? p("trialEnds", { date: periodEnd })
+                        : p("renews", { date: periodEnd })}
+                  </p>
+                )}
+                {!subscription?.cancel_at_period_end && (
+                  <Button variant="ghost" block onClick={() => setCancelOpen(true)}>
+                    {p("cancel")}
+                  </Button>
+                )}
+              </>
+            ) : (
+              <>
+                <p className="t-body muted">{p("lead")}</p>
+                <Link href={paywallHref()} className="btn btn--secondary btn--block">
+                  {hadTrial(subscription) ? p("see") : p("trialButton")}
+                </Link>
+              </>
+            )}
           </div>
-          {isPremium(profile) ? (
-            <>
-              {profile?.premium_period_end && (
-                <p className="t-body muted">
-                  {p(profile.premium_cancel_at_period_end ? "ends" : "renews", {
-                    date: formatLongDate(profile.premium_period_end.slice(0, 10), locale),
-                  })}
-                </p>
-              )}
-              {store.mode === "supabase" && (
-                <a className="t-label" href="https://whop.com" target="_blank" rel="noopener">
-                  {p("manage")}
-                </a>
-              )}
-            </>
-          ) : (
-            <>
-              <p className="t-body muted">{p("lead")}</p>
-              <Button variant="secondary" block onClick={() => openPremium()}>
-                {p("upgrade")}
-              </Button>
-            </>
-          )}
-          <Button variant="ghost" block onClick={exportCsv}>
-            {p("exportCsv")}
-          </Button>
-        </div>
-      </Card>
+        </Card>
+      )}
 
       <Card>
         <form className="stack" onSubmit={saveIncome} noValidate>
@@ -194,24 +207,37 @@ export default function Ajustes() {
         </Card>
       </section>
 
-      <Card>
-        <label className="row" style={{ cursor: "pointer" }}>
-          <div className="grow">
-            <p className="t-label">{t("reminders")}</p>
-            <p className="t-caption muted">{t("remindersHelp")}</p>
+      <section className="stack-sm">
+        <h2 className="t-heading">{t("emails")}</h2>
+        <Card>
+          <div className="stack">
+            <label className="row" style={{ cursor: "pointer" }}>
+              <div className="grow">
+                <p className="t-label">{t("weekly")}</p>
+                <p className="t-caption muted">{t("weeklyHelp")}</p>
+              </div>
+              <input
+                type="checkbox"
+                className="toggle"
+                checked={profile?.email_weekly_on ?? true}
+                onChange={(e) => setting("email_weekly_on", e.target.checked)}
+              />
+            </label>
+            <label className="row" style={{ cursor: "pointer" }}>
+              <div className="grow">
+                <p className="t-label">{t("bills")}</p>
+                <p className="t-caption muted">{t("billsHelp")}</p>
+              </div>
+              <input
+                type="checkbox"
+                className="toggle"
+                checked={profile?.email_bills_on ?? true}
+                onChange={(e) => setting("email_bills_on", e.target.checked)}
+              />
+            </label>
           </div>
-          <input
-            type="checkbox"
-            checked={profile?.reminders_on ?? true}
-            onChange={(e) =>
-              mutate((st) => st.updateProfile({ reminders_on: e.target.checked })).catch(() =>
-                setToast(c("somethingWrong")),
-              )
-            }
-            style={{ width: 24, height: 24, accentColor: "var(--clara)" }}
-          />
-        </label>
-      </Card>
+        </Card>
+      </section>
 
       <div className="stack-sm">
         <Button variant="secondary" block onClick={signOut}>
@@ -232,6 +258,18 @@ export default function Ajustes() {
           </Button>
           <Button variant="danger" onClick={deleteAccount}>
             {t("deleteYes")}
+          </Button>
+        </div>
+      </Dialog>
+
+      <Dialog open={cancelOpen} onClose={() => setCancelOpen(false)} title={p("cancelTitle")}>
+        <p className="t-body">{p("cancelBody", { date: periodEnd })}</p>
+        <div className="field-row">
+          <Button variant="secondary" onClick={() => setCancelOpen(false)}>
+            {p("cancelKeep")}
+          </Button>
+          <Button variant="danger" onClick={cancelPlus}>
+            {p("cancelYes")}
           </Button>
         </div>
       </Dialog>

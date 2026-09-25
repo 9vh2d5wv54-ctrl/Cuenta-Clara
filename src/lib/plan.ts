@@ -1,27 +1,34 @@
-import type { Goal, Profile, Recipient } from "./types";
+import type { Checkup, Goal, Subscription } from "./types";
 
-// Free covers the whole MVP. Premium lifts these limits and adds CSV export.
-// Keep in sync with the triggers at the end of supabase/schema.sql.
-export const FREE_LIMITS = { goals: 1, countries: 1 } as const;
+// Cuenta Clara Plus (MVP PRD → Premium plan). Free keeps the whole budget, the
+// monthly checkup, family sends and bill reminders. Plus adds the forecast,
+// unlimited goals, rate alerts and the "¿Me alcanza?" helper.
+export const FREE_GOAL_LIMIT = 1; // keep in sync with enforce_goal_limit in supabase/schema.sql
+export const ASK_DAILY_LIMIT = 30;
+export const TRIAL_DAYS = 7;
 
 export const PRICES = {
-  monthly: { cents: 499, label: "$4.99" },
-  yearly: { cents: 3999, label: "$39.99", perMonth: "$3.33", savingsPct: 33 },
+  monthly: { label: "$4.99" },
+  yearly: { label: "$39.99", perMonth: "$3.33", savingsPct: 33 },
 } as const;
 
-export type Interval = keyof typeof PRICES;
-export type PremiumFeature = "goals" | "countries" | "export";
+export type Interval = "monthly" | "yearly";
+export type PlusFeature = "forecast" | "goals" | "rates" | "ask";
 
-export function isPremium(profile: Profile | null): boolean {
-  return profile?.premium === true;
+export function hasPlus(sub: Subscription | null): boolean {
+  return sub?.plan === "plus" && (sub.status === "trialing" || sub.status === "active");
 }
 
-export function canAddGoal(profile: Profile | null, goals: Goal[]): boolean {
-  return isPremium(profile) || goals.length < FREE_LIMITS.goals;
+/** Has this person ever started a trial? Shapes the trial button and email copy. */
+export function hadTrial(sub: Subscription | null): boolean {
+  return Boolean(sub?.trial_ends_at);
 }
 
-export function canSendTo(profile: Profile | null, recipients: Recipient[], country: string): boolean {
-  if (isPremium(profile)) return true;
-  const countries = new Set(recipients.map((r) => r.country));
-  return countries.has(country) || countries.size < FREE_LIMITS.countries;
+export function canAddGoal(sub: Subscription | null, goals: Goal[]): boolean {
+  return hasPlus(sub) || goals.length < FREE_GOAL_LIMIT;
+}
+
+/** PRD rule: the paywall never shows before the first checkup. */
+export function paywallAllowed(checkups: Checkup[] | Checkup | null): boolean {
+  return Array.isArray(checkups) ? checkups.length > 0 : checkups !== null;
 }
