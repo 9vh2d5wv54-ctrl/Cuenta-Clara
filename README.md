@@ -104,7 +104,7 @@ Sent through Resend in each person's language. Every marketing email has a one-c
 | Plus trial ends in 2 days | 2 days before the trial ends | `/api/cron/daily` |
 | Exchange-rate alert (Plus) | When the dollar buys 1% more than its recent low | `/api/cron/daily` |
 
-The weekly cron runs every hour on Sundays so each timezone gets 6 PM. Vercel's Hobby plan only allows daily crons; that schedule needs Pro, or run it from another scheduler with the `CRON_SECRET` header.
+By default the weekly email goes to everyone once, Sundays at 22:00 UTC (6 PM New York time in summer, 5 PM in winter), which fits Vercel's Hobby plan (one run per day per job). On Vercel Pro, set the `/api/cron/weekly` schedule to `0 * * * 0` and `WEEKLY_LOCAL_TIME=true` so each person gets it at 6 PM in their own timezone.
 
 ## Launch setup
 

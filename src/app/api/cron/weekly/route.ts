@@ -8,8 +8,11 @@ import { formatUSD } from "@/lib/money";
 import { loadUserMonth, monthInput, monthTotals } from "@/lib/server-budget";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-// "Tu resumen / Your week": Sundays at 6 PM in each person's own timezone.
-// Runs hourly on Sundays (vercel.json) and picks the people for whom it's 6 PM now.
+// "Tu resumen / Your week": Sundays at 6 PM.
+// Default (works on Vercel Hobby): one run Sundays 22:00 UTC, which is 6 PM in
+// New York during daylight time, sent to everyone. With WEEKLY_LOCAL_TIME=true
+// and the cron set to hourly on Sundays (Vercel Pro), each person gets it at 6 PM
+// in their own timezone.
 
 type Row = {
   id: string;
@@ -43,7 +46,7 @@ export async function GET(request: NextRequest) {
   const month = monthKeyUTC();
   let sent = 0;
   for (const user of (data ?? []) as unknown as Row[]) {
-    if (!isSunday6pm(user.timezone)) continue;
+    if (process.env.WEEKLY_LOCAL_TIME === "true" && !isSunday6pm(user.timezone)) continue;
     const u = await loadUserMonth(db, user.id, month);
     if (!u.income) continue; // nothing to summarize before setup
     const es = user.language !== "en";
