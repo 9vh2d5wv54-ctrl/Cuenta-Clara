@@ -33,7 +33,7 @@ Where Cuenta Clara stands, and what's next.
        [x] Vercel `APP_URL` → `https://micuentaclara.app`
        [x] Supabase Site URL → `https://micuentaclara.app`, add redirect `https://micuentaclara.app/auth/callback`
 7. [ ] Confirm "Hecho en Newark, NJ" on the landing page
-8. [ ] Whop webhook URL → `https://micuentaclara.app/api/webhooks/whop` (old URL still works)
+8. [x] Whop webhook URL → `https://micuentaclara.app/api/webhooks/whop` (old URL still works)
 9. [ ] 10 test users, then ads with the PRD's daily launch check
 
 Tip: adding variables and copying keys is much easier on a computer than on a phone.
