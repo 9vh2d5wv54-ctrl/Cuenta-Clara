@@ -7,13 +7,28 @@ export function whopClient() {
   return new WhopClient({ token });
 }
 
+// The Cuenta Clara business in Whop (from the dashboard address). Not a secret.
+// The last character was hard to read (lowercase L or capital i), so both are
+// tried once and the one Whop accepts is kept. WHOP_ACCOUNT_ID overrides.
+const ACCOUNT_CANDIDATES = ["biz_zmiyiY92Ucpo6l", "biz_zmiyiY92Ucpo6I"];
+
 let accountCache: string | undefined;
 
-/** The Whop business (biz_…) this API key belongs to. WHOP_ACCOUNT_ID wins when set. */
+/** The Whop business (biz_…) this API key belongs to. */
 export async function whopAccountId(): Promise<string> {
   if (process.env.WHOP_ACCOUNT_ID) return process.env.WHOP_ACCOUNT_ID;
-  accountCache ??= (await whopClient().accounts.me()).id;
-  return accountCache;
+  if (accountCache) return accountCache;
+  let lastError: unknown;
+  for (const id of ACCOUNT_CANDIDATES) {
+    try {
+      await whopClient().plans.list({ account_id: id, first: 1 });
+      accountCache = id;
+      return id;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError;
 }
 
 type Interval = "monthly" | "yearly";
