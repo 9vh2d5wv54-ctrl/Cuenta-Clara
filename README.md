@@ -110,12 +110,7 @@ By default the weekly email goes to everyone once, Sundays at 22:00 UTC (6 PM Ne
 
 Supabase sends login and confirm emails through Resend (Authentication → Emails → SMTP Settings: `smtp.resend.com`, port 465, user `resend`, a Resend API key, sender `hola@micuentaclara.app`).
 
-In Authentication → Emails → Templates, the **Magic Link** and **Confirm signup** links point to `/auth/confirm` so they work in any browser (Mail, Gmail, Safari):
-
-```html
-<h2>Cuenta Clara</h2>
-<p><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">Entrar a Cuenta Clara / Log in to Cuenta Clara</a></p>
-```
+The default Supabase email templates are fine. Login and confirm emails are sent in implicit mode, so the link signs you in from any app (Mail, Gmail, Safari); `/auth/confirm` also accepts `token_hash` links if you ever customize the templates.
 
 ## Launch setup
 

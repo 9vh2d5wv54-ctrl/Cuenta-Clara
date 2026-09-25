@@ -27,7 +27,6 @@ Where Cuenta Clara stands, and what's next.
        [ ] Get a PO box, add it as `MAILING_ADDRESS` (footer says "Cuenta Clara · Newark, NJ" until then) — required before emailing real users
        [x] micuentaclara.app verified in Resend; test email from hola@micuentaclara.app delivered to Gmail
        [x] Supabase login emails sent through Resend (custom SMTP)
-       [ ] Supabase Magic Link + Confirm signup templates point to /auth/confirm (see README)
 6. [ ] Own domain
        [x] Bought micuentaclara.app on Vercel, connected to the project
        [ ] Vercel `APP_URL` → `https://micuentaclara.app`
