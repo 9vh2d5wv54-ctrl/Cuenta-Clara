@@ -46,7 +46,7 @@ Money is stored as integer cents in USD and always shown as `$1,250.00`. Home-co
 
 | # | Route | Screen |
 | --- | --- | --- |
-| 1 | `/` | Landing |
+| 1 | `/` | Landing page for ad traffic (see below) |
 | 2 | `/login` | Sign up / Log in (password or magic link) |
 | 3 | `/app/setup` | Setup wizard: income, bills, family sends, one goal |
 | 4 | `/app` | Dashboard |
@@ -56,3 +56,13 @@ Money is stored as integer cents in USD and always shown as `$1,250.00`. Home-co
 | 8 | `/app/ajustes` | Settings |
 
 Language is chosen on the landing page, can be switched on every screen, and is saved to the profile.
+
+## Landing page
+
+Built from the Cuenta Clara Landing Page PRD: hero with before/after cards, trust strip, how it works, the big-number phone mock, family sends, FAQ, and a final CTA. A sticky "Empezar gratis" bar appears on phones once the hero button scrolls away.
+
+- **Language from the ad:** `?lang=es` or `?lang=en` picks the language and saves it; every CTA carries it into signup.
+- **No invented proof:** the trust strip holds true facts until real testers give quotes and numbers.
+- **Measurement:** set `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` for page views, scroll depth and `CTA click` events (tagged with placement and language), and `NEXT_PUBLIC_META_PIXEL_ID` for the Meta Pixel. Both fire a signup event when an account is created. Plausible reads `utm_source` and `utm_campaign` itself.
+- **Lighthouse (mobile, local build):** performance 99, accessibility 100, best practices 100.
+- **Before launch:** confirm "Hecho en Newark, NJ". The browser-tab icon is a placeholder until there's a logo.

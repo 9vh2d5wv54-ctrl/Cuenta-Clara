@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 import { LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import { getStore } from "@/lib/store";
@@ -16,6 +16,8 @@ export function LanguageToggle() {
   const locale = useLocale() as Locale;
   const t = useTranslations("common");
   const router = useRouter();
+  const pathname = usePathname();
+  const search = useSearchParams();
   const [pending, startTransition] = useTransition();
   const next: Locale = locale === "es" ? "en" : "es";
 
@@ -25,7 +27,18 @@ export function LanguageToggle() {
     if (await store.currentUserId()) {
       store.updateProfile({ language: next }).catch(() => {});
     }
-    startTransition(() => router.refresh());
+    if (search.has("lang")) {
+      const params = new URLSearchParams(search);
+      params.set("lang", next);
+      // Changing only the query string doesn't re-render the root layout, where the
+      // client-side messages live, so refresh after replacing the URL.
+      startTransition(() => {
+        router.replace(`${pathname}?${params}`);
+        router.refresh();
+      });
+    } else {
+      startTransition(() => router.refresh());
+    }
   }
 
   return (
@@ -34,11 +47,13 @@ export function LanguageToggle() {
       className="btn btn--ghost"
       onClick={toggle}
       disabled={pending}
-      aria-label={t("switchToLabel")}
       lang={next}
     >
       <Icon name="globe" size={20} />
       {t("switchTo")}
+      <span className="sr-only" lang={locale}>
+        {t("switchToLabel")}
+      </span>
     </button>
   );
 }

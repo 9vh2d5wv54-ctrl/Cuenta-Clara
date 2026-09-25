@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Figtree } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import "./globals.css";
 
 // Brand type: Bricolage Grotesque for titles and money, Figtree for everything else.
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang={locale} className={`${bricolage.variable} ${figtree.variable}`}>
       <body>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <AnalyticsScripts />
       </body>
     </html>
   );

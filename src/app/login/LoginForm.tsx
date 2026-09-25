@@ -8,6 +8,7 @@ import { Button, Field, Input } from "@/components/ui";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { getStore } from "@/lib/store";
 import { isDemo } from "@/lib/demo";
+import { trackSignup } from "@/lib/analytics";
 import type { Locale } from "@/i18n/config";
 
 export function LoginForm() {
@@ -68,6 +69,7 @@ export function LoginForm() {
       setFormError(result.error);
       return;
     }
+    if (signup) trackSignup();
     if (signup && store.mode === "supabase" && !(await store.currentUserId())) {
       setSent(t("confirmSent"));
       return;

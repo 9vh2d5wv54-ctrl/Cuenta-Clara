@@ -516,42 +516,408 @@ textarea {
   gap: var(--space-3);
 }
 
-/* Landing */
-.landing-hero {
-  padding: var(--space-8) 0 var(--space-6);
+/* Landing page (Cuenta Clara Landing Page PRD) */
+.lp {
+  padding-bottom: calc(88px + env(safe-area-inset-bottom));
+}
+.lp-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+.lp-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+}
+.lp-center {
+  text-align: center;
+}
+.lp-headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 44px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.lp-hero {
+  display: grid;
+  gap: var(--space-6);
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-8);
+}
+.lp-hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.lp-hero__cta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.lp-login {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.btn--cta {
+  min-height: 52px;
+  font-size: 16px;
+}
+
+/* Before / after */
+.lp-ba {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.lp-ba__card {
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 148px;
+}
+.lp-ba__card--before {
+  background: var(--alerta-soft);
+  color: var(--alerta);
+}
+.lp-ba__question {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
+}
+.lp-ba__card--after {
+  background: var(--clara-soft);
+  color: var(--ink);
+}
+.lp-ba__card--after .t-label {
+  color: var(--clara);
+}
+.lp-ba__figure {
+  color: var(--clara);
+  font-size: 34px;
+  line-height: 38px;
+}
+
+/* Trust strip */
+.lp-trust {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-raised);
+}
+.lp-trust__list {
+  list-style: none;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3) var(--space-4);
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+.lp-trust__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--ink);
+}
+.lp-trust__item svg {
+  flex: none;
+  color: var(--clara);
+  margin-top: 0;
+}
+
+/* Sections */
+.lp-section {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
 }
-.landing-hero h1 {
-  font-size: 40px;
-  line-height: 44px;
-}
-.preview-card {
-  display: flex;
-  flex-direction: column;
+.lp-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
   gap: var(--space-3);
 }
-.feature {
+.lp-step {
   display: flex;
+  align-items: center;
   gap: var(--space-3);
-  align-items: flex-start;
+  background: var(--surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
 }
-.feature__icon {
+.lp-step__num {
   flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--clara);
+  color: var(--on-clara);
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+/* Big number + phone mock */
+.lp-number__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.lp-desktop-inline {
+  display: none;
+}
+.phone {
+  align-self: center;
+  width: 260px;
+  padding: 10px;
+  border-radius: 40px;
+  background: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+.phone__screen {
+  border-radius: 30px;
+  background: var(--surface);
+  padding: var(--space-6) var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow: hidden;
+}
+.phone__month {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+}
+.phone__hero {
+  background: var(--surface-raised);
   border-radius: var(--radius-md);
-  background: var(--clara-soft);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+}
+.phone__figure {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
   color: var(--clara);
 }
-.feature__icon--mango {
-  background: var(--mango-soft);
-  color: var(--mango-ink);
+.phone__bars {
+  background: var(--surface-raised);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
+.phone__bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.phone__bar .progress {
+  height: 6px;
+}
+.phone__tabs {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 calc(var(--space-4) * -1);
+  padding: var(--space-3) var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line);
+  background: var(--surface-raised);
+}
+.phone__tab {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.phone__tab--on {
+  color: var(--clara);
+}
+
+/* Family sends band */
+.lp-band {
+  background: var(--mango-soft);
+}
+.lp-sends__sub {
+  color: var(--ink);
+  margin-top: var(--space-3);
+}
+.lp-sends__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.lp-sends__receives {
+  color: var(--mango-ink);
+  background: var(--mango-soft);
+  border-radius: var(--radius-full);
+  padding: 2px var(--space-2);
+}
+
+/* FAQ */
+.lp-faq__list {
+  background: var(--surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 0 var(--space-4);
+}
+.lp-faq__item {
+  border-bottom: 1px solid var(--line);
+}
+.lp-faq__item:last-child {
+  border-bottom: 0;
+}
+.lp-faq__item summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: var(--space-3) 0;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+.lp-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.lp-faq__chevron {
+  flex: none;
+  display: flex;
+  color: var(--clara);
+  transition: transform 150ms ease;
+}
+.lp-faq__item[open] .lp-faq__chevron {
+  transform: rotate(45deg);
+}
+.lp-faq__item p {
+  padding-bottom: var(--space-4);
+}
+
+/* Final CTA */
+.lp-final {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-align: center;
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+/* Sticky phone CTA */
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: var(--surface-raised);
+  border-top: 1px solid var(--line);
+  transform: translateY(110%);
+  visibility: hidden;
+  transition: transform 200ms ease, visibility 0s linear 200ms;
+}
+.sticky-cta[data-show="true"] {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 200ms ease, visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sticky-cta,
+  .lp-faq__chevron {
+    transition: none;
+  }
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+  .lp {
+    padding-bottom: 0;
+  }
+  .lp-headline {
+    font-size: 56px;
+    line-height: 60px;
+  }
+  .lp-hero {
+    grid-template-columns: 1.1fr 1fr;
+    grid-template-areas:
+      "text ba"
+      "cta ba";
+    align-items: start;
+    column-gap: var(--space-8);
+    padding-top: var(--space-8);
+  }
+  .lp-hero__text {
+    grid-area: text;
+  }
+  .lp-hero__cta {
+    grid-area: cta;
+    max-width: 360px;
+  }
+  .lp-hero__cta .lp-center {
+    text-align: left;
+    justify-content: flex-start;
+  }
+  .lp-ba {
+    grid-area: ba;
+    grid-template-columns: 1fr;
+  }
+  .lp-trust__list {
+    grid-template-columns: repeat(4, auto);
+    justify-content: space-between;
+  }
+  .lp-steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .lp-number {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: var(--space-8);
+  }
+  .lp-desktop-inline {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 0 var(--space-8);
+  }
+  .lp-mobile-only {
+    display: none;
+  }
+  .lp-sends {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    column-gap: var(--space-8);
+  }
+  .lp-final {
+    max-width: 480px;
+  }
+  .sticky-cta {
+    display: none;
+  }
+}
+
 .saying {
   font-family: var(--font-display);
   font-size: 19px;
