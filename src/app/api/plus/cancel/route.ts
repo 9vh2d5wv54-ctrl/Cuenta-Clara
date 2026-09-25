@@ -17,13 +17,18 @@ export async function POST() {
     return NextResponse.json({ error: "no subscription" }, { status: 404 });
   }
 
+  let renewsAt: string | null = null;
   try {
-    await whopClient().memberships.cancel({ id: sub.provider_membership_id, cancel_at_period_end: true });
+    const m = await whopClient().memberships.cancel({ id: sub.provider_membership_id, cancel_at_period_end: true });
+    renewsAt = (m as { current_period_end?: string | null }).current_period_end ?? null;
   } catch (err) {
     console.error("whop cancel failed", err);
     return NextResponse.json({ error: "cancel failed" }, { status: 502 });
   }
   // Show it right away; the webhook will write the same thing.
-  await supabaseAdmin().from("subscriptions").update({ cancel_at_period_end: true }).eq("user_id", auth.user.id);
+  await supabaseAdmin()
+    .from("subscriptions")
+    .update(renewsAt ? { cancel_at_period_end: true, renews_at: renewsAt } : { cancel_at_period_end: true })
+    .eq("user_id", auth.user.id);
   return NextResponse.json({ ok: true });
 }

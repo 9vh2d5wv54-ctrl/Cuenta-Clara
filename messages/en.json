@@ -277,7 +277,8 @@
     "cancelBody": "You keep Plus until {date} and nothing more is charged. The basics stay free.",
     "cancelYes": "Yes, cancel",
     "cancelKeep": "Keep Plus",
-    "cancelFailed": "We couldn't cancel right now. Try again in a moment."
+    "cancelFailed": "We couldn't cancel right now. Try again in a moment.",
+    "canceledNoDate": "You canceled Plus. Nothing more is charged, and the basics stay free."
   },
   "checkup": {
     "title": "Money checkup",

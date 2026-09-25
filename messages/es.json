@@ -277,7 +277,8 @@
     "cancelBody": "Sigues con Plus hasta el {date} y no se cobra nada más. Lo básico sigue gratis.",
     "cancelYes": "Sí, cancelar",
     "cancelKeep": "Mantener Plus",
-    "cancelFailed": "No pudimos cancelar ahora. Inténtalo otra vez en un momento."
+    "cancelFailed": "No pudimos cancelar ahora. Inténtalo otra vez en un momento.",
+    "canceledNoDate": "Cancelaste Plus. No se cobra nada más y lo básico sigue gratis."
   },
   "checkup": {
     "title": "Chequeo de dinero",

@@ -136,14 +136,16 @@ export default function Ajustes() {
             </div>
             {plus ? (
               <>
-                {periodEnd && (
-                  <p className="t-body muted">
-                    {subscription?.cancel_at_period_end
-                      ? p("ends", { date: periodEnd })
-                      : subscription?.status === "trialing"
+                {subscription?.cancel_at_period_end ? (
+                  <p className="t-body muted">{periodEnd ? p("ends", { date: periodEnd }) : p("canceledNoDate")}</p>
+                ) : (
+                  periodEnd && (
+                    <p className="t-body muted">
+                      {subscription?.status === "trialing"
                         ? p("trialEnds", { date: periodEnd })
                         : p("renews", { date: periodEnd })}
-                  </p>
+                    </p>
+                  )
                 )}
                 {!subscription?.cancel_at_period_end && (
                   <Button variant="ghost" block onClick={() => setCancelOpen(true)}>

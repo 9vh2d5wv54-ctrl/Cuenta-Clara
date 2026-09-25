@@ -16,7 +16,7 @@ Where Cuenta Clara stands, and what's next.
 2. [x] Supabase → Authentication → URL Configuration
        Site URL: `https://cuenta-clara-six.vercel.app`
        Redirect URL: `https://cuenta-clara-six.vercel.app/auth/callback`
-3. [ ] Payments (set up; real test pending)
+3. [x] Payments: live trial started and canceled from the app
        [x] Whop product "Cuenta Clara Plus": $4.99/month and $39.99/year, 7-day trial (made in the dashboard)
        [x] `WHOP_API_KEY` in Vercel (the app finds both plans by price; no plan ids needed)
        [x] Whop webhook → `https://cuenta-clara-six.vercel.app/api/webhooks/whop`, secret in Vercel as `WHOP_WEBHOOK_SECRET`
