@@ -30,7 +30,6 @@ export async function planIdFor(interval: Interval): Promise<string | undefined>
   const want = TARGET[interval];
   const plans = await whopClient().plans.list({
     account_id: process.env.WHOP_ACCOUNT_ID,
-    plan_types: "renewal",
     first: 100,
   });
   for await (const plan of plans) {

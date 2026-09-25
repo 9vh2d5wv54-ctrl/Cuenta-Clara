@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ sessionId: session.id, planId });
   } catch (err) {
     console.error("whop checkout session failed", err);
-    return NextResponse.json({ error: "checkout unavailable" }, { status: 502 });
+    const e = err as { statusCode?: number; status?: number };
+    return NextResponse.json({ error: `whop ${e.statusCode ?? e.status ?? "error"}` }, { status: 502 });
   }
 }

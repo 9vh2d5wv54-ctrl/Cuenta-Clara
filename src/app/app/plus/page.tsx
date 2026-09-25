@@ -79,7 +79,7 @@ export default function PlusPage() {
       await mutate(() => demo.startDemoTrial());
       trackTrialStart(interval);
       setStep({ kind: "done" });
-    } else setError(t("unavailable"));
+    } else setError(`${t("unavailable")} (${start.error})`);
   }
 
   if (hasPlus(subscription) && step.kind === "choose") {
