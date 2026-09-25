@@ -20,18 +20,20 @@ Where Cuenta Clara stands, and what's next.
        [x] Whop product "Cuenta Clara Plus": $4.99/month and $39.99/year, 7-day trial (made in the dashboard)
        [x] `WHOP_API_KEY` in Vercel (the app finds both plans by price; no plan ids needed)
        [x] Whop webhook → `https://cuenta-clara-six.vercel.app/api/webhooks/whop`, secret in Vercel as `WHOP_WEBHOOK_SECRET`
-       [ ] Test: finish setup → checkup → "Pruébalo gratis 7 días" → trial starts → Settings shows "Estás probando Plus" → cancel
+       [x] Test: finish setup → checkup → "Pruébalo gratis 7 días" → trial starts → Settings shows "Estás probando Plus" → cancel
 4. [ ] AI checkup: `ANTHROPIC_API_KEY` in Vercel (optional; a template is used without it)
 5. [ ] Emails
        [x] `RESEND_API_KEY` and `CRON_SECRET` in Vercel
        [ ] Get a PO box, add it as `MAILING_ADDRESS` (footer says "Cuenta Clara · Newark, NJ" until then) — required before emailing real users
        [x] micuentaclara.app verified in Resend; test email from hola@micuentaclara.app delivered to Gmail
        [x] Supabase login emails sent through Resend (custom SMTP)
-6. [ ] Own domain
+       [x] Email login link works from the Mail app on micuentaclara.app
+6. [x] Own domain
        [x] Bought micuentaclara.app on Vercel, connected to the project
-       [ ] Vercel `APP_URL` → `https://micuentaclara.app`
-       [ ] Supabase Site URL → `https://micuentaclara.app`, add redirect `https://micuentaclara.app/auth/callback`
+       [x] Vercel `APP_URL` → `https://micuentaclara.app`
+       [x] Supabase Site URL → `https://micuentaclara.app`, add redirect `https://micuentaclara.app/auth/callback`
 7. [ ] Confirm "Hecho en Newark, NJ" on the landing page
-8. [ ] 10 test users, then ads with the PRD's daily launch check
+8. [ ] Whop webhook URL → `https://micuentaclara.app/api/webhooks/whop` (old URL still works)
+9. [ ] 10 test users, then ads with the PRD's daily launch check
 
 Tip: adding variables and copying keys is much easier on a computer than on a phone.
