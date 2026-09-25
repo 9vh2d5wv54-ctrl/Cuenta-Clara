@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
 import { BillForm, GoalForm, RecipientForm } from "@/components/forms";
 import { canAddGoal } from "@/lib/plan";
+import { markSetupSeen } from "@/lib/setup-prompt";
 import { Icon } from "@/components/Icon";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { Button, Card, Explain, Field, MoneyInput, ProgressBar } from "@/components/ui";
@@ -21,6 +22,10 @@ export default function Setup() {
   const router = useRouter();
   const { income, bills, recipients, goals, month, profile, subscription, mutate } = useData();
   const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    if (profile) markSetupSeen(profile.id);
+  }, [profile]);
   const [incomeText, setIncomeText] = useState(income ? centsToInput(income) : "");
   const [incomeError, setIncomeError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);

@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useData } from "@/components/DataProvider";
 import { LanguageToggle } from "@/components/LanguageToggle";
@@ -9,6 +11,7 @@ import { Icon } from "@/components/Icon";
 import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
+import { setupSeen } from "@/lib/setup-prompt";
 
 export default function Dashboard() {
   const t = useTranslations("dashboard");
@@ -16,7 +19,14 @@ export default function Dashboard() {
   const cat = useTranslations("add.categories");
   const locale = useLocale();
   const ch = useTranslations("checkup");
-  const { income, bills, recipients, goals, entries, checkup } = useData();
+  const { income, bills, recipients, goals, entries, checkup, profile } = useData();
+  const router = useRouter();
+
+  // A brand-new account with nothing entered goes straight to setup, once.
+  const brandNew = income === null && bills.length === 0 && recipients.length === 0 && goals.length === 0;
+  useEffect(() => {
+    if (brandNew && profile && !setupSeen(profile.id)) router.replace("/app/setup");
+  }, [brandNew, profile, router]);
 
   const s = summarize(income ?? 0, bills, recipients, goals, entries);
   const base = Math.max(s.income, 1);
