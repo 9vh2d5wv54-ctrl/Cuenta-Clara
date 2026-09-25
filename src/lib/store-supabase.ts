@@ -1,6 +1,7 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { AskResult, AuthResult, CheckoutStart, CheckupInput, EditableProfile, Store } from "./store";
 import { supabaseBrowser } from "./supabase-browser";
+import { SUPABASE_PUBLIC_KEY, SUPABASE_URL } from "./supabase-env";
 import type {
   Bill, Budget, Checkup, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
 } from "./types";
@@ -21,6 +22,29 @@ function must<T>({ data, error }: { data: T | null; error: { message: string } |
 export class SupabaseStore implements Store {
   readonly mode = "supabase" as const;
   private db: SupabaseClient = supabaseBrowser();
+  private ready = this.adoptLinkSession();
+
+  // Login and confirm emails are sent in implicit mode, so the link carries the
+  // session in the URL hash and works in any browser (Mail, Gmail, Safari).
+  // The cookie client only speaks PKCE, so we hand the session over here.
+  private async adoptLinkSession() {
+    if (typeof window === "undefined") return;
+    const hash = new URLSearchParams(location.hash.slice(1));
+    const access_token = hash.get("access_token");
+    const refresh_token = hash.get("refresh_token");
+    if (access_token && refresh_token) {
+      history.replaceState(null, "", location.pathname + location.search);
+      await this.db.auth.setSession({ access_token, refresh_token });
+    } else if (hash.get("error")) {
+      location.replace("/login?error=link");
+    }
+  }
+
+  private mailer() {
+    return createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
+      auth: { flowType: "implicit", persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+    });
+  }
 
   private async uid(): Promise<string> {
     const id = await this.currentUserId();
@@ -29,16 +53,19 @@ export class SupabaseStore implements Store {
   }
 
   async currentUserId() {
+    await this.ready;
     const { data } = await this.db.auth.getUser();
     return data.user?.id ?? null;
   }
 
   async signUp(email: string, password: string) {
-    const { error } = await this.db.auth.signUp({
+    const { data, error } = await this.mailer().auth.signUp({
       email,
       password,
       options: { emailRedirectTo: `${location.origin}/auth/callback` },
     });
+    // No email confirmation needed: sign in right away.
+    if (data.session) await this.db.auth.setSession(data.session);
     return fail(error);
   }
   async signIn(email: string, password: string) {
@@ -46,7 +73,7 @@ export class SupabaseStore implements Store {
     return fail(error);
   }
   async sendMagicLink(email: string) {
-    const { error } = await this.db.auth.signInWithOtp({
+    const { error } = await this.mailer().auth.signInWithOtp({
       email,
       options: { emailRedirectTo: `${location.origin}/auth/callback` },
     });

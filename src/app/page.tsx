@@ -4,6 +4,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { CtaLink } from "@/components/landing/CtaLink";
 import { StickyCta } from "@/components/landing/StickyCta";
+import { AuthHashForward } from "@/components/AuthHashForward";
 import { formatUSD } from "@/lib/money";
 
 // The ad landing page (Cuenta Clara Landing Page PRD). Order follows the teardown:
@@ -32,6 +33,7 @@ export default async function Landing() {
 
   return (
     <div className="lp">
+      <AuthHashForward />
       <header className="lp-top lp-wrap">
         <span className="wordmark">Cuenta Clara</span>
         <LanguageToggle />
