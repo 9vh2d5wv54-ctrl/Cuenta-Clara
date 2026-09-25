@@ -289,7 +289,9 @@
     "teaser": "Tu chequeo de {month} está listo",
     "open": "Ver mi chequeo",
     "needsSetup": "Tu chequeo aparece cuando anotas tu ingreso del mes.",
-    "finishSetup": "Terminar de configurar"
+    "finishSetup": "Terminar de configurar",
+    "leftToday": "Hoy te quedan",
+    "writtenOn": "Escrito el {date}. El número de arriba se actualiza cada vez que anotas algo."
   },
   "forecast": {
     "title": "¿Cómo voy a estar en {month}?",

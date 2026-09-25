@@ -89,7 +89,8 @@ export default function Chequeo() {
       </div>
 
       <Card className="checkup-card">
-        <p className="t-label muted">{t("leftLabel")}</p>
+        {/* Live number; the text below is a snapshot from when the checkup was written. */}
+        <p className="t-label muted">{t("leftToday")}</p>
         <p className={left < 0 ? "t-money-xl hero__figure hero__figure--negative" : "t-money-xl hero__figure"}>
           {formatUSD(left)}
         </p>
@@ -100,7 +101,15 @@ export default function Chequeo() {
             </p>
           ))}
         </div>
-        <p className="t-caption muted">{t("free")}</p>
+        <p className="t-caption muted">
+          {t("writtenOn", {
+            date: new Date(checkup.created_at).toLocaleDateString(locale === "es" ? "es-US" : "en-US", {
+              day: "numeric",
+              month: "long",
+            }),
+          })}{" "}
+          {t("free")}
+        </p>
       </Card>
 
       <Card>

@@ -289,7 +289,9 @@
     "teaser": "Your {month} checkup is ready",
     "open": "See my checkup",
     "needsSetup": "Your checkup appears once you add this month's income.",
-    "finishSetup": "Finish setup"
+    "finishSetup": "Finish setup",
+    "leftToday": "Left today",
+    "writtenOn": "Written on {date}. The number above updates each time you log something."
   },
   "forecast": {
     "title": "How will I be doing in {month}?",
