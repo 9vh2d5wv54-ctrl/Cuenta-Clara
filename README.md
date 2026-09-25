@@ -106,6 +106,17 @@ Sent through Resend in each person's language. Every marketing email has a one-c
 
 By default the weekly email goes to everyone once, Sundays at 22:00 UTC (6 PM New York time in summer, 5 PM in winter), which fits Vercel's Hobby plan (one run per day per job). On Vercel Pro, set the `/api/cron/weekly` schedule to `0 * * * 0` and `WEEKLY_LOCAL_TIME=true` so each person gets it at 6 PM in their own timezone.
 
+### Login emails (Supabase)
+
+Supabase sends login and confirm emails through Resend (Authentication → Emails → SMTP Settings: `smtp.resend.com`, port 465, user `resend`, a Resend API key, sender `hola@micuentaclara.app`).
+
+In Authentication → Emails → Templates, the **Magic Link** and **Confirm signup** links point to `/auth/confirm` so they work in any browser (Mail, Gmail, Safari):
+
+```html
+<h2>Cuenta Clara</h2>
+<p><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">Entrar a Cuenta Clara / Log in to Cuenta Clara</a></p>
+```
+
 ## Launch setup
 
 1. Run `supabase/schema.sql` in Supabase.
