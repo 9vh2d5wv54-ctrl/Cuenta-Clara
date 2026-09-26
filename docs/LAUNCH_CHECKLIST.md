@@ -36,4 +36,9 @@ Where Cuenta Clara stands, and what's next.
 8. [x] Whop webhook URL → `https://micuentaclara.app/api/webhooks/whop` (old URL still works)
 9. [ ] 10 test users, then ads with the PRD's daily launch check
 
+Later:
+- [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
+- [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").
+- [ ] `ANTHROPIC_API_KEY` in Vercel once the first users sign up.
+
 Tip: adding variables and copying keys is much easier on a computer than on a phone.
