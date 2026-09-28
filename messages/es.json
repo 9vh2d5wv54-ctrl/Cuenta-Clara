@@ -282,7 +282,9 @@
     "cancelFailed": "No pudimos cancelar ahora. Inténtalo otra vez en un momento.",
     "canceledNoDate": "Cancelaste Plus. No se cobra nada más y lo básico sigue gratis.",
     "rowPay": "Presupuesto por mes",
-    "rowPayPlus": "Modo día de pago y apartar para impuestos si te pagan 1099 o en efectivo"
+    "rowPayPlus": "Modo día de pago y apartar para impuestos si te pagan 1099 o en efectivo",
+    "rowLog": "Anotar a mano",
+    "rowLogPlus": "Anotar con tu voz o una foto del recibo, y revisar tu talón de pago"
   },
   "checkup": {
     "title": "Chequeo de dinero",
@@ -382,5 +384,37 @@
     "plusTitle": "Anotar con tu voz o una foto del recibo es parte de Plus",
     "noMatch": "no está en tu lista",
     "orByHand": "O anótalo a mano"
+  },
+  "paystub": {
+    "title": "¿Te pagaron bien?",
+    "lead": "Pon tu tarifa y tus horas, o tómale foto a tu talón de pago, y revisamos que el pago cuadre.",
+    "photo": "Foto del talón",
+    "reading": "Leyendo tu talón…",
+    "photoNote": "Leemos la foto una vez y no la guardamos.",
+    "photosOff": "Las fotos del talón todavía no están activadas. Puedes escribir los números abajo.",
+    "photoError": "No pudimos leer esa foto. Prueba con una más clara o escribe los números abajo.",
+    "photoRead": "Llenamos lo que muestra el talón{employer, select, none {} other { de {employer}}}. Revisa cada número.",
+    "period": "¿Cada cuánto te pagan?",
+    "weekly": "Cada semana",
+    "biweekly": "Cada 2 semanas",
+    "rate": "Tarifa por hora",
+    "week1": "Horas trabajadas",
+    "week1of2": "Horas, semana 1",
+    "week2": "Horas, semana 2",
+    "hoursHint": "Las horas extra se cuentan por semana, así que pon las horas de cada semana.",
+    "gross": "Pago bruto en tu talón",
+    "grossHint": "El total antes de impuestos y descuentos. Si te pagan en efectivo, lo que te dieron.",
+    "expectedTitle": "Por esas horas te toca",
+    "regularLine": "{hours} horas regulares × {rate}",
+    "overtimeLine": "{hours} horas extra × {rate}",
+    "match": "Tu pago cuadra con tus horas.",
+    "under": "Te pagaron {amount} menos de lo que suman tus horas.",
+    "over": "Te pagaron {amount} más de lo que suman tus horas. Puede ser un bono, propinas o una tarifa distinta.",
+    "lowOvertime": "Tu talón muestra las horas extra a {shown} la hora. Tiempo y medio de tu tarifa es {expected}.",
+    "nextSteps": "Primero revisa tus horas y pregúntale a tu empleador o a nómina. Si no se arregla, el Departamento de Trabajo de EE. UU. ayuda gratis, sin importar tu estatus migratorio: 1-866-487-9243 o dol.gov/agencies/whd.",
+    "rules": "Usamos la regla federal: tiempo y medio después de 40 horas en una semana. Algunos estados pagan más, como las horas extra por día en California, y los trabajos con propinas tienen otras reglas. Esto es información general, no asesoría legal.",
+    "logIt": "Anotar {amount} como este pago",
+    "plusTitle": "Revisar tu pago es parte de Plus",
+    "homeLink": "¿Te pagaron bien? Revisa tu talón de pago"
   }
 }

@@ -14,6 +14,7 @@ import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
 import { setupSeen } from "@/lib/setup-prompt";
+import { hasPlus } from "@/lib/plan";
 
 export default function Dashboard() {
   const t = useTranslations("dashboard");
@@ -21,7 +22,8 @@ export default function Dashboard() {
   const cat = useTranslations("add.categories");
   const locale = useLocale();
   const ch = useTranslations("checkup");
-  const { income, bills, recipients, goals, entries, checkup, profile, taxPct } = useData();
+  const { income, bills, recipients, goals, entries, checkup, profile, subscription, taxPct } = useData();
+  const tp = useTranslations("paystub");
   const tx = useTranslations("taxes");
   const router = useRouter();
 
@@ -128,6 +130,14 @@ export default function Dashboard() {
       </Card>
 
       <TaxCard />
+
+      {hasPlus(subscription) && (
+        <Link href="/app/pago" className="card row">
+          <Icon name="check" />
+          <span className="t-label grow">{tp("homeLink")}</span>
+          <Icon name="forward" size={20} />
+        </Link>
+      )}
 
       <section className="stack-sm">
         <h2 className="t-heading">{t("upcoming")}</h2>

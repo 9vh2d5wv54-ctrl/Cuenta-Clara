@@ -271,3 +271,69 @@ export async function readQuickLog(
     return null;
   }
 }
+
+// Paycheck checker (Plus): read the numbers off a pay stub photo. The app does the math.
+const PAYSTUB_SYSTEM = `You read a photo of a US pay stub and copy numbers exactly as printed. Do not calculate or estimate anything.
+
+Fields (use 0 for a number and "" for text when the stub doesn't show it clearly):
+- hourly_rate: the regular hourly rate in dollars.
+- regular_hours: regular hours for this pay period.
+- overtime_hours: overtime hours for this pay period.
+- overtime_rate: the overtime hourly rate in dollars.
+- gross_pay: this period's gross pay (total before deductions), not year-to-date.
+- net_pay: this period's net pay (take-home), not year-to-date.
+- period_start, period_end: the pay period dates as YYYY-MM-DD.
+- employer: the employer's name.
+
+Only this pay period's amounts, never year-to-date columns. If the image isn't a pay stub, return all zeros and empty strings.`;
+
+const PAYSTUB_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["hourly_rate", "regular_hours", "overtime_hours", "overtime_rate", "gross_pay", "net_pay", "period_start", "period_end", "employer"],
+  properties: {
+    hourly_rate: { type: "number" },
+    regular_hours: { type: "number" },
+    overtime_hours: { type: "number" },
+    overtime_rate: { type: "number" },
+    gross_pay: { type: "number" },
+    net_pay: { type: "number" },
+    period_start: { type: "string" },
+    period_end: { type: "string" },
+    employer: { type: "string" },
+  },
+} as const;
+
+/** Raw reading of a pay stub photo, to be checked with cleanReading; null if Claude isn't available or fails. */
+export async function readPayStub(mediaType: "image/jpeg" | "image/png" | "image/webp", data: string): Promise<unknown | null> {
+  if (!hasKey()) return null;
+  try {
+    const response = await claude().beta.messages.create({
+      model: MODEL,
+      max_tokens: 4000,
+      betas: ["server-side-fallback-2026-07-01"],
+      fallbacks: "default",
+      output_config: { effort: "low", format: { type: "json_schema", schema: PAYSTUB_SCHEMA } },
+      system: PAYSTUB_SYSTEM,
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "image", source: { type: "base64", media_type: mediaType, data } },
+            { type: "text", text: "Read this pay stub." },
+          ],
+        },
+      ],
+    });
+    if (response.stop_reason === "refusal") return null;
+    const text = response.content
+      .filter((b): b is Anthropic.Beta.BetaTextBlock => b.type === "text")
+      .map((b) => b.text)
+      .join("");
+    return JSON.parse(text) as unknown;
+  } catch (err) {
+    if (err instanceof Anthropic.APIError) console.error("claude pay stub error", err.status, err.message);
+    else console.error("claude pay stub error", err);
+    return null;
+  }
+}

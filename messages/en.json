@@ -282,7 +282,9 @@
     "cancelFailed": "We couldn't cancel right now. Try again in a moment.",
     "canceledNoDate": "You canceled Plus. Nothing more is charged, and the basics stay free.",
     "rowPay": "Budget by month",
-    "rowPayPlus": "Paycheck mode and tax set-aside for 1099 or cash pay"
+    "rowPayPlus": "Paycheck mode and tax set-aside for 1099 or cash pay",
+    "rowLog": "Log by hand",
+    "rowLogPlus": "Log by voice or receipt photo, and check your pay stub"
   },
   "checkup": {
     "title": "Money checkup",
@@ -382,5 +384,37 @@
     "plusTitle": "Logging by voice or receipt photo is part of Plus",
     "noMatch": "not in your list",
     "orByHand": "Or log it by hand"
+  },
+  "paystub": {
+    "title": "Were you paid right?",
+    "lead": "Enter your rate and hours, or snap your pay stub, and we'll check the pay against them.",
+    "photo": "Pay stub photo",
+    "reading": "Reading your stub…",
+    "photoNote": "We read the photo once and don't keep it.",
+    "photosOff": "Pay stub photos aren't turned on yet. You can type the numbers below.",
+    "photoError": "We couldn't read that photo. Try a clearer one, or type the numbers below.",
+    "photoRead": "We filled in what the stub shows{employer, select, none {} other { from {employer}}}. Check each number.",
+    "period": "How often are you paid?",
+    "weekly": "Weekly",
+    "biweekly": "Every 2 weeks",
+    "rate": "Hourly rate",
+    "week1": "Hours worked",
+    "week1of2": "Hours, week 1",
+    "week2": "Hours, week 2",
+    "hoursHint": "Overtime counts week by week, so enter each week's hours.",
+    "gross": "Gross pay on your stub",
+    "grossHint": "The total before taxes and deductions. For cash pay, what you were handed.",
+    "expectedTitle": "For those hours you should get",
+    "regularLine": "{hours} regular hours × {rate}",
+    "overtimeLine": "{hours} overtime hours × {rate}",
+    "match": "Your pay matches your hours.",
+    "under": "You were paid {amount} less than your hours add up to.",
+    "over": "You were paid {amount} more than your hours add up to. It could be a bonus, tips, or a different rate.",
+    "lowOvertime": "Your stub shows overtime at {shown} an hour. Time and a half of your rate is {expected}.",
+    "nextSteps": "First check your hours and ask your employer or payroll. If it isn't fixed, the U.S. Department of Labor helps for free, whatever your immigration status: 1-866-487-9243 or dol.gov/agencies/whd.",
+    "rules": "We use the federal rule: time and a half after 40 hours in a week. Some states pay more, like California's daily overtime, and tipped jobs have different rules. This is general information, not legal advice.",
+    "logIt": "Log {amount} as this paycheck",
+    "plusTitle": "The paycheck checker is part of Plus",
+    "homeLink": "Were you paid right? Check your pay stub"
   }
 }

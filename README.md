@@ -108,6 +108,10 @@ Databases made before this feature need `supabase/migrations/003_tax_set_aside.s
 
 At the top of Log: type or say "Gasté 25 en gasolina" (the mic uses the phone's speech recognition when available), or take a photo of a receipt or transfer slip. `/api/quick-log` turns it into entries the person checks before saving; "Fix it" loads one into the form below. With `ANTHROPIC_API_KEY`, Claude reads text and photos (structured output, checked against the person's own people, bills and goals in `src/lib/quick-log.ts`). Without it, typed or spoken text goes through a keyword reader and photos show "not turned on yet". Photos are shrunk in the browser, read once, and never stored.
 
+### Paycheck checker (Plus)
+
+`/app/pago` ("¿Te pagaron bien?", linked from Home): hourly rate and hours per week, optionally filled from a pay stub photo, compared with the stub's gross pay. Federal overtime (time and a half after 40 hours in a week) in `src/lib/paystub.ts`; Claude only reads the photo (`/api/paystub`, needs `ANTHROPIC_API_KEY`; typing works without it). Flags underpay and overtime paid below time and a half, points to the U.S. Department of Labor (1-866-487-9243), and says it's general information, not legal advice. With paycheck mode on, the stub's net pay can be logged as the paycheck.
+
 ## Emails
 
 Sent through Resend in each person's language. Every marketing email has a one-click unsubscribe (footer link and `List-Unsubscribe` headers) and your mailing address.
