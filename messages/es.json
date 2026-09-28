@@ -542,5 +542,15 @@
     "yearly": "{amount} al año, libre de impuestos",
     "effective": "Tarifas del VA vigentes desde el {date}. Suben cada 1 de diciembre.",
     "lowPending": "El pago mensual para {rating}% está en la tabla oficial del VA."
+  },
+  "academy": {
+    "title": "Academia Cuenta Clara",
+    "lead": "Lecciones cortas sobre dinero, en palabras claras. Gratis, en español e inglés.",
+    "minutes": "{n} min",
+    "next": "Siguiente lección",
+    "all": "Todas las lecciones",
+    "notAdvice": "Información general, no asesoría financiera, de impuestos ni legal.",
+    "example": "Ejemplo",
+    "homeLink": "Lecciones de dinero de 2 minutos"
   }
 }

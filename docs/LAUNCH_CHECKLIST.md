@@ -77,6 +77,10 @@ Accounts:
 - [ ] Vercel: change that account's email to one you can read (it's an Apple hidden-relay address)
 - [ ] Delete the unused copy "cuenta-clara" (cuenta-clara-xi.vercel.app) in the mannyabreu92@gmail.com Vercel account
 
+Clara and Academy:
+- [x] Academy: 10 bilingual lessons at micuentaclara.app/aprende (free, public)
+- [ ] Clara chat, What-if chart (need `ANTHROPIC_API_KEY`)
+
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
 - [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").

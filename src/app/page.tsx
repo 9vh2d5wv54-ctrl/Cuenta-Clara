@@ -18,6 +18,7 @@ export default async function Landing() {
   const t = await getTranslations("landing");
   const d = await getTranslations("dashboard");
   const nav = await getTranslations("nav");
+  const ac = await getTranslations("academy");
 
   const trust: { icon: IconName; text: string }[] = [
     { icon: "check", text: t("trustFree") },
@@ -176,6 +177,9 @@ export default async function Landing() {
             {t("cta")}
           </CtaLink>
           <p className="saying">{t("saying")}</p>
+          <Link href="/aprende" className="t-label">
+            {ac("homeLink")}
+          </Link>
         </section>
       </main>
 

@@ -25,6 +25,7 @@ export default function Dashboard() {
   const ch = useTranslations("checkup");
   const { income, bills, recipients, goals, entries, checkup, profile, subscription, taxPct } = useData();
   const tp = useTranslations("paystub");
+  const ac = useTranslations("academy");
   const tx = useTranslations("taxes");
   const router = useRouter();
 
@@ -133,6 +134,12 @@ export default function Dashboard() {
       </Card>
 
       <TaxCard />
+
+      <Link href="/aprende" className="card row" style={{ textDecoration: "none" }}>
+        <Icon name="info" />
+        <span className="t-label grow">{ac("homeLink")}</span>
+        <Icon name="forward" size={20} />
+      </Link>
 
       {hasPlus(subscription) && (
         <Link href="/app/pago" className="card row" style={{ textDecoration: "none" }}>

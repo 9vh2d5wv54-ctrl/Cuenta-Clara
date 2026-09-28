@@ -92,6 +92,10 @@ How payment reaches the account:
 3. The webhook updates `subscriptions`. Only the service role writes that table; the goal limit is also enforced by a database trigger.
 4. Settings → Cancel Plus calls `/api/plus/cancel`, which cancels the Whop membership at the end of the period.
 
+### Cuenta Clara Academy (free, public)
+
+`/aprende` and `/aprende/[slug]`: 10 short bilingual lessons (budget, emergency fund, APR, compound interest, credit score, sending money home, 1099 taxes, snowball vs. avalanche, pay stubs, VA benefits), each with an example and a "try it" link into the app. No account needed; linked from Home and the landing page. Content in `src/lib/lessons.ts`. General information, not financial, tax or legal advice.
+
 ### Safe to Spend (free; day-by-day view is Plus)
 
 Top of Home. People type their account balance (never a bank login), next payday and how often they're paid (weekly, every 2 weeks, twice a month = 15th and last day, monthly), and an optional cushion. Safe to spend = balance, adjusted by entries logged after the day it was typed, minus bills due before payday (not already marked paid this month), family sends still to go this month, and the cushion. Shows days to payday and about how much a day; nudges to update a balance older than 3 days. Plus shows the projected balance each day until payday. With paycheck mode on, payday comes from the last paycheck. Math in `src/lib/safe-to-spend.ts`. Needs `supabase/migrations/005_safe_to_spend.sql`.

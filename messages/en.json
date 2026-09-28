@@ -542,5 +542,15 @@
     "yearly": "{amount} a year, tax-free",
     "effective": "VA rates effective {date}. They go up each December 1.",
     "lowPending": "The monthly amount for {rating}% is on VA's official rate table."
+  },
+  "academy": {
+    "title": "Cuenta Clara Academy",
+    "lead": "Short lessons about money in plain words. Free, in English and Spanish.",
+    "minutes": "{n} min",
+    "next": "Next lesson",
+    "all": "All lessons",
+    "notAdvice": "General information, not financial, tax or legal advice.",
+    "example": "Example",
+    "homeLink": "2-minute money lessons"
   }
 }
