@@ -50,7 +50,10 @@ export async function POST(request: NextRequest) {
   const { data: tz } = await supabase.from("users").select("timezone").maybeSingle();
   const now = userNow((tz as { timezone?: string } | null)?.timezone);
   const { data } = await loadClaraData(supabase, now);
-  const plus = hasPlus(data.subscription);
+  // Testers (CLARA_TESTER_EMAILS in Vercel, comma-separated) get Plus-level Clara without paying.
+  const testers = (process.env.CLARA_TESTER_EMAILS ?? "").split(",").map((e) => e.trim().toLowerCase()).filter(Boolean);
+  const tester = Boolean(auth.user.email && testers.includes(auth.user.email.toLowerCase()));
+  const plus = hasPlus(data.subscription) || tester;
   const allowance = claraAllowance(plus, todayISO(now));
 
   const { count } = await supabase
@@ -74,7 +77,7 @@ export async function POST(request: NextRequest) {
     else saved = true;
   }
   const remaining = Math.max(0, allowance.limit - used - (reply.ai ? 1 : 0));
-  return NextResponse.json({ ...reply, conversationId, saved, plus, remaining, limit: allowance.limit, per: allowance.per });
+  return NextResponse.json({ ...reply, conversationId, saved, plus, unlocked: plus, remaining, limit: allowance.limit, per: allowance.per });
 }
 
 /** No ?c: the latest conversations. ?c=<id>: that conversation's questions and answers. */

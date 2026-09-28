@@ -14,7 +14,7 @@ import type { ClaraData, ClaraLinks } from "@/lib/clara-tools";
 import { MAX_QUESTION_LENGTH } from "@/lib/clara-safety";
 import type { ClaraConversation, ClaraTurnData } from "@/lib/store";
 
-type Turn = ClaraTurnData & { links?: ClaraLinks; crisis?: boolean; pending?: boolean; failed?: boolean };
+type Turn = ClaraTurnData & { links?: ClaraLinks; crisis?: boolean; pending?: boolean; failed?: boolean; unlocked?: boolean };
 
 function newId(): string {
   try {
@@ -69,7 +69,7 @@ function ClaraChat() {
       const result = await store.claraAsk({ question: q, conversationId, history, lang: locale }, snapshot);
       setBusy(false);
       if (result.kind === "answer") {
-        setTurns((prev) => [...prev.slice(0, -1), { question: q, answer: result.answer, links: result.links, crisis: result.crisis }]);
+        setTurns((prev) => [...prev.slice(0, -1), { question: q, answer: result.answer, links: result.links, crisis: result.crisis, unlocked: result.unlocked }]);
         if (result.ai) {
           setNote(result.per === "day" ? t("leftToday", { count: result.remaining }) : t("leftMonth", { count: result.remaining, limit: result.limit }));
           refreshPast();
@@ -213,7 +213,7 @@ function ClaraChat() {
                 )}
               </div>
             )}
-            {turn.links?.chart && !turn.pending && <WhatIfChart chart={turn.links.chart} locked={!hasPlus(subscription)} />}
+            {turn.links?.chart && !turn.pending && <WhatIfChart chart={turn.links.chart} locked={!(hasPlus(subscription) || turn.unlocked)} />}
           </div>
         ))}
         <div ref={endRef} />

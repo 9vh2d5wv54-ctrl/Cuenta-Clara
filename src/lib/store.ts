@@ -45,6 +45,8 @@ export type ClaraResult =
       remaining: number;
       limit: number;
       per: "day" | "month";
+      /** Plus features (the chart) are open for this answer: Plus or a tester account. */
+      unlocked?: boolean;
     }
   | { kind: "limit"; plus: boolean; limit: number; per: "day" | "month" }
   | { kind: "error" };
