@@ -96,6 +96,10 @@ How payment reaches the account:
 
 Top of Home. People type their account balance (never a bank login), next payday and how often they're paid (weekly, every 2 weeks, twice a month = 15th and last day, monthly), and an optional cushion. Safe to spend = balance, adjusted by entries logged after the day it was typed, minus bills due before payday (not already marked paid this month), family sends still to go this month, and the cushion. Shows days to payday and about how much a day; nudges to update a balance older than 3 days. Plus shows the projected balance each day until payday. With paycheck mode on, payday comes from the last paycheck. Math in `src/lib/safe-to-spend.ts`. Needs `supabase/migrations/005_safe_to_spend.sql`.
 
+### Debt payoff plan (free; "what if" and milestones are Plus)
+
+`/app/deudas`, linked from Goals. People add cards and loans (balance, APR, minimum). Free: payoff date and interest paying minimums only, and avalanche (highest rate first) vs. snowball (smallest balance first) with the same monthly money, where a paid-off debt's payment rolls into the next. Plus: "what if I add $25–$200 a month", progress from starting balances, debts paid off, and a countdown. Month-by-month math in `src/lib/debts.ts`; flags minimums that never cover the interest. General information, not financial advice. Needs `supabase/migrations/006_debts.sql`.
+
 ### Paycheck mode (Plus)
 
 For people paid weekly, every two weeks, in cash or by gig. Turn it on in Settings, then tap "Me pagaron" on Home each payday. Home shows what you can spend until the next payday: the pay, minus this period's share of bills, family sends and savings (a week is 12/52 of a month), minus what's been spent since payday. Bills due before the next payday are listed. Money logged before the period ends (tips, a second gig) joins that period. Math in `src/lib/paycheck.ts`.

@@ -95,7 +95,19 @@ export type Goal = {
   saved_cents: number;
 };
 
+/** A debt in the payoff simulator. apr is a yearly percent, like 24.99. */
+export type Debt = {
+  id: string;
+  user_id: string;
+  name: string;
+  balance_cents: number;
+  start_balance_cents: number;
+  apr: number;
+  min_payment_cents: number;
+};
+
 export type NewBill = Omit<Bill, "id" | "user_id">;
+export type NewDebt = Omit<Debt, "id" | "user_id" | "start_balance_cents">;
 export type NewRecipient = Omit<Recipient, "id" | "user_id">;
 export type NewEntry = Omit<Entry, "id" | "user_id">;
 export type NewGoal = Omit<Goal, "id" | "user_id" | "saved_cents"> & { saved_cents?: number };

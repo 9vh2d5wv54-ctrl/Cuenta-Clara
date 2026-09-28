@@ -60,7 +60,11 @@ WhatsApp assistant:
 
 Safe to Spend:
 - [x] Built (free; day-by-day projection is Plus)
-- [ ] Run `supabase/migrations/005_safe_to_spend.sql` in the Supabase SQL editor
+- [x] Run `supabase/migrations/005_safe_to_spend.sql` in the Supabase SQL editor
+
+Debt payoff plan:
+- [x] Built (free; what-if, milestones and countdown are Plus)
+- [ ] Run `supabase/migrations/006_debts.sql` in the Supabase SQL editor
 
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).

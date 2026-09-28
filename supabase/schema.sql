@@ -81,6 +81,18 @@ create table public.goals (
 );
 
 -- Plus subscription, one row per user. Written only by the Whop webhook (service role).
+-- Debt payoff simulator. apr is a yearly percent (24.99).
+create table public.debts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.users (id) on delete cascade,
+  name text not null,
+  balance_cents bigint not null check (balance_cents >= 0),
+  start_balance_cents bigint not null check (start_balance_cents >= 0),
+  apr numeric(5, 2) not null check (apr >= 0 and apr <= 100),
+  min_payment_cents bigint not null check (min_payment_cents > 0),
+  created_at timestamptz not null default now()
+);
+
 create table public.subscriptions (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null unique references public.users (id) on delete cascade,
@@ -122,6 +134,7 @@ alter table public.bills enable row level security;
 alter table public.recipients enable row level security;
 alter table public.entries enable row level security;
 alter table public.goals enable row level security;
+alter table public.debts enable row level security;
 alter table public.subscriptions enable row level security;
 alter table public.checkups enable row level security;
 alter table public.ai_questions enable row level security;
@@ -139,6 +152,8 @@ create policy "own budgets" on public.budgets
 create policy "own bills" on public.bills
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 create policy "own recipients" on public.recipients
+  for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+create policy "own debts" on public.debts
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 create policy "own entries" on public.entries
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());

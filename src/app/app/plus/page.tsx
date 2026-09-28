@@ -97,6 +97,7 @@ export default function PlusPage() {
     [t("rowBudget"), t("rowBudgetPlus")],
     [t("rowPay"), t("rowPayPlus")],
     [t("rowLog"), t("rowLogPlus")],
+    [t("rowDebts"), t("rowDebtsPlus")],
     [t("rowCheckup"), t("rowForecast")],
     [t("rowGoals"), t("rowGoalsPlus")],
     [t("rowSends"), t("rowRates")],

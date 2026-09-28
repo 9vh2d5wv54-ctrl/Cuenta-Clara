@@ -1,7 +1,5 @@
 import { isDemo } from "./demo";
-import type {
-  Bill, Budget, Checkup, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
-} from "./types";
+import type { Bill, Budget, Checkup, Debt, Entry, Goal, NewBill, NewDebt, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription } from "./types";
 
 // One interface, two backends: Supabase when its keys are set, otherwise a demo
 // store that keeps everything in this browser so the app runs with no setup.
@@ -68,6 +66,11 @@ export interface Store {
   addGoal(g: NewGoal): Promise<void>;
   addToGoal(id: string, cents: number): Promise<void>;
   deleteGoal(id: string): Promise<void>;
+  listDebts(): Promise<Debt[]>;
+  addDebt(d: NewDebt): Promise<void>;
+  /** A new balance for a debt (they paid some down). */
+  updateDebtBalance(id: string, cents: number): Promise<void>;
+  deleteDebt(id: string): Promise<void>;
   deleteAccount(): Promise<void>;
 
   // Checkup

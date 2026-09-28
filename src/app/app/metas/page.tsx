@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
@@ -15,6 +16,7 @@ import type { Goal } from "@/lib/types";
 
 export default function Metas() {
   const t = useTranslations("goals");
+  const d = useTranslations("debts");
   const c = useTranslations("common");
   const x = useTranslations("explain");
   const locale = useLocale();
@@ -59,6 +61,12 @@ export default function Metas() {
   return (
     <main className="page">
       <h1 className="t-title">{t("title")}</h1>
+
+      <Link href="/app/deudas" className="card row" style={{ textDecoration: "none" }}>
+        <Icon name="target" />
+        <span className="t-label grow">{d("goalsLink")}</span>
+        <Icon name="forward" size={20} />
+      </Link>
 
       {goals.length === 0 && <p className="t-body muted">{t("empty")}</p>}
 

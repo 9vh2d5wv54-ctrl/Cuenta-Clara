@@ -2,7 +2,7 @@ import type { AskResult, AuthResult, CheckoutStart, CheckupInput, EditableProfil
 import { ASK_DAILY_LIMIT, TRIAL_DAYS } from "./plan";
 import { todayISO } from "./dates";
 import type {
-  Bill, Budget, Checkup, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
+  Bill, Budget, Checkup, Debt, Entry, Goal, NewBill, NewDebt, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
 } from "./types";
 
 // Demo mode: one account per browser, saved in localStorage. No password checks.
@@ -15,6 +15,7 @@ type DemoData = {
   recipients: Recipient[];
   entries: Entry[];
   goals: Goal[];
+  debts: Debt[];
   subscription: Subscription;
   checkups: Checkup[];
   asked: { date: string; count: number };
@@ -40,6 +41,7 @@ function empty(): DemoData {
     recipients: [],
     entries: [],
     goals: [],
+    debts: [],
     subscription: FREE,
     checkups: [],
     asked: { date: "", count: 0 },
@@ -215,6 +217,24 @@ export class DemoStore implements Store {
   async deleteGoal(goalId: string) {
     this.update((d) => {
       d.goals = d.goals.filter((g) => g.id !== goalId);
+    });
+  }
+
+  async listDebts() {
+    return load().debts;
+  }
+  async addDebt(debt: NewDebt) {
+    this.update((d) => d.debts.push({ ...debt, start_balance_cents: debt.balance_cents, id: id(), user_id: USER_ID }));
+  }
+  async updateDebtBalance(debtId: string, cents: number) {
+    this.update((d) => {
+      const x = d.debts.find((y) => y.id === debtId);
+      if (x) x.balance_cents = cents;
+    });
+  }
+  async deleteDebt(debtId: string) {
+    this.update((d) => {
+      d.debts = d.debts.filter((x) => x.id !== debtId);
     });
   }
 

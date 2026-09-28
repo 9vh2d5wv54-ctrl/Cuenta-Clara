@@ -3,7 +3,7 @@ import type { AskResult, AuthResult, CheckoutStart, CheckupInput, EditableProfil
 import { supabaseBrowser } from "./supabase-browser";
 import { SUPABASE_PUBLIC_KEY, SUPABASE_URL } from "./supabase-env";
 import type {
-  Bill, Budget, Checkup, Entry, Goal, NewBill, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
+  Bill, Budget, Checkup, Debt, Entry, Goal, NewBill, NewDebt, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
 } from "./types";
 
 // Row-level security (supabase/schema.sql) limits every table to the signed-in
@@ -159,6 +159,20 @@ export class SupabaseStore implements Store {
   }
   async deleteGoal(id: string) {
     must(await this.db.from("goals").delete().eq("id", id));
+  }
+
+  async listDebts() {
+    const rows = must(await this.db.from("debts").select("*").order("created_at")) as Debt[];
+    return rows.map((d) => ({ ...d, apr: Number(d.apr) }));
+  }
+  async addDebt(d: NewDebt) {
+    must(await this.db.from("debts").insert({ ...d, start_balance_cents: d.balance_cents, user_id: await this.uid() }));
+  }
+  async updateDebtBalance(id: string, cents: number) {
+    must(await this.db.from("debts").update({ balance_cents: cents }).eq("id", id));
+  }
+  async deleteDebt(id: string) {
+    must(await this.db.from("debts").delete().eq("id", id));
   }
 
   async getCheckup(month: string) {

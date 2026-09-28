@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { getStore, type Store } from "@/lib/store";
 import { monthKey, todayISO } from "@/lib/dates";
 import { taxPct } from "@/lib/plan";
-import type { Bill, Checkup, Entry, Goal, Profile, Recipient, Subscription } from "@/lib/types";
+import type { Bill, Checkup, Debt, Entry, Goal, Profile, Recipient, Subscription } from "@/lib/types";
 
 // Loads everything the app screens need for the current month and reloads after each change.
 
@@ -20,6 +20,7 @@ type Data = {
   /** The last 130 days of entries, across months, for paycheck mode and the tax set-aside. */
   recent: Entry[];
   goals: Goal[];
+  debts: Debt[];
   subscription: Subscription | null;
   /** This month's checkup, if written. */
   checkup: Checkup | null;
@@ -47,7 +48,7 @@ async function loadAll(store: Store): Promise<Data> {
   const since = new Date();
   // Long enough for a whole IRS estimated-tax period (up to 4 months).
   since.setDate(since.getDate() - 130);
-  const [profile, budget, bills, recipients, entries, recent, goals, subscription, checkups] = await Promise.all([
+  const [profile, budget, bills, recipients, entries, recent, goals, debts, subscription, checkups] = await Promise.all([
     store.getProfile(),
     store.getBudget(month),
     store.listBills(),
@@ -55,6 +56,8 @@ async function loadAll(store: Store): Promise<Data> {
     store.listEntries(month),
     store.listEntriesSince(todayISO(since)),
     store.listGoals(),
+    // Before the debts table exists (migration 006), the rest of the app still loads.
+    store.listDebts().catch(() => [] as Debt[]),
     store.getSubscription(),
     store.listCheckups(),
   ]);
@@ -68,6 +71,7 @@ async function loadAll(store: Store): Promise<Data> {
     entries,
     recent,
     goals,
+    debts,
     subscription,
     checkup: checkups.find((c) => c.month === month) ?? null,
     hasCheckup: checkups.length > 0,
