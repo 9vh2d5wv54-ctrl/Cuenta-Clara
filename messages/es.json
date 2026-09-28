@@ -510,5 +510,27 @@
     "notAdvice": "Información general, no asesoría financiera. Las tasas y los mínimos cambian; actualízalos con tus estados de cuenta.",
     "goalsLink": "Plan para salir de deudas",
     "owe": "Debes"
+  },
+  "veterans": {
+    "title": "Calculadora de discapacidad del VA",
+    "lead": "Agrega tus calificaciones del VA para ver tu calificación combinada como la calcula el VA. Es un estimado: Cuenta Clara no es el VA.",
+    "rating": "Calificación",
+    "choose": "Elige",
+    "bilateral": "Afecta ambos brazos o ambas piernas (bilateral)",
+    "add": "Agregar una calificación",
+    "remove": "Quitar",
+    "combinedTitle": "Tu calificación combinada",
+    "exactLine": "El valor exacto {exact}% se redondea a {rating}%.",
+    "notAdded": "El VA no suma las calificaciones: {list} da {exact}%, no {sum}%.",
+    "bilateralLine": "Bilateral: {combined}% más 10% ({factor}) = {total}%.",
+    "howTitle": "Cómo calcula el VA",
+    "how": "El VA empieza con 100% de salud. Tu calificación más alta toma su parte primero, y cada una después toma su parte de lo que queda. El total se redondea a la decena más cercana; el 5 redondea hacia arriba.",
+    "monthlyPending": "El pago mensual para {rating}% está en la tabla oficial del VA y depende de tu cónyuge, hijos y padres.",
+    "monthlyLink": "Ver la tabla del VA",
+    "help": "Para tu reclamo, un representante acreditado por el VA (VSO) te ayuda gratis.",
+    "helpLink": "Buscar un representante acreditado",
+    "notVa": "Es un estimado, no una decisión sobre tus beneficios. Cuenta Clara no está afiliada al Departamento de Asuntos de Veteranos de EE. UU.",
+    "empty": "Agrega al menos una calificación para ver tu calificación combinada.",
+    "goalsLink": "Veteranos: calculadora de discapacidad del VA"
   }
 }

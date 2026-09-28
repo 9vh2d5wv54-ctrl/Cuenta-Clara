@@ -510,5 +510,27 @@
     "notAdvice": "General information, not financial advice. Rates and minimums change; update them from your statements.",
     "goalsLink": "Debt payoff plan",
     "owe": "You owe"
+  },
+  "veterans": {
+    "title": "VA disability estimate",
+    "lead": "Add your VA ratings to see your combined rating the way VA calculates it. Estimates only: Cuenta Clara isn't the VA.",
+    "rating": "Rating",
+    "choose": "Choose",
+    "bilateral": "Affects both arms or both legs (bilateral)",
+    "add": "Add a rating",
+    "remove": "Remove",
+    "combinedTitle": "Your combined rating",
+    "exactLine": "Exact value {exact}% rounds to {rating}%.",
+    "notAdded": "VA doesn't add ratings: {list} is {exact}%, not {sum}%.",
+    "bilateralLine": "Bilateral: {combined}% plus 10% ({factor}) = {total}%.",
+    "howTitle": "How VA math works",
+    "how": "VA starts from 100% healthy. Your biggest rating takes its share first, and each next rating takes its share of what's left. The total is then rounded to the nearest 10, with 5 rounding up.",
+    "monthlyPending": "The monthly amount for {rating}% is on VA's official rate table, and it depends on your spouse, children and parents.",
+    "monthlyLink": "See VA's rate table",
+    "help": "For your claim, a VA-accredited representative (VSO) can help for free.",
+    "helpLink": "Find an accredited representative",
+    "notVa": "Estimate only, not a decision on benefits. Cuenta Clara is not affiliated with the U.S. Department of Veterans Affairs.",
+    "empty": "Add at least one rating to see your combined rating.",
+    "goalsLink": "Veterans: VA disability estimate"
   }
 }

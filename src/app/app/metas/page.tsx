@@ -17,6 +17,7 @@ import type { Goal } from "@/lib/types";
 export default function Metas() {
   const t = useTranslations("goals");
   const d = useTranslations("debts");
+  const v = useTranslations("veterans");
   const c = useTranslations("common");
   const x = useTranslations("explain");
   const locale = useLocale();
@@ -65,6 +66,11 @@ export default function Metas() {
       <Link href="/app/deudas" className="card row" style={{ textDecoration: "none" }}>
         <Icon name="target" />
         <span className="t-label grow">{d("goalsLink")}</span>
+        <Icon name="forward" size={20} />
+      </Link>
+      <Link href="/app/veteranos" className="card row" style={{ textDecoration: "none" }}>
+        <Icon name="heart" />
+        <span className="t-label grow">{v("goalsLink")}</span>
         <Icon name="forward" size={20} />
       </Link>
 

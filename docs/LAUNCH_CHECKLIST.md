@@ -66,6 +66,10 @@ Debt payoff plan:
 - [x] Built (free; what-if, milestones and countdown are Plus)
 - [ ] Run `supabase/migrations/006_debts.sql` in the Supabase SQL editor
 
+Veterans:
+- [x] VA combined rating calculator (free)
+- [ ] Monthly amounts: allow www.va.gov in the Claude environment's network settings, then copy VA's current rate table (with dependents) into `src/lib/va-rates.ts`
+
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
 - [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").

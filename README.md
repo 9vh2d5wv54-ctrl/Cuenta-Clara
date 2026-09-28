@@ -100,6 +100,10 @@ Top of Home. People type their account balance (never a bank login), next payday
 
 `/app/deudas`, linked from Goals. People add cards and loans (balance, APR, minimum). Free: payoff date and interest paying minimums only, and avalanche (highest rate first) vs. snowball (smallest balance first) with the same monthly money, where a paid-off debt's payment rolls into the next. Plus: "what if I add $25–$200 a month", progress from starting balances, debts paid off, and a countdown. Month-by-month math in `src/lib/debts.ts`; flags minimums that never cover the interest. General information, not financial advice. Needs `supabase/migrations/006_debts.sql`.
 
+### Veterans: VA disability estimate (free)
+
+`/app/veteranos`, linked from Goals. Combined rating the way VA calculates it (38 CFR 4.25 "VA math", rounded each step like Table I, final value to the nearest 10 with 5 rounding up) and the bilateral factor (38 CFR 4.26). Math in `src/lib/va.ts`, checked against Table I values and the regulation's bilateral example. Monthly amounts come only from VA's published rate table, copied with its effective date into `src/lib/va-rates.ts` (empty until then: the screen links to VA's table). Says it's an estimate and not affiliated with VA, and points to accredited representatives.
+
 ### Paycheck mode (Plus)
 
 For people paid weekly, every two weeks, in cash or by gig. Turn it on in Settings, then tap "Me pagaron" on Home each payday. Home shows what you can spend until the next payday: the pay, minus this period's share of bills, family sends and savings (a week is 12/52 of a month), minus what's been spent since payday. Bills due before the next payday are listed. Money logged before the period ends (tips, a second gig) joins that period. Math in `src/lib/paycheck.ts`.
