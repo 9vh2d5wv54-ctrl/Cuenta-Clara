@@ -765,5 +765,142 @@
     "saved": "Your checks are saved on this device only.",
     "notVa": "General information, not a decision on benefits. Cuenta Clara is not affiliated with the U.S. Department of Veterans Affairs or any government agency.",
     "vaLink": "Veteran benefits checklist"
+  },
+  "moneyStyle": {
+    "title": "What's your money style?",
+    "lead": "8 quick questions. Find out how you tend to handle money, what you're great at, and 3 tips that fit you.",
+    "time": "Takes about 2 minutes. No account needed.",
+    "start": "Start the quiz",
+    "progress": "Question {n} of {total}",
+    "back": "Back",
+    "q1": {
+      "question": "When you get paid, what do you do first?",
+      "options": [
+        "Move some money to savings",
+        "Treat myself to something",
+        "Send money to family or help someone",
+        "Nothing special, it just gets used"
+      ]
+    },
+    "q2": {
+      "question": "You get an extra $500. What happens?",
+      "options": [
+        "I save it",
+        "I buy something I've wanted",
+        "I share it with family",
+        "It's gone before I notice"
+      ]
+    },
+    "q3": {
+      "question": "How do you feel about checking your bank balance?",
+      "options": [
+        "I check often, it calms me",
+        "I check after I've already spent",
+        "I check to see how much I can help",
+        "I avoid it, it makes me nervous"
+      ]
+    },
+    "q4": {
+      "question": "A friend invites you on a trip you can't really afford.",
+      "options": [
+        "I say no and keep saving",
+        "I go and figure it out later",
+        "I go if it matters to them",
+        "I say yes without looking at the cost"
+      ]
+    },
+    "q5": {
+      "question": "What's your biggest money worry?",
+      "options": [
+        "Not having enough saved",
+        "Missing out on good things now",
+        "Not being able to help my family",
+        "I'd rather not think about it"
+      ]
+    },
+    "q6": {
+      "question": "When a bill arrives, you…",
+      "options": [
+        "Pay it right away",
+        "Pay it, then feel short the rest of the month",
+        "Pay it after helping whoever needs it",
+        "Sometimes leave it unopened"
+      ]
+    },
+    "q7": {
+      "question": "What does money mean to you most?",
+      "options": [
+        "Security",
+        "Enjoying life",
+        "Taking care of the people I love",
+        "Stress"
+      ]
+    },
+    "q8": {
+      "question": "How are your savings today?",
+      "options": [
+        "I have some and keep adding",
+        "I save, but I end up spending it",
+        "I use them to help others",
+        "I'm not sure how much I have"
+      ]
+    },
+    "yourStyle": "Your money style",
+    "also": "You also have a strong side of {style}.",
+    "strength": "Your strength",
+    "watchOut": "Watch out for",
+    "tipsTitle": "3 tips for you",
+    "lesson": "2-minute lesson",
+    "cta": "Try Cuenta Clara free",
+    "share": "Share the quiz",
+    "shareText": "What's your money style? Take the 2-minute quiz.",
+    "copied": "Link copied",
+    "again": "Take it again",
+    "disclaimer": "For fun and reflection, not a psychological test or financial advice.",
+    "homeLink": "What's your money style? Take the quiz",
+    "saver": {
+      "name": "The Saver",
+      "summary": "You like knowing there's money set aside. Saving gives you peace of mind.",
+      "strength": "You plan ahead and you're ready when surprises happen.",
+      "watchOut": "Saving so hard that you never enjoy your money, or keeping it where it doesn't grow.",
+      "tips": [
+        "Set a clear savings target, like 3 months of bills, so you know when you've reached enough.",
+        "Let your savings grow: money in a high-yield savings or retirement account works for you.",
+        "Plan a small amount of guilt-free fun money each month. You've earned it."
+      ]
+    },
+    "spender": {
+      "name": "The Spender",
+      "summary": "You enjoy life and like using money for things that make you happy today.",
+      "strength": "You're generous with yourself and others, and you don't let money stress run your life.",
+      "watchOut": "Running short before payday, or leaning on credit cards to fill the gap.",
+      "tips": [
+        "Pay bills and savings first on payday, then spend what's left freely.",
+        "Know what credit cards really cost: the APR on a balance adds up fast.",
+        "Build a small emergency fund so one surprise doesn't go on a card."
+      ]
+    },
+    "giver": {
+      "name": "The Giver",
+      "summary": "Taking care of the people you love comes first, often before yourself.",
+      "strength": "Your family and friends can count on you. That's a big deal.",
+      "watchOut": "Helping so much that you have nothing left for your own bills or savings.",
+      "tips": [
+        "Put family help in your plan as a set amount, so you can give without guilt or surprises.",
+        "Save for yourself too: an emergency fund protects you and the people who depend on you.",
+        "When you send money, compare fees and exchange rates. Small differences add up."
+      ]
+    },
+    "avoider": {
+      "name": "The Avoider",
+      "summary": "Money feels stressful, so it's easier not to look. You're far from alone.",
+      "strength": "You don't obsess over every dollar, and you're open to a fresh start.",
+      "watchOut": "Missed bills, late fees and surprises that could have been avoided.",
+      "tips": [
+        "Look at your money for just 2 minutes, once a week. Small and regular beats perfect.",
+        "Paying on time is the biggest part of your credit score. Set reminders for every bill.",
+        "Start with one small goal, like $500 for emergencies. Small wins build confidence."
+      ]
+    }
   }
 }

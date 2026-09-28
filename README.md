@@ -186,3 +186,7 @@ The default Supabase email templates are fine. Login and confirm emails are sent
 3. Whop → Developer → Webhooks: add `https://<your-domain>/api/webhooks/whop` with `membership.activated`, `membership.deactivated` and `membership.cancel_at_period_end_changed`.
 4. Resend: verify your sending domain.
 5. Set every variable in `.env.example` on Vercel.
+
+### Money Style quiz (free, public)
+
+`/estilo`, no account needed, linked from Home and the Academy. 8 questions; each answer points to one of four styles (Saver, Spender, Giver, Avoider). The most-picked style wins, with ties going to the style whose tips help most first (`src/lib/money-style.ts`). The result shows a strength, a watch-out, 3 tips linked to Academy lessons, a "try free" button and a share button. The style is saved in this browser (`cc-money-style`) for Clara to use later. Not a psychological test.

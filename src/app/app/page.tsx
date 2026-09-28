@@ -29,6 +29,7 @@ export default function Dashboard() {
   const { income, bills, recipients, goals, entries, checkup, profile, subscription, taxPct } = useData();
   const tp = useTranslations("paystub");
   const ac = useTranslations("academy");
+  const ms = useTranslations("moneyStyle");
   const tx = useTranslations("taxes");
   const router = useRouter();
 
@@ -147,6 +148,11 @@ export default function Dashboard() {
       <Link href="/aprende" className="card row" style={{ textDecoration: "none" }}>
         <Icon name="info" />
         <span className="t-label grow">{ac("homeLink")}</span>
+        <Icon name="forward" size={20} />
+      </Link>
+      <Link href="/estilo" className="card row" style={{ textDecoration: "none" }}>
+        <Icon name="heart" />
+        <span className="t-label grow">{ms("homeLink")}</span>
         <Icon name="forward" size={20} />
       </Link>
 

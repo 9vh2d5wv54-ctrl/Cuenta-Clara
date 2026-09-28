@@ -13,6 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // Cuenta Clara Academy: public, no account needed.
 export default async function Academy() {
   const t = await getTranslations("academy");
+  const ms = await getTranslations("moneyStyle");
   const locale = (await getLocale()) === "en" ? "en" : "es";
 
   return (
@@ -42,6 +43,11 @@ export default async function Academy() {
           </li>
         ))}
       </ul>
+      <Link href="/estilo" className="card row" style={{ textDecoration: "none" }}>
+        <Icon name="heart" />
+        <span className="t-label grow">{ms("homeLink")}</span>
+        <Icon name="forward" size={20} />
+      </Link>
       <p className="t-caption muted">{t("notAdvice")}</p>
     </main>
   );

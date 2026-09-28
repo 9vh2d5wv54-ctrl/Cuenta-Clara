@@ -765,5 +765,142 @@
     "saved": "Tus marcas se guardan solo en este dispositivo.",
     "notVa": "Información general, no una decisión sobre beneficios. Cuenta Clara no está afiliada al Departamento de Asuntos de Veteranos de EE. UU. ni a ninguna agencia del gobierno.",
     "vaLink": "Lista de beneficios para veteranos"
+  },
+  "moneyStyle": {
+    "title": "¿Cuál es tu estilo con el dinero?",
+    "lead": "8 preguntas rápidas. Descubre cómo sueles manejar el dinero, en qué eres bueno y 3 consejos hechos para ti.",
+    "time": "Toma unos 2 minutos. No necesitas cuenta.",
+    "start": "Empezar el quiz",
+    "progress": "Pregunta {n} de {total}",
+    "back": "Atrás",
+    "q1": {
+      "question": "Cuando te pagan, ¿qué haces primero?",
+      "options": [
+        "Paso algo a mis ahorros",
+        "Me doy un gusto",
+        "Envío dinero a mi familia o ayudo a alguien",
+        "Nada especial, simplemente se usa"
+      ]
+    },
+    "q2": {
+      "question": "Te llegan $500 extra. ¿Qué pasa?",
+      "options": [
+        "Los ahorro",
+        "Compro algo que quería",
+        "Los comparto con mi familia",
+        "Se van antes de darme cuenta"
+      ]
+    },
+    "q3": {
+      "question": "¿Cómo te sientes al revisar tu saldo del banco?",
+      "options": [
+        "Lo reviso seguido, me da calma",
+        "Lo reviso después de gastar",
+        "Lo reviso para ver cuánto puedo ayudar",
+        "Lo evito, me da nervios"
+      ]
+    },
+    "q4": {
+      "question": "Un amigo te invita a un viaje que no puedes pagar bien.",
+      "options": [
+        "Digo que no y sigo ahorrando",
+        "Voy y luego veo cómo lo pago",
+        "Voy si es importante para esa persona",
+        "Digo que sí sin ver el costo"
+      ]
+    },
+    "q5": {
+      "question": "¿Cuál es tu mayor preocupación con el dinero?",
+      "options": [
+        "No tener suficiente ahorrado",
+        "Perderme cosas buenas ahora",
+        "No poder ayudar a mi familia",
+        "Prefiero no pensar en eso"
+      ]
+    },
+    "q6": {
+      "question": "Cuando llega una factura…",
+      "options": [
+        "La pago de inmediato",
+        "La pago y me falta dinero el resto del mes",
+        "La pago después de ayudar a quien lo necesite",
+        "A veces ni la abro"
+      ]
+    },
+    "q7": {
+      "question": "¿Qué significa más para ti el dinero?",
+      "options": [
+        "Seguridad",
+        "Disfrutar la vida",
+        "Cuidar a los que quiero",
+        "Estrés"
+      ]
+    },
+    "q8": {
+      "question": "¿Cómo están tus ahorros hoy?",
+      "options": [
+        "Tengo algo y sigo agregando",
+        "Ahorro, pero termino gastándolo",
+        "Los uso para ayudar a otros",
+        "No sé bien cuánto tengo"
+      ]
+    },
+    "yourStyle": "Tu estilo con el dinero",
+    "also": "También tienes un lado fuerte de {style}.",
+    "strength": "Tu fortaleza",
+    "watchOut": "Cuidado con",
+    "tipsTitle": "3 consejos para ti",
+    "lesson": "Lección de 2 minutos",
+    "cta": "Prueba Cuenta Clara gratis",
+    "share": "Compartir el quiz",
+    "shareText": "¿Cuál es tu estilo con el dinero? Haz el quiz de 2 minutos.",
+    "copied": "Enlace copiado",
+    "again": "Hacerlo otra vez",
+    "disclaimer": "Para divertirte y reflexionar, no es una prueba psicológica ni asesoría financiera.",
+    "homeLink": "¿Cuál es tu estilo con el dinero? Haz el quiz",
+    "saver": {
+      "name": "Ahorrar primero",
+      "summary": "Te gusta saber que hay dinero guardado. Ahorrar te da tranquilidad.",
+      "strength": "Planeas con tiempo y tienes con qué responder cuando llegan sorpresas.",
+      "watchOut": "Ahorrar tanto que nunca disfrutas tu dinero, o guardarlo donde no crece.",
+      "tips": [
+        "Ponte una meta clara, como 3 meses de gastos, para saber cuándo ya tienes suficiente.",
+        "Haz crecer tus ahorros: en una cuenta de alto rendimiento o de retiro, tu dinero trabaja para ti.",
+        "Planea un poco de dinero para disfrutar cada mes, sin culpa. Te lo ganaste."
+      ]
+    },
+    "spender": {
+      "name": "Disfrutar hoy",
+      "summary": "Disfrutas la vida y te gusta usar el dinero en lo que te hace feliz hoy.",
+      "strength": "Te gusta dar, a ti y a los demás, y no dejas que el estrés del dinero mande en tu vida.",
+      "watchOut": "Quedarte sin dinero antes del día de pago, o usar tarjetas de crédito para cubrir el hueco.",
+      "tips": [
+        "El día de pago, paga primero las cuentas y tus ahorros; lo que queda, gástalo con libertad.",
+        "Conoce lo que cuestan las tarjetas: el APR sobre un saldo sube rápido.",
+        "Arma un pequeño fondo de emergencia para que una sorpresa no termine en la tarjeta."
+      ]
+    },
+    "giver": {
+      "name": "Cuidar a los tuyos",
+      "summary": "Cuidar a la gente que quieres va primero, muchas veces antes que tú.",
+      "strength": "Tu familia y tus amigos pueden contar contigo. Eso vale mucho.",
+      "watchOut": "Ayudar tanto que no te queda nada para tus cuentas o tus ahorros.",
+      "tips": [
+        "Pon la ayuda a tu familia en tu plan como una cantidad fija, así das sin culpa ni sorpresas.",
+        "Ahorra también para ti: un fondo de emergencia te protege a ti y a quienes dependen de ti.",
+        "Cuando envíes dinero, compara comisiones y tipo de cambio. Las pequeñas diferencias suman."
+      ]
+    },
+    "avoider": {
+      "name": "Mejor no mirar",
+      "summary": "El dinero te estresa, así que es más fácil no mirarlo. No te pasa solo a ti.",
+      "strength": "No te obsesionas con cada dólar y estás abierto a empezar de nuevo.",
+      "watchOut": "Facturas olvidadas, cargos por atraso y sorpresas que se podían evitar.",
+      "tips": [
+        "Mira tu dinero solo 2 minutos, una vez por semana. Poco y seguido es mejor que perfecto.",
+        "Pagar a tiempo es la parte más grande de tu puntaje de crédito. Pon recordatorios para cada factura.",
+        "Empieza con una meta pequeña, como $500 para emergencias. Los pequeños logros dan confianza."
+      ]
+    }
   }
 }

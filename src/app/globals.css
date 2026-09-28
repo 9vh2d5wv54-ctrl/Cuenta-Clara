@@ -794,6 +794,7 @@ textarea {
   justify-content: space-between;
   gap: var(--space-3);
   min-height: 56px;
+  border: 1px solid var(--line);
   padding: var(--space-3) 0;
   cursor: pointer;
   border-radius: var(--radius-sm);
@@ -1152,4 +1153,31 @@ textarea {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3, 12px);
+}
+
+/* Money Style quiz */
+.quiz-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+.quiz-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--clara);
+  transition: width 0.2s ease;
+}
+.quiz-option {
+  width: 100%;
+  text-align: start;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  min-height: 56px;
+  border: 1px solid var(--line);
+}
+.quiz-option:hover,
+.quiz-option:focus-visible {
+  border-color: var(--clara);
 }

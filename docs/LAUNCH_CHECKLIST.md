@@ -89,6 +89,7 @@ Money Health Score:
 - [x] GI Bill planner (free), rates Aug 1, 2026 to Jul 31, 2027
 - [x] GI Bill: books and supplies, online-only and foreign-school housing
 - [x] Veteran benefits checklist (free), official links only; recheck links once a year
+- [x] Money Style quiz (free, public at /estilo)
 - [ ] Every August 1: update GI Bill rates in `src/lib/gi-bill.ts`
 
 Later:
