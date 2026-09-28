@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Icon } from "@/components/Icon";
@@ -16,6 +17,7 @@ const VA_REPRESENTATIVE = "https://www.va.gov/get-help-from-accredited-represent
 // Estimates only; never presented as the VA.
 export default function Veteranos() {
   const t = useTranslations("veterans");
+  const g = useTranslations("giBill");
   const locale = useLocale();
   const [ratings, setRatings] = useState<Rating[]>([{ percent: 0, bilateral: false }]);
   const [family, setFamily] = useState<Dependents>({
@@ -39,6 +41,12 @@ export default function Veteranos() {
         <h1 className="t-title">{t("title")}</h1>
         <p className="t-body muted">{t("lead")}</p>
       </div>
+
+      <Link href="/app/veteranos/gi-bill" className="card row" style={{ textDecoration: "none" }}>
+        <Icon name="target" />
+        <span className="t-label grow">{g("vaLink")}</span>
+        <Icon name="forward" size={20} />
+      </Link>
 
       <Card>
         <div className="stack">

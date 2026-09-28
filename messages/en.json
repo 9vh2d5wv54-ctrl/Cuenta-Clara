@@ -673,5 +673,31 @@
     "topCategory": "{category} is {pct}% of your everyday spending.",
     "tip": "Knowing your pattern is half the work. Try planning the day or category that pulls the most.",
     "plusLabel": "See your spending patterns"
+  },
+  "giBill": {
+    "title": "GI Bill planner",
+    "lead": "Estimate what the Post-9/11 GI Bill covers for school or training. Estimates only: VA decides your benefits.",
+    "days": "Days on active duty since Sept. 11, 2001",
+    "daysHint": "36 months is 1,095 days.",
+    "special": "I received a Purple Heart, or was discharged for a service-connected disability after 30+ days",
+    "activeDuty": "I'm still on active duty",
+    "school": "Type of school",
+    "public": "Public (in-state)",
+    "private": "Private, foreign or trade school",
+    "tuition": "Yearly tuition and fees",
+    "bah": "Monthly housing (BAH) for the school's ZIP code",
+    "bahHint": "Use the E-5 with-dependents rate. VA's GI Bill Comparison Tool shows the exact housing for each school.",
+    "toolLink": "Open VA's GI Bill Comparison Tool",
+    "tier": "You're at {pct}% of the full benefit",
+    "notEligible": "You need at least 90 days of active duty after Sept. 10, 2001, or a Purple Heart or disability discharge.",
+    "covered": "Tuition VA covers: {amount} a year",
+    "out": "You'd pay: {amount} a year",
+    "housing": "Housing: about {amount} a month while in school",
+    "noHousing": "No monthly housing while on active duty.",
+    "cap": "Private, foreign and trade schools: VA pays up to {cap} a year at 100%.",
+    "booksPending": "Books and supplies and online-only housing: see VA's rate table.",
+    "ratesLink": "VA's GI Bill rates",
+    "rules": "Housing is paid when you take more than half-time, in-person classes (this assumes full time) and not during breaks. Rates effective {from} to {to}. Estimate only; Cuenta Clara is not affiliated with VA.",
+    "vaLink": "GI Bill planner"
   }
 }

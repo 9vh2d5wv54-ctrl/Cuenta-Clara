@@ -86,7 +86,9 @@ Money Health Score:
 - [x] Smart warnings (free), on Home
 - [x] Goal marketplace (free), on Goals
 - [x] Spending patterns (Plus), on Home
-- [ ] GI Bill planner: needs VA's current GI Bill rates (screenshots from va.gov)
+- [x] GI Bill planner (free), rates Aug 1, 2026 to Jul 31, 2027
+- [ ] GI Bill: books and supplies stipend and online-only housing rates (screenshots from va.gov)
+- [ ] Every August 1: update GI Bill rates in `src/lib/gi-bill.ts`
 
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).

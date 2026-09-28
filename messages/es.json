@@ -673,5 +673,31 @@
     "topCategory": "{category} es el {pct}% de tus gastos del día a día.",
     "tip": "Conocer tu patrón es la mitad del trabajo. Planea el día o la categoría que más te jala.",
     "plusLabel": "Mira cómo gastas"
+  },
+  "giBill": {
+    "title": "Planificador del GI Bill",
+    "lead": "Calcula cuánto cubre el Post-9/11 GI Bill para estudiar o capacitarte. Es un estimado: el VA decide tus beneficios.",
+    "days": "Días en servicio activo desde el 11 de septiembre de 2001",
+    "daysHint": "36 meses son 1,095 días.",
+    "special": "Recibí un Corazón Púrpura, o me dieron de baja por una discapacidad del servicio después de 30+ días",
+    "activeDuty": "Todavía estoy en servicio activo",
+    "school": "Tipo de escuela",
+    "public": "Pública (en tu estado)",
+    "private": "Privada, extranjera o escuela técnica",
+    "tuition": "Matrícula y cuotas al año",
+    "bah": "Vivienda mensual (BAH) para el código postal de la escuela",
+    "bahHint": "Usa la tarifa de E-5 con dependientes. La herramienta de comparación del GI Bill del VA muestra la vivienda exacta de cada escuela.",
+    "toolLink": "Abrir la herramienta de comparación del GI Bill",
+    "tier": "Tienes el {pct}% del beneficio completo",
+    "notEligible": "Necesitas al menos 90 días de servicio activo después del 10 de septiembre de 2001, o un Corazón Púrpura o baja por discapacidad.",
+    "covered": "Matrícula que cubre el VA: {amount} al año",
+    "out": "Te tocaría pagar: {amount} al año",
+    "housing": "Vivienda: unos {amount} al mes mientras estudias",
+    "noHousing": "No hay pago de vivienda mientras estás en servicio activo.",
+    "cap": "Escuelas privadas, extranjeras y técnicas: el VA paga hasta {cap} al año al 100%.",
+    "booksPending": "Libros y materiales, y vivienda para clases solo en línea: mira la tabla del VA.",
+    "ratesLink": "Tarifas del GI Bill del VA",
+    "rules": "La vivienda se paga si tomas más de medio tiempo en clases presenciales (esto asume tiempo completo) y no durante vacaciones. Tarifas vigentes del {from} al {to}. Es un estimado; Cuenta Clara no está afiliada al VA.",
+    "vaLink": "Planificador del GI Bill"
   }
 }
