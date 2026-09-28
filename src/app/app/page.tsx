@@ -14,6 +14,7 @@ import { HealthCard } from "@/components/Health";
 import { WarningsCard } from "@/components/Warnings";
 import { PatternsCard } from "@/components/Patterns";
 import { SafeToSpendCard } from "@/components/SafeToSpend";
+import { ClaraCard } from "@/components/ClaraCard";
 import { VeteranCard } from "@/components/VeteranCard";
 import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
@@ -88,6 +89,8 @@ export default function Dashboard() {
       <PaycheckCard />
 
       <SafeToSpendCard />
+
+      <ClaraCard />
 
       <Card className="hero">
         <div className="row" style={{ justifyContent: "center" }}>

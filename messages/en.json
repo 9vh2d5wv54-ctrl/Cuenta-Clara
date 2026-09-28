@@ -264,7 +264,7 @@
     "rowSends": "Family sends with exchange rates",
     "rowRates": "Alerts when the rate moves in your favor",
     "rowReminders": "Email bill reminders",
-    "rowAsk": "\"¿Me alcanza?\": 30 questions a day about your budget",
+    "rowAsk": "Ask Clara: 30 questions a day (3 a month on Free)",
     "monthly": "Monthly",
     "yearly": "Yearly",
     "perMonth": "{price} a month",
@@ -301,7 +301,8 @@
     "rowLog": "Log by hand",
     "rowLogPlus": "Log by voice or receipt photo, and check your pay stub",
     "rowDebts": "Debt payoff plan and snowball vs. avalanche",
-    "rowDebtsPlus": "\"What if I pay $50 more?\", milestones and countdown"
+    "rowDebtsPlus": "\"What if I pay $50 more?\", milestones and countdown",
+    "claraTitle": "Ask Clara 30 times a day"
   },
   "checkup": {
     "title": "Money checkup",
@@ -326,18 +327,6 @@
     "total": "By {month} you'll have put {saved} toward your goals.",
     "note": "Uses this month's income, bills and sends, and your spending at its current pace.",
     "locked": "The 3-month forecast is part of Plus"
-  },
-  "ask": {
-    "title": "¿Me alcanza? (Can I afford it?)",
-    "lead": "Ask about a purchase and get an answer from your own numbers.",
-    "placeholder": "Can I afford $120 sneakers?",
-    "send": "Ask",
-    "thinking": "Thinking…",
-    "remaining": "{count, plural, one {# question left today} other {# questions left today}}",
-    "limit": "Come back tomorrow. You've asked your 30 questions for today.",
-    "failed": "We couldn't answer right now. Try again.",
-    "disclaimer": "General information, not financial advice.",
-    "locked": "\"¿Me alcanza?\" is part of Plus"
   },
   "rates": {
     "title": "Exchange-rate alert",
@@ -944,5 +933,38 @@
     "homeLink": "Money words dictionary",
     "landingTitle": "Money words dictionary",
     "landingText": "APR, escrow, 1099 and more, explained in plain words."
+  },
+  "clara": {
+    "title": "Clara",
+    "subtitle": "Your money copilot. She uses your own numbers.",
+    "cardTitle": "Ask Clara",
+    "cardLead": "Your money copilot. Ask anything about your money.",
+    "hello": "Hi, I'm Clara. Ask me anything about your money, like whether something fits in your budget or what a money word means. I use your own numbers from the app.",
+    "suggestions": [
+      "Can I afford $600 this week?",
+      "How much will I have left on payday?",
+      "What if I save $200 more a month?",
+      "Can I pay off my card by December?",
+      "What is APR?"
+    ],
+    "placeholder": "Ask Clara…",
+    "send": "Send",
+    "thinking": "Clara is thinking…",
+    "failed": "Clara couldn't answer right now. Try again in a moment.",
+    "new": "New",
+    "past": "{count, plural, one {# past conversation} other {# past conversations}}",
+    "delete": "Delete",
+    "keep": "Keep it",
+    "deleteTitle": "Delete this conversation?",
+    "deleteBody": "It will be removed from your history. This can't be undone.",
+    "lesson": "Lesson",
+    "word": "Word",
+    "leftToday": "{count, plural, one {# question left today} other {# questions left today}}",
+    "leftMonth": "{count} of {limit} free questions left this month",
+    "limitDay": "You've asked your {limit} questions for today. Clara will be here tomorrow.",
+    "limitMonth": "You've used your {limit} free questions this month. With Plus you can ask Clara 30 questions a day.",
+    "disclaimer": "General information, not financial advice. The numbers come from your app; Clara explains them and can make mistakes.",
+    "call988": "Call 988",
+    "text838255": "Text 838255"
   }
 }

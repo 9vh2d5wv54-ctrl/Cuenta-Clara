@@ -1224,3 +1224,125 @@ textarea {
     padding: 0 var(--space-8);
   }
 }
+
+/* Clara, the AI money copilot */
+.clara-avatar {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--clara);
+  color: var(--on-clara);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+}
+.clara-avatar--lg {
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+}
+.clara-page {
+  gap: var(--space-4);
+}
+.clara-thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.clara-bubble {
+  max-width: 88%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  overflow-wrap: anywhere;
+}
+.clara-bubble p {
+  margin: 0;
+}
+.clara-bubble--me {
+  align-self: flex-end;
+  background: var(--clara);
+  color: var(--on-clara);
+  border-bottom-right-radius: var(--radius-sm);
+}
+.clara-bubble--clara {
+  align-self: flex-start;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-sm);
+  border-bottom-left-radius: var(--radius-sm);
+}
+.clara-bubble--failed {
+  color: var(--ink-muted);
+}
+.clara-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.clara-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+.clara-chip:hover,
+.clara-chip:focus-visible {
+  border-color: var(--clara);
+}
+.clara-chip--link {
+  color: var(--clara);
+  background: var(--clara-soft);
+  border-color: transparent;
+}
+.clara-input {
+  position: sticky;
+  bottom: calc(72px + env(safe-area-inset-bottom));
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-end;
+  padding: var(--space-2) 0;
+  background: var(--surface);
+  z-index: 5;
+}
+.clara-input__field {
+  flex: 1;
+  resize: none;
+  min-height: 48px;
+  max-height: 140px;
+  font: inherit;
+  field-sizing: content;
+}
+.clara-past-toggle {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--clara);
+  cursor: pointer;
+}
+.clara-past__open {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: start;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

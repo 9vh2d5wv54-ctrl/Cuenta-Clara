@@ -6,6 +6,14 @@ import type { Checkup, Goal, Profile, Subscription } from "./types";
 // and the tax set-aside.
 export const FREE_GOAL_LIMIT = 1; // keep in sync with enforce_goal_limit in supabase/schema.sql
 export const ASK_DAILY_LIMIT = 30;
+/** Clara (MVP PRD): 3 questions a month on Free, 30 a day on Plus (shared with WhatsApp questions). */
+export const CLARA_FREE_MONTHLY = 3;
+
+export function claraAllowance(plus: boolean, today: string): { limit: number; per: "day" | "month"; since: string } {
+  return plus
+    ? { limit: ASK_DAILY_LIMIT, per: "day", since: today }
+    : { limit: CLARA_FREE_MONTHLY, per: "month", since: `${today.slice(0, 7)}-01` };
+}
 export const TRIAL_DAYS = 7;
 
 export const PRICES = {
@@ -14,7 +22,7 @@ export const PRICES = {
 } as const;
 
 export type Interval = "monthly" | "yearly";
-export type PlusFeature = "forecast" | "goals" | "rates" | "ask" | "paycheck" | "taxes" | "quicklog" | "paystub" | "projection" | "debts" | "patterns";
+export type PlusFeature = "forecast" | "goals" | "rates" | "ask" | "paycheck" | "taxes" | "quicklog" | "paystub" | "projection" | "debts" | "patterns" | "clara";
 
 export function hasPlus(sub: Subscription | null): boolean {
   return sub?.plan === "plus" && (sub.status === "trialing" || sub.status === "active");

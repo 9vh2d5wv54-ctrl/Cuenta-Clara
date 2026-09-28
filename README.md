@@ -198,3 +198,9 @@ Home asks once, "Are you a veteran or military family?" Yes shows a Veteran tool
 ### Money words dictionary (free, public)
 
 `/palabras`, no account needed, linked from the landing page and the Academy. 37 money words (APR, escrow, 1099, credit utilization, TSP, BAH and more) with plain definitions in English and Spanish, examples and links to lessons or tools (`src/lib/glossary.ts`). All definitions are server-rendered with schema.org DefinedTerm data for search engines; the search box filters by name in either language first, then by definition.
+
+### Clara, the AI money copilot (Free: 3 a month; Plus: 30 a day)
+
+`/app/clara`, with a "Pregúntale a Clara" card on Home and the checkup page (it replaces the old Plus-only "¿Me alcanza?" box). The app does the math, Clara explains it: Claude gets eight tools (`src/lib/clara-tools.ts`) that return already-formatted numbers from the person's own data — month summary, Safe to Spend, check a purchase (yes / tight / no decided by code), what-if (one-time purchase, save more, spend less, extra debt payment), debts with payoff plans, goals, and links to Academy lessons and dictionary words, which show as chips under the answer. The server loads the numbers with the person's session (`src/lib/clara-server.ts`); demo mode sends the browser's snapshot instead. Crisis words always get the Veterans Crisis Line and 988, even past the limit, without depending on the model (`src/lib/clara-safety.ts`). Without `ANTHROPIC_API_KEY` (or if Claude fails), Clara says she's unavailable and shows what's left this month; those replies aren't counted.
+
+Questions are rows in `ai_questions` (shared with WhatsApp questions for the limits). Saved conversations group them by `conversation_id` (**migration `007_clara.sql`**); deleting a conversation blanks the text but keeps the row so it still counts. Before the migration Clara works but history isn't saved.

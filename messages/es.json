@@ -264,7 +264,7 @@
     "rowSends": "Envíos con tipo de cambio",
     "rowRates": "Alertas cuando el cambio te favorece",
     "rowReminders": "Recordatorios de cuentas por correo",
-    "rowAsk": "\"¿Me alcanza?\": 30 preguntas al día sobre tu presupuesto",
+    "rowAsk": "Pregúntale a Clara: 30 preguntas al día (3 al mes en Gratis)",
     "monthly": "Mensual",
     "yearly": "Anual",
     "perMonth": "{price} al mes",
@@ -301,7 +301,8 @@
     "rowLog": "Anotar a mano",
     "rowLogPlus": "Anotar con tu voz o una foto del recibo, y revisar tu talón de pago",
     "rowDebts": "Plan para salir de deudas y bola de nieve vs. avalancha",
-    "rowDebtsPlus": "\"¿Y si pago $50 más?\", logros y cuenta regresiva"
+    "rowDebtsPlus": "\"¿Y si pago $50 más?\", logros y cuenta regresiva",
+    "claraTitle": "Pregúntale a Clara 30 veces al día"
   },
   "checkup": {
     "title": "Chequeo de dinero",
@@ -326,18 +327,6 @@
     "total": "En {month} habrás juntado {saved} para tus metas.",
     "note": "Usa tu ingreso, cuentas y envíos de este mes, y tus gastos al ritmo que llevas.",
     "locked": "El pronóstico de 3 meses es parte de Plus"
-  },
-  "ask": {
-    "title": "¿Me alcanza?",
-    "lead": "Pregunta sobre un gasto y te respondemos con tus propios números.",
-    "placeholder": "¿Me alcanza para unos tenis de $120?",
-    "send": "Preguntar",
-    "thinking": "Pensando…",
-    "remaining": "{count, plural, one {Te queda # pregunta hoy} other {Te quedan # preguntas hoy}}",
-    "limit": "Vuelve mañana. Ya hiciste tus 30 preguntas de hoy.",
-    "failed": "No pudimos responder ahora. Inténtalo otra vez.",
-    "disclaimer": "Información general, no asesoría financiera.",
-    "locked": "\"¿Me alcanza?\" es parte de Plus"
   },
   "rates": {
     "title": "Alerta de tipo de cambio",
@@ -944,5 +933,38 @@
     "homeLink": "Diccionario de palabras de dinero",
     "landingTitle": "Diccionario de palabras de dinero",
     "landingText": "APR, escrow, 1099 y más, explicados en palabras sencillas."
+  },
+  "clara": {
+    "title": "Clara",
+    "subtitle": "Tu copiloto de dinero. Usa tus propios números.",
+    "cardTitle": "Pregúntale a Clara",
+    "cardLead": "Tu copiloto de dinero. Pregúntale lo que quieras sobre tu dinero.",
+    "hello": "Hola, soy Clara. Pregúntame lo que quieras sobre tu dinero, como si algo te alcanza o qué significa una palabra de dinero. Uso tus propios números de la app.",
+    "suggestions": [
+      "¿Me alcanza para $600 esta semana?",
+      "¿Cuánto me va a quedar el día de pago?",
+      "¿Y si ahorro $200 más al mes?",
+      "¿Puedo pagar mi tarjeta para diciembre?",
+      "¿Qué es el APR?"
+    ],
+    "placeholder": "Pregúntale a Clara…",
+    "send": "Enviar",
+    "thinking": "Clara está pensando…",
+    "failed": "Clara no pudo responder ahora. Intenta otra vez en un momento.",
+    "new": "Nueva",
+    "past": "{count, plural, one {# conversación anterior} other {# conversaciones anteriores}}",
+    "delete": "Borrar",
+    "keep": "Conservarla",
+    "deleteTitle": "¿Borrar esta conversación?",
+    "deleteBody": "Se quitará de tu historial. No se puede deshacer.",
+    "lesson": "Lección",
+    "word": "Palabra",
+    "leftToday": "{count, plural, one {Te queda # pregunta hoy} other {Te quedan # preguntas hoy}}",
+    "leftMonth": "Te quedan {count} de {limit} preguntas gratis este mes",
+    "limitDay": "Ya hiciste tus {limit} preguntas de hoy. Clara estará aquí mañana.",
+    "limitMonth": "Ya usaste tus {limit} preguntas gratis de este mes. Con Plus puedes preguntarle a Clara 30 veces al día.",
+    "disclaimer": "Información general, no asesoría financiera. Los números vienen de tu app; Clara los explica y puede equivocarse.",
+    "call988": "Llamar al 988",
+    "text838255": "Texto al 838255"
   }
 }

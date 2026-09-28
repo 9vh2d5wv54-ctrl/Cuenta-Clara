@@ -1,5 +1,7 @@
-import type { AskResult, AuthResult, CheckoutStart, CheckupInput, EditableProfile, Store } from "./store";
-import { ASK_DAILY_LIMIT, TRIAL_DAYS } from "./plan";
+import type { AuthResult, CheckoutStart, CheckupInput, ClaraConversation, ClaraRequest, ClaraResult, ClaraTurnData, EditableProfile, Store } from "./store";
+import type { ClaraData } from "./clara-tools";
+import { soundsLikeCrisis } from "./clara-safety";
+import { claraAllowance, hasPlus, TRIAL_DAYS } from "./plan";
 import { todayISO } from "./dates";
 import type {
   Bill, Budget, Checkup, Debt, Entry, Goal, NewBill, NewDebt, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
@@ -19,6 +21,9 @@ type DemoData = {
   subscription: Subscription;
   checkups: Checkup[];
   asked: { date: string; count: number };
+  /** Clara: the dates of counted questions, and saved conversations. */
+  claraAsked: string[];
+  clara: (ClaraConversation & { turns: ClaraTurnData[] })[];
 };
 
 const FREE: Subscription = {
@@ -45,6 +50,8 @@ function empty(): DemoData {
     subscription: FREE,
     checkups: [],
     asked: { date: "", count: 0 },
+    claraAsked: [],
+    clara: [],
   };
 }
 
@@ -278,23 +285,50 @@ export class DemoStore implements Store {
     });
     return true;
   }
-  async ask(question: string, input: CheckupInput): Promise<AskResult> {
+  async claraAsk(req: Omit<ClaraRequest, "snapshot">, snapshot: ClaraData): Promise<ClaraResult> {
     const d = load();
-    if (d.subscription.plan !== "plus") return { kind: "plus_required" };
-    const today = todayISO();
-    const count = d.asked.date === today ? d.asked.count : 0;
-    if (count >= ASK_DAILY_LIMIT) return { kind: "limit" };
-    const res = await fetch("/api/ask", {
+    const plus = hasPlus(d.subscription);
+    const allowance = claraAllowance(plus, todayISO());
+    const used = d.claraAsked.filter((day) => day >= allowance.since).length;
+    if (used >= allowance.limit && !soundsLikeCrisis(req.question)) return { kind: "limit", plus, limit: allowance.limit, per: allowance.per };
+    const res = await fetch("/api/clara", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, input }),
-    });
-    if (!res.ok) return { kind: "error" };
-    const { answer } = (await res.json()) as { answer: string };
+      body: JSON.stringify({ ...req, snapshot }),
+    }).catch(() => null);
+    if (!res?.ok) return { kind: "error" };
+    const body = (await res.json()) as Omit<Extract<ClaraResult, { kind: "answer" }>, "kind" | "remaining" | "limit" | "per">;
     this.update((x) => {
-      x.asked = { date: today, count: count + 1 };
+      if (body.ai) x.claraAsked = [...x.claraAsked.filter((day) => day >= `${todayISO().slice(0, 7)}-01`), todayISO()];
+      if (!body.ai) return;
+      const now = new Date().toISOString();
+      const conv = x.clara.find((c) => c.id === req.conversationId);
+      const turn = { question: req.question, answer: body.answer };
+      if (conv) {
+        conv.turns.push(turn);
+        conv.updated = now;
+      } else {
+        x.clara.unshift({ id: req.conversationId, title: req.question, updated: now, turns: [turn] });
+      }
     });
-    return { kind: "answer", answer, remaining: ASK_DAILY_LIMIT - count - 1 };
+    const remaining = Math.max(0, allowance.limit - used - (body.ai ? 1 : 0));
+    return { kind: "answer", ...body, remaining, limit: allowance.limit, per: allowance.per };
+  }
+  async claraConversations(): Promise<ClaraConversation[]> {
+    return load()
+      .clara.slice()
+      .sort((a, b) => b.updated.localeCompare(a.updated))
+      .slice(0, 20)
+      .map(({ id, title, updated }) => ({ id, title, updated }));
+  }
+  async claraConversation(id: string): Promise<ClaraTurnData[]> {
+    return load().clara.find((c) => c.id === id)?.turns ?? [];
+  }
+  async claraDelete(id: string): Promise<boolean> {
+    this.update((x) => {
+      x.clara = x.clara.filter((c) => c.id !== id);
+    });
+    return true;
   }
 
   async deleteAccount() {

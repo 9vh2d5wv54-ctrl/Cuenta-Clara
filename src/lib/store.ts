@@ -1,3 +1,4 @@
+import type { ClaraData, ClaraLinks } from "./clara-tools";
 import { isDemo } from "./demo";
 import type { Bill, Budget, Checkup, Debt, Entry, Goal, NewBill, NewDebt, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription } from "./types";
 
@@ -23,10 +24,29 @@ export type CheckupInput = {
   left_cents: number;
 };
 
-export type AskResult =
-  | { kind: "answer"; answer: string; remaining: number }
-  | { kind: "limit" }
-  | { kind: "plus_required" }
+export type ClaraTurnData = { question: string; answer: string };
+export type ClaraConversation = { id: string; title: string; updated: string };
+export type ClaraRequest = {
+  question: string;
+  conversationId: string;
+  history: ClaraTurnData[];
+  lang: "es" | "en";
+  /** Demo mode only: the browser's own numbers. The real app loads them on the server. */
+  snapshot?: ClaraData;
+};
+export type ClaraResult =
+  | {
+      kind: "answer";
+      answer: string;
+      links: ClaraLinks;
+      crisis: boolean;
+      /** False when Clara wasn't reachable and a plain reply was shown (not counted). */
+      ai: boolean;
+      remaining: number;
+      limit: number;
+      per: "day" | "month";
+    }
+  | { kind: "limit"; plus: boolean; limit: number; per: "day" | "month" }
   | { kind: "error" };
 
 export type CheckoutStart =
@@ -83,7 +103,12 @@ export interface Store {
   getSubscription(): Promise<Subscription | null>;
   startCheckout(interval: "monthly" | "yearly"): Promise<CheckoutStart>;
   cancelPlus(): Promise<boolean>;
-  ask(question: string, input: CheckupInput): Promise<AskResult>;
+
+  // Clara
+  claraAsk(req: Omit<ClaraRequest, "snapshot">, snapshot: ClaraData): Promise<ClaraResult>;
+  claraConversations(): Promise<ClaraConversation[]>;
+  claraConversation(id: string): Promise<ClaraTurnData[]>;
+  claraDelete(id: string): Promise<boolean>;
 }
 
 let store: Store | null = null;

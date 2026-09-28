@@ -116,16 +116,20 @@ create table public.checkups (
   unique (user_id, month)
 );
 
--- "¿Me alcanza?" questions; counts toward the 30-a-day Plus limit.
+-- Questions to Clara (and WhatsApp): count toward Free's 3 a month and Plus's
+-- 30 a day. Grouped into saved conversations by conversation_id. Deleting a
+-- conversation blanks question and answer but keeps the row for the count.
 create table public.ai_questions (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.users (id) on delete cascade,
   date date not null default current_date,
   question text not null,
   answer text not null,
+  conversation_id uuid,
   created_at timestamptz not null default now()
 );
 create index ai_questions_user_date on public.ai_questions (user_id, date);
+create index ai_questions_conversation on public.ai_questions (user_id, conversation_id, created_at);
 
 -- Row-level security: every table is limited to its owner.
 alter table public.users enable row level security;

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Ask } from "@/components/Ask";
+import { ClaraCard } from "@/components/ClaraCard";
 import { useData } from "@/components/DataProvider";
 import { Forecast } from "@/components/Forecast";
 import { PlusPreview } from "@/components/Plus";
@@ -17,7 +17,6 @@ import { hasPlus } from "@/lib/plan";
 export default function Chequeo() {
   const t = useTranslations("checkup");
   const f = useTranslations("forecast");
-  const a = useTranslations("ask");
   const locale = useLocale() as "es" | "en";
   const { checkup, income, bills, recipients, goals, entries, month, subscription, taxPct, mutate } = useData();
   const [failed, setFailed] = useState(false);
@@ -122,19 +121,7 @@ export default function Chequeo() {
         )}
       </Card>
 
-      <Card>
-        {plus ? (
-          <Ask />
-        ) : (
-          <PlusPreview feature="ask" label={a("locked")}>
-            <div className="stack-sm">
-              <h2 className="t-heading">{a("title")}</h2>
-              <p className="t-body muted">{a("lead")}</p>
-              <div className="input" />
-            </div>
-          </PlusPreview>
-        )}
-      </Card>
+      <ClaraCard />
     </main>
   );
 }

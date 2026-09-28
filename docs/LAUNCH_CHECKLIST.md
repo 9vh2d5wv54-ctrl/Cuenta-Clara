@@ -79,7 +79,10 @@ Accounts:
 
 Clara and Academy:
 - [x] Academy: 10 bilingual lessons at micuentaclara.app/aprende (free, public)
-- [ ] Clara chat, What-if chart (need `ANTHROPIC_API_KEY`)
+- [x] Clara chat with tools, limits (Free 3/month, Plus 30/day), saved conversations
+- [ ] Run `supabase/migrations/007_clara.sql` in Supabase (saved Clara conversations)
+- [ ] What-if 30/60/90-day chart (Plus)
+- [ ] Set a monthly spending limit / auto-reload in the Claude Console before real users
 
 Money Health Score:
 - [x] Built (free), on Home

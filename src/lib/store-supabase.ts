@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import type { AskResult, AuthResult, CheckoutStart, CheckupInput, EditableProfile, Store } from "./store";
+import type { AuthResult, CheckoutStart, CheckupInput, ClaraConversation, ClaraRequest, ClaraResult, ClaraTurnData, EditableProfile, Store } from "./store";
 import { supabaseBrowser } from "./supabase-browser";
 import { SUPABASE_PUBLIC_KEY, SUPABASE_URL } from "./supabase-env";
 import type {
@@ -203,17 +203,31 @@ export class SupabaseStore implements Store {
     const res = await fetch("/api/plus/cancel", { method: "POST" });
     return res.ok;
   }
-  async ask(question: string, input: CheckupInput): Promise<AskResult> {
-    const res = await fetch("/api/ask", {
+  async claraAsk(req: Omit<ClaraRequest, "snapshot">): Promise<ClaraResult> {
+    const res = await fetch("/api/clara", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, input }),
-    });
-    if (res.status === 429) return { kind: "limit" };
-    if (res.status === 402) return { kind: "plus_required" };
+      body: JSON.stringify(req),
+    }).catch(() => null);
+    if (!res) return { kind: "error" };
+    const body = await res.json().catch(() => ({}));
+    if (res.status === 429) return { kind: "limit", plus: Boolean(body.plus), limit: body.limit, per: body.per };
     if (!res.ok) return { kind: "error" };
-    const body = (await res.json()) as { answer: string; remaining: number };
-    return { kind: "answer", answer: body.answer, remaining: body.remaining };
+    return { kind: "answer", ...body };
+  }
+  async claraConversations(): Promise<ClaraConversation[]> {
+    const res = await fetch("/api/clara").catch(() => null);
+    if (!res?.ok) return [];
+    return ((await res.json()) as { conversations: ClaraConversation[] }).conversations ?? [];
+  }
+  async claraConversation(id: string): Promise<ClaraTurnData[]> {
+    const res = await fetch(`/api/clara?c=${encodeURIComponent(id)}`).catch(() => null);
+    if (!res?.ok) return [];
+    return ((await res.json()) as { turns: ClaraTurnData[] }).turns ?? [];
+  }
+  async claraDelete(id: string): Promise<boolean> {
+    const res = await fetch(`/api/clara?c=${encodeURIComponent(id)}`, { method: "DELETE" }).catch(() => null);
+    return Boolean(res?.ok);
   }
 
   async startCheckout(interval: "monthly" | "yearly"): Promise<CheckoutStart> {
