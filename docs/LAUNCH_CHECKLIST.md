@@ -118,3 +118,4 @@ Tip: adding variables and copying keys is much easier on a computer than on a ph
 - [ ] Apple Developer account ($99/year; LLC + D-U-N-S to show "Cuenta Clara" as seller)
 - [ ] App Store privacy "nutrition label" from the privacy policy; reviewer test account with sample data
 - [ ] Xcode on a Mac that supports it, or a cloud build service
+- [ ] Whop: confirm the $39.99 yearly plan exists on Cuenta Clara Plus (with the 7-day trial)
