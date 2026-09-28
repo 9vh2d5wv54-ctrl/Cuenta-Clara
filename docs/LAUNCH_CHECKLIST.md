@@ -72,6 +72,11 @@ Veterans:
 - [x] 10% and 20% monthly amounts (VA.gov, effective Dec 1, 2025)
 - [ ] Every December 1: update `src/lib/va-rates.ts` with VA's new rates and effective date
 
+Accounts:
+- [x] Vercel project (team "Cuenta Clara", signed in with Apple) reconnected to GitHub `9vh2d5wv54-ctrl/Cuenta-Clara`
+- [ ] Vercel: change that account's email to one you can read (it's an Apple hidden-relay address)
+- [ ] Delete the unused copy "cuenta-clara" (cuenta-clara-xi.vercel.app) in the mannyabreu92@gmail.com Vercel account
+
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
 - [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").
