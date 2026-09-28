@@ -57,6 +57,7 @@ function budgetLines(i: CheckupInput): string {
     `Other bills: ${formatUSD(i.bills_cents - i.rent_cents)}`,
     `Family sends: ${formatUSD(i.family_cents)}`,
     `Savings this month: ${formatUSD(i.savings_cents)}`,
+    ...(i.taxes_cents ? [`Set aside for taxes (pay has no taxes taken out): ${formatUSD(i.taxes_cents)}`] : []),
     `Everyday spending logged so far: ${formatUSD(i.spending_cents)}`,
     `What's left this month (already calculated): ${formatUSD(i.left_cents)}`,
   ].join("\n");

@@ -98,6 +98,12 @@ For people paid weekly, every two weeks, in cash or by gig. Turn it on in Settin
 
 Databases made before this feature need `supabase/migrations/002_paycheck_mode.sql` run once in the SQL editor.
 
+### Tax set-aside (Plus)
+
+For 1099, cash or gig pay with no taxes taken out. In Settings, pick 15–30% (general information, never tax advice). That share of income comes off "what's left" (and off each paycheck in paycheck mode), Home shows about how much is set aside since the current IRS estimated-tax period began and the next due date (Apr 15, Jun 15, Sep 15, Jan 15), and the daily cron emails a reminder 7 days before each due date. Logic in `src/lib/taxes.ts`.
+
+Databases made before this feature need `supabase/migrations/003_tax_set_aside.sql` run once in the SQL editor.
+
 ## Emails
 
 Sent through Resend in each person's language. Every marketing email has a one-click unsubscribe (footer link and `List-Unsubscribe` headers) and your mailing address.

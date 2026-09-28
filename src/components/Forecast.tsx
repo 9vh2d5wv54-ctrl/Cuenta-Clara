@@ -9,8 +9,8 @@ import { useData } from "./DataProvider";
 export function Forecast() {
   const t = useTranslations("forecast");
   const locale = useLocale();
-  const { income, bills, recipients, goals, entries } = useData();
-  const rows = forecast(income ?? 0, bills, recipients, goals, entries);
+  const { income, bills, recipients, goals, entries, taxPct } = useData();
+  const rows = forecast(income ?? 0, bills, recipients, goals, entries, undefined, undefined, taxPct);
   const last = rows[rows.length - 1];
 
   return (

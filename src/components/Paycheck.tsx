@@ -14,11 +14,11 @@ import { hasPlus } from "@/lib/plan";
 export function PaycheckCard() {
   const t = useTranslations("paycheck");
   const locale = useLocale();
-  const { profile, subscription, recent, bills, recipients, goals } = useData();
+  const { profile, subscription, recent, bills, recipients, goals, taxPct } = useData();
   const frequency = profile?.pay_frequency;
   if (!frequency || !hasPlus(subscription)) return null;
 
-  const period = currentPayPeriod(frequency, recent, bills, recipients, goals);
+  const period = currentPayPeriod(frequency, recent, bills, recipients, goals, undefined, taxPct);
   const gotPaid = (
     <Link href="/app/add?type=income" className="btn btn--primary btn--block">
       <Icon name="plus" size={20} />
@@ -40,6 +40,7 @@ export function PaycheckCard() {
     { key: "bills", label: t("bills"), value: period.bills },
     { key: "family", label: t("family"), value: period.family },
     { key: "savings", label: t("savings"), value: period.savings },
+    { key: "taxes", label: t("taxes"), value: period.taxes },
     { key: "spent", label: t("spent"), value: period.spent },
   ].filter((l) => l.value > 0);
 

@@ -7,7 +7,7 @@ import type {
 // store that keeps everything in this browser so the app runs with no setup.
 
 export type EditableProfile = Partial<
-  Pick<Profile, "language" | "home_country" | "home_currency" | "email_bills_on" | "email_weekly_on" | "timezone" | "rate_alert_on" | "pay_frequency">
+  Pick<Profile, "language" | "home_country" | "home_currency" | "email_bills_on" | "email_weekly_on" | "timezone" | "rate_alert_on" | "pay_frequency" | "tax_set_aside_pct">
 >;
 
 /** Totals the AI receives. Computed in code so every number is right. */
@@ -19,6 +19,8 @@ export type CheckupInput = {
   bills_cents: number;
   family_cents: number;
   savings_cents: number;
+  /** Tax set-aside (Plus); 0 when off. */
+  taxes_cents?: number;
   spending_cents: number;
   left_cents: number;
 };

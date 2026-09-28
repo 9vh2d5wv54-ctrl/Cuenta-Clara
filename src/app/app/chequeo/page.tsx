@@ -19,19 +19,19 @@ export default function Chequeo() {
   const f = useTranslations("forecast");
   const a = useTranslations("ask");
   const locale = useLocale() as "es" | "en";
-  const { checkup, income, bills, recipients, goals, entries, month, subscription, mutate } = useData();
+  const { checkup, income, bills, recipients, goals, entries, month, subscription, taxPct, mutate } = useData();
   const [failed, setFailed] = useState(false);
   const started = useRef(false);
 
   const generate = useCallback(async () => {
     setFailed(false);
     try {
-      await mutate((s) => s.generateCheckup(checkupInput(locale, month, income ?? 0, bills, recipients, goals, entries)));
+      await mutate((s) => s.generateCheckup(checkupInput(locale, month, income ?? 0, bills, recipients, goals, entries, undefined, taxPct)));
     } catch {
       setFailed(true);
       started.current = false;
     }
-  }, [mutate, locale, month, income, bills, recipients, goals, entries]);
+  }, [mutate, locale, month, income, bills, recipients, goals, entries, taxPct]);
 
   useEffect(() => {
     if (checkup || income === null || started.current) return;
@@ -73,7 +73,7 @@ export default function Chequeo() {
     );
   }
 
-  const left = summarize(income ?? 0, bills, recipients, goals, entries).left;
+  const left = summarize(income ?? 0, bills, recipients, goals, entries, undefined, taxPct).left;
   const plus = hasPlus(subscription);
 
   return (

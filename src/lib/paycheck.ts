@@ -1,6 +1,7 @@
 import type { Bill, Entry, Goal, PayFrequency, Recipient } from "./types";
 import { goalMonthlyCents, monthlySendCents } from "./budget";
 import { daysInMonth, todayISO } from "./dates";
+import { taxCents } from "./taxes";
 
 // Paycheck mode (Plus): plan by paycheck instead of by month, for people paid
 // weekly, every two weeks, in cash or by gig.
@@ -26,6 +27,8 @@ export type PayPeriod = {
   bills: number;
   family: number;
   savings: number;
+  /** Tax set-aside (Plus) from this period's pay; 0 when off. */
+  taxes: number;
   spent: number;
   left: number;
   /** About how much a day until payday, when there's money left. */
@@ -70,6 +73,7 @@ export function currentPayPeriod(
   recipients: Recipient[],
   goals: Goal[],
   now = new Date(),
+  taxPct = 0,
 ): PayPeriod | null {
   const today = todayISO(now);
   const length = PERIOD_DAYS[frequency];
@@ -99,7 +103,8 @@ export function currentPayPeriod(
     .filter((e) => e.type === "expense" && e.date >= start && e.date <= today)
     .reduce((s, e) => s + e.amount_cents, 0);
 
-  const setAside = billsTotal + family + savings;
+  const taxes = taxCents(paid, taxPct);
+  const setAside = billsTotal + family + savings + taxes;
   const left = paid - setAside - spent;
   const daysLeft = daysFrom(today, nextPayday);
   return {
@@ -111,6 +116,7 @@ export function currentPayPeriod(
     bills: billsTotal,
     family,
     savings,
+    taxes,
     spent,
     left,
     perDay: left > 0 && daysLeft > 0 ? Math.floor(left / daysLeft) : null,

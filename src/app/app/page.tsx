@@ -9,6 +9,7 @@ import { LanguageToggle } from "@/components/LanguageToggle";
 import { Card, Explain, ProgressBar } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { PaycheckCard } from "@/components/Paycheck";
+import { TaxCard } from "@/components/Taxes";
 import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
@@ -20,7 +21,8 @@ export default function Dashboard() {
   const cat = useTranslations("add.categories");
   const locale = useLocale();
   const ch = useTranslations("checkup");
-  const { income, bills, recipients, goals, entries, checkup, profile } = useData();
+  const { income, bills, recipients, goals, entries, checkup, profile, taxPct } = useData();
+  const tx = useTranslations("taxes");
   const router = useRouter();
 
   // A brand-new account with nothing entered goes straight to setup, once.
@@ -29,7 +31,7 @@ export default function Dashboard() {
     if (brandNew && profile && !setupSeen(profile.id)) router.replace("/app/setup");
   }, [brandNew, profile, router]);
 
-  const s = summarize(income ?? 0, bills, recipients, goals, entries);
+  const s = summarize(income ?? 0, bills, recipients, goals, entries, undefined, taxPct);
   const base = Math.max(s.income, 1);
   const negative = s.left < 0;
 
@@ -46,6 +48,7 @@ export default function Dashboard() {
     { key: "bills", label: t("bills"), value: s.bills, tone: "clara" as const, explain: x("bills") },
     { key: "family", label: t("family"), value: s.family, tone: "mango" as const, explain: x("family") },
     { key: "savings", label: t("savings"), value: s.savings, tone: "clara" as const, explain: x("savings") },
+    ...(s.taxes > 0 ? [{ key: "taxes", label: tx("row"), value: s.taxes, tone: "clara" as const, explain: tx("explain", { pct: taxPct }) }] : []),
     { key: "spending", label: t("spending"), value: s.spending, tone: "clara" as const, explain: x("spending") },
   ];
 
@@ -123,6 +126,8 @@ export default function Dashboard() {
           ))}
         </div>
       </Card>
+
+      <TaxCard />
 
       <section className="stack-sm">
         <h2 className="t-heading">{t("upcoming")}</h2>

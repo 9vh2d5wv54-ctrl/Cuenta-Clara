@@ -1,5 +1,6 @@
 import { goalMonthlyCents, monthlySendCents } from "./budget";
 import { daysInMonth } from "./dates";
+import { taxCents } from "./taxes";
 import type { Bill, Entry, Goal, Recipient } from "./types";
 
 // Plus: the 3-month forecast ("¿Cómo voy a estar en diciembre?").
@@ -27,7 +28,9 @@ export function forecast(
   monthEntries: Entry[],
   today = new Date(),
   months = 3,
+  taxPct = 0,
 ): ForecastMonth[] {
+  const taxes = taxCents(incomeCents, taxPct);
   const billsTotal = bills.reduce((s, b) => s + b.amount_cents, 0);
   const family = recipients.reduce((s, r) => s + monthlySendCents(r), 0);
   const spending = spendingPace(monthEntries, today);
@@ -48,7 +51,7 @@ export function forecast(
     saved += contributions;
     out.push({
       month: `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, "0")}`,
-      left: incomeCents - billsTotal - family - contributions - spending,
+      left: incomeCents - billsTotal - family - contributions - taxes - spending,
       savedTowardGoals: saved,
     });
   }

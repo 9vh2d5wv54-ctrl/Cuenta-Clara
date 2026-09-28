@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 import { useRouter } from "next/navigation";
 import { getStore, type Store } from "@/lib/store";
 import { monthKey, todayISO } from "@/lib/dates";
+import { taxPct } from "@/lib/plan";
 import type { Bill, Checkup, Entry, Goal, Profile, Recipient, Subscription } from "@/lib/types";
 
 // Loads everything the app screens need for the current month and reloads after each change.
@@ -16,7 +17,7 @@ type Data = {
   bills: Bill[];
   recipients: Recipient[];
   entries: Entry[];
-  /** The last 45 days of entries, across months. Paycheck mode's pay periods use these. */
+  /** The last 130 days of entries, across months, for paycheck mode and the tax set-aside. */
   recent: Entry[];
   goals: Goal[];
   subscription: Subscription | null;
@@ -24,6 +25,8 @@ type Data = {
   checkup: Checkup | null;
   /** Any checkup ever: the paywall only shows after the first one. */
   hasCheckup: boolean;
+  /** Tax set-aside percent in effect (Plus); 0 when off. */
+  taxPct: number;
 };
 
 type Ctx = Data & {
@@ -42,7 +45,8 @@ export function useData(): Ctx {
 async function loadAll(store: Store): Promise<Data> {
   const month = monthKey();
   const since = new Date();
-  since.setDate(since.getDate() - 45);
+  // Long enough for a whole IRS estimated-tax period (up to 4 months).
+  since.setDate(since.getDate() - 130);
   const [profile, budget, bills, recipients, entries, recent, goals, subscription, checkups] = await Promise.all([
     store.getProfile(),
     store.getBudget(month),
@@ -67,6 +71,7 @@ async function loadAll(store: Store): Promise<Data> {
     subscription,
     checkup: checkups.find((c) => c.month === month) ?? null,
     hasCheckup: checkups.length > 0,
+    taxPct: taxPct(profile, subscription),
   };
 }
 

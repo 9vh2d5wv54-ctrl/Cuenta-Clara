@@ -10,6 +10,7 @@ import { setLocaleCookie } from "@/components/LanguageToggle";
 import Link from "next/link";
 import { paywallHref, PlusCard } from "@/components/Plus";
 import { formatLongDate } from "@/lib/dates";
+import { TAX_OPTIONS } from "@/lib/taxes";
 import { hadTrial, hasPlus } from "@/lib/plan";
 import { Button, Card, Dialog, Explain, Field, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
 import { COUNTRIES, countryByCode } from "@/lib/currencies";
@@ -24,6 +25,7 @@ export default function Ajustes() {
   const p = useTranslations("plus");
   const x = useTranslations("explain");
   const pc = useTranslations("paycheck");
+  const tx = useTranslations("taxes");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -80,6 +82,12 @@ export default function Ajustes() {
 
   function setPayFrequency(value: PayFrequency | "off") {
     mutate((st) => st.updateProfile({ pay_frequency: value === "off" ? null : value })).catch(() =>
+      setToast(c("somethingWrong")),
+    );
+  }
+
+  function setTaxPct(value: string) {
+    mutate((st) => st.updateProfile({ tax_set_aside_pct: value === "off" ? null : Number(value) })).catch(() =>
       setToast(c("somethingWrong")),
     );
   }
@@ -175,19 +183,35 @@ export default function Ajustes() {
 
       {plus ? (
         <Card>
-          <div className="field">
-            <span className="field__label">{pc("settingTitle")}</span>
-            <p className="t-caption muted">{pc("settingHelp")}</p>
-            <Segmented
-              label={pc("settingTitle")}
-              value={profile?.pay_frequency ?? "off"}
-              onChange={setPayFrequency}
-              options={[
-                { value: "off", label: pc("off") },
-                { value: "weekly", label: pc("weekly") },
-                { value: "biweekly", label: pc("biweekly") },
-              ]}
-            />
+          <div className="stack">
+            <div className="field">
+              <span className="field__label">{pc("settingTitle")}</span>
+              <p className="t-caption muted">{pc("settingHelp")}</p>
+              <Segmented
+                label={pc("settingTitle")}
+                value={profile?.pay_frequency ?? "off"}
+                onChange={setPayFrequency}
+                options={[
+                  { value: "off", label: pc("off") },
+                  { value: "weekly", label: pc("weekly") },
+                  { value: "biweekly", label: pc("biweekly") },
+                ]}
+              />
+            </div>
+            <div className="field">
+              <span className="field__label">{tx("settingTitle")}</span>
+              <p className="t-caption muted">{tx("settingHelp")}</p>
+              <Segmented
+                label={tx("settingTitle")}
+                value={profile?.tax_set_aside_pct ? String(profile.tax_set_aside_pct) : "off"}
+                onChange={setTaxPct}
+                options={[
+                  { value: "off", label: pc("off") },
+                  ...TAX_OPTIONS.map((pct) => ({ value: String(pct), label: `${pct}%` })),
+                ]}
+              />
+              <p className="t-caption muted">{tx("notAdvice")}</p>
+            </div>
           </div>
         </Card>
       ) : (

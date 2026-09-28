@@ -282,7 +282,7 @@
     "cancelFailed": "We couldn't cancel right now. Try again in a moment.",
     "canceledNoDate": "You canceled Plus. Nothing more is charged, and the basics stay free.",
     "rowPay": "Budget by month",
-    "rowPayPlus": "Paycheck mode: what you can spend until payday"
+    "rowPayPlus": "Paycheck mode and tax set-aside for 1099 or cash pay"
   },
   "checkup": {
     "title": "Money checkup",
@@ -333,7 +333,7 @@
     "family": "Family sends",
     "savings": "Savings",
     "spent": "Spent so far",
-    "short": "This pay is {amount} short of this period's share of bills, family sends and savings. Pay what's due first and hold off on extras.",
+    "short": "This pay is {amount} short of what needs to be set aside this period. Pay what's due first and hold off on extras.",
     "overspent": "You're {amount} over until payday.",
     "paydayCame": "Your payday was {date}. When you get paid, log it.",
     "gotPaid": "I got paid",
@@ -344,8 +344,20 @@
     "off": "Off",
     "weekly": "Weekly",
     "biweekly": "Every 2 weeks",
-    "plusTitle": "Paycheck mode is part of Plus",
+    "plusTitle": "Paycheck mode and tax set-aside are part of Plus",
     "bills": "Bills (this period's share)",
-    "dueSoon": "Due before payday: {list}"
+    "dueSoon": "Due before payday: {list}",
+    "taxes": "Taxes"
+  },
+  "taxes": {
+    "settingTitle": "Tax set-aside",
+    "settingHelp": "For 1099, cash or gig pay with no taxes taken out. We set this much aside from what comes in.",
+    "notAdvice": "Many self-employed people set aside 25–30%. This is general information, not tax advice; a tax preparer can tell you the right amount for you.",
+    "row": "Taxes",
+    "cardTitle": "Taxes · {pct}% set aside",
+    "setAside": "About {amount} set aside for taxes since {start}.",
+    "nextDue": "Next IRS estimated payment: {date}.",
+    "dueSoon": "IRS estimated payment due {date}, in {days, plural, one {# day} other {# days}}.",
+    "explain": "When taxes aren't taken out of your pay, the IRS expects payments four times a year: April 15, June 15, September 15 and January 15. We set aside {pct}% of what comes in so the money is there when it's due. This is general information, not tax advice."
   }
 }

@@ -1,8 +1,10 @@
 import type { Bill, Entry, Goal, Recipient } from "./types";
 import { monthsUntil } from "./dates";
 import type { CheckupInput } from "./store";
+import { taxCents } from "./taxes";
 
-// "What's left" = income − bills − planned sends − goal contributions − logged expenses.
+// "What's left" = income − bills − planned sends − goal contributions − tax set-aside
+// (Plus, when on) − logged expenses.
 // Bills, sends and goal contributions count at their planned amounts, so logging a
 // send or a paid bill marks it done without counting it twice. Only everyday
 // expenses come off on top of the plan.
@@ -22,6 +24,7 @@ export type MonthSummary = {
   bills: number;
   family: number;
   savings: number;
+  taxes: number;
   spending: number;
   left: number;
 };
@@ -33,6 +36,7 @@ export function summarize(
   goals: Goal[],
   monthEntries: Entry[],
   from = new Date(),
+  taxPct = 0,
 ): MonthSummary {
   const billsTotal = bills.reduce((s, b) => s + b.amount_cents, 0);
   const family = recipients.reduce((s, r) => s + monthlySendCents(r), 0);
@@ -40,13 +44,15 @@ export function summarize(
   const spending = monthEntries
     .filter((e) => e.type === "expense")
     .reduce((s, e) => s + e.amount_cents, 0);
+  const taxes = taxCents(incomeCents, taxPct);
   return {
     income: incomeCents,
     bills: billsTotal,
     family,
     savings,
+    taxes,
     spending,
-    left: incomeCents - billsTotal - family - savings - spending,
+    left: incomeCents - billsTotal - family - savings - taxes - spending,
   };
 }
 
@@ -73,8 +79,9 @@ export function checkupInput(
   goals: Goal[],
   monthEntries: Entry[],
   from = new Date(),
+  taxPct = 0,
 ): CheckupInput {
-  const s = summarize(incomeCents, bills, recipients, goals, monthEntries, from);
+  const s = summarize(incomeCents, bills, recipients, goals, monthEntries, from, taxPct);
   return {
     language,
     month,
@@ -83,6 +90,7 @@ export function checkupInput(
     bills_cents: s.bills,
     family_cents: s.family,
     savings_cents: s.savings,
+    taxes_cents: s.taxes,
     spending_cents: s.spending,
     left_cents: s.left,
   };

@@ -10,7 +10,7 @@ import { Button, Field, Input } from "./ui";
 export function Ask() {
   const t = useTranslations("ask");
   const locale = useLocale() as "es" | "en";
-  const { store, month, income, bills, recipients, goals, entries } = useData();
+  const { store, month, income, bills, recipients, goals, entries, taxPct } = useData();
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
@@ -21,7 +21,7 @@ export function Ask() {
     if (!question.trim()) return;
     setBusy(true);
     setNote(null);
-    const input = checkupInput(locale, month, income ?? 0, bills, recipients, goals, entries);
+    const input = checkupInput(locale, month, income ?? 0, bills, recipients, goals, entries, undefined, taxPct);
     const result = await store.ask(question.trim(), input);
     setBusy(false);
     if (result.kind === "answer") {

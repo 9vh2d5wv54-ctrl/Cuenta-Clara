@@ -59,6 +59,7 @@ function load(): DemoData {
         timezone: "America/New_York",
         rate_alert_on: false,
         pay_frequency: null,
+        tax_set_aside_pct: null,
       };
     }
     return data;
@@ -109,6 +110,7 @@ export class DemoStore implements Store {
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           rate_alert_on: false,
         pay_frequency: null,
+        tax_set_aside_pct: null,
           created_at: new Date().toISOString(),
         };
       }

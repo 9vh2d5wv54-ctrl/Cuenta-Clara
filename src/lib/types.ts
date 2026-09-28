@@ -14,6 +14,8 @@ export type Profile = {
   rate_alert_on: boolean;
   /** Paycheck mode (Plus): how often pay usually comes. Null = plan by month. */
   pay_frequency?: PayFrequency | null;
+  /** Tax set-aside (Plus): percent of income to set aside, for pay with no taxes taken out. Null = off. */
+  tax_set_aside_pct?: number | null;
   created_at: string;
 };
 

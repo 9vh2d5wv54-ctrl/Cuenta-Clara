@@ -282,7 +282,7 @@
     "cancelFailed": "No pudimos cancelar ahora. Inténtalo otra vez en un momento.",
     "canceledNoDate": "Cancelaste Plus. No se cobra nada más y lo básico sigue gratis.",
     "rowPay": "Presupuesto por mes",
-    "rowPayPlus": "Modo día de pago: cuánto puedes gastar hasta que te paguen"
+    "rowPayPlus": "Modo día de pago y apartar para impuestos si te pagan 1099 o en efectivo"
   },
   "checkup": {
     "title": "Chequeo de dinero",
@@ -333,7 +333,7 @@
     "family": "Envíos a la familia",
     "savings": "Ahorro",
     "spent": "Gastado hasta ahora",
-    "short": "Este pago no alcanza por {amount} para la parte de este periodo de tus cuentas, envíos y ahorro. Paga primero lo que vence y deja los extras para después.",
+    "short": "Este pago no alcanza por {amount} para lo que hay que apartar en este periodo. Paga primero lo que vence y deja los extras para después.",
     "overspent": "Vas {amount} por encima hasta el día de pago.",
     "paydayCame": "Tu día de pago era el {date}. Cuando te paguen, anótalo.",
     "gotPaid": "Me pagaron",
@@ -344,8 +344,20 @@
     "off": "Apagado",
     "weekly": "Cada semana",
     "biweekly": "Cada 2 semanas",
-    "plusTitle": "El modo día de pago es parte de Plus",
+    "plusTitle": "El modo día de pago y apartar para impuestos son parte de Plus",
     "bills": "Cuentas (la parte de este periodo)",
-    "dueSoon": "Vencen antes del pago: {list}"
+    "dueSoon": "Vencen antes del pago: {list}",
+    "taxes": "Impuestos"
+  },
+  "taxes": {
+    "settingTitle": "Apartar para impuestos",
+    "settingHelp": "Para pago 1099, en efectivo o por gig, sin impuestos descontados. Apartamos este porcentaje de lo que entra.",
+    "notAdvice": "Muchas personas que trabajan por su cuenta apartan entre 25% y 30%. Esto es información general, no asesoría de impuestos; un preparador de impuestos te puede decir cuánto te toca.",
+    "row": "Impuestos",
+    "cardTitle": "Impuestos · {pct}% apartado",
+    "setAside": "Unos {amount} apartados para impuestos desde el {start}.",
+    "nextDue": "Próximo pago estimado al IRS: {date}.",
+    "dueSoon": "El pago estimado al IRS vence el {date}, en {days, plural, one {# día} other {# días}}.",
+    "explain": "Cuando no te descuentan impuestos del pago, el IRS espera pagos cuatro veces al año: 15 de abril, 15 de junio, 15 de septiembre y 15 de enero. Apartamos el {pct}% de lo que entra para que el dinero esté ahí cuando toque pagar. Esto es información general, no asesoría de impuestos."
   }
 }

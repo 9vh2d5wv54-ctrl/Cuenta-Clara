@@ -8,7 +8,8 @@ import { loadUserMonth, monthTotals } from "@/lib/server-budget";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 // Daily (vercel.json): bill reminders 3 days out, trial-ending notices 2 days out,
-// and Plus exchange-rate alerts.
+// Plus exchange-rate alerts, and Plus tax set-aside reminders 7 days before each
+// IRS estimated-tax due date.
 
 type User = {
   id: string;
@@ -25,8 +26,13 @@ export async function GET(request: NextRequest) {
   const denied = cronUnauthorized(request);
   if (denied) return denied;
   const db = supabaseAdmin();
-  const [bills, trials, rates] = await Promise.all([billReminders(db), trialReminders(db), rateAlerts(db)]);
-  return NextResponse.json({ bills, trials, rates });
+  const [bills, trials, rates, taxes] = await Promise.all([
+    billReminders(db),
+    trialReminders(db),
+    rateAlerts(db),
+    taxReminders(db),
+  ]);
+  return NextResponse.json({ bills, trials, rates, taxes });
 }
 
 async function billReminders(db: ReturnType<typeof supabaseAdmin>) {
@@ -168,6 +174,50 @@ async function rateAlerts(db: ReturnType<typeof supabaseAdmin>) {
       sent++;
       await db.from("users").update({ rate_alert_baseline: rate }).eq("id", user.id);
     }
+  }
+  return { sent };
+}
+
+async function taxReminders(db: ReturnType<typeof supabaseAdmin>) {
+  // Runs 7 days before Apr 15, Jun 15, Sep 15 and Jan 15.
+  const target = new Date();
+  target.setUTCDate(target.getUTCDate() + 7);
+  const isDue = target.getUTCDate() === 15 && [0, 3, 5, 8].includes(target.getUTCMonth());
+  if (!isDue) return { sent: 0 };
+
+  const { data, error } = await db
+    .from("users")
+    .select("id, email, language, timezone, tax_set_aside_pct, subscriptions!inner(plan, status)")
+    .not("tax_set_aside_pct", "is", null)
+    .eq("email_bills_on", true)
+    .eq("subscriptions.plan", "plus")
+    .in("subscriptions.status", ["trialing", "active"]);
+  if (error) return { error: error.message };
+
+  let sent = 0;
+  for (const user of (data ?? []) as unknown as (User & { tax_set_aside_pct: number })[]) {
+    const es = user.language !== "en";
+    const when = longDate(target, user.language, "UTC");
+    const ok = await sendEmail({
+      to: user.email,
+      userId: user.id,
+      kind: "bills",
+      subject: es ? `Tu pago estimado al IRS vence el ${when}` : `Your IRS estimated payment is due ${when}`,
+      body: {
+        lang: user.language,
+        paragraphs: es
+          ? [
+              `El pago estimado de impuestos al IRS vence el ${when}. Has estado apartando el ${user.tax_set_aside_pct}% de lo que entra para esto.`,
+              "En Cuenta Clara ves cuánto llevas apartado. Esto es información general, no asesoría de impuestos: un preparador de impuestos te puede decir cuánto pagar.",
+            ]
+          : [
+              `Your IRS estimated tax payment is due ${when}. You've been setting aside ${user.tax_set_aside_pct}% of what comes in for it.`,
+              "Cuenta Clara shows how much you've set aside. This is general information, not tax advice: a tax preparer can tell you how much to pay.",
+            ],
+        button: { label: es ? "Ver cuánto llevo" : "See what I've set aside", url: appUrl("/app") },
+      },
+    });
+    if (ok) sent++;
   }
   return { sent };
 }
