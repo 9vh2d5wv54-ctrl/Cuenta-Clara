@@ -20,6 +20,9 @@ export function paydayFacts(p: PaydayPlan, lang: "es" | "en"): string {
     `Bills due before the next payday: ${p.bills.length ? p.bills.map((b) => `${b.name} ${formatUSD(b.amount)}`).join(", ") : "none"}`,
     `Left for everyday spending until the next payday (already calculated): ${formatUSD(p.left)}`,
     `Days until the next payday: ${p.days}`,
+    ...(p.bills.length === 0 && p.billsTotal === 0 && p.family === 0 && p.savings === 0
+      ? ["Nothing planned yet: no bills, sends or savings entered. Don't call the number a plan; keep it short."]
+      : []),
   ].join("\n");
 }
 
@@ -51,8 +54,12 @@ export function paydayEmail(p: PaydayPlan, lang: "es" | "en", line: string, url:
   if (p.savings > 0) lines.push(`• ${es ? "Ahorro para tus metas" : "Savings for your goals"}: ${formatUSD(p.savings)}`);
   if (p.taxes > 0) lines.push(`• ${es ? "Aparte para impuestos" : "Set aside for taxes"}: ${formatUSD(p.taxes)}`);
 
-  const intro =
-    p.onHand !== null
+  const empty = lines.length === 0;
+  const intro = empty
+    ? es
+      ? `Tu pago de unos ${formatUSD(p.paycheck)} llega mañana. Todavía no tienes cuentas, envíos ni ahorro en tu plan, así que este número es solo un comienzo: agrégalos en la app para que sea real.`
+      : `Your paycheck of about ${formatUSD(p.paycheck)} arrives tomorrow. There are no bills, sends or savings in your plan yet, so this number is just a start: add them in the app to make it real.`
+    : p.onHand !== null
       ? es
         ? `Con lo que tienes en el banco (${formatUSD(p.onHand)}) más tu pago de unos ${formatUSD(p.paycheck)}, esto es lo que va antes del próximo pago:`
         : `With what's in the bank (${formatUSD(p.onHand)}) plus your paycheck of about ${formatUSD(p.paycheck)}, here's what comes before the next payday:`
