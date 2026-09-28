@@ -18,6 +18,7 @@ const VA_REPRESENTATIVE = "https://www.va.gov/get-help-from-accredited-represent
 export default function Veteranos() {
   const t = useTranslations("veterans");
   const g = useTranslations("giBill");
+  const vb = useTranslations("vetBenefits");
   const locale = useLocale();
   const [ratings, setRatings] = useState<Rating[]>([{ percent: 0, bilateral: false }]);
   const [family, setFamily] = useState<Dependents>({
@@ -45,6 +46,11 @@ export default function Veteranos() {
       <Link href="/app/veteranos/gi-bill" className="card row" style={{ textDecoration: "none" }}>
         <Icon name="target" />
         <span className="t-label grow">{g("vaLink")}</span>
+        <Icon name="forward" size={20} />
+      </Link>
+      <Link href="/app/veteranos/beneficios" className="card row" style={{ textDecoration: "none" }}>
+        <Icon name="check" />
+        <span className="t-label grow">{vb("vaLink")}</span>
         <Icon name="forward" size={20} />
       </Link>
 
