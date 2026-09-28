@@ -10,6 +10,7 @@ import { currentPayPeriod } from "./paycheck";
 import { hasPlus } from "./plan";
 import { nextPayday, safeToSpend } from "./safe-to-spend";
 import type { Bill, Debt, Entry, Goal, Profile, Recipient, Subscription } from "./types";
+import { chartMissing, lowest, whatIfChart, type Scenario, type WhatIfChart } from "./what-if";
 
 // Clara's tools (MVP PRD → "Clara, the AI money copilot"). Golden rule: the app
 // does the math, Clara explains it. Every number she says comes from one of
@@ -31,7 +32,12 @@ export type ClaraData = {
 };
 
 /** What the page shows next to the answer: lessons and words Clara pointed to. */
-export type ClaraLinks = { lessons: { slug: string; title: string }[]; words: { id: string; term: string }[] };
+export type ClaraLinks = {
+  lessons: { slug: string; title: string }[];
+  words: { id: string; term: string }[];
+  /** "What if?" chart (Plus) for the last purchase or what-if Clara checked. */
+  chart?: WhatIfChart;
+};
 
 const usd = (cents: number) => formatUSD(cents);
 const toCents = (dollars: unknown) => Math.round(Math.max(0, Number(dollars) || 0) * 100);
@@ -71,7 +77,7 @@ export const CLARA_TOOLS: Anthropic.Beta.BetaTool[] = [
   {
     name: "what_if",
     description:
-      "\"What if?\" for a monthly change or a one-time purchase. Scenarios: spend_once (a one-time purchase: this month and until payday), save_more_each_month (put this much more toward savings every month), cut_spending_each_month (spend this much less every month), extra_debt_payment_each_month (pay this much more toward debts every month: payoff date and interest saved). Returns before vs. after numbers computed by code.",
+      "\"What if?\" for a monthly change or a one-time purchase. Scenarios: spend_once (a one-time purchase: this month and until payday), save_more_each_month (put this much more toward savings every month), cut_spending_each_month (spend this much less every month), extra_debt_payment_each_month (pay this much more toward debts every month: payoff date and interest saved). Returns before vs. after numbers computed by code, and the lowest balance ahead with and without the decision. The app draws a 30/60/90-day chart from the same numbers under your answer.",
     input_schema: {
       type: "object",
       properties: {
@@ -80,8 +86,14 @@ export const CLARA_TOOLS: Anthropic.Beta.BetaTool[] = [
           enum: ["spend_once", "save_more_each_month", "cut_spending_each_month", "extra_debt_payment_each_month"],
         },
         amount: { type: "number", description: "Amount in U.S. dollars" },
+        when: {
+          type: "string",
+          enum: ["now", "next_payday"],
+          description: "For spend_once: buy it now, or wait until the next payday. Use now unless they ask about waiting. Ignored for monthly scenarios.",
+        },
+        what: { type: "string", description: "The decision in a few words, e.g. \"TV\" or \"more to savings\"" },
       },
-      required: ["scenario", "amount"],
+      required: ["scenario", "amount", "when", "what"],
       additionalProperties: false,
     },
     strict: true,
@@ -183,6 +195,25 @@ function monthSummary(d: ClaraData, now: Date) {
   return { s, today };
 }
 
+
+function chartSummary(d: ClaraData, links: ClaraLinks, now: Date, opts: { scenario: Scenario; amount: number; label: string; when?: "now" | "next_payday" }) {
+  const chart = whatIfChart(d, opts, now);
+  if (!chart) return { chart: `not available: ${chartMissing(d, now)}` };
+  links.chart = chart;
+  const low = lowest(chart);
+  const at = (i: number) => chart.days[Math.min(i, chart.days.length - 1)];
+  return {
+    chart: "shown under your answer (a Plus feature for free users: don't mention it)",
+    lowest_balance_next_90_days: {
+      as_planned: { balance: usd(low.planned.planned), date: low.planned.date },
+      with_this: { balance: usd(low.withIt.withIt), date: low.withIt.date },
+    },
+    balance_in_30_days: { as_planned: usd(at(30).planned), with_this: usd(at(30).withIt) },
+    balance_in_90_days: { as_planned: usd(at(90).planned), with_this: usd(at(90).withIt) },
+    projection_assumes: "Paychecks from their monthly income on each payday, bills on due dates, sends and savings as planned, everyday spending at this month's logged pace.",
+  };
+}
+
 export function runClaraTool(name: string, input: Record<string, unknown>, d: ClaraData, links: ClaraLinks, lang: "es" | "en", now = new Date()): unknown {
   switch (name) {
     case "get_month_summary": {
@@ -237,6 +268,7 @@ export function runClaraTool(name: string, input: Record<string, unknown>, d: Cl
           what: String(input.what ?? ""),
           price: usd(amount),
           answer: verdict(after, d.income),
+          ...chartSummary(d, links, now, { scenario: "spend_once", amount, label: String(input.what ?? ""), when: "now" }),
           based_on: "Safe to Spend until payday",
           safe_to_spend_now: usd(r.safe),
           safe_to_spend_after: usd(after),
@@ -264,9 +296,14 @@ export function runClaraTool(name: string, input: Record<string, unknown>, d: Cl
       const scenario = String(input.scenario);
       if (amount <= 0) return { error: "Ask for the amount first." };
       const { s, today } = monthSummary(d, now);
+      const label = String(input.what ?? "");
+      const when = input.when === "next_payday" ? "next_payday" : "now";
+      const chart = () => chartSummary(d, links, now, { scenario: scenario as Scenario, amount, label, when });
       if (scenario === "spend_once") {
         const r = safe(d, now);
         return {
+          ...chart(),
+          when,
           scenario,
           amount: usd(amount),
           left_this_month: { as_planned: usd(s.left), with_this: usd(s.left - amount) },
@@ -284,6 +321,7 @@ export function runClaraTool(name: string, input: Record<string, unknown>, d: Cl
         const sign = scenario === "save_more_each_month" ? -1 : 1;
         const months = forecast(d.income, d.bills, d.recipients, d.goals, monthEntries(d, today), now, 3, d.taxPct);
         return {
+          ...chart(),
           scenario,
           amount_each_month: usd(amount),
           left_each_month: months.map((m) => ({ month: m.month, as_planned: usd(m.left), with_this: usd(m.left + sign * amount) })),
@@ -301,6 +339,7 @@ export function runClaraTool(name: string, input: Record<string, unknown>, d: Cl
         const base = simulate(live, "avalanche", 0);
         const plan = simulate(live, "avalanche", amount);
         return {
+          ...chart(),
           scenario,
           extra_each_month: usd(amount),
           strategy: "avalanche (highest APR first)",

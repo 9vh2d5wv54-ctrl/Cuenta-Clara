@@ -966,5 +966,20 @@
     "disclaimer": "General information, not financial advice. The numbers come from your app; Clara explains them and can make mistakes.",
     "call988": "Call 988",
     "text838255": "Text 838255"
+  },
+  "whatIf": {
+    "title": "What if?",
+    "range": "Days to show",
+    "days": "{n} days",
+    "planned": "As planned",
+    "withIt": "With {label}",
+    "decision": "this decision",
+    "today": "Today",
+    "payday": "Payday",
+    "table": "See as a table",
+    "date": "Date",
+    "describe": "Your bank balance for the next {days} days. As planned it ends at {planned}; {label}, it ends at {withIt}.",
+    "assumes": "Estimate from your numbers: paychecks on paydays, bills on their due dates, sends and savings as planned, and everyday spending at this month's pace.",
+    "locked": "See the next 30, 60 or 90 days with Plus"
   }
 }

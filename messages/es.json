@@ -966,5 +966,20 @@
     "disclaimer": "Información general, no asesoría financiera. Los números vienen de tu app; Clara los explica y puede equivocarse.",
     "call988": "Llamar al 988",
     "text838255": "Texto al 838255"
+  },
+  "whatIf": {
+    "title": "¿Y si…?",
+    "range": "Días a mostrar",
+    "days": "{n} días",
+    "planned": "Como está",
+    "withIt": "Con {label}",
+    "decision": "esta decisión",
+    "today": "Hoy",
+    "payday": "Día de pago",
+    "table": "Ver como tabla",
+    "date": "Fecha",
+    "describe": "Tu saldo del banco en los próximos {days} días. Como está, termina en {planned}; {label}, termina en {withIt}.",
+    "assumes": "Estimado con tus números: pagos en tus días de pago, cuentas en su fecha, envíos y ahorro como están planeados, y gastos del día a día al ritmo de este mes.",
+    "locked": "Mira los próximos 30, 60 o 90 días con Plus"
   }
 }

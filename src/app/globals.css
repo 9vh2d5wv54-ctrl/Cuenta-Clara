@@ -1349,3 +1349,146 @@ textarea {
 .clara-input--static {
   position: static;
 }
+
+/* "What if?" chart (Plus). Series colors validated for CVD and contrast on each surface. */
+.whatif {
+  --wf-planned: #1a8f7c;
+  --wf-with: #c96a0c;
+  align-self: stretch;
+  background: var(--surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-3) var(--space-4);
+}
+@media (prefers-color-scheme: dark) {
+  .whatif {
+    --wf-planned: #23a18a;
+    --wf-with: #cf7e1e;
+  }
+}
+.whatif__head {
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.whatif__head .chips {
+  gap: var(--space-1);
+}
+.whatif__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  color: var(--ink-muted);
+}
+.whatif__legend strong,
+.whatif__tip strong {
+  color: var(--ink);
+}
+.whatif__key {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  border-radius: 1px;
+  vertical-align: middle;
+  margin-inline-end: 6px;
+}
+.whatif__key--planned {
+  background: var(--wf-planned);
+}
+.whatif__key--with {
+  background: var(--wf-with);
+}
+.whatif__plot {
+  position: relative;
+}
+.whatif__plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: pan-y;
+  cursor: crosshair;
+}
+.whatif__plot svg:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+.whatif__grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.whatif__zero {
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+}
+.whatif__tick {
+  fill: var(--ink-muted);
+  font-size: 10px;
+}
+.whatif__line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.whatif__line--planned {
+  stroke: var(--wf-planned);
+}
+.whatif__line--with {
+  stroke: var(--wf-with);
+}
+.whatif__dot {
+  stroke: var(--surface-raised);
+  stroke-width: 2;
+}
+.whatif__dot--planned {
+  fill: var(--wf-planned);
+}
+.whatif__dot--with {
+  fill: var(--wf-with);
+}
+.whatif__cross {
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+}
+.whatif__tip {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  min-width: 140px;
+  max-width: 200px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+  z-index: 2;
+}
+.whatif__tip p {
+  margin: 0;
+}
+.whatif__tip-date {
+  color: var(--ink-muted);
+}
+.whatif__table summary {
+  cursor: pointer;
+  color: var(--clara);
+}
+.whatif__table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-2);
+}
+.whatif__table th,
+.whatif__table td {
+  text-align: end;
+  padding: 2px var(--space-2);
+  border-bottom: 1px solid var(--line);
+}
+.whatif__table th:first-child,
+.whatif__table td:first-child {
+  text-align: start;
+}

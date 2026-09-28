@@ -7,6 +7,8 @@ import { Suspense, useCallback, useEffect, useRef, useState, type FormEvent } fr
 import { useData } from "@/components/DataProvider";
 import { Icon } from "@/components/Icon";
 import { PlusCard } from "@/components/Plus";
+import { WhatIfChart } from "@/components/WhatIfChart";
+import { hasPlus } from "@/lib/plan";
 import { Button, Card, Dialog } from "@/components/ui";
 import type { ClaraData, ClaraLinks } from "@/lib/clara-tools";
 import { MAX_QUESTION_LENGTH } from "@/lib/clara-safety";
@@ -211,6 +213,7 @@ function ClaraChat() {
                 )}
               </div>
             )}
+            {turn.links?.chart && !turn.pending && <WhatIfChart chart={turn.links.chart} locked={!hasPlus(subscription)} />}
           </div>
         ))}
         <div ref={endRef} />
