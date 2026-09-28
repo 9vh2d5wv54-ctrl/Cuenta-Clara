@@ -96,6 +96,10 @@ How payment reaches the account:
 
 Card on Home, 0–100, not a credit score. Four parts, 25 points each, on straight lines: emergency fund (months of bills and family sends saved, 0 → 3; counts goals named like an emergency fund plus the Safe to Spend cushion), debt minimums as a share of income (50% → 10%), goal saving as a share of income (0 → 15%), and what's left after everything and debt minimums (0 → 10%). Shows each part and one next step for the weakest. Logic in `src/lib/health.ts`.
 
+### Smart warnings (free)
+
+"Heads up" card on Home, up to three, from logged numbers only: the month would end short at this spending pace; a category up 30% and $50 against the same days of last month; the costliest debt at 20% APR or more (monthly interest); fees logged this month (notes like fee, overdraft, comisión, cargo); five or more "going out" purchases. Each links to where to act. Logic in `src/lib/warnings.ts`.
+
 ### Cuenta Clara Academy (free, public)
 
 `/aprende` and `/aprende/[slug]`: 10 short bilingual lessons (budget, emergency fund, APR, compound interest, credit score, sending money home, 1099 taxes, snowball vs. avalanche, pay stubs, VA benefits), each with an example and a "try it" link into the app. No account needed; linked from Home and the landing page. Content in `src/lib/lessons.ts`. General information, not financial, tax or legal advice.

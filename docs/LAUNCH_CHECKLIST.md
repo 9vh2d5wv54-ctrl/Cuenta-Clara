@@ -83,6 +83,7 @@ Clara and Academy:
 
 Money Health Score:
 - [x] Built (free), on Home
+- [x] Smart warnings (free), on Home
 
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).

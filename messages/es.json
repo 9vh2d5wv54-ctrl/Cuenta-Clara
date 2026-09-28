@@ -578,5 +578,18 @@
     "link_room": "Lee: Tu presupuesto en 3 pasos",
     "explain": "No es un puntaje de crédito. Es cómo se ven tu mes y tu colchón con tus propios números: fondo de emergencia (3 meses de cuentas = puntos completos), pagos mínimos de deudas (10% de lo que entra o menos = completos), ahorro (15% o más = completos) y lo que te queda (10% o más = completos). 25 puntos cada uno. El fondo de emergencia cuenta las metas con nombre como \"fondo de emergencia\" y tu colchón de Seguro para gastar.",
     "needsIncome": "Agrega tu ingreso del mes para ver la salud de tu dinero."
+  },
+  "warnings": {
+    "title": "Ojo",
+    "pace": "A este ritmo, terminas el mes {amount} abajo.",
+    "paceLink": "Mira tu mes",
+    "rising": "{category}: {now} en lo que va del mes, {more} más que a esta altura el mes pasado.",
+    "risingLink": "Mira lo que anotaste",
+    "interest": "Tu {name} al {apr}% te cuesta unos {amount} al mes en interés.",
+    "interestLink": "Abre tu plan de deudas",
+    "impulse": "{count} compras de \"{category}\" este mes: {total}.",
+    "impulseLink": "Lee: Tu presupuesto en 3 pasos",
+    "fees": "{count, plural, one {# cargo} other {# cargos}} anotados este mes: {total}. Las comisiones son dinero que se va sin darte nada.",
+    "feesLink": "Lee: Tu presupuesto en 3 pasos"
   }
 }

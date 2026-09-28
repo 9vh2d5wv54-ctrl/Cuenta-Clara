@@ -578,5 +578,18 @@
     "link_room": "Read: Your budget in 3 steps",
     "explain": "Not a credit score. It's how your month and your cushion look from your own numbers: emergency fund (3 months of bills = full points), debt minimums (10% of income or less = full), saving (15% or more = full) and what's left (10% or more = full). 25 points each. Emergency savings counts goals named like \"emergency fund\" and your Safe to Spend cushion.",
     "needsIncome": "Add your monthly income to see your Money Health Score."
+  },
+  "warnings": {
+    "title": "Heads up",
+    "pace": "At this pace, you'll end the month {amount} short.",
+    "paceLink": "See your month",
+    "rising": "{category}: {now} so far this month, {more} more than by this point last month.",
+    "risingLink": "See what you logged",
+    "interest": "Your {name} at {apr}% is costing you about {amount} a month in interest.",
+    "interestLink": "Open your debt plan",
+    "impulse": "{count} \"{category}\" purchases this month: {total}.",
+    "impulseLink": "Read: Your budget in 3 steps",
+    "fees": "{count, plural, one {# fee} other {# fees}} logged this month: {total}. Fees are money for nothing.",
+    "feesLink": "Read: Your budget in 3 steps"
   }
 }
