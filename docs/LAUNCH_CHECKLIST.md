@@ -109,3 +109,11 @@ Later:
 Tip: adding variables and copying keys is much easier on a computer than on a phone.
 - [x] Privacy policy and terms of use drafts at /privacidad and /terminos (Sep 28, 2026)
 - [ ] Lawyer or law school clinic review of the privacy policy and terms (St. John's Law clinics, VBOC, or a flat-fee lawyer)
+
+## iPhone app (later)
+- [ ] Installable on the home screen (web app manifest, icon, full screen): no Apple review needed
+- [ ] Real iPhone app with Capacitor: push notifications (payday, bills), Face ID lock
+- [ ] Plus through Apple in-app purchase (15% Small Business Program); Whop stays for the web
+- [ ] Apple Developer account ($99/year; LLC + D-U-N-S to show "Cuenta Clara" as seller)
+- [ ] App Store privacy "nutrition label" from the privacy policy; reviewer test account with sample data
+- [ ] Xcode on a Mac that supports it, or a cloud build service
