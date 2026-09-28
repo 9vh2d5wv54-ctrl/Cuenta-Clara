@@ -1,12 +1,13 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Icon } from "@/components/Icon";
-import { Button, Card, Field, Select } from "@/components/ui";
+import { Button, Card, Field, Input, Segmented, Select } from "@/components/ui";
+import { formatLongDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
 import { combinedRating, RATING_STEPS, type Rating } from "@/lib/va";
-import { VA_RATES } from "@/lib/va-rates";
+import { monthlyCompensation, VA_RATES, type Dependents } from "@/lib/va-rates";
 
 const VA_RATE_TABLE = "https://www.va.gov/disability/compensation-rates/veteran-rates/";
 const VA_REPRESENTATIVE = "https://www.va.gov/get-help-from-accredited-representative/";
@@ -15,13 +16,22 @@ const VA_REPRESENTATIVE = "https://www.va.gov/get-help-from-accredited-represent
 // Estimates only; never presented as the VA.
 export default function Veteranos() {
   const t = useTranslations("veterans");
+  const locale = useLocale();
   const [ratings, setRatings] = useState<Rating[]>([{ percent: 0, bilateral: false }]);
+  const [family, setFamily] = useState<Dependents>({
+    spouse: false,
+    spouseAidAttendance: false,
+    parents: 0,
+    childrenUnder18: 0,
+    schoolChildren: 0,
+  });
+  const count = (v: string) => Math.max(0, Math.min(20, Math.floor(Number(v) || 0)));
 
   const set = (i: number, r: Partial<Rating>) => setRatings(ratings.map((x, j) => (j === i ? { ...x, ...r } : x)));
   const filled = ratings.filter((r) => r.percent > 0);
   const result = combinedRating(filled);
   const sum = filled.reduce((s, r) => s + r.percent, 0);
-  const monthly = VA_RATES?.alone[result.rating] ?? null;
+  const monthly = monthlyCompensation(result.rating, family);
 
   return (
     <main className="page">
@@ -73,6 +83,70 @@ export default function Veteranos() {
         </div>
       </Card>
 
+      {result.rating >= 30 && (
+        <Card>
+          <div className="stack">
+            <div className="stack-sm">
+              <p className="t-heading">{t("familyTitle")}</p>
+              <p className="t-caption muted">{t("familyLead")}</p>
+            </div>
+            <label className="row t-body" style={{ cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={family.spouse}
+                onChange={(e) => setFamily({ ...family, spouse: e.target.checked, spouseAidAttendance: e.target.checked && family.spouseAidAttendance })}
+              />
+              {t("spouse")}
+            </label>
+            {family.spouse && (
+              <label className="row t-caption" style={{ cursor: "pointer" }}>
+                <input
+                  type="checkbox"
+                  checked={family.spouseAidAttendance}
+                  onChange={(e) => setFamily({ ...family, spouseAidAttendance: e.target.checked })}
+                />
+                {t("spouseAA")}
+              </label>
+            )}
+            <div className="field">
+              <span className="field__label">{t("parents")}</span>
+              <Segmented
+                label={t("parents")}
+                value={String(family.parents)}
+                onChange={(v) => setFamily({ ...family, parents: Number(v) as 0 | 1 | 2 })}
+                options={["0", "1", "2"].map((v) => ({ value: v, label: v }))}
+              />
+            </div>
+            <div className="field-row">
+              <Field label={t("children")}>
+                {(p) => (
+                  <Input
+                    {...p}
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    value={family.childrenUnder18}
+                    onChange={(e) => setFamily({ ...family, childrenUnder18: count(e.target.value) })}
+                  />
+                )}
+              </Field>
+              <Field label={t("school")}>
+                {(p) => (
+                  <Input
+                    {...p}
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    value={family.schoolChildren}
+                    onChange={(e) => setFamily({ ...family, schoolChildren: count(e.target.value) })}
+                  />
+                )}
+              </Field>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {filled.length === 0 ? (
         <p className="t-body muted">{t("empty")}</p>
       ) : (
@@ -94,12 +168,21 @@ export default function Veteranos() {
               {t("notAdded", { list: filled.map((r) => `${r.percent}%`).join(" + "), exact: result.exact, sum })}
             </p>
           )}
-          {monthly !== null ? (
-            <p className="t-body num">{formatUSD(monthly)}</p>
+          {monthly !== null && monthly > 0 ? (
+            <>
+              <p className="t-heading num">{t("monthlyTitle", { amount: formatUSD(monthly) })}</p>
+              <p className="t-caption muted">{t("yearly", { amount: formatUSD(monthly * 12) })}</p>
+              <p className="t-caption muted">
+                {t("effective", { date: formatLongDate(VA_RATES.effective, locale) })}{" "}
+                <a href={VA_RATE_TABLE} target="_blank" rel="noreferrer">
+                  {t("monthlyLink")}
+                </a>
+              </p>
+            </>
           ) : (
             result.rating > 0 && (
               <p className="t-body">
-                {t("monthlyPending", { rating: result.rating })}{" "}
+                {t("lowPending", { rating: result.rating })}{" "}
                 <a href={VA_RATE_TABLE} target="_blank" rel="noreferrer">
                   {t("monthlyLink")}
                 </a>

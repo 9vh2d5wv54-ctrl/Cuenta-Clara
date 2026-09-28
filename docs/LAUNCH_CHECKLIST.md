@@ -68,7 +68,9 @@ Debt payoff plan:
 
 Veterans:
 - [x] VA combined rating calculator (free)
-- [ ] Monthly amounts: allow www.va.gov in the Claude environment's network settings, then copy VA's current rate table (with dependents) into `src/lib/va-rates.ts`
+- [x] Monthly amounts for 30%–100% with dependents (VA rates effective Dec 1, 2025) in `src/lib/va-rates.ts`
+- [ ] 10% and 20% monthly amounts (send a screenshot of VA's 10%–20% table)
+- [ ] Every December 1: update `src/lib/va-rates.ts` with VA's new rates and effective date
 
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).

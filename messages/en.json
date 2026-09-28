@@ -525,12 +525,22 @@
     "bilateralLine": "Bilateral: {combined}% plus 10% ({factor}) = {total}%.",
     "howTitle": "How VA math works",
     "how": "VA starts from 100% healthy. Your biggest rating takes its share first, and each next rating takes its share of what's left. The total is then rounded to the nearest 10, with 5 rounding up.",
-    "monthlyPending": "The monthly amount for {rating}% is on VA's official rate table, and it depends on your spouse, children and parents.",
     "monthlyLink": "See VA's rate table",
     "help": "For your claim, a VA-accredited representative (VSO) can help for free.",
     "helpLink": "Find an accredited representative",
     "notVa": "Estimate only, not a decision on benefits. Cuenta Clara is not affiliated with the U.S. Department of Veterans Affairs.",
     "empty": "Add at least one rating to see your combined rating.",
-    "goalsLink": "Veterans: VA disability estimate"
+    "goalsLink": "Veterans: VA disability estimate",
+    "familyTitle": "Your family",
+    "familyLead": "At 30% and up, VA pays more for dependents.",
+    "spouse": "Married",
+    "spouseAA": "My spouse needs aid and attendance",
+    "parents": "Parents who depend on you",
+    "children": "Children under 18",
+    "school": "Children 18–23 in school",
+    "monthlyTitle": "About {amount} a month",
+    "yearly": "{amount} a year, tax-free",
+    "effective": "VA rates effective {date}. They go up each December 1.",
+    "lowPending": "The monthly amount for {rating}% is on VA's official rate table."
   }
 }

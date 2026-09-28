@@ -525,12 +525,22 @@
     "bilateralLine": "Bilateral: {combined}% más 10% ({factor}) = {total}%.",
     "howTitle": "Cómo calcula el VA",
     "how": "El VA empieza con 100% de salud. Tu calificación más alta toma su parte primero, y cada una después toma su parte de lo que queda. El total se redondea a la decena más cercana; el 5 redondea hacia arriba.",
-    "monthlyPending": "El pago mensual para {rating}% está en la tabla oficial del VA y depende de tu cónyuge, hijos y padres.",
     "monthlyLink": "Ver la tabla del VA",
     "help": "Para tu reclamo, un representante acreditado por el VA (VSO) te ayuda gratis.",
     "helpLink": "Buscar un representante acreditado",
     "notVa": "Es un estimado, no una decisión sobre tus beneficios. Cuenta Clara no está afiliada al Departamento de Asuntos de Veteranos de EE. UU.",
     "empty": "Agrega al menos una calificación para ver tu calificación combinada.",
-    "goalsLink": "Veteranos: calculadora de discapacidad del VA"
+    "goalsLink": "Veteranos: calculadora de discapacidad del VA",
+    "familyTitle": "Tu familia",
+    "familyLead": "Desde 30%, el VA paga más por dependientes.",
+    "spouse": "Casado(a)",
+    "spouseAA": "Mi cónyuge necesita ayuda y asistencia (Aid and Attendance)",
+    "parents": "Padres que dependen de ti",
+    "children": "Hijos menores de 18",
+    "school": "Hijos de 18 a 23 que estudian",
+    "monthlyTitle": "Unos {amount} al mes",
+    "yearly": "{amount} al año, libre de impuestos",
+    "effective": "Tarifas del VA vigentes desde el {date}. Suben cada 1 de diciembre.",
+    "lowPending": "El pago mensual para {rating}% está en la tabla oficial del VA."
   }
 }
