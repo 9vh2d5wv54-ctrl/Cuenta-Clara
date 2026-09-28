@@ -21,7 +21,7 @@ Where Cuenta Clara stands, and what's next.
        [x] `WHOP_API_KEY` in Vercel (the app finds both plans by price; no plan ids needed)
        [x] Whop webhook → `https://cuenta-clara-six.vercel.app/api/webhooks/whop`, secret in Vercel as `WHOP_WEBHOOK_SECRET`
        [x] Test: finish setup → checkup → "Pruébalo gratis 7 días" → trial starts → Settings shows "Estás probando Plus" → cancel
-4. [ ] AI checkup: `ANTHROPIC_API_KEY` in Vercel (optional; a template is used without it)
+4. [x] AI checkup: `ANTHROPIC_API_KEY` in Vercel (added Sep 28, 2026; key "Vercel" expires Oct 5, 2027 — make a new one before then)
 5. [ ] Emails
        [x] `RESEND_API_KEY` and `CRON_SECRET` in Vercel
        [ ] Get a PO box, add it as `MAILING_ADDRESS` (footer says "Cuenta Clara · Newark, NJ" until then) — required before emailing real users
@@ -97,6 +97,8 @@ Money Health Score:
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
 - [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").
-- [ ] `ANTHROPIC_API_KEY` in Vercel once the first users sign up.
+- [x] `ANTHROPIC_API_KEY` in Vercel
+- [ ] Before Oct 5, 2027: new Claude key in the Console, replace it in Vercel
+- [ ] Delete the unused older Claude key "Cuenta-Clara" in the Console (API keys page)
 
 Tip: adding variables and copying keys is much easier on a computer than on a phone.
