@@ -95,6 +95,7 @@ export default function PlusPage() {
 
   const rows: [string, string][] = [
     [t("rowBudget"), t("rowBudgetPlus")],
+    [t("rowPay"), t("rowPayPlus")],
     [t("rowCheckup"), t("rowForecast")],
     [t("rowGoals"), t("rowGoalsPlus")],
     [t("rowSends"), t("rowRates")],

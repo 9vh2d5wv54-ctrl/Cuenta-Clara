@@ -136,6 +136,11 @@ export class SupabaseStore implements Store {
         .order("date", { ascending: false }),
     ) as Entry[];
   }
+  async listEntriesSince(date: string) {
+    return must(
+      await this.db.from("entries").select("*").gte("date", date).order("date", { ascending: false }),
+    ) as Entry[];
+  }
   async addEntry(e: NewEntry) {
     must(await this.db.from("entries").insert({ ...e, user_id: await this.uid() }));
   }

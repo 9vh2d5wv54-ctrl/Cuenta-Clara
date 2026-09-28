@@ -12,6 +12,8 @@ export type Profile = {
   email_weekly_on: boolean;
   timezone: string;
   rate_alert_on: boolean;
+  /** Paycheck mode (Plus): how often pay usually comes. Null = plan by month. */
+  pay_frequency?: PayFrequency | null;
   created_at: string;
 };
 
@@ -48,6 +50,7 @@ export type Bill = {
 };
 
 export type Frequency = "monthly" | "biweekly";
+export type PayFrequency = "weekly" | "biweekly";
 
 export type Recipient = {
   id: string;
@@ -59,7 +62,7 @@ export type Recipient = {
   frequency: Frequency;
 };
 
-export type EntryType = "expense" | "send" | "bill_paid" | "savings";
+export type EntryType = "expense" | "send" | "bill_paid" | "savings" | "income";
 
 export type Entry = {
   id: string;

@@ -58,6 +58,7 @@ function load(): DemoData {
         email_weekly_on: true,
         timezone: "America/New_York",
         rate_alert_on: false,
+        pay_frequency: null,
       };
     }
     return data;
@@ -107,6 +108,7 @@ export class DemoStore implements Store {
           email_weekly_on: true,
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           rate_alert_on: false,
+        pay_frequency: null,
           created_at: new Date().toISOString(),
         };
       }
@@ -180,6 +182,11 @@ export class DemoStore implements Store {
   async listEntries(month: string) {
     return load()
       .entries.filter((e) => e.date.startsWith(month))
+      .sort((a, b) => b.date.localeCompare(a.date));
+  }
+  async listEntriesSince(date: string) {
+    return load()
+      .entries.filter((e) => e.date >= date)
       .sort((a, b) => b.date.localeCompare(a.date));
   }
   async addEntry(e: NewEntry) {

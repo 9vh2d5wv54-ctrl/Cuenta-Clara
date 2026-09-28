@@ -1,12 +1,13 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
 import { Button, Field, Input, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
 import { EXPENSE_CATEGORIES } from "@/lib/budget";
 import { todayISO } from "@/lib/dates";
+import { hasPlus } from "@/lib/plan";
 import { centsToInput, formatUSD, parseCents } from "@/lib/money";
 import type { EntryType, NewEntry } from "@/lib/types";
 
@@ -14,7 +15,10 @@ export default function AddEntry() {
   const t = useTranslations("add");
   const c = useTranslations("common");
   const cat = useTranslations("add.categories");
-  const { recipients, bills, goals, mutate } = useData();
+  const { recipients, bills, goals, profile, subscription, mutate } = useData();
+  const router = useRouter();
+  // Paycheck mode (Plus) adds "I got paid".
+  const payMode = hasPlus(subscription) && Boolean(profile?.pay_frequency);
 
   const [type, setType] = useState<EntryType>("expense");
   const [amount, setAmount] = useState("");
@@ -36,6 +40,10 @@ export default function AddEntry() {
   useEffect(() => {
     if (applied.current) return;
     applied.current = true;
+    if (params.get("type") === "income" && payMode) {
+      setType("income");
+      return;
+    }
     const billParam = params.get("bill");
     if (params.get("type") === "bill_paid" && billParam && bills.some((b) => b.id === billParam)) {
       setType("bill_paid");
@@ -63,7 +71,7 @@ export default function AddEntry() {
     setFormError(null);
     if (next === "send" && recipients[0]) pickRecipient(recipientId || recipients[0].id);
     else if (next === "bill_paid" && bills[0]) pickBill(billId || bills[0].id);
-    else if (next === "expense" || next === "savings") {
+    else if (next === "expense" || next === "savings" || next === "income") {
       setAmount("");
       setNote("");
     }
@@ -77,6 +85,11 @@ export default function AddEntry() {
         await s.addEntry(entry);
         if (goal) await s.addToGoal(goal, entry.amount_cents);
       });
+      // A new paycheck changes the number on Home, so show it right away.
+      if (entry.type === "income") {
+        router.push("/app");
+        return;
+      }
       setToast(t("saved", { amount: formatUSD(entry.amount_cents) }));
       setAmount("");
       setNote("");
@@ -102,6 +115,7 @@ export default function AddEntry() {
       save({ ...base, type, category: "family", recipient_id: recipientId, note: base.note ?? r?.name ?? null });
     }
     if (type === "bill_paid") save({ ...base, type, category: "bills" });
+    if (type === "income") save({ ...base, type, category: "income" });
     if (type === "savings") {
       const g = goals.find((x) => x.id === goalId);
       save({ ...base, type, category: "savings", note: base.note ?? g?.name ?? null }, goalId);
@@ -127,6 +141,7 @@ export default function AddEntry() {
           { value: "send", label: t("typeSend") },
           { value: "bill_paid", label: t("typeBill") },
           { value: "savings", label: t("typeSavings") },
+          ...(payMode ? [{ value: "income" as const, label: t("typeIncome") }] : []),
         ]}
       />
 

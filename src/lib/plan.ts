@@ -2,7 +2,7 @@ import type { Checkup, Goal, Subscription } from "./types";
 
 // Cuenta Clara Plus (MVP PRD → Premium plan). Free keeps the whole budget, the
 // monthly checkup, family sends and bill reminders. Plus adds the forecast,
-// unlimited goals, rate alerts and the "¿Me alcanza?" helper.
+// unlimited goals, rate alerts, the "¿Me alcanza?" helper and paycheck mode.
 export const FREE_GOAL_LIMIT = 1; // keep in sync with enforce_goal_limit in supabase/schema.sql
 export const ASK_DAILY_LIMIT = 30;
 export const TRIAL_DAYS = 7;
@@ -13,7 +13,7 @@ export const PRICES = {
 } as const;
 
 export type Interval = "monthly" | "yearly";
-export type PlusFeature = "forecast" | "goals" | "rates" | "ask";
+export type PlusFeature = "forecast" | "goals" | "rates" | "ask" | "paycheck";
 
 export function hasPlus(sub: Subscription | null): boolean {
   return sub?.plan === "plus" && (sub.status === "trialing" || sub.status === "active");

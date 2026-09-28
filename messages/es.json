@@ -172,8 +172,10 @@
       "other": "Otro",
       "family": "Familia",
       "bills": "Cuentas",
-      "savings": "Ahorro"
-    }
+      "savings": "Ahorro",
+      "income": "Pago"
+    },
+    "typeIncome": "Me pagaron"
   },
   "sends": {
     "title": "Tus envíos de este mes",
@@ -278,7 +280,9 @@
     "cancelYes": "Sí, cancelar",
     "cancelKeep": "Mantener Plus",
     "cancelFailed": "No pudimos cancelar ahora. Inténtalo otra vez en un momento.",
-    "canceledNoDate": "Cancelaste Plus. No se cobra nada más y lo básico sigue gratis."
+    "canceledNoDate": "Cancelaste Plus. No se cobra nada más y lo básico sigue gratis.",
+    "rowPay": "Presupuesto por mes",
+    "rowPayPlus": "Modo día de pago: cuánto puedes gastar hasta que te paguen"
   },
   "checkup": {
     "title": "Chequeo de dinero",
@@ -320,5 +324,28 @@
     "title": "Alerta de tipo de cambio",
     "help": "Te mandamos un correo cuando el {currency} sube al menos 1% a tu favor.",
     "needsCountry": "Elige el país de tu familia en Ajustes para usar las alertas."
+  },
+  "paycheck": {
+    "untilDate": "Hasta el {date}",
+    "leftLabel": "Puedes gastar",
+    "perDay": "Unos {amount} al día por {days, plural, one {# día} other {# días}}",
+    "paid": "Te pagaron",
+    "family": "Envíos a la familia",
+    "savings": "Ahorro",
+    "spent": "Gastado hasta ahora",
+    "short": "Este pago no alcanza por {amount} para la parte de este periodo de tus cuentas, envíos y ahorro. Paga primero lo que vence y deja los extras para después.",
+    "overspent": "Vas {amount} por encima hasta el día de pago.",
+    "paydayCame": "Tu día de pago era el {date}. Cuando te paguen, anótalo.",
+    "gotPaid": "Me pagaron",
+    "empty": "Cuando te paguen, anótalo aquí y te decimos cuánto puedes gastar hasta el próximo pago.",
+    "explain": "De lo que te pagaron, apartamos la parte de este periodo para tus cuentas, tus envíos a la familia y tu ahorro, y restamos lo que ya gastaste. Apartar un poco en cada pago es lo que cubre la renta cuando llega. Lo que queda es tuyo para gastar hasta el día de pago.",
+    "settingTitle": "Modo día de pago",
+    "settingHelp": "¿Te pagan cada semana, cada dos semanas o en efectivo? Planea por pago en vez de por mes.",
+    "off": "Apagado",
+    "weekly": "Cada semana",
+    "biweekly": "Cada 2 semanas",
+    "plusTitle": "El modo día de pago es parte de Plus",
+    "bills": "Cuentas (la parte de este periodo)",
+    "dueSoon": "Vencen antes del pago: {list}"
   }
 }

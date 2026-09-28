@@ -36,6 +36,11 @@ Where Cuenta Clara stands, and what's next.
 8. [x] Whop webhook URL → `https://micuentaclara.app/api/webhooks/whop` (old URL still works)
 9. [ ] 10 test users, then ads with the PRD's daily launch check
 
+Paycheck mode:
+- [x] Built (Plus): Settings → Paycheck mode, "Me pagaron" on Home
+- [ ] Run `supabase/migrations/002_paycheck_mode.sql` in the Supabase SQL editor
+- [ ] Turn it on and log a paycheck on micuentaclara.app
+
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
 - [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").

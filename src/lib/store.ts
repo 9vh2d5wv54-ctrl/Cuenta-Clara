@@ -7,7 +7,7 @@ import type {
 // store that keeps everything in this browser so the app runs with no setup.
 
 export type EditableProfile = Partial<
-  Pick<Profile, "language" | "home_country" | "home_currency" | "email_bills_on" | "email_weekly_on" | "timezone" | "rate_alert_on">
+  Pick<Profile, "language" | "home_country" | "home_currency" | "email_bills_on" | "email_weekly_on" | "timezone" | "rate_alert_on" | "pay_frequency">
 >;
 
 /** Totals the AI receives. Computed in code so every number is right. */
@@ -58,6 +58,8 @@ export interface Store {
   addRecipient(r: NewRecipient): Promise<void>;
   deleteRecipient(id: string): Promise<void>;
   listEntries(month: string): Promise<Entry[]>;
+  /** Entries on or after a date (YYYY-MM-DD), newest first. Paycheck mode uses these. */
+  listEntriesSince(date: string): Promise<Entry[]>;
   addEntry(e: NewEntry): Promise<void>;
   deleteEntry(id: string): Promise<void>;
   listGoals(): Promise<Goal[]>;

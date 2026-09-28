@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { getStore, type Store } from "@/lib/store";
-import { monthKey } from "@/lib/dates";
+import { monthKey, todayISO } from "@/lib/dates";
 import type { Bill, Checkup, Entry, Goal, Profile, Recipient, Subscription } from "@/lib/types";
 
 // Loads everything the app screens need for the current month and reloads after each change.
@@ -16,6 +16,8 @@ type Data = {
   bills: Bill[];
   recipients: Recipient[];
   entries: Entry[];
+  /** The last 45 days of entries, across months. Paycheck mode's pay periods use these. */
+  recent: Entry[];
   goals: Goal[];
   subscription: Subscription | null;
   /** This month's checkup, if written. */
@@ -39,12 +41,15 @@ export function useData(): Ctx {
 
 async function loadAll(store: Store): Promise<Data> {
   const month = monthKey();
-  const [profile, budget, bills, recipients, entries, goals, subscription, checkups] = await Promise.all([
+  const since = new Date();
+  since.setDate(since.getDate() - 45);
+  const [profile, budget, bills, recipients, entries, recent, goals, subscription, checkups] = await Promise.all([
     store.getProfile(),
     store.getBudget(month),
     store.listBills(),
     store.listRecipients(),
     store.listEntries(month),
+    store.listEntriesSince(todayISO(since)),
     store.listGoals(),
     store.getSubscription(),
     store.listCheckups(),
@@ -57,6 +62,7 @@ async function loadAll(store: Store): Promise<Data> {
     bills,
     recipients,
     entries,
+    recent,
     goals,
     subscription,
     checkup: checkups.find((c) => c.month === month) ?? null,

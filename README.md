@@ -92,6 +92,12 @@ How payment reaches the account:
 3. The webhook updates `subscriptions`. Only the service role writes that table; the goal limit is also enforced by a database trigger.
 4. Settings → Cancel Plus calls `/api/plus/cancel`, which cancels the Whop membership at the end of the period.
 
+### Paycheck mode (Plus)
+
+For people paid weekly, every two weeks, in cash or by gig. Turn it on in Settings, then tap "Me pagaron" on Home each payday. Home shows what you can spend until the next payday: the pay, minus this period's share of bills, family sends and savings (a week is 12/52 of a month), minus what's been spent since payday. Bills due before the next payday are listed. Money logged before the period ends (tips, a second gig) joins that period. Math in `src/lib/paycheck.ts`.
+
+Databases made before this feature need `supabase/migrations/002_paycheck_mode.sql` run once in the SQL editor.
+
 ## Emails
 
 Sent through Resend in each person's language. Every marketing email has a one-click unsubscribe (footer link and `List-Unsubscribe` headers) and your mailing address.

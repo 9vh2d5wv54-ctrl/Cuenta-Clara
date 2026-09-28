@@ -12,6 +12,7 @@ create table public.users (
   timezone text not null default 'America/New_York',
   rate_alert_on boolean not null default false,
   rate_alert_baseline numeric,
+  pay_frequency text check (pay_frequency in ('weekly', 'biweekly')), -- paycheck mode (Plus); null = plan by month
   created_at timestamptz not null default now()
 );
 
@@ -45,7 +46,7 @@ create table public.recipients (
 create table public.entries (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.users (id) on delete cascade,
-  type text not null check (type in ('expense', 'send', 'bill_paid', 'savings')),
+  type text not null check (type in ('expense', 'send', 'bill_paid', 'savings', 'income')),
   amount_cents bigint not null check (amount_cents > 0),
   category text not null,
   recipient_id uuid references public.recipients (id) on delete set null,
@@ -113,7 +114,7 @@ create policy "own profile" on public.users
   for all using (id = auth.uid()) with check (id = auth.uid());
 -- People edit their settings; rate_alert_baseline and email are server-managed.
 revoke update on public.users from authenticated, anon;
-grant update (language, home_country, home_currency, email_bills_on, email_weekly_on, timezone, rate_alert_on)
+grant update (language, home_country, home_currency, email_bills_on, email_weekly_on, timezone, rate_alert_on, pay_frequency)
   on public.users to authenticated;
 create policy "own budgets" on public.budgets
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());

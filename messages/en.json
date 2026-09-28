@@ -172,8 +172,10 @@
       "other": "Other",
       "family": "Family",
       "bills": "Bills",
-      "savings": "Savings"
-    }
+      "savings": "Savings",
+      "income": "Pay"
+    },
+    "typeIncome": "I got paid"
   },
   "sends": {
     "title": "Your sends this month",
@@ -278,7 +280,9 @@
     "cancelYes": "Yes, cancel",
     "cancelKeep": "Keep Plus",
     "cancelFailed": "We couldn't cancel right now. Try again in a moment.",
-    "canceledNoDate": "You canceled Plus. Nothing more is charged, and the basics stay free."
+    "canceledNoDate": "You canceled Plus. Nothing more is charged, and the basics stay free.",
+    "rowPay": "Budget by month",
+    "rowPayPlus": "Paycheck mode: what you can spend until payday"
   },
   "checkup": {
     "title": "Money checkup",
@@ -320,5 +324,28 @@
     "title": "Exchange-rate alert",
     "help": "We'll email you when {currency} moves at least 1% in your favor.",
     "needsCountry": "Pick your family's country in Settings to use alerts."
+  },
+  "paycheck": {
+    "untilDate": "Until {date}",
+    "leftLabel": "You can spend",
+    "perDay": "About {amount} a day for {days, plural, one {# day} other {# days}}",
+    "paid": "You got paid",
+    "family": "Family sends",
+    "savings": "Savings",
+    "spent": "Spent so far",
+    "short": "This pay is {amount} short of this period's share of bills, family sends and savings. Pay what's due first and hold off on extras.",
+    "overspent": "You're {amount} over until payday.",
+    "paydayCame": "Your payday was {date}. When you get paid, log it.",
+    "gotPaid": "I got paid",
+    "empty": "When you get paid, log it here and we'll show what you can spend until the next payday.",
+    "explain": "From what you were paid, we set aside this period's share of your bills, family sends and savings, and take off what you've already spent. Setting a little aside every paycheck is what covers rent when it's due. The rest is yours to spend until payday.",
+    "settingTitle": "Paycheck mode",
+    "settingHelp": "Paid weekly, every two weeks, or in cash? Plan by paycheck instead of by month.",
+    "off": "Off",
+    "weekly": "Weekly",
+    "biweekly": "Every 2 weeks",
+    "plusTitle": "Paycheck mode is part of Plus",
+    "bills": "Bills (this period's share)",
+    "dueSoon": "Due before payday: {list}"
   }
 }

@@ -8,13 +8,14 @@ import { BillForm } from "@/components/forms";
 import { Icon } from "@/components/Icon";
 import { setLocaleCookie } from "@/components/LanguageToggle";
 import Link from "next/link";
-import { paywallHref } from "@/components/Plus";
+import { paywallHref, PlusCard } from "@/components/Plus";
 import { formatLongDate } from "@/lib/dates";
 import { hadTrial, hasPlus } from "@/lib/plan";
 import { Button, Card, Dialog, Explain, Field, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
 import { COUNTRIES, countryByCode } from "@/lib/currencies";
 import { centsToInput, formatUSD, parseCents } from "@/lib/money";
 import type { Locale } from "@/i18n/config";
+import type { PayFrequency } from "@/lib/types";
 
 export default function Ajustes() {
   const t = useTranslations("settings");
@@ -22,6 +23,7 @@ export default function Ajustes() {
   const s = useTranslations("setup");
   const p = useTranslations("plus");
   const x = useTranslations("explain");
+  const pc = useTranslations("paycheck");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -74,6 +76,12 @@ export default function Ajustes() {
     } catch {
       setToast(p("cancelFailed"));
     }
+  }
+
+  function setPayFrequency(value: PayFrequency | "off") {
+    mutate((st) => st.updateProfile({ pay_frequency: value === "off" ? null : value })).catch(() =>
+      setToast(c("somethingWrong")),
+    );
   }
 
   function setting(key: "email_weekly_on" | "email_bills_on", on: boolean) {
@@ -163,6 +171,27 @@ export default function Ajustes() {
             )}
           </div>
         </Card>
+      )}
+
+      {plus ? (
+        <Card>
+          <div className="field">
+            <span className="field__label">{pc("settingTitle")}</span>
+            <p className="t-caption muted">{pc("settingHelp")}</p>
+            <Segmented
+              label={pc("settingTitle")}
+              value={profile?.pay_frequency ?? "off"}
+              onChange={setPayFrequency}
+              options={[
+                { value: "off", label: pc("off") },
+                { value: "weekly", label: pc("weekly") },
+                { value: "biweekly", label: pc("biweekly") },
+              ]}
+            />
+          </div>
+        </Card>
+      ) : (
+        <PlusCard feature="paycheck" title={pc("plusTitle")} />
       )}
 
       <Card>

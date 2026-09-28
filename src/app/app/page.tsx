@@ -8,6 +8,7 @@ import { useData } from "@/components/DataProvider";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { Card, Explain, ProgressBar } from "@/components/ui";
 import { Icon } from "@/components/Icon";
+import { PaycheckCard } from "@/components/Paycheck";
 import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
@@ -71,6 +72,8 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      <PaycheckCard />
 
       <Card className="hero">
         <div className="row" style={{ justifyContent: "center" }}>
@@ -165,7 +168,10 @@ export default function Dashboard() {
                     <p className="t-body">{e.note || cat(e.category)}</p>
                     <p className="t-caption muted">{cat(e.category)} · {formatShortDate(e.date, locale)}</p>
                   </div>
-                  <span className="t-body num">{formatUSD(e.amount_cents)}</span>
+                  <span className="t-body num">
+                    {e.type === "income" ? "+" : ""}
+                    {formatUSD(e.amount_cents)}
+                  </span>
                 </li>
               ))}
             </ul>
