@@ -663,5 +663,15 @@
       "An IRA is a retirement account you can open yourself.",
       "Start small and raise it a little each year."
     ]
+  },
+  "patterns": {
+    "title": "Your spending patterns",
+    "lead": "From what you've logged in the last few months.",
+    "topDay": "Your biggest spending day is {day}: {pct}% of your everyday spending.",
+    "weekend": "You spend {pct}% more per day on weekends than on weekdays.",
+    "afterPayday": "You spend {pct}% more per day in the 3 days after payday.",
+    "topCategory": "{category} is {pct}% of your everyday spending.",
+    "tip": "Knowing your pattern is half the work. Try planning the day or category that pulls the most.",
+    "plusLabel": "See your spending patterns"
   }
 }

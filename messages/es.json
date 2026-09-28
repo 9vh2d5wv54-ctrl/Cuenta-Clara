@@ -663,5 +663,15 @@
       "Una IRA es una cuenta de retiro que puedes abrir tú.",
       "Empieza con poco y súbelo un poquito cada año."
     ]
+  },
+  "patterns": {
+    "title": "Cómo gastas",
+    "lead": "Con lo que anotaste en los últimos meses.",
+    "topDay": "Tu día de más gasto es el {day}: {pct}% de tus gastos del día a día.",
+    "weekend": "Gastas {pct}% más por día los fines de semana que entre semana.",
+    "afterPayday": "Gastas {pct}% más por día en los 3 días después de que te pagan.",
+    "topCategory": "{category} es el {pct}% de tus gastos del día a día.",
+    "tip": "Conocer tu patrón es la mitad del trabajo. Planea el día o la categoría que más te jala.",
+    "plusLabel": "Mira cómo gastas"
   }
 }

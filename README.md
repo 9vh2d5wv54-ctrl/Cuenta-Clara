@@ -104,6 +104,10 @@ Card on Home, 0–100, not a credit score. Four parts, 25 points each, on straig
 
 On Goals, "Pick a goal, get a plan": emergency fund (3 × monthly bills and sends), buy a home (down payment 0/3.5/5/10/20% + about 3% closing costs), buy a car (20% down), start a business (startup costs + 3 months of bills), retire (25 × a year of spending, monthly saving at an assumed 5% a year after inflation), and pay off debt (the debt plan). Each shows the monthly amount, total and date, steps, and a lesson, and saves as a goal (free plan's one-goal limit applies). Math in `src/lib/goal-templates.ts`; page `/app/metas/plan/[id]`.
 
+### Spending patterns (Plus)
+
+Card on Home once there are 15+ expenses over 3+ weeks (last 130 days): biggest day of the week (if 22%+ of spending), weekend vs. weekday per-day spending (if 30%+ more), the 3 days after a logged payday vs. other days (if 30%+ more), and the biggest category (if 35%+). By day only; entries have no time. Free users see their own patterns blurred with the trial button. Logic in `src/lib/patterns.ts`.
+
 ### Cuenta Clara Academy (free, public)
 
 `/aprende` and `/aprende/[slug]`: 10 short bilingual lessons (budget, emergency fund, APR, compound interest, credit score, sending money home, 1099 taxes, snowball vs. avalanche, pay stubs, VA benefits), each with an example and a "try it" link into the app. No account needed; linked from Home and the landing page. Content in `src/lib/lessons.ts`. General information, not financial, tax or legal advice.

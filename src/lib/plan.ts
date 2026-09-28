@@ -14,7 +14,7 @@ export const PRICES = {
 } as const;
 
 export type Interval = "monthly" | "yearly";
-export type PlusFeature = "forecast" | "goals" | "rates" | "ask" | "paycheck" | "taxes" | "quicklog" | "paystub" | "projection" | "debts";
+export type PlusFeature = "forecast" | "goals" | "rates" | "ask" | "paycheck" | "taxes" | "quicklog" | "paystub" | "projection" | "debts" | "patterns";
 
 export function hasPlus(sub: Subscription | null): boolean {
   return sub?.plan === "plus" && (sub.status === "trialing" || sub.status === "active");
