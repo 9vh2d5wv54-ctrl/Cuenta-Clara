@@ -931,5 +931,18 @@
     "settingsTitle": "Veterans",
     "settingLabel": "Show veteran tools on Home",
     "settingHelp": "For veterans and military families. Saved on this device."
+  },
+  "words": {
+    "title": "Money words, made clear",
+    "lead": "Plain explanations of money words, in English and Spanish. Search any word below.",
+    "search": "Search a word, like APR or escrow",
+    "none": "No word found. Try another spelling, in English or Spanish.",
+    "more": "Learn more",
+    "count": "{n} words",
+    "lessonsLink": "2-minute money lessons",
+    "notAdvice": "General information, not financial, tax or legal advice.",
+    "homeLink": "Money words dictionary",
+    "landingTitle": "Money words dictionary",
+    "landingText": "APR, escrow, 1099 and more, explained in plain words."
   }
 }

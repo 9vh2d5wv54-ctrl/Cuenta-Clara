@@ -19,6 +19,7 @@ export default async function Landing() {
   const d = await getTranslations("dashboard");
   const nav = await getTranslations("nav");
   const ac = await getTranslations("academy");
+  const w = await getTranslations("words");
 
   const trust: { icon: IconName; text: string }[] = [
     { icon: "check", text: t("trustFree") },
@@ -200,6 +201,14 @@ export default async function Landing() {
               <span className="stack-sm grow">
                 <span className="t-heading">{t("lessonsTitle")}</span>
                 <span className="t-body muted">{t("lessonsText")}</span>
+              </span>
+              <Icon name="forward" size={20} />
+            </Link>
+            <Link href="/palabras" className="card lp-feature lp-feature--link">
+              <Icon name="globe" />
+              <span className="stack-sm grow">
+                <span className="t-heading">{w("landingTitle")}</span>
+                <span className="t-body muted">{w("landingText")}</span>
               </span>
               <Icon name="forward" size={20} />
             </Link>

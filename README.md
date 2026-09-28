@@ -194,3 +194,7 @@ The default Supabase email templates are fine. Login and confirm emails are sent
 ### Veterans: Home card (free)
 
 Home asks once, "Are you a veteran or military family?" Yes shows a Veteran tools card with the VA disability estimate, GI Bill planner and benefits checklist; No hides the question. Remembered per person in this browser (`src/lib/veteran-pref.ts`) and changeable in Settings → Veterans.
+
+### Money words dictionary (free, public)
+
+`/palabras`, no account needed, linked from the landing page and the Academy. 37 money words (APR, escrow, 1099, credit utilization, TSP, BAH and more) with plain definitions in English and Spanish, examples and links to lessons or tools (`src/lib/glossary.ts`). All definitions are server-rendered with schema.org DefinedTerm data for search engines; the search box filters by name in either language first, then by definition.

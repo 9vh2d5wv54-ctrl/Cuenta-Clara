@@ -14,6 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Academy() {
   const t = await getTranslations("academy");
   const ms = await getTranslations("moneyStyle");
+  const w = await getTranslations("words");
   const locale = (await getLocale()) === "en" ? "en" : "es";
 
   return (
@@ -46,6 +47,11 @@ export default async function Academy() {
       <Link href="/estilo" className="card row" style={{ textDecoration: "none" }}>
         <Icon name="heart" />
         <span className="t-label grow">{ms("homeLink")}</span>
+        <Icon name="forward" size={20} />
+      </Link>
+      <Link href="/palabras" className="card row" style={{ textDecoration: "none" }}>
+        <Icon name="info" />
+        <span className="t-label grow">{w("homeLink")}</span>
         <Icon name="forward" size={20} />
       </Link>
       <p className="t-caption muted">{t("notAdvice")}</p>
