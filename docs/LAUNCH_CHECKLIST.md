@@ -120,3 +120,6 @@ Tip: adding variables and copying keys is much easier on a computer than on a ph
 - [ ] Xcode on a Mac that supports it, or a cloud build service
 - [x] Whop: $39.99 yearly plan exists on Cuenta Clara Plus, with the 7-day trial (checked Sep 28, 2026)
 - [ ] Plus trial test: check whether Whop checkout shows a crossed-out "$6.24, Save 20%" on the monthly plan; if so, remove it (setting or Whop support). Never show a "was" price that was not real.
+
+## Design (later)
+- [ ] Possible layout/visual redesign after tester feedback: collect example apps; colors and fonts live in src/app/tokens.css, icons regenerate from the brand font
