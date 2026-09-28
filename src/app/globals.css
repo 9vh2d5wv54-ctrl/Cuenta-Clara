@@ -1492,3 +1492,12 @@ textarea {
 .whatif__table td:first-child {
   text-align: start;
 }
+
+/* Legal pages and footer */
+.lp-legal {
+  text-align: center;
+  padding-bottom: var(--space-8);
+}
+.legal section + section {
+  margin-top: var(--space-2);
+}

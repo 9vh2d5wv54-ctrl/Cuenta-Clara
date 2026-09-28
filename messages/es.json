@@ -982,5 +982,11 @@
     "describe": "Tu saldo del banco en los próximos {days} días. Como está, termina en {planned}; {label}, termina en {withIt}.",
     "assumes": "Estimado con tus números: pagos en tus días de pago, cuentas en su fecha, envíos y ahorro como están planeados, y gastos del día a día al ritmo de este mes.",
     "locked": "Mira los próximos 30, 60 o 90 días con Plus"
+  },
+  "legal": {
+    "updated": "Actualizado el {date}",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "signupNote": "Al crear tu cuenta aceptas los <terms>Términos de uso</terms> y la <privacy>Política de privacidad</privacy>."
   }
 }

@@ -107,3 +107,5 @@ Later:
 - [ ] Delete the unused older Claude key "Cuenta-Clara" in the Console (API keys page)
 
 Tip: adding variables and copying keys is much easier on a computer than on a phone.
+- [x] Privacy policy and terms of use drafts at /privacidad and /terminos (Sep 28, 2026)
+- [ ] Lawyer or law school clinic review of the privacy policy and terms (St. John's Law clinics, VBOC, or a flat-fee lawyer)

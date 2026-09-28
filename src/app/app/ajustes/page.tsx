@@ -29,6 +29,7 @@ export default function Ajustes() {
   const pc = useTranslations("paycheck");
   const tx = useTranslations("taxes");
   const vc = useTranslations("veteranCard");
+  const lg = useTranslations("legal");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -315,6 +316,9 @@ export default function Ajustes() {
           {t("deleteAccount")}
         </Button>
         {profile && <p className="t-caption muted" style={{ textAlign: "center" }}>{profile.email}</p>}
+        <p className="t-caption muted" style={{ textAlign: "center" }}>
+          <Link href="/privacidad">{lg("privacy")}</Link> · <Link href="/terminos">{lg("terms")}</Link>
+        </p>
       </div>
 
       <Dialog open={confirming} onClose={() => setConfirming(false)} title={t("deleteAccount")}>

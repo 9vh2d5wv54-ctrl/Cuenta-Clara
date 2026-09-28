@@ -13,6 +13,7 @@ import type { Locale } from "@/i18n/config";
 
 export function LoginForm() {
   const t = useTranslations("auth");
+  const lg = useTranslations("legal");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const params = useSearchParams();
@@ -150,6 +151,14 @@ export function LoginForm() {
           <Button variant="secondary" block onClick={onMagicLink} disabled={busy}>
             {t("magicButton")}
           </Button>
+          {signup && (
+            <p className="t-caption muted" style={{ textAlign: "center" }}>
+              {lg.rich("signupNote", {
+                terms: (c) => <Link href="/terminos">{c}</Link>,
+                privacy: (c) => <Link href="/privacidad">{c}</Link>,
+              })}
+            </p>
+          )}
         </form>
       )}
 

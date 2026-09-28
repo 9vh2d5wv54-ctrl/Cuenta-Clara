@@ -20,6 +20,7 @@ export default async function Landing() {
   const nav = await getTranslations("nav");
   const ac = await getTranslations("academy");
   const w = await getTranslations("words");
+  const lg = await getTranslations("legal");
 
   const trust: { icon: IconName; text: string }[] = [
     { icon: "check", text: t("trustFree") },
@@ -245,6 +246,9 @@ export default async function Landing() {
             {ac("homeLink")}
           </Link>
         </section>
+        <p className="lp-wrap t-caption muted lp-legal">
+          <Link href="/privacidad">{lg("privacy")}</Link> · <Link href="/terminos">{lg("terms")}</Link>
+        </p>
       </main>
 
       <StickyCta watchId="hero-cta">{t("cta")}</StickyCta>

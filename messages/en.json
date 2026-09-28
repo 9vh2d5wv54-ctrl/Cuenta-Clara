@@ -982,5 +982,11 @@
     "describe": "Your bank balance for the next {days} days. As planned it ends at {planned}; {label}, it ends at {withIt}.",
     "assumes": "Estimate from your numbers: paychecks on paydays, bills on their due dates, sends and savings as planned, and everyday spending at this month's pace.",
     "locked": "See the next 30, 60 or 90 days with Plus"
+  },
+  "legal": {
+    "updated": "Last updated {date}",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "signupNote": "By creating an account you agree to the <terms>Terms of use</terms> and the <privacy>Privacy policy</privacy>."
   }
 }
