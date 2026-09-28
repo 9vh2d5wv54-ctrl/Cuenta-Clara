@@ -27,6 +27,9 @@ export function paydayFacts(p: PaydayPlan, lang: "es" | "en"): string {
 }
 
 export function paydayFallbackLine(p: PaydayPlan, lang: "es" | "en"): string {
+  if (p.bills.length === 0 && p.billsTotal === 0 && p.family === 0 && p.savings === 0) {
+    return lang === "es" ? "Mañana te pagan. Vamos a darle un plan a ese dinero." : "You get paid tomorrow. Let's give that money a plan.";
+  }
   if (p.left < 0) {
     return lang === "es"
       ? "Mañana te pagan. No alcanza para todo lo que viene, así que primero van las cuentas."
