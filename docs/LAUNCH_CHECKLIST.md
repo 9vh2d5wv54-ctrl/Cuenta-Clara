@@ -83,6 +83,7 @@ Clara and Academy:
 - [x] Run `supabase/migrations/007_clara.sql` in Supabase (saved Clara conversations)
 - [x] What-if 30/60/90-day chart (Plus)
 - [x] Payday plan email the day before payday (preview: /api/email/test?kind=payday)
+- [x] App checkup (Sep 28, 2026): every page, es/en, new/free/Plus, light/dark; new-user flow; no broken links
 - [ ] Set a monthly spending limit / auto-reload in the Claude Console before real users
 
 Money Health Score:

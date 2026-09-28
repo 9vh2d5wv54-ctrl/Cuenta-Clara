@@ -25,7 +25,7 @@ function hoursValue(text: string): number {
 export default function PayCheck() {
   const t = useTranslations("paystub");
   const router = useRouter();
-  const { profile, subscription, mutate } = useData();
+  const { profile, subscription, hasCheckup, mutate } = useData();
   const [period, setPeriod] = useState<Period>(profile?.pay_frequency ?? "weekly");
   const [rate, setRate] = useState("");
   const [week1, setWeek1] = useState("");
@@ -39,8 +39,11 @@ export default function PayCheck() {
   if (!hasPlus(subscription)) {
     return (
       <main className="page">
-        <h1 className="t-title">{t("title")}</h1>
-        <PlusCard feature="paystub" title={t("plusTitle")} />
+        <div className="stack-sm">
+          <h1 className="t-title">{t("title")}</h1>
+          <p className="t-body muted">{t("lead")}</p>
+        </div>
+        {hasCheckup ? <PlusCard feature="paystub" title={t("plusTitle")} /> : <p className="notice t-body">{t("plusLater")}</p>}
       </main>
     );
   }

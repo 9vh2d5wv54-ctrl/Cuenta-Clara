@@ -421,7 +421,8 @@
     "rules": "We use the federal rule: time and a half after 40 hours in a week. Some states pay more, like California's daily overtime, and tipped jobs have different rules. This is general information, not legal advice.",
     "logIt": "Log {amount} as this paycheck",
     "plusTitle": "The paycheck checker is part of Plus",
-    "homeLink": "Were you paid right? Check your pay stub"
+    "homeLink": "Were you paid right? Check your pay stub",
+    "plusLater": "This is part of Cuenta Clara Plus. Finish your first money checkup to try Plus free for 7 days."
   },
   "whatsapp": {
     "title": "WhatsApp assistant",
