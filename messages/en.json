@@ -552,5 +552,31 @@
     "notAdvice": "General information, not financial, tax or legal advice.",
     "example": "Example",
     "homeLink": "2-minute money lessons"
+  },
+  "health": {
+    "title": "Money Health Score",
+    "outOf": "out of 100",
+    "low": "Needs care",
+    "mid": "Getting there",
+    "high": "Strong",
+    "emergency": "Emergency fund",
+    "debt": "Debt",
+    "savings": "Saving",
+    "room": "Room to breathe",
+    "emergencyValue": "{months} months of bills saved",
+    "debtValue": "{pct}% of income goes to debt minimums",
+    "savingsValue": "{pct}% of income goes to your goals",
+    "roomValue": "{pct}% of income left after everything",
+    "next": "Your next step",
+    "tip_emergency": "Build your emergency fund: even $25 a week adds up. Aim for 3 months of bills.",
+    "tip_debt": "Your debt payments take a big bite. See which debt to pay first.",
+    "tip_savings": "Put a little toward a goal each month, even 5% of what comes in.",
+    "tip_room": "Your month is tight. Look at your fixed costs and everyday spending.",
+    "link_emergency": "Create an emergency fund goal",
+    "link_debt": "Open your debt plan",
+    "link_savings": "Set up a goal",
+    "link_room": "Read: Your budget in 3 steps",
+    "explain": "Not a credit score. It's how your month and your cushion look from your own numbers: emergency fund (3 months of bills = full points), debt minimums (10% of income or less = full), saving (15% or more = full) and what's left (10% or more = full). 25 points each. Emergency savings counts goals named like \"emergency fund\" and your Safe to Spend cushion.",
+    "needsIncome": "Add your monthly income to see your Money Health Score."
   }
 }

@@ -552,5 +552,31 @@
     "notAdvice": "Información general, no asesoría financiera, de impuestos ni legal.",
     "example": "Ejemplo",
     "homeLink": "Lecciones de dinero de 2 minutos"
+  },
+  "health": {
+    "title": "Salud de tu dinero",
+    "outOf": "de 100",
+    "low": "Necesita atención",
+    "mid": "Vas bien encaminado",
+    "high": "Fuerte",
+    "emergency": "Fondo de emergencia",
+    "debt": "Deudas",
+    "savings": "Ahorro",
+    "room": "Espacio para respirar",
+    "emergencyValue": "{months} meses de cuentas ahorrados",
+    "debtValue": "{pct}% de lo que entra va a pagos mínimos de deudas",
+    "savingsValue": "{pct}% de lo que entra va a tus metas",
+    "roomValue": "{pct}% de lo que entra te queda después de todo",
+    "next": "Tu siguiente paso",
+    "tip_emergency": "Arma tu fondo de emergencia: aunque sean $25 por semana, se suma. La meta es 3 meses de cuentas.",
+    "tip_debt": "Tus pagos de deudas se llevan mucho. Mira cuál pagar primero.",
+    "tip_savings": "Pon un poco cada mes para una meta, aunque sea 5% de lo que entra.",
+    "tip_room": "Tu mes está apretado. Revisa tus gastos fijos y los del día a día.",
+    "link_emergency": "Crea una meta de fondo de emergencia",
+    "link_debt": "Abre tu plan de deudas",
+    "link_savings": "Crea una meta",
+    "link_room": "Lee: Tu presupuesto en 3 pasos",
+    "explain": "No es un puntaje de crédito. Es cómo se ven tu mes y tu colchón con tus propios números: fondo de emergencia (3 meses de cuentas = puntos completos), pagos mínimos de deudas (10% de lo que entra o menos = completos), ahorro (15% o más = completos) y lo que te queda (10% o más = completos). 25 puntos cada uno. El fondo de emergencia cuenta las metas con nombre como \"fondo de emergencia\" y tu colchón de Seguro para gastar.",
+    "needsIncome": "Agrega tu ingreso del mes para ver la salud de tu dinero."
   }
 }

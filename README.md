@@ -92,6 +92,10 @@ How payment reaches the account:
 3. The webhook updates `subscriptions`. Only the service role writes that table; the goal limit is also enforced by a database trigger.
 4. Settings → Cancel Plus calls `/api/plus/cancel`, which cancels the Whop membership at the end of the period.
 
+### Money Health Score (free)
+
+Card on Home, 0–100, not a credit score. Four parts, 25 points each, on straight lines: emergency fund (months of bills and family sends saved, 0 → 3; counts goals named like an emergency fund plus the Safe to Spend cushion), debt minimums as a share of income (50% → 10%), goal saving as a share of income (0 → 15%), and what's left after everything and debt minimums (0 → 10%). Shows each part and one next step for the weakest. Logic in `src/lib/health.ts`.
+
 ### Cuenta Clara Academy (free, public)
 
 `/aprende` and `/aprende/[slug]`: 10 short bilingual lessons (budget, emergency fund, APR, compound interest, credit score, sending money home, 1099 taxes, snowball vs. avalanche, pay stubs, VA benefits), each with an example and a "try it" link into the app. No account needed; linked from Home and the landing page. Content in `src/lib/lessons.ts`. General information, not financial, tax or legal advice.

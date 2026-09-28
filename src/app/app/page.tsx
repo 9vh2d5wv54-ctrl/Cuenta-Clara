@@ -10,6 +10,7 @@ import { Card, Explain, ProgressBar } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { PaycheckCard } from "@/components/Paycheck";
 import { TaxCard } from "@/components/Taxes";
+import { HealthCard } from "@/components/Health";
 import { SafeToSpendCard } from "@/components/SafeToSpend";
 import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
@@ -132,6 +133,8 @@ export default function Dashboard() {
           ))}
         </div>
       </Card>
+
+      <HealthCard />
 
       <TaxCard />
 
