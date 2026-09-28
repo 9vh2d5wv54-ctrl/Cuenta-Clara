@@ -234,8 +234,8 @@
     "deleteYes": "Sí, borrar todo",
     "savedNote": "Guardado.",
     "emails": "Correos",
-    "weekly": "Tu resumen semanal",
-    "weeklyHelp": "Los domingos a las 6 PM.",
+    "weekly": "Resumen semanal y plan del día de pago",
+    "weeklyHelp": "Los domingos a las 6 PM, y el día antes de tu pago.",
     "billsHelp": "3 días antes de que venza una cuenta."
   },
   "explain": {

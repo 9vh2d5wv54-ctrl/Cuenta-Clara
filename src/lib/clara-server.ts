@@ -16,18 +16,31 @@ export function userNow(timezone: string | null | undefined, at = new Date()): D
   }
 }
 
-export async function loadClaraData(db: SupabaseClient, now: Date): Promise<{ data: ClaraData; profile: Profile | null }> {
+/** With the person's session (RLS scopes it), or the admin client plus userId (cron). */
+export async function loadClaraData(db: SupabaseClient, now: Date, userId?: string): Promise<{ data: ClaraData; profile: Profile | null }> {
   const since = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 130);
   const month = todayISO(now).slice(0, 7);
+  const users = db.from("users").select("*");
+  const budgets = db.from("budgets").select("income_cents");
+  const billsQ = db.from("bills").select("*");
+  const recipientsQ = db.from("recipients").select("*");
+  const entriesQ = db.from("entries").select("*");
+  const goalsQ = db.from("goals").select("*");
+  const debtsQ = db.from("debts").select("*");
+  const subs = db.from("subscriptions").select("plan, status, trial_ends_at, renews_at, cancel_at_period_end");
+  if (userId) {
+    users.eq("id", userId);
+    for (const q of [budgets, billsQ, recipientsQ, entriesQ, goalsQ, debtsQ, subs]) q.eq("user_id", userId);
+  }
   const [profile, budget, bills, recipients, recent, goals, debts, sub] = await Promise.all([
-    db.from("users").select("*").maybeSingle(),
-    db.from("budgets").select("income_cents").lte("month", month).order("month", { ascending: false }).limit(1).maybeSingle(),
-    db.from("bills").select("*"),
-    db.from("recipients").select("*"),
-    db.from("entries").select("*").gte("date", todayISO(since)),
-    db.from("goals").select("*"),
-    db.from("debts").select("*"),
-    db.from("subscriptions").select("plan, status, trial_ends_at, renews_at, cancel_at_period_end").maybeSingle(),
+    users.maybeSingle(),
+    budgets.lte("month", month).order("month", { ascending: false }).limit(1).maybeSingle(),
+    billsQ,
+    recipientsQ,
+    entriesQ.gte("date", todayISO(since)),
+    goalsQ,
+    debtsQ,
+    subs.maybeSingle(),
   ]);
   const p = (profile.data ?? null) as Profile | null;
   const subscription = (sub.data ?? null) as Subscription | null;

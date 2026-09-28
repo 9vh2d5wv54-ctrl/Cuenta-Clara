@@ -6,10 +6,14 @@ import { appUrl, sendEmail } from "@/lib/email";
 import { formatUSD } from "@/lib/money";
 import { loadUserMonth, monthTotals } from "@/lib/server-budget";
 import { supabaseAdmin } from "@/lib/supabase-server";
+import { writePaydayLine } from "@/lib/ai";
+import { loadClaraData, userNow } from "@/lib/clara-server";
+import { paydayEmail, paydayFacts, paydayFallbackLine } from "@/lib/payday-email";
+import { paydayPlanTomorrow } from "@/lib/payday-plan";
 
-// Daily (vercel.json): bill reminders 3 days out, trial-ending notices 2 days out,
-// Plus exchange-rate alerts, and Plus tax set-aside reminders 7 days before each
-// IRS estimated-tax due date.
+// Daily (vercel.json): payday plans the day before payday, bill reminders 3 days
+// out, trial-ending notices 2 days out, Plus exchange-rate alerts, and Plus tax
+// set-aside reminders 7 days before each IRS estimated-tax due date.
 
 type User = {
   id: string;
@@ -26,13 +30,37 @@ export async function GET(request: NextRequest) {
   const denied = cronUnauthorized(request);
   if (denied) return denied;
   const db = supabaseAdmin();
-  const [bills, trials, rates, taxes] = await Promise.all([
+  const [bills, trials, rates, taxes, paydays] = await Promise.all([
     billReminders(db),
     trialReminders(db),
     rateAlerts(db),
     taxReminders(db),
+    paydayEmails(db),
   ]);
-  return NextResponse.json({ bills, trials, rates, taxes });
+  return NextResponse.json({ bills, trials, rates, taxes, paydays });
+}
+
+/** "Mañana es día de pago": the plan for tomorrow's paycheck, to people who get summary emails. */
+async function paydayEmails(db: ReturnType<typeof supabaseAdmin>) {
+  const { data, error } = await db
+    .from("users")
+    .select("id, email, language, timezone")
+    .eq("email_weekly_on", true)
+    .or("payday_anchor.not.is.null,pay_frequency.not.is.null");
+  if (error) return { error: error.message };
+
+  let sent = 0;
+  for (const user of (data ?? []) as Pick<User, "id" | "email" | "language" | "timezone">[]) {
+    const now = userNow(user.timezone);
+    const { data: money } = await loadClaraData(db, now, user.id);
+    const plan = paydayPlanTomorrow(money, now);
+    if (!plan) continue;
+    const lang = user.language === "en" ? "en" : "es";
+    const line = await writePaydayLine(paydayFacts(plan, lang), paydayFallbackLine(plan, lang));
+    const { subject, body } = paydayEmail(plan, lang, line, appUrl("/app"));
+    if (await sendEmail({ to: user.email, userId: user.id, kind: "weekly", subject, body })) sent++;
+  }
+  return { sent };
 }
 
 async function billReminders(db: ReturnType<typeof supabaseAdmin>) {

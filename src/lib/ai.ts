@@ -102,6 +102,17 @@ export async function writeWeeklyLine(i: CheckupInput): Promise<string> {
     : `You're heading into the week with ${formatUSD(i.left_cents)} left for the rest of the month.`;
 }
 
+const PAYDAY_SYSTEM = `You write the one friendly opening line of a "payday tomorrow" email from Clara, the money copilot in Cuenta Clara. Reply in the user's language (Spanish or English), using "tú" in Spanish. One sentence, under 25 words, no exclamation marks, no emoji. Use only numbers given below, never calculate new ones. If what's left is negative, be calm and practical: bills first. Never judge or shame. Tone: warm, clear, like a relative who's good with money.`;
+
+/** Clara's first line in the payday email. The plan below it comes from code. */
+export async function writePaydayLine(facts: string, fallback: string): Promise<string> {
+  if (hasKey()) {
+    const text = await write(PAYDAY_SYSTEM, facts, 300);
+    if (text) return text.split("\n")[0];
+  }
+  return fallback;
+}
+
 export async function writeCheckup(i: CheckupInput): Promise<string> {
   if (hasKey()) {
     const text = await write(CHECKUP_SYSTEM, budgetLines(i), 2000);

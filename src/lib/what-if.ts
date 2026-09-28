@@ -29,7 +29,7 @@ export type WhatIfChart = {
   defaultRange: 30 | 60 | 90;
 };
 
-const PER_YEAR: Record<PaydayCycle, number> = { weekly: 52, biweekly: 26, semimonthly: 24, monthly: 12 };
+export const PER_YEAR: Record<PaydayCycle, number> = { weekly: 52, biweekly: 26, semimonthly: 24, monthly: 12 };
 
 function parse(iso: string): Date {
   const [y, m, d] = iso.split("-").map(Number);
@@ -37,7 +37,7 @@ function parse(iso: string): Date {
 }
 
 /** The pay schedule the plan uses: Safe to Spend's payday, or paycheck mode's. */
-function schedule(d: ClaraData, now: Date): { cycle: PaydayCycle; first: string } | null {
+export function schedule(d: ClaraData, now: Date): { cycle: PaydayCycle; first: string } | null {
   const p = d.profile;
   const today = todayISO(now);
   if (hasPlus(d.subscription) && p?.pay_frequency) {

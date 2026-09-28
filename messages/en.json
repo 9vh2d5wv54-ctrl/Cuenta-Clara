@@ -234,8 +234,8 @@
     "deleteYes": "Yes, delete everything",
     "savedNote": "Saved.",
     "emails": "Emails",
-    "weekly": "Your weekly summary",
-    "weeklyHelp": "Sundays at 6 PM.",
+    "weekly": "Weekly summary and payday plan",
+    "weeklyHelp": "Sundays at 6 PM, and the day before payday.",
     "billsHelp": "3 days before a bill is due."
   },
   "explain": {
