@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { readQuickLog, type QuickLogInput } from "@/lib/ai";
 import { isDemo } from "@/lib/demo";
 import { cleanEntries, MAX_TEXT, parseTextSimple, type QuickOption, type QuickOptions } from "@/lib/quick-log";
-import { supabaseFromCookies } from "@/lib/supabase-server";
+import { takeUse } from "@/lib/ai-usage";
+import { supabaseAdmin, supabaseFromCookies } from "@/lib/supabase-server";
 
 // Quick log (Plus): a sentence or a receipt photo in, entries to confirm out.
 // Nothing is saved here and the photo is never stored.
@@ -28,6 +29,9 @@ export async function POST(request: NextRequest) {
     if (!auth.user) return NextResponse.json({ error: "not signed in" }, { status: 401 });
     const { data: plus } = await supabase.rpc("has_plus", { uid: auth.user.id });
     if (!plus) return NextResponse.json({ error: "plus required" }, { status: 402 });
+    if (!(await takeUse(supabaseAdmin(), auth.user.id, "[quick-log]", new Date().toISOString().slice(0, 10)))) {
+      return NextResponse.json({ error: "limit" }, { status: 429 });
+    }
   }
 
   const today = typeof body.today === "string" && /^\d{4}-\d{2}-\d{2}$/.test(body.today)

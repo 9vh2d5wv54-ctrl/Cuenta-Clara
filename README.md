@@ -220,3 +220,12 @@ Clara reaches out first: the daily cron (`/api/cron/daily`) emails people whose 
 ### Home-screen install
 
 `src/app/manifest.ts` (name, full screen, opens at `/app`, brand colors), icons in `public/icons` plus `src/app/apple-icon.png`, and Apple web-app settings in `src/app/layout.tsx`. Home shows an install card (`src/components/InstallCard.tsx`): iPhone/iPad get the two Share → "Add to Home Screen" steps (iOS has no install button) and a note to sign in with email and password the first time, since a home-screen app on iPhone keeps its own sign-in; Chrome gets an "Install the app" button. Hidden once opened from the home screen or after "Not now" on that device.
+
+### Security review (Sep 28, 2026)
+
+Checked: row-level security on every table (people reach only their own rows; subscriptions, checkups, questions and WhatsApp fields are server-written only), every API route's sign-in and Plus checks, webhook signatures (Whop, WhatsApp, unsubscribe links: timing-safe), no open redirects after sign-in, escaped email HTML, no secrets in the browser. Fixed:
+- Daily caps on Claude features outside Clara (`src/lib/ai-usage.ts`): quick logging 60/day (app + WhatsApp), pay stub photos 10/day. Stored as tagged rows in `ai_questions`, left out of Clara's count.
+- The money checkup only accepts the current month (±1), so it can't be requested for made-up months.
+- `/api/email/test` and `/api/plus/status` are for tester accounts only (`CLARA_TESTER_EMAILS`).
+- WhatsApp link codes are 6 letters and numbers (no look-alikes), not 6 digits.
+- Security headers on every page (`next.config.ts`): no framing, nosniff, strict referrer, camera/mic only for this site, HSTS.

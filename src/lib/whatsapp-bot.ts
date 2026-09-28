@@ -4,13 +4,14 @@ import { ASK_DAILY_LIMIT } from "./plan";
 import { cleanEntries, MAX_TEXT, parseTextSimple, type ParsedEntry, type QuickOptions } from "./quick-log";
 import { loadUserMonth, monthInput, monthTotals } from "./server-budget";
 import { supabaseAdmin } from "./supabase-server";
+import { takeUse, USAGE_TAG_LIST } from "./ai-usage";
 import { downloadMedia, sendText, type IncomingMessage } from "./whatsapp";
 import { appUrl } from "./email";
 import es from "../../messages/es.json";
 import en from "../../messages/en.json";
 
 // The WhatsApp assistant (Plus). Someone connects their number from Settings by
-// sending "CLARA 123456"; after that they can text an expense, send a receipt
+// sending "CLARA" and a 6-character code; after that they can text an expense, send a receipt
 // photo, ask "¿Me alcanza…?", check "saldo", or "borrar" the last thing logged.
 // Every reply is free-form text inside the 24-hour window their message opens.
 
@@ -18,7 +19,7 @@ type Db = ReturnType<typeof supabaseAdmin>;
 type Lang = "es" | "en";
 type User = { id: string; language: Lang; timezone: string; whatsapp_last_entries: string[] | null };
 
-const LINK = /\bclara\s*(\d{6})\b/i;
+const LINK = /\bclara\s*([a-z0-9]{6})\b/i;
 const HELP = /^(ayuda|help|hola|hi|hello|menu|menú|\?)$/i;
 const BALANCE = /^(saldo|balance|cuanto me queda|cuánto me queda|que me queda|qué me queda|how much is left|what's left|whats left)\??$/i;
 const UNDO = /^(borrar|borra|deshacer|undo|delete)$/i;
@@ -69,6 +70,10 @@ const say = {
     es: `Llegaste a las ${ASK_DAILY_LIMIT} preguntas de hoy. Mañana puedes hacer más.`,
     en: `You've reached today's ${ASK_DAILY_LIMIT} questions. You can ask more tomorrow.`,
   },
+  logLimit: {
+    es: "Llegaste al límite de anotaciones de hoy. Puedes seguir anotando a mano en la app.",
+    en: "You've reached today's logging limit. You can keep logging by hand in the app.",
+  },
   error: { es: "Algo salió mal. Intenta otra vez en un momento.", en: "Something went wrong. Try again in a moment." },
 };
 
@@ -106,7 +111,7 @@ export async function handleWhatsApp(msg: IncomingMessage): Promise<void> {
     if (seen.error) return;
 
     const text = (msg.text?.body ?? msg.image?.caption ?? "").trim().slice(0, MAX_TEXT);
-    const code = text.match(LINK)?.[1];
+    const code = text.match(LINK)?.[1]?.toUpperCase();
     if (code) return await link(db, msg.from, code);
 
     const { data: user } = await db
@@ -167,6 +172,9 @@ async function link(db: Db, phone: string, code: string) {
 }
 
 async function log(db: Db, user: User, lang: Lang, phone: string, input: QuickLogInput, today: string, month: string) {
+  if (!(await takeUse(db, user.id, "[quick-log]", new Date().toISOString().slice(0, 10)))) {
+    return void (await sendText(phone, say.logLimit[lang]));
+  }
   const u = await loadUserMonth(db, user.id, month);
   const opts: QuickOptions = {
     recipients: u.recipients.map((r) => ({ id: r.id, name: r.name })),
@@ -234,7 +242,8 @@ async function ask(db: Db, user: User, lang: Lang, phone: string, question: stri
     .from("ai_questions")
     .select("id", { count: "exact", head: true })
     .eq("user_id", user.id)
-    .eq("date", today);
+    .eq("date", today)
+    .not("question", "in", USAGE_TAG_LIST);
   if ((count ?? 0) >= ASK_DAILY_LIMIT) return void (await sendText(phone, say.limit[lang]));
   const input = monthInput(await loadUserMonth(db, user.id, month), lang, month);
   const answer = await answerQuestion(question, input);

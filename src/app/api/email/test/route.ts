@@ -5,6 +5,7 @@ import * as email from "@/lib/email";
 import { paydayEmail, paydayFacts, paydayFallbackLine } from "@/lib/payday-email";
 import { paydayPlan } from "@/lib/payday-plan";
 import { supabaseFromCookies } from "@/lib/supabase-server";
+import { isTester } from "@/lib/testers";
 import { schedule } from "@/lib/what-if";
 
 // Open /api/email/test while signed in: sends a sample bill reminder to your
@@ -17,6 +18,8 @@ export async function GET(request: NextRequest) {
   const supabase = await supabaseFromCookies();
   const { data } = await supabase.auth.getUser();
   if (!data.user?.email) return NextResponse.json({ ok: false, problem: "sign in to the app first, then open this page" });
+  // It sends real email and calls Claude, so only tester accounts can use it.
+  if (!isTester(data.user.email)) return NextResponse.json({ ok: false, problem: "only for tester accounts (CLARA_TESTER_EMAILS)" }, { status: 403 });
 
   const { data: profile } = await supabase.from("users").select("language").maybeSingle();
   const lang = profile?.language === "en" ? "en" : "es";

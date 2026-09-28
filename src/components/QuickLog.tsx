@@ -67,6 +67,7 @@ export function QuickLog({ onEdit, onSaved }: { onEdit: (e: ParsedEntry) => void
         body: JSON.stringify({ ...payload, today: todayISO(), lists }),
       });
       if (res.status === 503) return setMessage(t("photosOff"));
+      if (res.status === 429) return setMessage(t("limit"));
       if (!res.ok) return setMessage(t("error"));
       const { entries } = (await res.json()) as { entries: ParsedEntry[] };
       if (entries.length === 0) return setMessage(t("nothing"));

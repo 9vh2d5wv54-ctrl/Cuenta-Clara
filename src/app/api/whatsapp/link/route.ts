@@ -7,6 +7,8 @@ import { whatsappConfigured, whatsappNumber } from "@/lib/whatsapp";
 // person sends "CLARA <code>" to our number and the webhook links their phone.
 // DELETE disconnects.
 
+const CODE_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+
 async function signedIn() {
   const supabase = await supabaseFromCookies();
   const { data } = await supabase.auth.getUser();
@@ -21,7 +23,8 @@ export async function POST() {
   const { data: plus } = await who.supabase.rpc("has_plus", { uid: who.id });
   if (!plus) return NextResponse.json({ error: "plus required" }, { status: 402 });
 
-  const code = String(randomInt(100000, 1000000));
+  // 6 letters and numbers without look-alikes (0/O, 1/I/L): hard to guess in 15 minutes.
+  const code = Array.from({ length: 6 }, () => CODE_CHARS[randomInt(CODE_CHARS.length)]).join("");
   const expires = new Date(Date.now() + 15 * 60_000).toISOString();
   const { error } = await supabaseAdmin()
     .from("users")

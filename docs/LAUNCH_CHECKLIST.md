@@ -123,3 +123,4 @@ Tip: adding variables and copying keys is much easier on a computer than on a ph
 
 ## Design (later)
 - [ ] Possible layout/visual redesign after tester feedback: collect example apps; colors and fonts live in src/app/tokens.css, icons regenerate from the brand font
+- [x] Security review and fixes (Sep 28, 2026): see README "Security review"

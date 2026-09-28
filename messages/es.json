@@ -389,7 +389,8 @@
     "saved": "Listo: {count, plural, one {# anotado} other {# anotados}}.",
     "plusTitle": "Anotar con tu voz o una foto del recibo es parte de Plus",
     "noMatch": "no está en tu lista",
-    "orByHand": "O anótalo a mano"
+    "orByHand": "O anótalo a mano",
+    "limit": "Llegaste al límite de hoy para anotar rápido. Todavía puedes anotar a mano abajo, y mañana se reinicia."
   },
   "paystub": {
     "title": "¿Te pagaron bien?",
@@ -422,7 +423,8 @@
     "logIt": "Anotar {amount} como este pago",
     "plusTitle": "Revisar tu pago es parte de Plus",
     "homeLink": "¿Te pagaron bien? Revisa tu talón de pago",
-    "plusLater": "Esto es parte de Cuenta Clara Plus. Termina tu primer chequeo de dinero para probar Plus gratis 7 días."
+    "plusLater": "Esto es parte de Cuenta Clara Plus. Termina tu primer chequeo de dinero para probar Plus gratis 7 días.",
+    "limit": "Revisaste muchos talones hoy. Escribe los números abajo, o prueba la foto otra vez mañana."
   },
   "whatsapp": {
     "title": "Asistente de WhatsApp",

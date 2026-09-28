@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { supabaseFromCookies } from "@/lib/supabase-server";
+import { isTester } from "@/lib/testers";
 import { planIdFor, whopAccountId, whopClient } from "@/lib/whop";
 
-// Payment setup check: open /api/plus/status in a browser. Shows which step
+// Payment setup check (tester accounts): open /api/plus/status in a browser. Shows which step
 // fails without exposing any secret (plan ids and prices are public anyway).
 export const dynamic = "force-dynamic";
 
@@ -14,6 +16,9 @@ function describe(err: unknown): string {
 }
 
 export async function GET() {
+  const supabase = await supabaseFromCookies();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!isTester(auth.user?.email)) return NextResponse.json({ error: "only for tester accounts (CLARA_TESTER_EMAILS)" }, { status: 403 });
   const out: Record<string, unknown> = {
     whop_api_key_set: Boolean(process.env.WHOP_API_KEY),
     whop_webhook_secret_set: Boolean(process.env.WHOP_WEBHOOK_SECRET),

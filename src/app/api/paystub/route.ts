@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { readPayStub } from "@/lib/ai";
 import { isDemo } from "@/lib/demo";
 import { cleanReading } from "@/lib/paystub";
-import { supabaseFromCookies } from "@/lib/supabase-server";
+import { takeUse } from "@/lib/ai-usage";
+import { supabaseAdmin, supabaseFromCookies } from "@/lib/supabase-server";
 
 // Paycheck checker (Plus): a pay stub photo in, the numbers on it out.
 // Nothing is saved and the photo is never stored.
@@ -23,6 +24,9 @@ export async function POST(request: NextRequest) {
     if (!auth.user) return NextResponse.json({ error: "not signed in" }, { status: 401 });
     const { data: plus } = await supabase.rpc("has_plus", { uid: auth.user.id });
     if (!plus) return NextResponse.json({ error: "plus required" }, { status: 402 });
+    if (!(await takeUse(supabaseAdmin(), auth.user.id, "[paystub]", new Date().toISOString().slice(0, 10)))) {
+      return NextResponse.json({ error: "limit" }, { status: 429 });
+    }
   }
 
   const raw = await readPayStub(mediaType, body.data);

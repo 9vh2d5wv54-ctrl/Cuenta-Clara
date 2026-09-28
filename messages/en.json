@@ -389,7 +389,8 @@
     "saved": "Logged {count, plural, one {# item} other {# items}}.",
     "plusTitle": "Logging by voice or receipt photo is part of Plus",
     "noMatch": "not in your list",
-    "orByHand": "Or log it by hand"
+    "orByHand": "Or log it by hand",
+    "limit": "You've reached today's limit for quick logging. You can still log by hand below, and it resets tomorrow."
   },
   "paystub": {
     "title": "Were you paid right?",
@@ -422,7 +423,8 @@
     "logIt": "Log {amount} as this paycheck",
     "plusTitle": "The paycheck checker is part of Plus",
     "homeLink": "Were you paid right? Check your pay stub",
-    "plusLater": "This is part of Cuenta Clara Plus. Finish your first money checkup to try Plus free for 7 days."
+    "plusLater": "This is part of Cuenta Clara Plus. Finish your first money checkup to try Plus free for 7 days.",
+    "limit": "You've checked a lot of pay stubs today. Type the numbers below, or try the photo again tomorrow."
   },
   "whatsapp": {
     "title": "WhatsApp assistant",

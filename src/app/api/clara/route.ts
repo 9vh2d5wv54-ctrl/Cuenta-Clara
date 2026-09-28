@@ -1,4 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { USAGE_TAG_LIST } from "@/lib/ai-usage";
+import { isTester } from "@/lib/testers";
 import { askClara, MAX_HISTORY_TURNS, MAX_QUESTION, soundsLikeCrisis, type ClaraTurn } from "@/lib/clara";
 import { loadClaraData, userNow } from "@/lib/clara-server";
 import type { ClaraData } from "@/lib/clara-tools";
@@ -51,15 +53,15 @@ export async function POST(request: NextRequest) {
   const now = userNow((tz as { timezone?: string } | null)?.timezone);
   const { data } = await loadClaraData(supabase, now);
   // Testers (CLARA_TESTER_EMAILS in Vercel, comma-separated) get Plus-level Clara without paying.
-  const testers = (process.env.CLARA_TESTER_EMAILS ?? "").split(",").map((e) => e.trim().toLowerCase()).filter(Boolean);
-  const tester = Boolean(auth.user.email && testers.includes(auth.user.email.toLowerCase()));
+  const tester = isTester(auth.user.email);
   const plus = hasPlus(data.subscription) || tester;
   const allowance = claraAllowance(plus, todayISO(now));
 
   const { count } = await supabase
     .from("ai_questions")
     .select("id", { count: "exact", head: true })
-    .gte("date", allowance.since);
+    .gte("date", allowance.since)
+    .not("question", "in", USAGE_TAG_LIST);
   const used = count ?? 0;
   // Someone in crisis always gets the crisis lines, even past the limit.
   if (used >= allowance.limit && !soundsLikeCrisis(question)) {

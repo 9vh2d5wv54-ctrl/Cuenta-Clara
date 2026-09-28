@@ -62,6 +62,7 @@ export default function PayCheck() {
         body: JSON.stringify({ media_type: "image/jpeg", data }),
       });
       if (res.status === 503) return setMessage(t("photosOff"));
+      if (res.status === 429) return setMessage(t("limit"));
       if (!res.ok) return setMessage(t("photoError"));
       const { reading } = (await res.json()) as { reading: StubReading | null };
       if (!reading || (!reading.gross_pay && !reading.hourly_rate)) return setMessage(t("photoError"));
