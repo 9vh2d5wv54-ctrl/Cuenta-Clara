@@ -591,5 +591,77 @@
     "impulseLink": "Read: Your budget in 3 steps",
     "fees": "{count, plural, one {# fee} other {# fees}} logged this month: {total}. Fees are money for nothing.",
     "feesLink": "Read: Your budget in 3 steps"
+  },
+  "goalPlans": {
+    "exploreTitle": "Pick a goal, get a plan",
+    "emergency_title": "Emergency fund",
+    "emergency_lead": "3 months of bills for the unexpected.",
+    "home_title": "Buy a home",
+    "home_lead": "Down payment and closing costs, with a date.",
+    "car_title": "Buy a car",
+    "car_lead": "Save a 20% down payment.",
+    "business_title": "Start a business",
+    "business_lead": "Startup costs plus 3 months of your bills.",
+    "retire_title": "Retire",
+    "retire_lead": "How much to save each month to get there.",
+    "debt_title": "Pay off debt",
+    "debt_lead": "Your fastest way out, month by month.",
+    "price": "Home price",
+    "down": "Down payment",
+    "downVA": "0% (VA or USDA loan)",
+    "carPrice": "Car price",
+    "startup": "What it costs to start",
+    "spending": "Monthly spending in retirement",
+    "years": "Years until you retire",
+    "when": "By when?",
+    "months": "{n, plural, one {# month} other {# months}}",
+    "planTitle": "Your plan",
+    "target": "Save {amount}",
+    "monthly": "{amount} a month",
+    "by": "by {date}",
+    "emergencyBreakdown": "3 × your monthly bills and family sends ({fixed}).",
+    "needsBills": "Add your bills first so we know what 3 months costs.",
+    "homeBreakdown": "Down payment {down} + closing costs about {closing} (3% of the price).",
+    "carBreakdown": "20% of {price}.",
+    "businessBreakdown": "Startup {startup} + 3 months of your bills ({fixed3}).",
+    "retireBreakdown": "25 × a year of spending ({year}), the \"4% rule.\" Saving {monthly} a month for {years} years, growing about 5% a year after inflation, gets there.",
+    "stepsTitle": "Steps",
+    "save": "Save as a goal",
+    "saved": "Goal saved.",
+    "viewGoals": "See your goals",
+    "lesson": "Lesson",
+    "assumptions": "General information, not financial advice. Prices, closing costs and rates of return are estimates.",
+    "goalName_emergency": "Emergency fund",
+    "goalName_home": "Home",
+    "goalName_car": "Car",
+    "goalName_business": "My business",
+    "goalName_retire": "Retirement",
+    "steps_emergency": [
+      "Open a separate savings account just for it.",
+      "Set up an automatic transfer on payday.",
+      "Use it only for real emergencies, then refill it."
+    ],
+    "steps_home": [
+      "Check your credit reports free at AnnualCreditReport.com.",
+      "Ask about first-time buyer programs in your state.",
+      "If you're a veteran, ask about a VA home loan: often no down payment.",
+      "Get preapproved before you look at homes."
+    ],
+    "steps_car": [
+      "Decide your total price before you go to the dealer.",
+      "Get a loan offer from your bank or credit union first.",
+      "Keep the loan short, 48 months or less if you can."
+    ],
+    "steps_business": [
+      "Write down what you need to start and what each thing costs.",
+      "Keep business money in its own account.",
+      "Set aside for taxes from every payment.",
+      "Get free help from your local SBDC or a SCORE mentor."
+    ],
+    "steps_retire": [
+      "If your job matches 401(k) savings, try to get the full match.",
+      "An IRA is a retirement account you can open yourself.",
+      "Start small and raise it a little each year."
+    ]
   }
 }

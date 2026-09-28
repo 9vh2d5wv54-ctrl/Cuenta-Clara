@@ -591,5 +591,77 @@
     "impulseLink": "Lee: Tu presupuesto en 3 pasos",
     "fees": "{count, plural, one {# cargo} other {# cargos}} anotados este mes: {total}. Las comisiones son dinero que se va sin darte nada.",
     "feesLink": "Lee: Tu presupuesto en 3 pasos"
+  },
+  "goalPlans": {
+    "exploreTitle": "Elige una meta y recibe un plan",
+    "emergency_title": "Fondo de emergencia",
+    "emergency_lead": "3 meses de cuentas para lo inesperado.",
+    "home_title": "Comprar casa",
+    "home_lead": "Enganche y gastos de cierre, con fecha.",
+    "car_title": "Comprar carro",
+    "car_lead": "Ahorra un enganche del 20%.",
+    "business_title": "Empezar un negocio",
+    "business_lead": "Lo que cuesta empezar más 3 meses de tus cuentas.",
+    "retire_title": "Retirarte",
+    "retire_lead": "Cuánto ahorrar cada mes para llegar.",
+    "debt_title": "Salir de deudas",
+    "debt_lead": "Tu camino más rápido, mes a mes.",
+    "price": "Precio de la casa",
+    "down": "Enganche",
+    "downVA": "0% (préstamo VA o USDA)",
+    "carPrice": "Precio del carro",
+    "startup": "Lo que cuesta empezar",
+    "spending": "Gasto mensual en tu retiro",
+    "years": "Años para retirarte",
+    "when": "¿Para cuándo?",
+    "months": "{n, plural, one {# mes} other {# meses}}",
+    "planTitle": "Tu plan",
+    "target": "Ahorra {amount}",
+    "monthly": "{amount} al mes",
+    "by": "para el {date}",
+    "emergencyBreakdown": "3 × tus cuentas y envíos del mes ({fixed}).",
+    "needsBills": "Agrega primero tus cuentas para saber cuánto son 3 meses.",
+    "homeBreakdown": "Enganche {down} + gastos de cierre de unos {closing} (3% del precio).",
+    "carBreakdown": "20% de {price}.",
+    "businessBreakdown": "Empezar {startup} + 3 meses de tus cuentas ({fixed3}).",
+    "retireBreakdown": "25 × un año de gastos ({year}), la \"regla del 4%\". Ahorrando {monthly} al mes por {years} años, creciendo cerca de 5% al año después de inflación, llegas.",
+    "stepsTitle": "Pasos",
+    "save": "Guardar como meta",
+    "saved": "Meta guardada.",
+    "viewGoals": "Ver tus metas",
+    "lesson": "Lección",
+    "assumptions": "Información general, no asesoría financiera. Los precios, gastos de cierre y rendimientos son estimados.",
+    "goalName_emergency": "Fondo de emergencia",
+    "goalName_home": "Casa",
+    "goalName_car": "Carro",
+    "goalName_business": "Mi negocio",
+    "goalName_retire": "Retiro",
+    "steps_emergency": [
+      "Abre una cuenta de ahorro aparte solo para esto.",
+      "Programa una transferencia automática el día de pago.",
+      "Úsalo solo para emergencias de verdad y luego vuelve a llenarlo."
+    ],
+    "steps_home": [
+      "Revisa tus reportes de crédito gratis en AnnualCreditReport.com.",
+      "Pregunta por programas para compradores de primera vez en tu estado.",
+      "Si eres veterano, pregunta por un préstamo VA: muchas veces sin enganche.",
+      "Pide una preaprobación antes de ver casas."
+    ],
+    "steps_car": [
+      "Decide el precio total antes de ir a la agencia.",
+      "Pide primero una oferta de préstamo a tu banco o cooperativa de crédito.",
+      "Que el préstamo sea corto: 48 meses o menos si puedes."
+    ],
+    "steps_business": [
+      "Anota lo que necesitas para empezar y cuánto cuesta cada cosa.",
+      "Guarda el dinero del negocio en su propia cuenta.",
+      "Aparta para impuestos de cada pago.",
+      "Busca ayuda gratis en tu SBDC local o con un mentor de SCORE."
+    ],
+    "steps_retire": [
+      "Si tu trabajo iguala lo que ahorras en el 401(k), trata de recibir todo lo que igualan.",
+      "Una IRA es una cuenta de retiro que puedes abrir tú.",
+      "Empieza con poco y súbelo un poquito cada año."
+    ]
   }
 }

@@ -13,11 +13,13 @@ import { goalMonthlyCents } from "@/lib/budget";
 import { formatLongDate, todayISO } from "@/lib/dates";
 import { formatUSD, parseCents } from "@/lib/money";
 import type { Goal } from "@/lib/types";
+import { TEMPLATES } from "@/lib/goal-templates";
 
 export default function Metas() {
   const t = useTranslations("goals");
   const d = useTranslations("debts");
   const v = useTranslations("veterans");
+  const gp = useTranslations("goalPlans");
   const c = useTranslations("common");
   const x = useTranslations("explain");
   const locale = useLocale();
@@ -115,6 +117,23 @@ export default function Metas() {
           </Card>
         );
       })}
+
+      <section className="stack-sm">
+        <h2 className="t-heading">{gp("exploreTitle")}</h2>
+        <div className="goal-grid">
+          {TEMPLATES.map((id) => (
+            <Link
+              key={id}
+              href={id === "debt" ? "/app/deudas" : `/app/metas/plan/${id}`}
+              className="card stack-sm"
+              style={{ textDecoration: "none" }}
+            >
+              <span className="t-label">{gp(`${id}_title`)}</span>
+              <span className="t-caption muted">{gp(`${id}_lead`)}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section className="stack-sm">
         <h2 className="t-heading">{t("addTitle")}</h2>
