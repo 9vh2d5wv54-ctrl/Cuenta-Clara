@@ -683,7 +683,7 @@
     "activeDuty": "Todavía estoy en servicio activo",
     "school": "Tipo de escuela",
     "public": "Pública (en tu estado)",
-    "private": "Privada, extranjera o escuela técnica",
+    "private": "Universidad privada o extranjera",
     "tuition": "Matrícula y cuotas al año",
     "bah": "Vivienda mensual (BAH) para el código postal de la escuela",
     "bahHint": "Usa la tarifa de E-5 con dependientes. La herramienta de comparación del GI Bill del VA muestra la vivienda exacta de cada escuela.",
@@ -695,12 +695,28 @@
     "housing": "Vivienda: unos {amount} al mes mientras estudias",
     "noHousing": "No hay pago de vivienda mientras estás en servicio activo.",
     "cap": "Para este tipo de escuela, el VA paga hasta {cap} al año al 100%.",
-    "booksPending": "Libros y materiales, y vivienda para clases solo en línea: mira la tabla del VA.",
     "ratesLink": "Tarifas del GI Bill del VA",
-    "rules": "La vivienda se paga si tomas más de medio tiempo en clases presenciales (esto asume tiempo completo) y no durante vacaciones. Tarifas vigentes del {from} al {to}. Es un estimado; Cuenta Clara no está afiliada al VA.",
+    "rules": "La vivienda se paga si tomas más de medio tiempo en clases (esto asume tiempo completo) y no durante vacaciones. Tarifas vigentes del {from} al {to}. Es un estimado; Cuenta Clara no está afiliada al VA.",
     "vaLink": "Planificador del GI Bill",
     "flight": "Escuela de vuelo",
     "correspondence": "Escuela por correspondencia",
-    "noHousingSchool": "No hay pago de vivienda para escuela de vuelo ni por correspondencia."
+    "noHousingSchool": "No hay pago de vivienda para escuela de vuelo ni por correspondencia.",
+    "trade": "Escuela técnica (no universitaria)",
+    "credits": "Créditos este año",
+    "creditsHint": "El dinero para libros cuenta hasta 24 créditos al año.",
+    "booksYear": "Libros y materiales: unos {amount} al año",
+    "booksMonth": "Libros y materiales: hasta {amount} al mes",
+    "yellowRibbon": "Tu matrícula pasa del límite. Pregúntale a la escuela por el programa Yellow Ribbon: las escuelas participantes y el VA pueden cubrir más.",
+    "otherTitle": "Otra ayuda que puedes recibir",
+    "other": [
+      "Tutoría: hasta $100 al mes, $1,200 en total, si se te dificulta una clase.",
+      "Trabajo-estudio: un trabajo de medio tiempo con el VA mientras estudias.",
+      "$500 una vez para mudarte de una zona muy rural para ir a la escuela.",
+      "Programa Yellow Ribbon: más ayuda con la matrícula que pasa del límite en escuelas participantes."
+    ],
+    "online": "Todas mis clases son en línea",
+    "foreign": "La escuela está fuera de EE. UU.",
+    "onlineNote": "La vivienda para clases solo en línea es la mitad del promedio nacional. Con al menos una clase presencial normalmente recibes la tarifa completa del código postal de la escuela.",
+    "ratesNote": "Las tarifas de vivienda en línea y en escuelas del extranjero son para quienes empezaron a usar el beneficio el 1 de enero de 2018 o después."
   }
 }

@@ -683,7 +683,7 @@
     "activeDuty": "I'm still on active duty",
     "school": "Type of school",
     "public": "Public (in-state)",
-    "private": "Private, foreign or trade school",
+    "private": "Private or foreign college",
     "tuition": "Yearly tuition and fees",
     "bah": "Monthly housing (BAH) for the school's ZIP code",
     "bahHint": "Use the E-5 with-dependents rate. VA's GI Bill Comparison Tool shows the exact housing for each school.",
@@ -695,12 +695,28 @@
     "housing": "Housing: about {amount} a month while in school",
     "noHousing": "No monthly housing while on active duty.",
     "cap": "For this type of school, VA pays up to {cap} a year at 100%.",
-    "booksPending": "Books and supplies and online-only housing: see VA's rate table.",
     "ratesLink": "VA's GI Bill rates",
-    "rules": "Housing is paid when you take more than half-time, in-person classes (this assumes full time) and not during breaks. Rates effective {from} to {to}. Estimate only; Cuenta Clara is not affiliated with VA.",
+    "rules": "Housing is paid when you take more than half-time classes (this assumes full time) and not during breaks. Rates effective {from} to {to}. Estimate only; Cuenta Clara is not affiliated with VA.",
     "vaLink": "GI Bill planner",
     "flight": "Flight training",
     "correspondence": "Correspondence school",
-    "noHousingSchool": "No monthly housing for flight training or correspondence school."
+    "noHousingSchool": "No monthly housing for flight training or correspondence school.",
+    "trade": "Trade school (non-college)",
+    "credits": "Credit hours this year",
+    "creditsHint": "Books money counts up to 24 credits a year.",
+    "booksYear": "Books and supplies: about {amount} a year",
+    "booksMonth": "Books and supplies: up to {amount} a month",
+    "yellowRibbon": "Your tuition is over the cap. Ask the school about the Yellow Ribbon Program: participating schools and VA can cover more.",
+    "otherTitle": "Other help you may get",
+    "other": [
+      "Tutoring: up to $100 a month, $1,200 total, if you're struggling in a class.",
+      "Work-study: a part-time VA job while you're in school.",
+      "$500 one time to move from a highly rural area to attend school.",
+      "Yellow Ribbon Program: more help with tuition above the cap at participating schools."
+    ],
+    "online": "All my classes are online",
+    "foreign": "The school is outside the U.S.",
+    "onlineNote": "Online-only housing is half the national average. Taking at least one in-person class usually gets the full rate for the school's ZIP code.",
+    "ratesNote": "Online and foreign-school housing rates are for people who started using the benefit on or after Jan. 1, 2018."
   }
 }

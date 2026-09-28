@@ -87,7 +87,7 @@ Money Health Score:
 - [x] Goal marketplace (free), on Goals
 - [x] Spending patterns (Plus), on Home
 - [x] GI Bill planner (free), rates Aug 1, 2026 to Jul 31, 2027
-- [ ] GI Bill: books and supplies stipend and online-only housing rates (screenshots from va.gov)
+- [x] GI Bill: books and supplies, online-only and foreign-school housing
 - [ ] Every August 1: update GI Bill rates in `src/lib/gi-bill.ts`
 
 Later:

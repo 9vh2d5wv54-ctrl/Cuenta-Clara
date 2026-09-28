@@ -22,9 +22,23 @@ export default function GiBillPlanner() {
   const [school, setSchool] = useState<School>("public");
   const [tuition, setTuition] = useState("");
   const [bah, setBah] = useState("");
+  const [credits, setCredits] = useState("24");
+  const [online, setOnline] = useState(false);
+  const [foreign, setForeign] = useState(false);
 
   const pct = tierFor(Math.max(0, Math.floor(Number(days) || 0)), special);
-  const plan = giPlan({ pct, school, tuition: parseCents(tuition) ?? 0, bah: parseCents(bah) ?? 0, activeDuty });
+  const plan = giPlan({
+    pct,
+    school,
+    tuition: parseCents(tuition) ?? 0,
+    bah: parseCents(bah) ?? 0,
+    activeDuty,
+    credits: Math.floor(Number(credits) || 0),
+    online,
+    foreign,
+  });
+  const housingSchool = school === "public" || school === "private" || school === "trade";
+  const fixedHousing = online || (foreign && school === "private");
 
   return (
     <main className="page">
@@ -58,6 +72,7 @@ export default function GiBillPlanner() {
               options={[
                 { value: "public", label: t("public") },
                 { value: "private", label: t("private") },
+                { value: "trade", label: t("trade") },
                 { value: "flight", label: t("flight") },
                 { value: "correspondence", label: t("correspondence") },
               ]}
@@ -67,6 +82,23 @@ export default function GiBillPlanner() {
             {(p) => <MoneyInput {...p} value={tuition} onChange={(e) => setTuition(e.target.value)} />}
           </Field>
           {(school === "public" || school === "private") && (
+            <Field label={t("credits")} hint={t("creditsHint")}>
+              {(p) => <Input {...p} type="number" inputMode="numeric" min={0} value={credits} onChange={(e) => setCredits(e.target.value)} />}
+            </Field>
+          )}
+          {school === "private" && (
+            <label className="row t-caption" style={{ cursor: "pointer" }}>
+              <input type="checkbox" checked={foreign} onChange={(e) => setForeign(e.target.checked)} />
+              {t("foreign")}
+            </label>
+          )}
+          {housingSchool && (
+            <label className="row t-caption" style={{ cursor: "pointer", alignItems: "flex-start" }}>
+              <input type="checkbox" checked={online} onChange={(e) => setOnline(e.target.checked)} />
+              {t("online")}
+            </label>
+          )}
+          {housingSchool && !fixedHousing && (
             <Field label={t("bah")} hint={t("bahHint")}>
               {(p) => <MoneyInput {...p} value={bah} onChange={(e) => setBah(e.target.value)} />}
             </Field>
@@ -87,16 +119,28 @@ export default function GiBillPlanner() {
             {plan.tuitionCovered > 0 && <p className="t-body">{t("covered", { amount: formatUSD(plan.tuitionCovered) })}</p>}
             {plan.outOfPocket > 0 && <p className="t-body">{t("out", { amount: formatUSD(plan.outOfPocket) })}</p>}
             {plan.housingMonthly !== null ? (
-              <p className="t-body">{t("housing", { amount: formatUSD(plan.housingMonthly) })}</p>
+              <>
+                <p className="t-body">{t("housing", { amount: formatUSD(plan.housingMonthly) })}</p>
+                {online && <p className="t-caption muted">{t("onlineNote")}</p>}
+              </>
             ) : activeDuty ? (
               <p className="t-caption muted">{t("noHousing")}</p>
             ) : (
               (school === "flight" || school === "correspondence") && <p className="t-caption muted">{t("noHousingSchool")}</p>
             )}
+            {plan.booksYearly !== null && plan.booksYearly > 0 && <p className="t-body">{t("booksYear", { amount: formatUSD(plan.booksYearly) })}</p>}
+            {plan.booksMonthly !== null && <p className="t-body">{t("booksMonth", { amount: formatUSD(plan.booksMonthly) })}</p>}
+            {plan.yellowRibbon && <p className="notice t-caption">{t("yellowRibbon")}</p>}
             {school !== "public" && (
               <p className="t-caption muted">
                 {t("cap", {
-                  cap: formatUSD(school === "private" ? GI_RATES.privateCap : school === "flight" ? GI_RATES.flightCap : GI_RATES.correspondenceCap),
+                  cap: formatUSD(
+                    school === "private" || school === "trade"
+                      ? GI_RATES.privateCap
+                      : school === "flight"
+                        ? GI_RATES.flightCap
+                        : GI_RATES.correspondenceCap,
+                  ),
                 })}
               </p>
             )}
@@ -104,8 +148,19 @@ export default function GiBillPlanner() {
         )}
       </Card>
 
+      <Card>
+        <div className="stack-sm">
+          <p className="t-heading">{t("otherTitle")}</p>
+          <ul className="t-body stack-sm" style={{ margin: 0, paddingInlineStart: 20 }}>
+            {(t.raw("other") as string[]).map((o) => (
+              <li key={o}>{o}</li>
+            ))}
+          </ul>
+        </div>
+      </Card>
+
       <p className="t-caption muted">
-        {t("booksPending")}{" "}
+        {t("ratesNote")}{" "}
         <a href={VA_RATES_URL} target="_blank" rel="noreferrer">
           {t("ratesLink")}
         </a>
