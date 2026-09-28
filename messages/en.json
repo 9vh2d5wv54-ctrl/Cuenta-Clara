@@ -694,10 +694,13 @@
     "out": "You'd pay: {amount} a year",
     "housing": "Housing: about {amount} a month while in school",
     "noHousing": "No monthly housing while on active duty.",
-    "cap": "Private, foreign and trade schools: VA pays up to {cap} a year at 100%.",
+    "cap": "For this type of school, VA pays up to {cap} a year at 100%.",
     "booksPending": "Books and supplies and online-only housing: see VA's rate table.",
     "ratesLink": "VA's GI Bill rates",
     "rules": "Housing is paid when you take more than half-time, in-person classes (this assumes full time) and not during breaks. Rates effective {from} to {to}. Estimate only; Cuenta Clara is not affiliated with VA.",
-    "vaLink": "GI Bill planner"
+    "vaLink": "GI Bill planner",
+    "flight": "Flight training",
+    "correspondence": "Correspondence school",
+    "noHousingSchool": "No monthly housing for flight training or correspondence school."
   }
 }

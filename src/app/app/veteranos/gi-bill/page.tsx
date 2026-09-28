@@ -58,15 +58,19 @@ export default function GiBillPlanner() {
               options={[
                 { value: "public", label: t("public") },
                 { value: "private", label: t("private") },
+                { value: "flight", label: t("flight") },
+                { value: "correspondence", label: t("correspondence") },
               ]}
             />
           </div>
           <Field label={t("tuition")}>
             {(p) => <MoneyInput {...p} value={tuition} onChange={(e) => setTuition(e.target.value)} />}
           </Field>
-          <Field label={t("bah")} hint={t("bahHint")}>
-            {(p) => <MoneyInput {...p} value={bah} onChange={(e) => setBah(e.target.value)} />}
-          </Field>
+          {(school === "public" || school === "private") && (
+            <Field label={t("bah")} hint={t("bahHint")}>
+              {(p) => <MoneyInput {...p} value={bah} onChange={(e) => setBah(e.target.value)} />}
+            </Field>
+          )}
           <a href={VA_COMPARE_URL} target="_blank" rel="noreferrer" className="t-label">
             {t("toolLink")}
           </a>
@@ -84,10 +88,18 @@ export default function GiBillPlanner() {
             {plan.outOfPocket > 0 && <p className="t-body">{t("out", { amount: formatUSD(plan.outOfPocket) })}</p>}
             {plan.housingMonthly !== null ? (
               <p className="t-body">{t("housing", { amount: formatUSD(plan.housingMonthly) })}</p>
+            ) : activeDuty ? (
+              <p className="t-caption muted">{t("noHousing")}</p>
             ) : (
-              activeDuty && <p className="t-caption muted">{t("noHousing")}</p>
+              (school === "flight" || school === "correspondence") && <p className="t-caption muted">{t("noHousingSchool")}</p>
             )}
-            {school === "private" && <p className="t-caption muted">{t("cap", { cap: formatUSD(GI_RATES.privateCap) })}</p>}
+            {school !== "public" && (
+              <p className="t-caption muted">
+                {t("cap", {
+                  cap: formatUSD(school === "private" ? GI_RATES.privateCap : school === "flight" ? GI_RATES.flightCap : GI_RATES.correspondenceCap),
+                })}
+              </p>
+            )}
           </>
         )}
       </Card>

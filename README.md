@@ -110,7 +110,7 @@ Card on Home once there are 15+ expenses over 3+ weeks (last 130 days): biggest 
 
 ### Veterans: GI Bill planner (free)
 
-`/app/veteranos/gi-bill`, linked from the VA page. Post-9/11 GI Bill estimate: eligibility tier from days of active duty (VA's table: 100/90/80/70/60/50%, or 100% with a Purple Heart or disability discharge), tuition VA covers per year (public in-state: your percentage of net tuition; private, foreign and trade schools: up to the yearly cap, rates effective Aug 1, 2026 to Jul 31, 2027), what's left to pay, and monthly housing from the E-5 with-dependents BAH the person enters (none on active duty). Books and online-only housing link to VA until copied. Update every August 1 in `src/lib/gi-bill.ts`.
+`/app/veteranos/gi-bill`, linked from the VA page. Post-9/11 GI Bill estimate: eligibility tier from days of active duty (VA's table: 100/90/80/70/60/50%, or 100% with a Purple Heart or disability discharge), tuition VA covers per year (public in-state: your percentage of net tuition; private, foreign and trade schools, flight training and correspondence school: up to each yearly cap, rates effective Aug 1, 2026 to Jul 31, 2027), what's left to pay, and monthly housing from the E-5 with-dependents BAH the person enters (none on active duty). Books and online-only housing link to VA until copied. Update every August 1 in `src/lib/gi-bill.ts`.
 
 ### Cuenta Clara Academy (free, public)
 

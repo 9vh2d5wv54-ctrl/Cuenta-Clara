@@ -8,6 +8,9 @@ export const GI_RATES = {
   through: "2027-07-31",
   /** Private, foreign and non-college degree programs: yearly cap on net tuition and fees, in cents. */
   privateCap: 3_090_834,
+  /** Flight training and correspondence school: yearly caps, in cents. No monthly housing for either. */
+  flightCap: 1_766_189,
+  correspondenceCap: 1_501_259,
   /** Books and supplies stipend and online-only housing: not copied yet (null = link to VA). */
   books: null as number | null,
   onlineHousing: null as number | null,
@@ -28,7 +31,7 @@ export function tierFor(days: number, purpleHeartOrDisability: boolean): number 
   return TIERS.find((t) => days >= t.minDays)?.pct ?? 0;
 }
 
-export type School = "public" | "private";
+export type School = "public" | "private" | "flight" | "correspondence";
 
 export type GiPlan = {
   pct: number;
@@ -45,8 +48,16 @@ export type GiPlan = {
 export function giPlan(opts: { pct: number; school: School; tuition: number; bah: number; activeDuty: boolean }): GiPlan {
   const share = opts.pct / 100;
   // VA pays your percentage of net tuition; private schools up to the yearly cap first.
-  const base = opts.school === "public" ? opts.tuition : Math.min(opts.tuition, GI_RATES.privateCap);
-  const covered = Math.round(base * share);
-  const housing = opts.activeDuty || opts.bah <= 0 || opts.pct === 0 ? null : Math.round(opts.bah * share);
+  const cap =
+    opts.school === "public"
+      ? Infinity
+      : opts.school === "private"
+        ? GI_RATES.privateCap
+        : opts.school === "flight"
+          ? GI_RATES.flightCap
+          : GI_RATES.correspondenceCap;
+  const covered = Math.round(Math.min(opts.tuition, cap) * share);
+  const noHousing = opts.activeDuty || opts.school === "flight" || opts.school === "correspondence";
+  const housing = noHousing || opts.bah <= 0 || opts.pct === 0 ? null : Math.round(opts.bah * share);
   return { pct: opts.pct, tuitionCovered: covered, outOfPocket: Math.max(0, opts.tuition - covered), housingMonthly: housing };
 }

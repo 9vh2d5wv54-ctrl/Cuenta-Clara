@@ -694,10 +694,13 @@
     "out": "Te tocaría pagar: {amount} al año",
     "housing": "Vivienda: unos {amount} al mes mientras estudias",
     "noHousing": "No hay pago de vivienda mientras estás en servicio activo.",
-    "cap": "Escuelas privadas, extranjeras y técnicas: el VA paga hasta {cap} al año al 100%.",
+    "cap": "Para este tipo de escuela, el VA paga hasta {cap} al año al 100%.",
     "booksPending": "Libros y materiales, y vivienda para clases solo en línea: mira la tabla del VA.",
     "ratesLink": "Tarifas del GI Bill del VA",
     "rules": "La vivienda se paga si tomas más de medio tiempo en clases presenciales (esto asume tiempo completo) y no durante vacaciones. Tarifas vigentes del {from} al {to}. Es un estimado; Cuenta Clara no está afiliada al VA.",
-    "vaLink": "Planificador del GI Bill"
+    "vaLink": "Planificador del GI Bill",
+    "flight": "Escuela de vuelo",
+    "correspondence": "Escuela por correspondencia",
+    "noHousingSchool": "No hay pago de vivienda para escuela de vuelo ni por correspondencia."
   }
 }
