@@ -21,7 +21,13 @@ const figtree = Figtree({
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("landing");
-  return { title: "Cuenta Clara", description: t("sub") };
+  return {
+    title: "Cuenta Clara",
+    description: t("sub"),
+    applicationName: "Cuenta Clara",
+    // Full screen with the Cuenta Clara name when opened from the iPhone home screen.
+    appleWebApp: { capable: true, title: "Cuenta Clara", statusBarStyle: "default" },
+  };
 }
 
 export const viewport: Viewport = {

@@ -16,6 +16,7 @@ import { PatternsCard } from "@/components/Patterns";
 import { SafeToSpendCard } from "@/components/SafeToSpend";
 import { ClaraCard } from "@/components/ClaraCard";
 import { VeteranCard } from "@/components/VeteranCard";
+import { InstallCard } from "@/components/InstallCard";
 import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
@@ -150,6 +151,8 @@ export default function Dashboard() {
       <TaxCard />
 
       <VeteranCard />
+
+      <InstallCard />
 
       <Link href="/aprende" className="card row" style={{ textDecoration: "none" }}>
         <Icon name="info" />

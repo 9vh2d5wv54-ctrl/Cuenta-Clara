@@ -1501,3 +1501,13 @@ textarea {
 .legal section + section {
   margin-top: var(--space-2);
 }
+
+/* Home-screen install card */
+.install-card__icon {
+  flex: none;
+  border-radius: 10px;
+}
+.install-card__steps {
+  margin: 0;
+  padding-inline-start: 20px;
+}

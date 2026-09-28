@@ -988,5 +988,14 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "signupNote": "By creating an account you agree to the <terms>Terms of use</terms> and the <privacy>Privacy policy</privacy>."
+  },
+  "install": {
+    "title": "Put Cuenta Clara on your home screen",
+    "lead": "Open it like an app, full screen, with one tap.",
+    "ios1": "Tap the Share button (the square with an arrow) at the bottom or top of the screen.",
+    "ios2": "Scroll down and tap \"Add to Home Screen\", then \"Add\".",
+    "iosSignIn": "The first time you open it from your home screen, sign in with your email and password.",
+    "button": "Install the app",
+    "dismiss": "Not now"
   }
 }

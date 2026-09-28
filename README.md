@@ -216,3 +216,7 @@ Clara reaches out first: the daily cron (`/api/cron/daily`) emails people whose 
 ### Privacy policy and terms (drafts)
 
 `/privacidad` and `/terminos`, public, English and Spanish, written from what the app actually does (`src/lib/legal.ts`). Linked from the landing page footer, the sign-up screen ("By creating an account you agree…") and Settings. **Drafts: have a lawyer or law school clinic review before growing, bank connections or ads.** Update them whenever the app starts collecting something new or adds a provider. The Meta Pixel loads only on public pages and the Plus page, never on the money screens, with automatic page and button tracking off (`src/components/AnalyticsScripts.tsx`).
+
+### Home-screen install
+
+`src/app/manifest.ts` (name, full screen, opens at `/app`, brand colors), icons in `public/icons` plus `src/app/apple-icon.png`, and Apple web-app settings in `src/app/layout.tsx`. Home shows an install card (`src/components/InstallCard.tsx`): iPhone/iPad get the two Share → "Add to Home Screen" steps (iOS has no install button) and a note to sign in with email and password the first time, since a home-screen app on iPhone keeps its own sign-in; Chrome gets an "Install the app" button. Hidden once opened from the home screen or after "Not now" on that device.

@@ -988,5 +988,14 @@
     "privacy": "Privacidad",
     "terms": "Términos",
     "signupNote": "Al crear tu cuenta aceptas los <terms>Términos de uso</terms> y la <privacy>Política de privacidad</privacy>."
+  },
+  "install": {
+    "title": "Pon Cuenta Clara en tu pantalla de inicio",
+    "lead": "Ábrela como una app, en pantalla completa, con un toque.",
+    "ios1": "Toca el botón Compartir (el cuadrito con una flecha) abajo o arriba de la pantalla.",
+    "ios2": "Baja y toca \"Agregar a pantalla de inicio\", luego \"Agregar\".",
+    "iosSignIn": "La primera vez que la abras desde tu pantalla de inicio, entra con tu correo y tu contraseña.",
+    "button": "Instalar la app",
+    "dismiss": "Ahora no"
   }
 }
