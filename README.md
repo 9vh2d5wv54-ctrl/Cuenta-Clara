@@ -102,7 +102,7 @@ Top of Home. People type their account balance (never a bank login), next payday
 
 ### Veterans: VA disability estimate (free)
 
-`/app/veteranos`, linked from Goals. Combined rating the way VA calculates it (38 CFR 4.25 "VA math", rounded each step like Table I, final value to the nearest 10 with 5 rounding up) and the bilateral factor (38 CFR 4.26). Math in `src/lib/va.ts`, checked against Table I values and the regulation's bilateral example. Monthly amounts (30%–100%, with spouse, dependent parents, children under 18, children in school, and spouse Aid and Attendance) come from VA's published rates copied into `src/lib/va-rates.ts` with the effective date shown on screen; update them every December 1. 10% and 20% link to VA's table until copied. Says it's an estimate and not affiliated with VA, and points to accredited representatives.
+`/app/veteranos`, linked from Goals. Combined rating the way VA calculates it (38 CFR 4.25 "VA math", rounded each step like Table I, final value to the nearest 10 with 5 rounding up) and the bilateral factor (38 CFR 4.26). Math in `src/lib/va.ts`, checked against Table I values and the regulation's bilateral example. Monthly amounts (30%–100%, with spouse, dependent parents, children under 18, children in school, and spouse Aid and Attendance) come from VA's published rates copied into `src/lib/va-rates.ts` with the effective date shown on screen; update them every December 1. 10% and 20% have one rate each. Says it's an estimate and not affiliated with VA, and points to accredited representatives.
 
 ### Paycheck mode (Plus)
 

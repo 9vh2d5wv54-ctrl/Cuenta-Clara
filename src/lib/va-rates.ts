@@ -4,7 +4,7 @@
 // https://www.va.gov/disability/compensation-rates/veteran-rates/
 //
 // 30%–100% rows depend on spouse, dependent parents and children. 10% and 20%
-// have one rate each (no dependents); they're left null until copied.
+// have one rate each (no dependents).
 
 export const RATED = [30, 40, 50, 60, 70, 80, 90, 100] as const;
 
@@ -25,7 +25,7 @@ const $ = (...dollars: number[]) => dollars.map((d) => Math.round(d * 100)) as u
 
 export const VA_RATES: VaRates = {
   effective: "2025-12-01",
-  low: { 10: null, 20: null },
+  low: { 10: 18042, 20: 35666 },
   withoutChildren: [
     [
       $(552.47, 795.84, 1132.9, 1435.02, 1808.45, 2102.15, 2362.3, 3938.58), // alone

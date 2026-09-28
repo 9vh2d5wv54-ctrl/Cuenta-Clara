@@ -69,7 +69,7 @@ Debt payoff plan:
 Veterans:
 - [x] VA combined rating calculator (free)
 - [x] Monthly amounts for 30%–100% with dependents (VA rates effective Dec 1, 2025) in `src/lib/va-rates.ts`
-- [ ] 10% and 20% monthly amounts (send a screenshot of VA's 10%–20% table)
+- [x] 10% and 20% monthly amounts (VA.gov, effective Dec 1, 2025)
 - [ ] Every December 1: update `src/lib/va-rates.ts` with VA's new rates and effective date
 
 Later:
