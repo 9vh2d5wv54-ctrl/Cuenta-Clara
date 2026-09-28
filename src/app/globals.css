@@ -1181,3 +1181,46 @@ textarea {
 .quiz-option:focus-visible {
   border-color: var(--clara);
 }
+
+/* Veterans band and feature cards */
+.lp-band--clara {
+  background: var(--clara-soft);
+}
+.lp-eyebrow {
+  color: var(--clara);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.lp-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.lp-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.lp-feature > svg:first-child {
+  flex: none;
+  color: var(--clara);
+}
+.lp-feature--link {
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.lp-self-start {
+  align-self: stretch;
+}
+@media (min-width: 900px) {
+  .lp-features {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .lp-self-start {
+    align-self: flex-start;
+    padding: 0 var(--space-8);
+  }
+}

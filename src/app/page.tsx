@@ -27,6 +27,12 @@ export default async function Landing() {
     { icon: "heart", text: t("trustMadeIn") },
   ];
 
+  const vetTools: { icon: IconName; title: string; text: string }[] = [
+    { icon: "heart", title: t("vetDisabilityTitle"), text: t("vetDisabilityText") },
+    { icon: "target", title: t("vetGiTitle"), text: t("vetGiText") },
+    { icon: "check", title: t("vetBenefitsTitle"), text: t("vetBenefitsText") },
+  ];
+
   const faq = (["Safe", "Free", "Bank", "ForMe", "Data", "Numbers"] as const).map((k) => ({
     q: t(`faq${k}Q`),
     a: t(`faq${k}A`),
@@ -151,7 +157,56 @@ export default async function Landing() {
           </div>
         </section>
 
-        {/* 6. FAQ: closed accordion, six questions */}
+        {/* 6. Veterans: built by a veteran; free tools, estimates only */}
+        <section className="lp-band lp-band--clara">
+          <div className="lp-wrap lp-section">
+            <div className="stack-sm">
+              <p className="t-label lp-eyebrow">{t("vetEyebrow")}</p>
+              <h2 className="t-title">{t("vetTitle")}</h2>
+              <p className="t-body">{t("vetSub")}</p>
+            </div>
+            <ul className="lp-features">
+              {vetTools.map((tool) => (
+                <li key={tool.title} className="card lp-feature">
+                  <Icon name={tool.icon} />
+                  <span className="stack-sm">
+                    <span className="t-heading">{tool.title}</span>
+                    <span className="t-body muted">{tool.text}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <CtaLink placement="veterans" className="btn btn--primary btn--cta lp-self-start">
+              {t("cta")}
+            </CtaLink>
+            <p className="t-caption muted">{t("vetNote")}</p>
+          </div>
+        </section>
+
+        {/* 7. Free tools, no account needed */}
+        <section className="lp-wrap lp-section">
+          <h2 className="t-title">{t("freeTitle")}</h2>
+          <div className="lp-features">
+            <Link href="/estilo" className="card lp-feature lp-feature--link">
+              <Icon name="heart" />
+              <span className="stack-sm grow">
+                <span className="t-heading">{t("quizTitle")}</span>
+                <span className="t-body muted">{t("quizText")}</span>
+              </span>
+              <Icon name="forward" size={20} />
+            </Link>
+            <Link href="/aprende" className="card lp-feature lp-feature--link">
+              <Icon name="info" />
+              <span className="stack-sm grow">
+                <span className="t-heading">{t("lessonsTitle")}</span>
+                <span className="t-body muted">{t("lessonsText")}</span>
+              </span>
+              <Icon name="forward" size={20} />
+            </Link>
+          </div>
+        </section>
+
+        {/* 8. FAQ: closed accordion, six questions */}
         <section className="lp-wrap lp-section lp-faq">
           <h2 className="t-title">{t("faqTitle")}</h2>
           <div className="lp-faq__list">
@@ -169,7 +224,7 @@ export default async function Landing() {
           </div>
         </section>
 
-        {/* 7. Final CTA */}
+        {/* 9. Final CTA */}
         <section className="lp-wrap lp-final">
           <h2 className="t-title">{t("finalTitle")}</h2>
           <p className="t-body muted">{t("finalSub")}</p>

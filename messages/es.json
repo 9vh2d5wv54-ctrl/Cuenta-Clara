@@ -71,7 +71,22 @@
     "faqNumbersA": "No. Cada término tiene un “¿Qué es esto?” que lo explica.",
     "finalTitle": "Empieza hoy.",
     "finalSub": "Tarda menos de 5 minutos.",
-    "saying": "Cuentas claras, amistades largas."
+    "saying": "Cuentas claras, amistades largas.",
+    "vetEyebrow": "Para veteranos y familias militares",
+    "vetTitle": "Hecho por un veterano, para veteranos.",
+    "vetSub": "Herramientas gratis que hacen más fácil entender el dinero del VA, dentro de tu presupuesto.",
+    "vetDisabilityTitle": "Calculadora de discapacidad del VA",
+    "vetDisabilityText": "Ve tu calificación combinada como la calcula el VA, y más o menos cuánto paga al mes.",
+    "vetGiTitle": "Planificador del GI Bill",
+    "vetGiText": "Lo que cubre el Post-9/11 GI Bill para estudios o capacitación: matrícula, vivienda y libros.",
+    "vetBenefitsTitle": "Lista de beneficios",
+    "vetBenefitsText": "14 beneficios que muchos veteranos no aprovechan, cada uno con el enlace oficial para aplicar.",
+    "vetNote": "Solo estimados. Cuenta Clara no está afiliada al Departamento de Asuntos de Veteranos de EE. UU.",
+    "freeTitle": "Pruébalo gratis, sin crear cuenta",
+    "quizTitle": "¿Cuál es tu estilo con el dinero?",
+    "quizText": "Un quiz de 2 minutos con 3 consejos hechos para ti.",
+    "lessonsTitle": "Lecciones de dinero de 2 minutos",
+    "lessonsText": "Presupuesto, crédito, APR, enviar dinero a casa y más, en palabras sencillas."
   },
   "auth": {
     "signupTitle": "Crea tu cuenta",

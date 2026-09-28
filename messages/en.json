@@ -71,7 +71,22 @@
     "faqNumbersA": "No. Every term has a “What's this?” that explains it.",
     "finalTitle": "Start today.",
     "finalSub": "Takes under 5 minutes.",
-    "saying": "Clear accounts keep families close."
+    "saying": "Clear accounts keep families close.",
+    "vetEyebrow": "For veterans and military families",
+    "vetTitle": "Built by a veteran, for veterans.",
+    "vetSub": "Free tools that make VA money easier to understand, right inside your budget.",
+    "vetDisabilityTitle": "VA disability estimate",
+    "vetDisabilityText": "See your combined rating the way VA calculates it, and about what it pays each month.",
+    "vetGiTitle": "GI Bill planner",
+    "vetGiText": "What the Post-9/11 GI Bill covers for school or training: tuition, housing and books.",
+    "vetBenefitsTitle": "Benefits checklist",
+    "vetBenefitsText": "14 benefits veterans often miss, each with the official link to apply.",
+    "vetNote": "Estimates only. Cuenta Clara is not affiliated with the U.S. Department of Veterans Affairs.",
+    "freeTitle": "Try it free, no account needed",
+    "quizTitle": "What's your money style?",
+    "quizText": "A 2-minute quiz with 3 tips that fit you.",
+    "lessonsTitle": "2-minute money lessons",
+    "lessonsText": "Budgeting, credit, APR, sending money home and more, in plain words."
   },
   "auth": {
     "signupTitle": "Create your account",
