@@ -216,16 +216,7 @@ function ClaraChat() {
         <div ref={endRef} />
       </div>
 
-      {limit && (
-        <div className="stack-sm">
-          <p className="notice t-body">
-            {limit.per === "day" ? t("limitDay", { limit: limit.limit }) : t("limitMonth", { limit: limit.limit })}
-          </p>
-          {!limit.plus && <PlusCard feature="clara" title={pl("claraTitle")} />}
-        </div>
-      )}
-
-      <form className="clara-input" onSubmit={submit}>
+      <form className={limit ? "clara-input clara-input--static" : "clara-input"} onSubmit={submit}>
         <label className="sr-only" htmlFor="clara-q">
           {t("placeholder")}
         </label>
@@ -249,6 +240,15 @@ function ClaraChat() {
         </Button>
       </form>
       {note && <p className="t-caption muted">{note}</p>}
+      {limit && (
+        <div className="stack-sm">
+          <p className="notice t-body">
+            {limit.per === "day" ? t("limitDay", { limit: limit.limit }) : t("limitMonth", { limit: limit.limit })}
+          </p>
+          {!limit.plus && <PlusCard feature="clara" title={pl("claraTitle")} />}
+        </div>
+      )}
+
       <p className="t-caption muted">{t("disclaimer")}</p>
 
       <Dialog open={deleting !== null} onClose={() => setDeleting(null)} title={t("deleteTitle")}>

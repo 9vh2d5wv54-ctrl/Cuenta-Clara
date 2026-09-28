@@ -1346,3 +1346,6 @@ textarea {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.clara-input--static {
+  position: static;
+}
