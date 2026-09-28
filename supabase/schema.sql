@@ -18,6 +18,11 @@ create table public.users (
   whatsapp_code text,                   -- one-time link code, 15 minutes
   whatsapp_code_expires timestamptz,
   whatsapp_last_entries uuid[],         -- what "borrar" undoes
+  balance_cents bigint,                 -- Safe to Spend: the balance they typed
+  balance_on date,                      -- the day they typed it
+  buffer_cents bigint not null default 0 check (buffer_cents >= 0),
+  payday_anchor date,                   -- a payday; later ones follow the cycle
+  payday_cycle text check (payday_cycle in ('weekly', 'biweekly', 'semimonthly', 'monthly')),
   created_at timestamptz not null default now()
 );
 
@@ -126,7 +131,8 @@ create policy "own profile" on public.users
   for all using (id = auth.uid()) with check (id = auth.uid());
 -- People edit their settings; rate_alert_baseline and email are server-managed.
 revoke update on public.users from authenticated, anon;
-grant update (language, home_country, home_currency, email_bills_on, email_weekly_on, timezone, rate_alert_on, pay_frequency, tax_set_aside_pct)
+grant update (language, home_country, home_currency, email_bills_on, email_weekly_on, timezone, rate_alert_on, pay_frequency, tax_set_aside_pct,
+  balance_cents, balance_on, buffer_cents, payday_anchor, payday_cycle)
   on public.users to authenticated;
 create policy "own budgets" on public.budgets
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());

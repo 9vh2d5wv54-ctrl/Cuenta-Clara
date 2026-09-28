@@ -92,6 +92,10 @@ How payment reaches the account:
 3. The webhook updates `subscriptions`. Only the service role writes that table; the goal limit is also enforced by a database trigger.
 4. Settings → Cancel Plus calls `/api/plus/cancel`, which cancels the Whop membership at the end of the period.
 
+### Safe to Spend (free; day-by-day view is Plus)
+
+Top of Home. People type their account balance (never a bank login), next payday and how often they're paid (weekly, every 2 weeks, twice a month = 15th and last day, monthly), and an optional cushion. Safe to spend = balance, adjusted by entries logged after the day it was typed, minus bills due before payday (not already marked paid this month), family sends still to go this month, and the cushion. Shows days to payday and about how much a day; nudges to update a balance older than 3 days. Plus shows the projected balance each day until payday. With paycheck mode on, payday comes from the last paycheck. Math in `src/lib/safe-to-spend.ts`. Needs `supabase/migrations/005_safe_to_spend.sql`.
+
 ### Paycheck mode (Plus)
 
 For people paid weekly, every two weeks, in cash or by gig. Turn it on in Settings, then tap "Me pagaron" on Home each payday. Home shows what you can spend until the next payday: the pay, minus this period's share of bills, family sends and savings (a week is 12/52 of a month), minus what's been spent since payday. Bills due before the next payday are listed. Money logged before the period ends (tips, a second gig) joins that period. Math in `src/lib/paycheck.ts`.

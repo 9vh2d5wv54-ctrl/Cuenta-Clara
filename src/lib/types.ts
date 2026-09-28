@@ -18,6 +18,13 @@ export type Profile = {
   tax_set_aside_pct?: number | null;
   /** WhatsApp assistant (Plus): the connected number, digits only. Server-managed. */
   whatsapp_phone?: string | null;
+  /** Safe to Spend: the balance they typed and the day they typed it. */
+  balance_cents?: number | null;
+  balance_on?: string | null;
+  buffer_cents?: number;
+  /** A payday (YYYY-MM-DD); later ones follow payday_cycle. */
+  payday_anchor?: string | null;
+  payday_cycle?: "weekly" | "biweekly" | "semimonthly" | "monthly" | null;
   created_at: string;
 };
 

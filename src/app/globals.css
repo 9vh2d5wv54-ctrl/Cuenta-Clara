@@ -1133,3 +1133,16 @@ textarea {
   flex: none;
   accent-color: var(--clara);
 }
+
+/* A text link that's a button (Safe to Spend → change payday). */
+.link-button {
+  background: none;
+  border: 0;
+  padding: var(--space-2, 8px) 0;
+  min-height: 44px;
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  align-self: center;
+}

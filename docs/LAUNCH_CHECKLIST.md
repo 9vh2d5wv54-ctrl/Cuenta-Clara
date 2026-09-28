@@ -58,6 +58,10 @@ WhatsApp assistant:
 - [ ] Vercel: `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_APP_SECRET`, `WHATSAPP_VERIFY_TOKEN`, `NEXT_PUBLIC_WHATSAPP_NUMBER`
 - [ ] Later: Meta-approved templates for weekly summary and reminders by WhatsApp
 
+Safe to Spend:
+- [x] Built (free; day-by-day projection is Plus)
+- [ ] Run `supabase/migrations/005_safe_to_spend.sql` in the Supabase SQL editor
+
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
 - [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").

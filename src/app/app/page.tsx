@@ -10,6 +10,7 @@ import { Card, Explain, ProgressBar } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { PaycheckCard } from "@/components/Paycheck";
 import { TaxCard } from "@/components/Taxes";
+import { SafeToSpendCard } from "@/components/SafeToSpend";
 import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
@@ -80,6 +81,8 @@ export default function Dashboard() {
 
       <PaycheckCard />
 
+      <SafeToSpendCard />
+
       <Card className="hero">
         <div className="row" style={{ justifyContent: "center" }}>
           <p className="t-label muted">{t("leftLabel")}</p>
@@ -132,7 +135,7 @@ export default function Dashboard() {
       <TaxCard />
 
       {hasPlus(subscription) && (
-        <Link href="/app/pago" className="card row">
+        <Link href="/app/pago" className="card row" style={{ textDecoration: "none" }}>
           <Icon name="check" />
           <span className="t-label grow">{tp("homeLink")}</span>
           <Icon name="forward" size={20} />
