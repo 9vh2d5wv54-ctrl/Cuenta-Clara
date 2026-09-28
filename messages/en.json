@@ -359,5 +359,28 @@
     "nextDue": "Next IRS estimated payment: {date}.",
     "dueSoon": "IRS estimated payment due {date}, in {days, plural, one {# day} other {# days}}.",
     "explain": "When taxes aren't taken out of your pay, the IRS expects payments four times a year: April 15, June 15, September 15 and January 15. We set aside {pct}% of what comes in so the money is there when it's due. This is general information, not tax advice."
+  },
+  "quicklog": {
+    "title": "Say it or snap it",
+    "placeholder": "Spent 25 on gas",
+    "mic": "Talk",
+    "stop": "Stop",
+    "listening": "Listening…",
+    "photo": "Receipt photo",
+    "go": "Read it",
+    "reading": "Reading…",
+    "found": "Here's what we got. Check it before saving.",
+    "save": "Save",
+    "saveAll": "Save all",
+    "edit": "Fix it",
+    "discard": "Discard",
+    "nothing": "We couldn't find an amount. Try something like \"Spent 25 on gas\" or \"Sent 200 to my mom\".",
+    "photosOff": "Receipt photos aren't turned on yet.",
+    "error": "Something went wrong. Try again, or log it by hand below.",
+    "photoNote": "We read the photo once and don't keep it.",
+    "saved": "Logged {count, plural, one {# item} other {# items}}.",
+    "plusTitle": "Logging by voice or receipt photo is part of Plus",
+    "noMatch": "not in your list",
+    "orByHand": "Or log it by hand"
   }
 }

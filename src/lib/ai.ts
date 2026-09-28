@@ -174,3 +174,100 @@ function templateCheckup(i: CheckupInput): string {
 
   return [observation, leftLine, es ? `Tu estilo: ${title}.` : `Your style: ${title}.`, step].join("\n\n");
 }
+
+// Quick log (Plus): turn a sentence or a receipt photo into entries to confirm.
+const QUICK_LOG_SYSTEM = `You turn what a Cuenta Clara user said, typed, or photographed into budget entries. Users write in Spanish, English, or a mix.
+
+Entry types:
+- expense: everyday spending. Pick the closest category: food, transport, home, health, phone, kids, fun, other.
+- send: money sent to family. Set match_id to the matching person from the list when one fits.
+- bill_paid: a fixed bill they paid. Set match_id to the matching bill from the list when one fits.
+- savings: money put toward a goal. Set match_id to the matching goal when one fits.
+- income: pay they received ("me pagaron", "got paid").
+
+Rules:
+- amount is in US dollars as a number (25.5, not "$25.50"). For a receipt, use the final total paid, including tax and tip.
+- date is YYYY-MM-DD. Use today's date unless they say another day ("ayer" = yesterday) or the receipt shows one. Never a future date.
+- note is a few words: the store name on a receipt, or what they bought. Empty string if nothing useful.
+- match_id is an id from the lists given, or an empty string. Never invent ids.
+- category is required for every entry; for non-expense types use "other".
+- A money-transfer receipt (Western Union, Remitly, Ria, and similar) is a send; use the amount sent, not including fees.
+- If there is no clear amount, or the input isn't about money, return an empty entries list. Never guess an amount.
+- At most 5 entries.`;
+
+const QUICK_LOG_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["entries"],
+  properties: {
+    entries: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["type", "amount", "category", "match_id", "date", "note"],
+        properties: {
+          type: { type: "string", enum: ["expense", "send", "bill_paid", "savings", "income"] },
+          amount: { type: "number" },
+          category: { type: "string", enum: ["food", "transport", "home", "health", "phone", "kids", "fun", "other"] },
+          match_id: { type: "string" },
+          date: { type: "string" },
+          note: { type: "string" },
+        },
+      },
+    },
+  },
+} as const;
+
+export type QuickLogInput =
+  | { kind: "text"; text: string }
+  | { kind: "image"; mediaType: "image/jpeg" | "image/png" | "image/webp"; data: string };
+
+/** Whether Claude can read quick-log input (receipt photos need it). */
+export function quickLogAvailable(): boolean {
+  return hasKey();
+}
+
+/** Raw entries from Claude, to be checked with cleanEntries; null if Claude isn't available or fails. */
+export async function readQuickLog(
+  input: QuickLogInput,
+  lists: { recipients: { id: string; name: string }[]; bills: { id: string; name: string }[]; goals: { id: string; name: string }[] },
+  today: string,
+): Promise<unknown[] | null> {
+  if (!hasKey()) return null;
+  const context = [
+    `Today: ${today}`,
+    `People they send to: ${JSON.stringify(lists.recipients)}`,
+    `Their bills: ${JSON.stringify(lists.bills)}`,
+    `Their goals: ${JSON.stringify(lists.goals)}`,
+  ].join("\n");
+  const content: Anthropic.Beta.BetaContentBlockParam[] =
+    input.kind === "text"
+      ? [{ type: "text", text: `${context}\n\nWhat they said: ${input.text}` }]
+      : [
+          { type: "image", source: { type: "base64", media_type: input.mediaType, data: input.data } },
+          { type: "text", text: `${context}\n\nThis is a photo of a receipt or transfer slip.` },
+        ];
+  try {
+    const response = await claude().beta.messages.create({
+      model: MODEL,
+      max_tokens: 4000,
+      betas: ["server-side-fallback-2026-07-01"],
+      fallbacks: "default",
+      output_config: { effort: "low", format: { type: "json_schema", schema: QUICK_LOG_SCHEMA } },
+      system: QUICK_LOG_SYSTEM,
+      messages: [{ role: "user", content }],
+    });
+    if (response.stop_reason === "refusal") return null;
+    const text = response.content
+      .filter((b): b is Anthropic.Beta.BetaTextBlock => b.type === "text")
+      .map((b) => b.text)
+      .join("");
+    const parsed = JSON.parse(text) as { entries?: unknown };
+    return Array.isArray(parsed.entries) ? parsed.entries : [];
+  } catch (err) {
+    if (err instanceof Anthropic.APIError) console.error("claude quick log error", err.status, err.message);
+    else console.error("claude quick log error", err);
+    return null;
+  }
+}

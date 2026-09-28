@@ -104,6 +104,10 @@ For 1099, cash or gig pay with no taxes taken out. In Settings, pick 15–30% (g
 
 Databases made before this feature need `supabase/migrations/003_tax_set_aside.sql` run once in the SQL editor.
 
+### Say it or snap it (Plus)
+
+At the top of Log: type or say "Gasté 25 en gasolina" (the mic uses the phone's speech recognition when available), or take a photo of a receipt or transfer slip. `/api/quick-log` turns it into entries the person checks before saving; "Fix it" loads one into the form below. With `ANTHROPIC_API_KEY`, Claude reads text and photos (structured output, checked against the person's own people, bills and goals in `src/lib/quick-log.ts`). Without it, typed or spoken text goes through a keyword reader and photos show "not turned on yet". Photos are shrunk in the browser, read once, and never stored.
+
 ## Emails
 
 Sent through Resend in each person's language. Every marketing email has a one-click unsubscribe (footer link and `List-Unsubscribe` headers) and your mailing address.

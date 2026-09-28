@@ -45,6 +45,9 @@ Tax set-aside:
 - [x] Built (Plus): Settings → Tax set-aside, Taxes card on Home, reminder email 7 days before IRS dates
 - [x] Run `supabase/migrations/003_tax_set_aside.sql` in the Supabase SQL editor
 
+Say it or snap it:
+- [x] Built (Plus): voice/typed logging works now; receipt photos turn on with `ANTHROPIC_API_KEY`
+
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
 - [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").

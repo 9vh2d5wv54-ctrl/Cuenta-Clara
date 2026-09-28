@@ -359,5 +359,28 @@
     "nextDue": "Próximo pago estimado al IRS: {date}.",
     "dueSoon": "El pago estimado al IRS vence el {date}, en {days, plural, one {# día} other {# días}}.",
     "explain": "Cuando no te descuentan impuestos del pago, el IRS espera pagos cuatro veces al año: 15 de abril, 15 de junio, 15 de septiembre y 15 de enero. Apartamos el {pct}% de lo que entra para que el dinero esté ahí cuando toque pagar. Esto es información general, no asesoría de impuestos."
+  },
+  "quicklog": {
+    "title": "Dilo o tómale foto",
+    "placeholder": "Gasté 25 en gasolina",
+    "mic": "Hablar",
+    "stop": "Parar",
+    "listening": "Te escucho…",
+    "photo": "Foto del recibo",
+    "go": "Listo",
+    "reading": "Leyendo…",
+    "found": "Esto es lo que entendimos. Revísalo antes de guardar.",
+    "save": "Guardar",
+    "saveAll": "Guardar todo",
+    "edit": "Corregir",
+    "discard": "Descartar",
+    "nothing": "No encontramos una cantidad. Prueba algo como \"Gasté 25 en gasolina\" o \"Le mandé 200 a mi mamá\".",
+    "photosOff": "Las fotos de recibos todavía no están activadas.",
+    "error": "Algo salió mal. Intenta otra vez o anótalo a mano abajo.",
+    "photoNote": "Leemos la foto una vez y no la guardamos.",
+    "saved": "Listo: {count, plural, one {# anotado} other {# anotados}}.",
+    "plusTitle": "Anotar con tu voz o una foto del recibo es parte de Plus",
+    "noMatch": "no está en tu lista",
+    "orByHand": "O anótalo a mano"
   }
 }

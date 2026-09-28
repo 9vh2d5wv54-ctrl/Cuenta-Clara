@@ -8,6 +8,9 @@ import { Button, Field, Input, MoneyInput, Segmented, Select, Toast } from "@/co
 import { EXPENSE_CATEGORIES } from "@/lib/budget";
 import { todayISO } from "@/lib/dates";
 import { hasPlus } from "@/lib/plan";
+import { QuickLog } from "@/components/QuickLog";
+import { PlusCard } from "@/components/Plus";
+import type { ParsedEntry } from "@/lib/quick-log";
 import { centsToInput, formatUSD, parseCents } from "@/lib/money";
 import type { EntryType, NewEntry } from "@/lib/types";
 
@@ -15,6 +18,7 @@ export default function AddEntry() {
   const t = useTranslations("add");
   const c = useTranslations("common");
   const cat = useTranslations("add.categories");
+  const q = useTranslations("quicklog");
   const { recipients, bills, goals, profile, subscription, mutate } = useData();
   const router = useRouter();
   // Paycheck mode (Plus) adds "I got paid".
@@ -51,6 +55,28 @@ export default function AddEntry() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Quick log's "Fix it": load what was read into the form below to adjust by hand.
+  function fillForm(e: ParsedEntry) {
+    setType(e.type);
+    setAmount(centsToInput(e.amount_cents));
+    setDate(e.date);
+    setNote(e.note ?? "");
+    if (e.type === "expense") setCategory(e.category);
+    if (e.type === "send" && e.match_id) setRecipientId(e.match_id);
+    if (e.type === "bill_paid" && e.match_id) setBillId(e.match_id);
+    if (e.type === "savings" && e.match_id) setGoalId(e.match_id);
+    setFormError(null);
+    setAmountError(null);
+  }
+
+  function quickSaved(saved: ParsedEntry[]) {
+    if (saved.some((e) => e.type === "income") && payMode) {
+      router.push("/app");
+      return;
+    }
+    setToast(q("saved", { count: saved.length }));
+  }
 
   // Picking a bill or a person fills in its usual amount.
   function pickRecipient(id: string) {
@@ -131,6 +157,15 @@ export default function AddEntry() {
   return (
     <main className="page">
       <h1 className="t-title">{t("title")}</h1>
+
+      {hasPlus(subscription) ? (
+        <>
+          <QuickLog onEdit={fillForm} onSaved={quickSaved} />
+          <p className="t-label muted">{q("orByHand")}</p>
+        </>
+      ) : (
+        <PlusCard feature="quicklog" title={q("plusTitle")} />
+      )}
 
       <Segmented
         label={t("title")}
