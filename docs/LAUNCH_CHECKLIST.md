@@ -38,7 +38,7 @@ Where Cuenta Clara stands, and what's next.
 
 Paycheck mode:
 - [x] Built (Plus): Settings → Paycheck mode, "Me pagaron" on Home
-- [ ] Run `supabase/migrations/002_paycheck_mode.sql` in the Supabase SQL editor
+- [x] Run `supabase/migrations/002_paycheck_mode.sql` in the Supabase SQL editor
 - [ ] Turn it on and log a paycheck on micuentaclara.app
 
 Later:
