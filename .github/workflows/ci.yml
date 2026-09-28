@@ -1,0 +1,24 @@
+# Runs on every push to main and every pull request: type check, unit tests
+# (money math, Clara's tools, translations) and a production build. A red X on
+# GitHub means something broke. Vercel's build runs the same tests first, so a
+# failing test also stops the deploy and the last good version stays live.
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build

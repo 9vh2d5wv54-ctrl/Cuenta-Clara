@@ -98,7 +98,7 @@ Money Health Score:
 - [x] Money Style quiz (free, public at /estilo)
 - [x] Veteran tools card on Home (asked once; Settings → Veterans)
 - [x] Money words dictionary (free, public at /palabras)
-- [ ] Every August 1: update GI Bill rates in `src/lib/gi-bill.ts`
+- [ ] Every August 1: update GI Bill rates in `src/lib/gi-bill.ts` (and the numbers in `tests/unit/va-gi.test.ts`)
 
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
@@ -124,3 +124,4 @@ Tip: adding variables and copying keys is much easier on a computer than on a ph
 ## Design (later)
 - [ ] Possible layout/visual redesign after tester feedback: collect example apps; colors and fonts live in src/app/tokens.css, icons regenerate from the brand font
 - [x] Security review and fixes (Sep 28, 2026): see README "Security review"
+- [x] Automatic tests: 57 unit tests run before every deploy and on GitHub (Sep 28, 2026)

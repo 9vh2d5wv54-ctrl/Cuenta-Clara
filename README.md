@@ -229,3 +229,7 @@ Checked: row-level security on every table (people reach only their own rows; su
 - `/api/email/test` and `/api/plus/status` are for tester accounts only (`CLARA_TESTER_EMAILS`).
 - WhatsApp link codes are 6 letters and numbers (no look-alikes), not 6 digits.
 - Security headers on every page (`next.config.ts`): no framing, nosniff, strict referrer, camera/mic only for this site, HSTS.
+
+### Automatic tests
+
+`npm test` runs 57 unit tests in about a second (`tests/unit`, Vitest): the monthly plan, Safe to Spend and paydays, pay stub overtime, VA combined ratings and official rates, the GI Bill, debt payoff, the What if? chart, the payday email plan, Clara's tools and limits, the crisis safety net, quick logging, and content checks (English and Spanish have exactly the same text keys; lessons, dictionary and benefit links are valid). `npm run build` runs the tests first, so **Vercel won't deploy if a test fails**. GitHub Actions (`.github/workflows/ci.yml`) also type-checks, tests and builds every push. When a number rule changes on purpose (new VA rates on Dec 1, GI Bill rates on Aug 1), update the matching test.
