@@ -190,3 +190,7 @@ The default Supabase email templates are fine. Login and confirm emails are sent
 ### Money Style quiz (free, public)
 
 `/estilo`, no account needed, linked from Home and the Academy. 8 questions; each answer points to one of four styles (Saver, Spender, Giver, Avoider). The most-picked style wins, with ties going to the style whose tips help most first (`src/lib/money-style.ts`). The result shows a strength, a watch-out, 3 tips linked to Academy lessons, a "try free" button and a share button. The style is saved in this browser (`cc-money-style`) for Clara to use later. Not a psychological test.
+
+### Veterans: Home card (free)
+
+Home asks once, "Are you a veteran or military family?" Yes shows a Veteran tools card with the VA disability estimate, GI Bill planner and benefits checklist; No hides the question. Remembered per person in this browser (`src/lib/veteran-pref.ts`) and changeable in Settings → Veterans.

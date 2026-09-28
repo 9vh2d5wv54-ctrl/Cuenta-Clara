@@ -90,6 +90,7 @@ Money Health Score:
 - [x] GI Bill: books and supplies, online-only and foreign-school housing
 - [x] Veteran benefits checklist (free), official links only; recheck links once a year
 - [x] Money Style quiz (free, public at /estilo)
+- [x] Veteran tools card on Home (asked once; Settings → Veterans)
 - [ ] Every August 1: update GI Bill rates in `src/lib/gi-bill.ts`
 
 Later:

@@ -902,5 +902,19 @@
         "Empieza con una meta pequeña, como $500 para emergencias. Los pequeños logros dan confianza."
       ]
     }
+  },
+  "veteranCard": {
+    "question": "¿Eres veterano(a) o de familia militar?",
+    "why": "Si es así, tendrás herramientas gratis para veteranos aquí mismo en Inicio.",
+    "yes": "Sí",
+    "no": "No, gracias",
+    "title": "Herramientas para veteranos",
+    "thanks": "Gracias por tu servicio. Herramientas gratis, solo estimados. Cuenta Clara no es el VA.",
+    "disability": "Calculadora de discapacidad del VA",
+    "giBill": "Planificador del GI Bill",
+    "benefits": "Lista de beneficios",
+    "settingsTitle": "Veteranos",
+    "settingLabel": "Mostrar herramientas para veteranos en Inicio",
+    "settingHelp": "Para veteranos y familias militares. Se guarda en este dispositivo."
   }
 }

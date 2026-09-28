@@ -10,6 +10,7 @@ import { setLocaleCookie } from "@/components/LanguageToggle";
 import Link from "next/link";
 import { paywallHref, PlusCard } from "@/components/Plus";
 import { WhatsAppCard } from "@/components/WhatsApp";
+import { VeteranSetting } from "@/components/VeteranCard";
 import { formatLongDate } from "@/lib/dates";
 import { TAX_OPTIONS } from "@/lib/taxes";
 import { hadTrial, hasPlus } from "@/lib/plan";
@@ -27,6 +28,7 @@ export default function Ajustes() {
   const x = useTranslations("explain");
   const pc = useTranslations("paycheck");
   const tx = useTranslations("taxes");
+  const vc = useTranslations("veteranCard");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -262,6 +264,13 @@ export default function Ajustes() {
             )}
             <BillForm submitLabel={s("addBill")} onSave={(b) => mutate((st) => st.addBill(b))} />
           </div>
+        </Card>
+      </section>
+
+      <section className="stack-sm">
+        <h2 className="t-heading">{vc("settingsTitle")}</h2>
+        <Card>
+          <VeteranSetting label={vc("settingLabel")} help={vc("settingHelp")} />
         </Card>
       </section>
 

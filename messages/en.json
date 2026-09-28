@@ -902,5 +902,19 @@
         "Start with one small goal, like $500 for emergencies. Small wins build confidence."
       ]
     }
+  },
+  "veteranCard": {
+    "question": "Are you a veteran or military family?",
+    "why": "If yes, we'll keep free tools for veterans right here on Home.",
+    "yes": "Yes",
+    "no": "No thanks",
+    "title": "Veteran tools",
+    "thanks": "Thank you for your service. Free tools, estimates only. Cuenta Clara is not the VA.",
+    "disability": "VA disability estimate",
+    "giBill": "GI Bill planner",
+    "benefits": "Benefits checklist",
+    "settingsTitle": "Veterans",
+    "settingLabel": "Show veteran tools on Home",
+    "settingHelp": "For veterans and military families. Saved on this device."
   }
 }
