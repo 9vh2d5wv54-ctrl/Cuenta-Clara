@@ -112,6 +112,12 @@ At the top of Log: type or say "Gasté 25 en gasolina" (the mic uses the phone's
 
 `/app/pago` ("¿Te pagaron bien?", linked from Home): hourly rate and hours per week, optionally filled from a pay stub photo, compared with the stub's gross pay. Federal overtime (time and a half after 40 hours in a week) in `src/lib/paystub.ts`; Claude only reads the photo (`/api/paystub`, needs `ANTHROPIC_API_KEY`; typing works without it). Flags underpay and overtime paid below time and a half, points to the U.S. Department of Labor (1-866-487-9243), and says it's general information, not legal advice. With paycheck mode on, the stub's net pay can be logged as the paycheck.
 
+### WhatsApp assistant (Plus)
+
+Plus members connect their number in Settings: the app shows a code, WhatsApp opens with "CLARA 123456" typed, and the webhook links the number. Then they can text an expense ("Gasté 25 en gasolina"), send a receipt photo, ask "¿Me alcanza…?", text "saldo" for what's left, or "borrar" to undo the last thing logged. Replies are free-form text inside the 24-hour window their message opens; messages we start (weekly summary, reminders) need Meta-approved templates and are a later step.
+
+Setup (Meta WhatsApp Cloud API): create a Meta app with WhatsApp, add a phone number, make a permanent system-user token, and set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_APP_SECRET`, `WHATSAPP_VERIFY_TOKEN`, `NEXT_PUBLIC_WHATSAPP_NUMBER` in Vercel. Webhook URL: `https://micuentaclara.app/api/whatsapp/webhook`, subscribed to `messages`. Run `supabase/migrations/004_whatsapp.sql`. Code: `src/lib/whatsapp.ts` (API, signature check), `src/lib/whatsapp-bot.ts` (what each message does).
+
 ## Emails
 
 Sent through Resend in each person's language. Every marketing email has a one-click unsubscribe (footer link and `List-Unsubscribe` headers) and your mailing address.

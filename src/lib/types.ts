@@ -16,6 +16,8 @@ export type Profile = {
   pay_frequency?: PayFrequency | null;
   /** Tax set-aside (Plus): percent of income to set aside, for pay with no taxes taken out. Null = off. */
   tax_set_aside_pct?: number | null;
+  /** WhatsApp assistant (Plus): the connected number, digits only. Server-managed. */
+  whatsapp_phone?: string | null;
   created_at: string;
 };
 

@@ -14,7 +14,17 @@ create table public.users (
   rate_alert_baseline numeric,
   pay_frequency text check (pay_frequency in ('weekly', 'biweekly')), -- paycheck mode (Plus); null = plan by month
   tax_set_aside_pct smallint check (tax_set_aside_pct between 1 and 50), -- tax set-aside (Plus); null = off
+  whatsapp_phone text unique,           -- WhatsApp assistant (Plus); server-managed
+  whatsapp_code text,                   -- one-time link code, 15 minutes
+  whatsapp_code_expires timestamptz,
+  whatsapp_last_entries uuid[],         -- what "borrar" undoes
   created_at timestamptz not null default now()
+);
+
+-- WhatsApp message ids already handled (server only; RLS on, no policies).
+create table public.whatsapp_messages (
+  id text primary key,
+  received_at timestamptz not null default now()
 );
 
 create table public.budgets (
@@ -110,6 +120,7 @@ alter table public.goals enable row level security;
 alter table public.subscriptions enable row level security;
 alter table public.checkups enable row level security;
 alter table public.ai_questions enable row level security;
+alter table public.whatsapp_messages enable row level security;
 
 create policy "own profile" on public.users
   for all using (id = auth.uid()) with check (id = auth.uid());

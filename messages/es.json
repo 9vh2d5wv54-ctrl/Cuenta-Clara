@@ -416,5 +416,18 @@
     "logIt": "Anotar {amount} como este pago",
     "plusTitle": "Revisar tu pago es parte de Plus",
     "homeLink": "¿Te pagaron bien? Revisa tu talón de pago"
+  },
+  "whatsapp": {
+    "title": "Asistente de WhatsApp",
+    "lead": "Mándale a Cuenta Clara tus gastos, fotos de recibos y preguntas de \"¿Me alcanza?\" por WhatsApp.",
+    "connect": "Conectar WhatsApp",
+    "step": "Envía este mensaje desde tu WhatsApp. Conecta tu número en menos de un minuto; el código sirve por 15 minutos.",
+    "open": "Abrir WhatsApp",
+    "done": "Ya lo envié",
+    "connected": "Conectado: {phone}",
+    "disconnect": "Desconectar",
+    "waiting": "Todavía no está conectado. Envía el mensaje, espera unos segundos y toca \"Ya lo envié\" otra vez.",
+    "error": "No pudimos empezar la conexión. Intenta otra vez en un momento.",
+    "plusTitle": "El asistente de WhatsApp es parte de Plus"
   }
 }

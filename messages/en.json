@@ -416,5 +416,18 @@
     "logIt": "Log {amount} as this paycheck",
     "plusTitle": "The paycheck checker is part of Plus",
     "homeLink": "Were you paid right? Check your pay stub"
+  },
+  "whatsapp": {
+    "title": "WhatsApp assistant",
+    "lead": "Text your expenses, receipt photos and \"¿Me alcanza?\" questions to Cuenta Clara on WhatsApp.",
+    "connect": "Connect WhatsApp",
+    "step": "Send this message from your WhatsApp. It connects your number within a minute; the code works for 15 minutes.",
+    "open": "Open WhatsApp",
+    "done": "I sent it",
+    "connected": "Connected: {phone}",
+    "disconnect": "Disconnect",
+    "waiting": "Not connected yet. Send the message, wait a few seconds, then tap \"I sent it\" again.",
+    "error": "We couldn't start the connection. Try again in a moment.",
+    "plusTitle": "The WhatsApp assistant is part of Plus"
   }
 }

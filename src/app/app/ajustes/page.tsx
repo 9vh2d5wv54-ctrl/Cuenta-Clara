@@ -9,6 +9,7 @@ import { Icon } from "@/components/Icon";
 import { setLocaleCookie } from "@/components/LanguageToggle";
 import Link from "next/link";
 import { paywallHref, PlusCard } from "@/components/Plus";
+import { WhatsAppCard } from "@/components/WhatsApp";
 import { formatLongDate } from "@/lib/dates";
 import { TAX_OPTIONS } from "@/lib/taxes";
 import { hadTrial, hasPlus } from "@/lib/plan";
@@ -217,6 +218,8 @@ export default function Ajustes() {
       ) : (
         <PlusCard feature="paycheck" title={pc("plusTitle")} />
       )}
+
+      <WhatsAppCard />
 
       <Card>
         <form className="stack" onSubmit={saveIncome} noValidate>

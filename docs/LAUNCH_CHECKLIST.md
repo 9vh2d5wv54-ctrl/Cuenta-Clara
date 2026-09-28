@@ -51,6 +51,13 @@ Say it or snap it:
 Paycheck checker:
 - [x] Built (Plus): /app/pago; typing works now, stub photos turn on with `ANTHROPIC_API_KEY`
 
+WhatsApp assistant:
+- [x] Built (Plus): connect in Settings; text expenses, photos, "saldo", "¿Me alcanza?", "borrar"
+- [ ] Run `supabase/migrations/004_whatsapp.sql` in the Supabase SQL editor
+- [ ] Meta: WhatsApp Business app, phone number, permanent token, webhook → `https://micuentaclara.app/api/whatsapp/webhook`
+- [ ] Vercel: `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_APP_SECRET`, `WHATSAPP_VERIFY_TOKEN`, `NEXT_PUBLIC_WHATSAPP_NUMBER`
+- [ ] Later: Meta-approved templates for weekly summary and reminders by WhatsApp
+
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
 - [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").
