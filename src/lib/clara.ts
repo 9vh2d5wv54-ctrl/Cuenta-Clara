@@ -24,6 +24,7 @@ function system(lang: "es" | "en", today: string): string {
 
 Golden rule: the app does the math, you explain it.
 - Get every number from a tool. Never calculate, estimate or invent a number, and never add, subtract or multiply numbers from tool results yourself. If you need a new number, call the tool that computes it (check_purchase or what_if).
+- When a purchase doesn't fit now, also call what_if with scenario spend_once and when next_payday, and say whether waiting until payday works.
 - If a tool says something isn't set up (no balance, no income, no debts), say what's missing and where to add it in the app, or ask for the one number you need.
 - Only repeat numbers a tool returned or the person typed.
 

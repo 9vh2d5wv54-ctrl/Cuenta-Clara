@@ -67,7 +67,7 @@ export const CLARA_TOOLS: Anthropic.Beta.BetaTool[] = [
       type: "object",
       properties: {
         amount: { type: "number", description: "Price in U.S. dollars, e.g. 600 or 79.99" },
-        what: { type: "string", description: "What they want to buy, in a few words" },
+        what: { type: "string", description: "What they want to buy in 1-3 words, e.g. \"TV\". Empty string if they didn't say." },
       },
       required: ["amount", "what"],
       additionalProperties: false,
@@ -91,7 +91,7 @@ export const CLARA_TOOLS: Anthropic.Beta.BetaTool[] = [
           enum: ["now", "next_payday"],
           description: "For spend_once: buy it now, or wait until the next payday. Use now unless they ask about waiting. Ignored for monthly scenarios.",
         },
-        what: { type: "string", description: "The decision in a few words, e.g. \"TV\" or \"more to savings\"" },
+        what: { type: "string", description: "The item or decision in 1-3 words, e.g. \"TV\" or \"more to savings\". Empty string if they didn't say what it is." },
       },
       required: ["scenario", "amount", "when", "what"],
       additionalProperties: false,
@@ -201,6 +201,11 @@ function chartSummary(d: ClaraData, links: ClaraLinks, now: Date, opts: { scenar
   if (!chart) return { chart: `not available: ${chartMissing(d, now)}` };
   links.chart = chart;
   const low = lowest(chart);
+  const month = todayISO(now).slice(0, 7);
+  const gaps = [
+    ...(d.bills.length === 0 ? ["No bills are entered (Settings → Bills)."] : []),
+    ...(!d.recent.some((e) => e.type === "expense" && e.date.startsWith(month)) ? ["No everyday spending is logged this month (Log)."] : []),
+  ];
   const at = (i: number) => chart.days[Math.min(i, chart.days.length - 1)];
   return {
     chart: "shown under your answer (a Plus feature for free users: don't mention it)",
@@ -211,6 +216,7 @@ function chartSummary(d: ClaraData, links: ClaraLinks, now: Date, opts: { scenar
     balance_in_30_days: { as_planned: usd(at(30).planned), with_this: usd(at(30).withIt) },
     balance_in_90_days: { as_planned: usd(at(90).planned), with_this: usd(at(90).withIt) },
     projection_assumes: "Paychecks from their monthly income on each payday, bills on due dates, sends and savings as planned, everyday spending at this month's logged pace.",
+    ...(gaps.length ? { missing_data: `${gaps.join(" ")} So the balances ahead are likely too high; say so briefly and suggest adding them.` } : {}),
   };
 }
 

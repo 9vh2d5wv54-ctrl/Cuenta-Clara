@@ -72,7 +72,8 @@ function ChartBody({ chart }: { chart: Chart }) {
   const path = (k: "planned" | "withIt") => days.map((d, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(d[k]).toFixed(1)}`).join("");
   const last = days.length - 1;
   const same = days.every((d) => d.planned === d.withIt);
-  const withLabel = t("withIt", { label: chart.label || t("decision") });
+  const name = chart.label.trim();
+  const withLabel = t("withIt", { label: name && name.length <= 24 && !/unspecified|sin especificar/i.test(name) ? name : t("decision") });
 
   function pick(e: PointerEvent<SVGSVGElement>) {
     const box = e.currentTarget.getBoundingClientRect();
