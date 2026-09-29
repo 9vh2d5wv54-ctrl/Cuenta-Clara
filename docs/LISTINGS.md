@@ -38,3 +38,16 @@ client list is ever built.
 - Short (60): `Your AI money coach for personal and side-hustle money.`
 - Medium: `Cuenta Clara is an AI money coach. Clara reads your real numbers to show what's safe to spend, plan self-employed and gig pay, and set aside for taxes.`
 - Spanish: `Cuenta Clara es un coach de dinero con IA. Clara lee tus números para decirte cuánto puedes gastar, planear ingresos por tu cuenta y apartar para impuestos.`
+
+## Links for UK and Canada ads
+
+The website shows each visitor their own currency automatically (UK → £, Canada →
+Canadian dollars, everyone else → U.S. dollars), and new accounts start in it. For
+ads aimed at one country, you can force it with a link:
+
+- UK: `https://micuentaclara.app/?country=GB`
+- Canada: `https://micuentaclara.app/?country=CA`
+- U.S.: `https://micuentaclara.app/?country=US`
+
+Add `&lang=es` for Spanish. Plus is always billed in U.S. dollars and shows as
+US$4.99 outside the U.S.

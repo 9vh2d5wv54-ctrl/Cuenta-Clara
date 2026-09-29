@@ -126,7 +126,7 @@ function ClaraChat() {
     }
   }
 
-  const suggestions = (t.raw("suggestions") as string[]).map(localizeDollars);
+  const suggestions = (t.raw("suggestions") as string[]).map((s) => localizeDollars(s));
 
   return (
     <main className="page clara-page">

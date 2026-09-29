@@ -12,7 +12,8 @@ import { useSafeToSpend } from "@/components/SafeToSpend";
 import { Button, Field, Input, ProgressBar } from "@/components/ui";
 import { summarize } from "@/lib/budget";
 import { formatShortDate, todayISO } from "@/lib/dates";
-import { APP_CURRENCIES, centsToInput, currencyFromLocale, formatUSD, isAppCurrency, parseCents, setAppCurrency, type AppCurrency } from "@/lib/money";
+import { browserCountry } from "@/lib/country";
+import { APP_CURRENCIES, centsToInput, currencyFromCountry, currencyFromLocale, formatUSD, isAppCurrency, parseCents, setAppCurrency, type AppCurrency } from "@/lib/money";
 import { monthlyFromPaycheck } from "@/lib/onboarding";
 import { addDays } from "@/lib/paycheck";
 import type { PaydayCycle } from "@/lib/safe-to-spend";
@@ -54,9 +55,12 @@ export default function Setup() {
     if (profile) markSetupSeen(profile.id);
   }, [profile]);
 
-  // New accounts start in the currency of the phone's region (UK → £, Canada → C$).
+  // New accounts start in the currency of where they are (the website's guess, then the phone's region).
   useEffect(() => {
-    if (!profile?.currency || profile.currency === "USD") setCurrency(currencyFromLocale(navigator.language));
+    if (!profile?.currency || profile.currency === "USD") {
+      const country = browserCountry();
+      setCurrency(country ? currencyFromCountry(country) : currencyFromLocale(navigator.language));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -5,7 +5,10 @@ import { LanguageToggle } from "@/components/LanguageToggle";
 import { CtaLink } from "@/components/landing/CtaLink";
 import { StickyCta } from "@/components/landing/StickyCta";
 import { AuthHashForward } from "@/components/AuthHashForward";
-import { formatUSD } from "@/lib/money";
+import { headers } from "next/headers";
+import { COUNTRY_HEADER } from "@/lib/country";
+import { currencyFromCountry, formatUSD, localizeDollars, usdPrice, type AppCurrency } from "@/lib/money";
+import { PRICES } from "@/lib/plan";
 import { OrbMark } from "@/components/ClaraCard";
 
 // The ad landing page (Cuenta Clara Landing Page PRD). Order follows the teardown:
@@ -15,6 +18,9 @@ import { OrbMark } from "@/components/ClaraCard";
 
 const SAMPLE_LEFT = 41250;
 
+// Sample exchange rates for the family-sends preview (not live).
+const MOCK_DOP: Record<AppCurrency, number> = { USD: 63.42, CAD: 46.3, GBP: 80.54 };
+
 const APP_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -23,6 +29,7 @@ const APP_JSON_LD = {
   applicationCategory: "FinanceApplication",
   applicationSubCategory: "AI money coach, business finance for side hustles and self-employed pay, productivity",
   operatingSystem: "Web, iOS, Android",
+  areaServed: ["US", "CA", "GB"],
   inLanguage: ["en", "es"],
   description:
     "Cuenta Clara is an AI money coach. Clara reads your real numbers to show what's safe to spend, plan irregular and self-employed pay, set money aside for taxes, and reach your goals.",
@@ -38,12 +45,15 @@ export default async function Landing() {
   const ac = await getTranslations("academy");
   const w = await getTranslations("words");
   const lg = await getTranslations("legal");
+  // UK visitors see pounds, Canadians see their dollars; everyone else U.S. dollars.
+  const cur = currencyFromCountry((await headers()).get(COUNTRY_HEADER));
+  const $ = (text: string) => localizeDollars(text, cur);
 
   const trust: { icon: IconName; text: string }[] = [
     { icon: "check", text: t("trustFree") },
     { icon: "home", text: t("trustNotBank") },
     { icon: "eye", text: t("trustPassword") },
-    { icon: "globe", text: t("trustBuiltFor") },
+    { icon: "globe", text: cur === "GBP" ? t("trustUK") : cur === "CAD" ? t("trustCA") : t("trustBuiltFor") },
   ];
 
   const vetTools: { icon: IconName; title: string; text: string }[] = [
@@ -65,9 +75,9 @@ export default async function Landing() {
     { icon: "target", title: t("biz4Title"), text: t("biz4Text") },
   ];
 
-  const faq = (["Safe", "Free", "Bank", "ForMe", "Data", "Numbers"] as const).map((k) => ({
+  const faq = (["Safe", "Free", "Where", "Bank", "ForMe", "Data", "Numbers"] as const).map((k) => ({
     q: t(`faq${k}Q`),
-    a: t(`faq${k}A`),
+    a: t(`faq${k}A`, { price: usdPrice(PRICES.monthly.label, cur) }),
   }));
 
   return (
@@ -101,12 +111,12 @@ export default async function Landing() {
             labels={{
               safe: t("artSafe"),
               onTrack: t("artOnTrack"),
-              ask: t("artAsk"),
-              answer: t("artAnswer"),
+              ask: $(t("artAsk")),
+              answer: $(t("artAnswer")),
               send: t("artGoal"),
               sent: t("artGoalPct"),
             }}
-            amount={formatUSD(SAMPLE_LEFT)}
+            amount={formatUSD(SAMPLE_LEFT, cur)}
           />
 
           <div className="lp-hero__cta">
@@ -190,7 +200,7 @@ export default async function Landing() {
             </CtaLink>
           </div>
           <PhoneMock
-            left={formatUSD(SAMPLE_LEFT)}
+            left={formatUSD(SAMPLE_LEFT, cur)}
             labels={{
               hello: t("mockHello"),
               month: monthName.charAt(0).toUpperCase() + monthName.slice(1),
@@ -199,8 +209,8 @@ export default async function Landing() {
               ring: hh("ringLabel"),
               progress: hh("progress"),
               goals: [
-                { name: t("mockGoal1"), saved: "$1,250", pct: 25, tone: "clara" },
-                { name: t("mockGoal2"), saved: "$744", pct: 62, tone: "violet" },
+                { name: t("mockGoal1"), saved: $("$1,250"), pct: 25, tone: "clara" },
+                { name: t("mockGoal2"), saved: $("$744"), pct: 62, tone: "violet" },
               ],
               actions: [hh("send"), hh("goals"), hh("log"), "Clara"],
               tabs: [nav("home"), nav("sends"), nav("add"), nav("goals"), nav("settings")],
@@ -304,14 +314,14 @@ export default async function Landing() {
             <div className="card lp-sends__card">
               <p className="t-label">{t("sendsMock")}</p>
               <div className="row row--between">
-                <span className="t-heading num">{t("sendsMockPlan")}</span>
-                <span className="t-label num lp-sends__receives">{t("sendsMockReceives")}</span>
+                <span className="t-heading num">{$(t("sendsMockPlan"))}</span>
+                <span className="t-label num lp-sends__receives">{t("sendsMockReceives", { amount: `RD$ ${Math.round(200 * MOCK_DOP[cur]).toLocaleString("en-US")}` })}</span>
               </div>
-              <p className="t-caption muted">1 USD = RD$ 63.42</p>
+              <p className="t-caption muted">1 {cur} = RD$ {MOCK_DOP[cur].toFixed(2)}</p>
               <div className="stack-sm">
                 <div className="row row--between">
                   <span className="t-caption muted">{t("sendsMockProgress")}</span>
-                  <span className="t-caption num">$100.00 / $200.00</span>
+                  <span className="t-caption num">{$("$100.00 / $200.00")}</span>
                 </div>
                 <div className="progress progress--mango" aria-hidden>
                   <div className="progress__fill" style={{ width: "50%" }} />

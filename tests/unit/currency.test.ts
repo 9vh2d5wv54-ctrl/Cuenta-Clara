@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { rateBetween } from "@/lib/currencies";
 import { inCurrency } from "@/lib/currency-scope";
-import { appCurrency, currencyFromLocale, formatUSD, parseCents, setAppCurrency } from "@/lib/money";
+import { appCurrency, currencyFromCountry, currencyFromLocale, formatUSD, localizeDollars, parseCents, setAppCurrency, usdPrice } from "@/lib/money";
 
 afterEach(() => setAppCurrency("USD"));
 
@@ -57,5 +57,21 @@ describe("the person's currency", () => {
     expect(a).toBe("£5.00");
     expect(b).toBe("CAD $5.00");
     expect(appCurrency()).toBe("USD"); // nothing leaks outside the scope
+  });
+});
+
+describe("currencyFromCountry", () => {
+  it("maps the visitor's country to a currency", () => {
+    expect(currencyFromCountry("GB")).toBe("GBP");
+    expect(currencyFromCountry("gb")).toBe("GBP");
+    expect(currencyFromCountry("CA")).toBe("CAD");
+    expect(currencyFromCountry("US")).toBe("USD");
+    expect(currencyFromCountry("DO")).toBe("USD");
+    expect(currencyFromCountry(null)).toBe("USD");
+  });
+  it("prices and dollar amounts for a given currency", () => {
+    expect(localizeDollars("Can I afford $150?", "GBP")).toBe("Can I afford £150?");
+    expect(usdPrice("$4.99", "CAD")).toBe("US$4.99");
+    expect(usdPrice("$4.99", "USD")).toBe("$4.99");
   });
 });

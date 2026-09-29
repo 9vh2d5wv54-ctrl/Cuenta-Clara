@@ -33,6 +33,14 @@ export function currencySymbol(currency: AppCurrency = appCurrency()): string {
   return SYMBOL[currency];
 }
 
+/** The visitor's country (from the website host, or ?country=GB) → their currency. */
+export function currencyFromCountry(country: string | null | undefined): AppCurrency {
+  const code = (country ?? "").toUpperCase();
+  if (code === "GB" || code === "UK" || code === "GG" || code === "JE" || code === "IM") return "GBP";
+  if (code === "CA") return "CAD";
+  return "USD";
+}
+
 /** A best guess from the browser's language, for new accounts: en-GB → GBP, en-CA/fr-CA → CAD. */
 export function currencyFromLocale(locale: string | undefined): AppCurrency {
   const region = (locale ?? "").split("-")[1]?.toUpperCase();
@@ -70,12 +78,12 @@ export function centsToInput(cents: number): string {
 }
 
 /** Example text written with "$" ("Can I afford $600?") shown in the person's currency symbol. */
-export function localizeDollars(text: string): string {
-  const symbol = currencySymbol();
+export function localizeDollars(text: string, currency: AppCurrency = appCurrency()): string {
+  const symbol = currencySymbol(currency);
   return symbol === "$" ? text : text.replace(/\$(?=\d)/g, symbol);
 }
 
 /** Plus is billed in US dollars everywhere, so outside the U.S. the price says so: US$4.99. */
-export function usdPrice(label: string): string {
-  return appCurrency() === "USD" ? label : label.replace(/^\$/, "US$");
+export function usdPrice(label: string, currency: AppCurrency = appCurrency()): string {
+  return currency === "USD" ? label : label.replace(/^\$/, "US$");
 }

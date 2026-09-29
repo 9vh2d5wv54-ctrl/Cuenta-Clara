@@ -8,7 +8,7 @@ import { localizeDollars } from "@/lib/money";
 /** The way in to Clara, on Home and the checkup page. Free and Plus (with different limits). */
 export function ClaraCard() {
   const t = useTranslations("clara");
-  const examples = (t.raw("suggestions") as string[]).map(localizeDollars);
+  const examples = (t.raw("suggestions") as string[]).map((s) => localizeDollars(s));
   return (
     <div className="card card--clara stack-sm">
       <Link href="/app/clara" className="row" style={{ textDecoration: "none", color: "inherit" }}>
@@ -35,7 +35,7 @@ export function ClaraCard() {
 /** Home's Clara section: a glowing orb, three questions to tap, and a way into the chat. */
 export function ClaraOrb() {
   const t = useTranslations("clara");
-  const examples = (t.raw("suggestions") as string[]).map(localizeDollars);
+  const examples = (t.raw("suggestions") as string[]).map((s) => localizeDollars(s));
   return (
     <section className="clara-orb card" aria-labelledby="clara-orb-title">
       <div className="clara-orb__top">
