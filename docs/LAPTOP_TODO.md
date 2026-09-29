@@ -31,7 +31,10 @@ alter table public.users add column if not exists push_payday_on boolean not nul
 grant update (push_note_on, push_bills_on, push_payday_on) on public.users to authenticated;
 ```
 
-### 2. Make the two keys (on your private dashboard)
+### 2. ✓ Done: the two keys are in Vercel and it was redeployed
+
+<details><summary>How it was done (only if keys ever need replacing)</summary>
+
 
 1. Sign in to the app, then open `https://micuentaclara.app/app/admin`.
 2. Scroll to **Phone notification keys** → tap **Make notification keys**.
@@ -45,7 +48,13 @@ grant update (push_note_on, push_bills_on, push_payday_on) on public.users to au
 
 Don't paste the keys in chat or anywhere else. The private one stays only in Vercel.
 
-### 3. Turn them on on your iPhone
+</details>
+
+### 3. Check, then turn them on on your iPhone
+
+0. Open `https://micuentaclara.app/app/admin` → **Run the checks now** → the
+   "Phone notifications" row should say **Ready**. If it says "table is missing", do
+   step 1 (the SQL) first.
 
 1. In Safari, open micuentaclara.app → Share button → **Add to Home Screen** → Add
    (skip if Cuenta Clara is already on your Home Screen).
