@@ -4,7 +4,7 @@
 
 ## Phone notifications (about 10 minutes)
 
-### 1. One paste in Supabase
+### 1. ✓ Done: one paste in Supabase
 
 supabase.com → Dashboard → your project → SQL Editor (>_) → + New query → delete any
 old text → paste everything below → Run. You should see "Success. No rows returned."
