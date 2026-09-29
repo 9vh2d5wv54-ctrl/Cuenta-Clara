@@ -66,18 +66,28 @@ async function clara(): Promise<Check> {
   }
 }
 
-/** Email: the Resend key works and the sending domain is verified. */
+/**
+ * Email: really sends one message to Resend's test inbox (delivered@resend.dev), which
+ * accepts mail without delivering it anywhere. Works with a send-only key, which can't
+ * read the domain list.
+ */
 async function email(): Promise<Check> {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { name: "Email (Resend)", ok: false, detail: "RESEND_API_KEY is missing" };
   try {
-    const res = await fetch("https://api.resend.com/domains", { headers: { Authorization: `Bearer ${key}` } });
-    if (!res.ok) return { name: "Email (Resend)", ok: false, detail: `Resend answered ${res.status}` };
-    const { data } = (await res.json()) as { data?: { name: string; status: string }[] };
-    const domain = data?.find((d) => d.name === "micuentaclara.app");
-    return domain?.status === "verified"
-      ? { name: "Email (Resend)", ok: true, detail: "micuentaclara.app is verified" }
-      : { name: "Email (Resend)", ok: false, detail: `micuentaclara.app is ${domain?.status ?? "not added"} in Resend` };
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: process.env.REMINDER_FROM_EMAIL ?? "Cuenta Clara <hola@micuentaclara.app>",
+        to: "delivered@resend.dev",
+        subject: "Cuenta Clara health check",
+        text: "Automatic daily check that sending works.",
+      }),
+    });
+    if (res.ok) return { name: "Email (Resend)", ok: true, detail: "A test email was accepted for sending" };
+    const body = (await res.json().catch(() => ({}))) as { message?: string };
+    return { name: "Email (Resend)", ok: false, detail: `Resend answered ${res.status}: ${(body.message ?? "").slice(0, 120)}` };
   } catch (err) {
     return { name: "Email (Resend)", ok: false, detail: why(err) };
   }
