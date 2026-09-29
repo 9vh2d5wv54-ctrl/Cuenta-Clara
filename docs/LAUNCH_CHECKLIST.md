@@ -124,5 +124,6 @@ Tip: adding variables and copying keys is much easier on a computer than on a ph
 ## Design (later)
 - [x] Midnight redesign (navy + blue) is the default look; Light and Automatic in Settings → Appearance (Sep 29, 2026)
 - [x] Brand kit updated with the Midnight colors, glass cards, Home layout and the navy app icon (Sep 29)
+- [ ] Send yourself a test from Settings → Send feedback and check it reaches Gmail (spam too). Optional: set FEEDBACK_TO in Vercel to send feedback to a different inbox
 - [x] Security review and fixes (Sep 28, 2026): see README "Security review"
 - [x] Automatic tests: 57 unit tests run before every deploy and on GitHub (Sep 28, 2026)
