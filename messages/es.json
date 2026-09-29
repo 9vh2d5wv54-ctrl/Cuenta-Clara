@@ -610,7 +610,17 @@
     "monthlyTitle": "Unos {amount} al mes",
     "yearly": "{amount} al año, libre de impuestos",
     "effective": "Tarifas del VA vigentes desde el {date}. Suben cada 1 de diciembre.",
-    "lowPending": "El pago mensual para {rating}% está en la tabla oficial del VA."
+    "lowPending": "El pago mensual para {rating}% está en la tabla oficial del VA.",
+    "tabDisability": "Discapacidad",
+    "tabGiBill": "GI Bill",
+    "tabBenefits": "Beneficios",
+    "navLabel": "Herramientas para veteranos",
+    "estimateLabel": "Calificación combinada estimada",
+    "ratingOf": "{n, plural, one {De # calificación} other {De # calificaciones}}",
+    "monthlyShort": "al mes, estimado",
+    "fewer": "Menos",
+    "more": "Más",
+    "howShort": "Cómo combina VA las calificaciones"
   },
   "academy": {
     "title": "Academia Cuenta Clara",

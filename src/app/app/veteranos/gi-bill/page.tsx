@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Card, Field, Input, MoneyInput, Segmented } from "@/components/ui";
+import { Icon } from "@/components/Icon";
+import { SwitchRow, VetNav } from "@/components/VetNav";
 import { formatLongDate } from "@/lib/dates";
 import { giPlan, GI_RATES, tierFor, type School } from "@/lib/gi-bill";
 import { formatUSD, parseCents } from "@/lib/money";
@@ -14,7 +15,6 @@ const VA_COMPARE_URL = "https://www.va.gov/education/gi-bill-comparison-tool/";
 // Veterans track (free): Post-9/11 GI Bill estimate. VA decides actual benefits.
 export default function GiBillPlanner() {
   const t = useTranslations("giBill");
-  const v = useTranslations("veterans");
   const locale = useLocale();
   const [days, setDays] = useState("1095");
   const [special, setSpecial] = useState(false);
@@ -43,26 +43,19 @@ export default function GiBillPlanner() {
   return (
     <main className="page">
       <div className="stack-sm">
-        <Link href="/app/veteranos" className="t-label">
-          ← {v("title")}
-        </Link>
         <h1 className="t-title">{t("title")}</h1>
         <p className="t-body muted">{t("lead")}</p>
       </div>
+
+      <VetNav />
 
       <Card>
         <div className="stack">
           <Field label={t("days")} hint={t("daysHint")}>
             {(p) => <Input {...p} type="number" inputMode="numeric" min={0} value={days} onChange={(e) => setDays(e.target.value)} />}
           </Field>
-          <label className="row t-caption" style={{ cursor: "pointer", alignItems: "flex-start" }}>
-            <input type="checkbox" checked={special} onChange={(e) => setSpecial(e.target.checked)} />
-            {t("special")}
-          </label>
-          <label className="row t-caption" style={{ cursor: "pointer" }}>
-            <input type="checkbox" checked={activeDuty} onChange={(e) => setActiveDuty(e.target.checked)} />
-            {t("activeDuty")}
-          </label>
+          <SwitchRow label={t("special")} checked={special} onChange={setSpecial} />
+          <SwitchRow label={t("activeDuty")} checked={activeDuty} onChange={setActiveDuty} />
           <div className="field">
             <span className="field__label">{t("school")}</span>
             <Segmented
@@ -87,16 +80,10 @@ export default function GiBillPlanner() {
             </Field>
           )}
           {school === "private" && (
-            <label className="row t-caption" style={{ cursor: "pointer" }}>
-              <input type="checkbox" checked={foreign} onChange={(e) => setForeign(e.target.checked)} />
-              {t("foreign")}
-            </label>
+            <SwitchRow label={t("foreign")} checked={foreign} onChange={setForeign} />
           )}
           {housingSchool && (
-            <label className="row t-caption" style={{ cursor: "pointer", alignItems: "flex-start" }}>
-              <input type="checkbox" checked={online} onChange={(e) => setOnline(e.target.checked)} />
-              {t("online")}
-            </label>
+            <SwitchRow label={t("online")} checked={online} onChange={setOnline} />
           )}
           {housingSchool && !fixedHousing && (
             <Field label={t("bah")} hint={t("bahHint")}>
@@ -109,30 +96,37 @@ export default function GiBillPlanner() {
         </div>
       </Card>
 
-      <Card className="hero">
+      <section className="hero-card" aria-live="polite">
+        <span className="hero-card__sparkles" aria-hidden />
+        <div className="hero-card__main">
         {pct === 0 ? (
-          <p className="t-body">{t("notEligible")}</p>
+          <p className="gi-line">{t("notEligible")}</p>
         ) : (
           <>
-            <p className="t-label muted">{t("tier", { pct })}</p>
-            <p className="t-money-xl hero__figure">{pct}%</p>
-            {plan.tuitionCovered > 0 && <p className="t-body">{t("covered", { amount: formatUSD(plan.tuitionCovered) })}</p>}
-            {plan.outOfPocket > 0 && <p className="t-body">{t("out", { amount: formatUSD(plan.outOfPocket) })}</p>}
+            <p className="hero-card__label">
+              <Icon name="target" size={18} />
+              {t("tier", { pct })}
+            </p>
+            <p className="hero-card__big">{pct}%</p>
+            <div className="hero-card__foot gi-lines">
+            {plan.tuitionCovered > 0 && <p className="gi-line">{t("covered", { amount: formatUSD(plan.tuitionCovered) })}</p>}
+            {plan.outOfPocket > 0 && <p className="gi-line">{t("out", { amount: formatUSD(plan.outOfPocket) })}</p>}
             {plan.housingMonthly !== null ? (
               <>
-                <p className="t-body">{t("housing", { amount: formatUSD(plan.housingMonthly) })}</p>
-                {online && <p className="t-caption muted">{t("onlineNote")}</p>}
+                <p className="gi-line">{t("housing", { amount: formatUSD(plan.housingMonthly) })}</p>
+                {online && <p className="hero-card__plain muted">{t("onlineNote")}</p>}
               </>
             ) : activeDuty ? (
-              <p className="t-caption muted">{t("noHousing")}</p>
+              <p className="hero-card__plain muted">{t("noHousing")}</p>
             ) : (
-              (school === "flight" || school === "correspondence") && <p className="t-caption muted">{t("noHousingSchool")}</p>
+              (school === "flight" || school === "correspondence") && <p className="hero-card__plain muted">{t("noHousingSchool")}</p>
             )}
-            {plan.booksYearly !== null && plan.booksYearly > 0 && <p className="t-body">{t("booksYear", { amount: formatUSD(plan.booksYearly) })}</p>}
-            {plan.booksMonthly !== null && <p className="t-body">{t("booksMonth", { amount: formatUSD(plan.booksMonthly) })}</p>}
+            {plan.booksYearly !== null && plan.booksYearly > 0 && <p className="gi-line">{t("booksYear", { amount: formatUSD(plan.booksYearly) })}</p>}
+            {plan.booksMonthly !== null && <p className="gi-line">{t("booksMonth", { amount: formatUSD(plan.booksMonthly) })}</p>}
+            </div>
             {plan.yellowRibbon && <p className="notice t-caption">{t("yellowRibbon")}</p>}
             {school !== "public" && (
-              <p className="t-caption muted">
+              <p className="hero-card__plain muted">
                 {t("cap", {
                   cap: formatUSD(
                     school === "private" || school === "trade"
@@ -146,7 +140,8 @@ export default function GiBillPlanner() {
             )}
           </>
         )}
-      </Card>
+        </div>
+      </section>
 
       <Card>
         <div className="stack-sm">

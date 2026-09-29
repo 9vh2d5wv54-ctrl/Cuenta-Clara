@@ -610,7 +610,17 @@
     "monthlyTitle": "About {amount} a month",
     "yearly": "{amount} a year, tax-free",
     "effective": "VA rates effective {date}. They go up each December 1.",
-    "lowPending": "The monthly amount for {rating}% is on VA's official rate table."
+    "lowPending": "The monthly amount for {rating}% is on VA's official rate table.",
+    "tabDisability": "Disability",
+    "tabGiBill": "GI Bill",
+    "tabBenefits": "Benefits",
+    "navLabel": "Veteran tools",
+    "estimateLabel": "Estimated combined rating",
+    "ratingOf": "{n, plural, one {From # rating} other {From # ratings}}",
+    "monthlyShort": "a month, estimated",
+    "fewer": "Fewer",
+    "more": "More",
+    "howShort": "How VA combines ratings"
   },
   "academy": {
     "title": "Cuenta Clara Academy",

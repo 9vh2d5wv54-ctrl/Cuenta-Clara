@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useData } from "@/components/DataProvider";
 import { Card } from "@/components/ui";
+import { Icon } from "@/components/Icon";
+import { VetNav } from "@/components/VetNav";
 import { BENEFIT_GROUPS, BENEFITS, loadChecked, saveChecked } from "@/lib/vet-benefits";
 
 const CRISIS_LINE = "https://www.veteranscrisisline.net/";
@@ -31,24 +33,41 @@ export default function VetBenefits() {
   return (
     <main className="page">
       <div className="stack-sm">
-        <Link href="/app/veteranos" className="t-label">
-          ← {v("title")}
-        </Link>
         <h1 className="t-title">{t("title")}</h1>
         <p className="t-body muted">{t("lead")}</p>
-        <p className="t-label">{t("progress", { done, total: BENEFITS.length })}</p>
       </div>
+
+      <VetNav />
+
+      <section className="card stack-sm benefit-progress">
+        <div className="row row--between">
+          <p className="t-label">{t("progress", { done, total: BENEFITS.length })}</p>
+          <p className="t-label num tone-positive">{Math.round((done / BENEFITS.length) * 100)}%</p>
+        </div>
+        <span className="bar bar--positive" role="progressbar" aria-label={t("progress", { done, total: BENEFITS.length })} aria-valuemin={0} aria-valuemax={BENEFITS.length} aria-valuenow={done}>
+          <span style={{ width: `${(done / BENEFITS.length) * 100}%` }} />
+        </span>
+      </section>
 
       {BENEFIT_GROUPS.map((group) => (
         <section key={group} className="stack-sm">
           <h2 className="t-heading">{t(`group_${group}`)}</h2>
           {BENEFITS.filter((b) => b.group === group).map((b) => (
-            <Card key={b.id} tone={checked.includes(b.id) ? "clara" : undefined}>
-              <div className="stack-sm">
-                <label className="row" style={{ cursor: "pointer", alignItems: "flex-start" }}>
-                  <input type="checkbox" checked={checked.includes(b.id)} onChange={() => toggle(b.id)} style={{ marginTop: 4 }} />
-                  <span className="t-label grow">{t(`${b.id}_title`)}</span>
-                </label>
+            <article key={b.id} className={checked.includes(b.id) ? "card benefit benefit--done" : "card benefit"}>
+              <button
+                type="button"
+                className="benefit__check"
+                role="checkbox"
+                aria-checked={checked.includes(b.id)}
+                aria-labelledby={`benefit-${b.id}`}
+                onClick={() => toggle(b.id)}
+              >
+                <Icon name="check" size={18} />
+              </button>
+              <div className="stack-sm grow">
+                <h3 id={`benefit-${b.id}`} className="t-label">
+                  {t(`${b.id}_title`)}
+                </h3>
                 <p className="t-body muted">{t(`${b.id}_text`)}</p>
                 <div className="row" style={{ flexWrap: "wrap", gap: 16 }}>
                   <a href={b.url} target="_blank" rel="noreferrer" className="t-label">
@@ -61,7 +80,7 @@ export default function VetBenefits() {
                   )}
                 </div>
               </div>
-            </Card>
+            </article>
           ))}
         </section>
       ))}

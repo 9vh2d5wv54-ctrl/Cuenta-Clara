@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Icon } from "@/components/Icon";
-import { Button, Card, Field, Input, Segmented, Select } from "@/components/ui";
+import { SwitchRow, VetNav } from "@/components/VetNav";
 import { formatLongDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
 import { combinedRating, RATING_STEPS, type Rating } from "@/lib/va";
@@ -17,8 +16,6 @@ const VA_REPRESENTATIVE = "https://www.va.gov/get-help-from-accredited-represent
 // Estimates only; never presented as the VA.
 export default function Veteranos() {
   const t = useTranslations("veterans");
-  const g = useTranslations("giBill");
-  const vb = useTranslations("vetBenefits");
   const locale = useLocale();
   const [ratings, setRatings] = useState<Rating[]>([{ percent: 0, bilateral: false }]);
   const [family, setFamily] = useState<Dependents>({
@@ -43,175 +40,133 @@ export default function Veteranos() {
         <p className="t-body muted">{t("lead")}</p>
       </div>
 
-      <Link href="/app/veteranos/gi-bill" className="card row" style={{ textDecoration: "none" }}>
-        <Icon name="target" />
-        <span className="t-label grow">{g("vaLink")}</span>
-        <Icon name="forward" size={20} />
-      </Link>
-      <Link href="/app/veteranos/beneficios" className="card row" style={{ textDecoration: "none" }}>
-        <Icon name="check" />
-        <span className="t-label grow">{vb("vaLink")}</span>
-        <Icon name="forward" size={20} />
-      </Link>
+      <VetNav />
 
-      <Card>
-        <div className="stack">
-          {ratings.map((r, i) => (
-            <div key={i} className="stack-sm">
-              <div className="row" style={{ alignItems: "flex-end" }}>
-                <div className="grow">
-                  <Field label={`${t("rating")} ${i + 1}`}>
-                    {(p) => (
-                      <Select {...p} value={r.percent} onChange={(e) => set(i, { percent: Number(e.target.value) })}>
-                        <option value={0}>{t("choose")}</option>
-                        {RATING_STEPS.map((v) => (
-                          <option key={v} value={v}>
-                            {v}%
-                          </option>
-                        ))}
-                      </Select>
-                    )}
-                  </Field>
-                </div>
-                {ratings.length > 1 && (
-                  <button
-                    type="button"
-                    className="icon-btn"
-                    aria-label={`${t("remove")} ${i + 1}`}
-                    onClick={() => setRatings(ratings.filter((_, j) => j !== i))}
-                  >
-                    <Icon name="trash" size={20} />
-                  </button>
-                )}
-              </div>
-              <label className="row t-caption" style={{ cursor: "pointer" }}>
-                <input type="checkbox" checked={r.bilateral} onChange={(e) => set(i, { bilateral: e.target.checked })} />
-                {t("bilateral")}
-              </label>
-            </div>
-          ))}
-          <Button variant="secondary" block onClick={() => setRatings([...ratings, { percent: 0, bilateral: false }])}>
-            <Icon name="plus" size={20} />
-            {t("add")}
-          </Button>
-        </div>
-      </Card>
-
-      {result.rating >= 30 && (
-        <Card>
-          <div className="stack">
-            <div className="stack-sm">
-              <p className="t-heading">{t("familyTitle")}</p>
-              <p className="t-caption muted">{t("familyLead")}</p>
-            </div>
-            <label className="row t-body" style={{ cursor: "pointer" }}>
-              <input
-                type="checkbox"
-                checked={family.spouse}
-                onChange={(e) => setFamily({ ...family, spouse: e.target.checked, spouseAidAttendance: e.target.checked && family.spouseAidAttendance })}
-              />
-              {t("spouse")}
-            </label>
-            {family.spouse && (
-              <label className="row t-caption" style={{ cursor: "pointer" }}>
-                <input
-                  type="checkbox"
-                  checked={family.spouseAidAttendance}
-                  onChange={(e) => setFamily({ ...family, spouseAidAttendance: e.target.checked })}
-                />
-                {t("spouseAA")}
-              </label>
+      {ratings.map((r, i) => (
+        <section key={i} className="card stack-sm">
+          <div className="row row--between">
+            <h2 className="t-label" id={`rating-${i}`}>
+              {t("rating")} {i + 1}
+            </h2>
+            {ratings.length > 1 && (
+              <button type="button" className="icon-btn" aria-label={`${t("remove")} ${i + 1}`} onClick={() => setRatings(ratings.filter((_, j) => j !== i))}>
+                <Icon name="trash" size={20} />
+              </button>
             )}
-            <div className="field">
-              <span className="field__label">{t("parents")}</span>
-              <Segmented
-                label={t("parents")}
-                value={String(family.parents)}
-                onChange={(v) => setFamily({ ...family, parents: Number(v) as 0 | 1 | 2 })}
-                options={["0", "1", "2"].map((v) => ({ value: v, label: v }))}
-              />
-            </div>
-            <div className="field-row">
-              <Field label={t("children")}>
-                {(p) => (
-                  <Input
-                    {...p}
-                    type="number"
-                    inputMode="numeric"
-                    min={0}
-                    value={family.childrenUnder18}
-                    onChange={(e) => setFamily({ ...family, childrenUnder18: count(e.target.value) })}
-                  />
-                )}
-              </Field>
-              <Field label={t("school")}>
-                {(p) => (
-                  <Input
-                    {...p}
-                    type="number"
-                    inputMode="numeric"
-                    min={0}
-                    value={family.schoolChildren}
-                    onChange={(e) => setFamily({ ...family, schoolChildren: count(e.target.value) })}
-                  />
-                )}
-              </Field>
-            </div>
           </div>
-        </Card>
-      )}
+          <div className="rating-grid" role="radiogroup" aria-labelledby={`rating-${i}`}>
+            {RATING_STEPS.map((v) => (
+              <button
+                key={v}
+                type="button"
+                role="radio"
+                aria-checked={r.percent === v}
+                className={r.percent === v ? "rating-chip rating-chip--on" : "rating-chip"}
+                onClick={() => set(i, { percent: r.percent === v ? 0 : v })}
+              >
+                {v}%
+              </button>
+            ))}
+          </div>
+          <SwitchRow label={t("bilateral")} checked={r.bilateral} onChange={(on) => set(i, { bilateral: on })} />
+        </section>
+      ))}
+      <button type="button" className="pill-btn" style={{ alignSelf: "flex-start" }} onClick={() => setRatings([...ratings, { percent: 0, bilateral: false }])}>
+        <Icon name="plus" size={18} />
+        {t("add")}
+      </button>
 
       {filled.length === 0 ? (
         <p className="t-body muted">{t("empty")}</p>
       ) : (
-        <Card className="hero">
-          <p className="t-label muted">{t("combinedTitle")}</p>
-          <p className="t-money-xl hero__figure">{result.rating}%</p>
-          <p className="t-body">{t("exactLine", { exact: result.exact, rating: result.rating })}</p>
-          {result.bilateralCombined !== null && (
-            <p className="t-caption muted">
-              {t("bilateralLine", {
-                combined: result.bilateralCombined,
-                factor: result.bilateralFactor ?? 0,
-                total: Math.round(result.bilateralCombined + (result.bilateralFactor ?? 0)),
-              })}
+        <section className="hero-card" aria-label={t("estimateLabel")}>
+          <span className="hero-card__sparkles" aria-hidden />
+          <div className="hero-card__main">
+            <p className="hero-card__label">
+              <Icon name="shield" size={18} />
+              {t("estimateLabel")}
             </p>
-          )}
-          {filled.length > 1 && sum !== result.exact && (
-            <p className="t-caption muted">
-              {t("notAdded", { list: filled.map((r) => `${r.percent}%`).join(" + "), exact: result.exact, sum })}
+            <p className="hero-card__big">{result.rating}%</p>
+            <p className="hero-card__plain">
+              <span className="muted">{t("ratingOf", { n: filled.length })}</span>
+              <br />
+              {t("exactLine", { exact: result.exact, rating: result.rating })}
             </p>
-          )}
-          {monthly !== null && monthly > 0 ? (
-            <>
-              <p className="t-heading num">{t("monthlyTitle", { amount: formatUSD(monthly) })}</p>
-              <p className="t-caption muted">{t("yearly", { amount: formatUSD(monthly * 12) })}</p>
-              <p className="t-caption muted">
-                {t("effective", { date: formatLongDate(VA_RATES.effective, locale) })}{" "}
-                <a href={VA_RATE_TABLE} target="_blank" rel="noreferrer">
-                  {t("monthlyLink")}
-                </a>
+            {result.bilateralCombined !== null && (
+              <p className="hero-card__plain muted">
+                {t("bilateralLine", {
+                  combined: result.bilateralCombined,
+                  factor: result.bilateralFactor ?? 0,
+                  total: Math.round(result.bilateralCombined + (result.bilateralFactor ?? 0)),
+                })}
               </p>
-            </>
-          ) : (
-            result.rating > 0 && (
-              <p className="t-body">
-                {t("lowPending", { rating: result.rating })}{" "}
-                <a href={VA_RATE_TABLE} target="_blank" rel="noreferrer">
-                  {t("monthlyLink")}
-                </a>
+            )}
+            {filled.length > 1 && sum !== result.exact && (
+              <p className="hero-card__plain muted">
+                {t("notAdded", { list: filled.map((r) => `${r.percent}%`).join(" + "), exact: result.exact, sum })}
               </p>
-            )
-          )}
-        </Card>
+            )}
+            <div className="hero-card__foot">
+              {monthly !== null && monthly > 0 ? (
+                <>
+                  <p className="hero-card__status hero-card__status--ok num">{t("monthlyTitle", { amount: formatUSD(monthly) })}</p>
+                  <p className="muted">{t("yearly", { amount: formatUSD(monthly * 12) })}</p>
+                  <p className="muted">
+                    {t("effective", { date: formatLongDate(VA_RATES.effective, locale) })}{" "}
+                    <a href={VA_RATE_TABLE} target="_blank" rel="noreferrer" className="hero-card__link">
+                      {t("monthlyLink")}
+                    </a>
+                  </p>
+                </>
+              ) : (
+                result.rating > 0 && (
+                  <p>
+                    {t("lowPending", { rating: result.rating })}{" "}
+                    <a href={VA_RATE_TABLE} target="_blank" rel="noreferrer" className="hero-card__link">
+                      {t("monthlyLink")}
+                    </a>
+                  </p>
+                )
+              )}
+            </div>
+          </div>
+        </section>
       )}
 
-      <Card>
-        <div className="stack-sm">
-          <p className="t-label">{t("howTitle")}</p>
-          <p className="t-body muted">{t("how")}</p>
+      {result.rating >= 30 && (
+        <section className="card stack">
+          <div className="stack-sm">
+            <h2 className="t-heading">{t("familyTitle")}</h2>
+            <p className="t-caption muted">{t("familyLead")}</p>
+          </div>
+          <SwitchRow
+            label={t("spouse")}
+            checked={family.spouse}
+            onChange={(on) => setFamily({ ...family, spouse: on, spouseAidAttendance: on && family.spouseAidAttendance })}
+          />
+          {family.spouse && (
+            <SwitchRow label={t("spouseAA")} checked={family.spouseAidAttendance} onChange={(on) => setFamily({ ...family, spouseAidAttendance: on })} />
+          )}
+          <Stepper label={t("parents")} value={family.parents} max={2} onChange={(n) => setFamily({ ...family, parents: n as 0 | 1 | 2 })} />
+          <Stepper label={t("children")} value={family.childrenUnder18} max={20} onChange={(n) => setFamily({ ...family, childrenUnder18: count(String(n)) })} />
+          <Stepper label={t("school")} value={family.schoolChildren} max={20} onChange={(n) => setFamily({ ...family, schoolChildren: count(String(n)) })} />
+        </section>
+      )}
+
+      <details className="card fold">
+        <summary className="fold__summary">
+          <span className="row-icon row-icon--clara" aria-hidden>
+            <Icon name="info" size={18} />
+          </span>
+          <span className="t-label grow">{t("howShort")}</span>
+          <span className="fold__chevron" aria-hidden>
+            <Icon name="forward" size={20} />
+          </span>
+        </summary>
+        <div className="fold__body">
+          <p className="t-body muted" style={{ marginTop: 12 }}>{t("how")}</p>
         </div>
-      </Card>
+      </details>
 
       <p className="t-body">
         {t("help")}{" "}
@@ -221,5 +176,25 @@ export default function Veteranos() {
       </p>
       <p className="t-caption muted">{t("notVa")}</p>
     </main>
+  );
+}
+
+function Stepper({ label, value, max, onChange }: { label: string; value: number; max: number; onChange: (n: number) => void }) {
+  const t = useTranslations("veterans");
+  return (
+    <div className="switch-row">
+      <span className="t-body grow">{label}</span>
+      <span className="stepper">
+        <button type="button" aria-label={`${t("fewer")}: ${label}`} disabled={value <= 0} onClick={() => onChange(value - 1)}>
+          −
+        </button>
+        <span className="num" aria-live="polite">
+          {value}
+        </span>
+        <button type="button" aria-label={`${t("more")}: ${label}`} disabled={value >= max} onClick={() => onChange(value + 1)}>
+          +
+        </button>
+      </span>
+    </div>
   );
 }

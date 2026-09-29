@@ -3072,3 +3072,130 @@ button.clara-orb__q {
 .fold--inline .fold__body {
   padding: var(--space-3);
 }
+
+/* Veteran tools: tabs, rating chips, switch rows, steppers, benefit checklist */
+.vet-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-full);
+  background: var(--card-bg);
+  border: 1px solid var(--card-line, var(--line));
+}
+.vet-nav__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-full);
+  color: var(--ink-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.vet-nav__tab[aria-current="page"] {
+  background: var(--clara);
+  color: var(--on-clara);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--clara) 40%, transparent);
+}
+.rating-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+.rating-chip {
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--card-line, var(--line));
+  background: color-mix(in srgb, var(--surface) 50%, transparent);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.rating-chip--on {
+  background: var(--clara);
+  border-color: var(--clara);
+  color: var(--on-clara);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--clara) 45%, transparent);
+}
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.stepper button {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--card-line, var(--line));
+  background: color-mix(in srgb, var(--clara) 14%, transparent);
+  color: var(--clara);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.stepper button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.stepper .num {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 17px;
+}
+.hero-card__link {
+  color: #cfe0ff;
+}
+.gi-line {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22px;
+  color: #eef3fb;
+}
+.benefit {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.benefit h3,
+.benefit p {
+  margin: 0;
+}
+.benefit__check {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-top: -2px;
+  border-radius: var(--radius-full);
+  border: 2px solid color-mix(in srgb, var(--ink-muted) 60%, transparent);
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+}
+.benefit--done {
+  border-color: color-mix(in srgb, var(--positive) 45%, transparent);
+}
+.benefit--done .benefit__check {
+  border-color: var(--positive);
+  background: var(--positive);
+  color: var(--surface);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--positive) 45%, transparent);
+}
