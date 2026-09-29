@@ -86,7 +86,10 @@
     "quizTitle": "¿Cuál es tu estilo con el dinero?",
     "quizText": "Un quiz de 2 minutos con 3 consejos hechos para ti.",
     "lessonsTitle": "Lecciones de dinero de 2 minutos",
-    "lessonsText": "Presupuesto, crédito, APR, enviar dinero a casa y más, en palabras sencillas."
+    "lessonsText": "Presupuesto, crédito, APR, enviar dinero a casa y más, en palabras sencillas.",
+    "mockHello": "Hola, María",
+    "mockGoal1": "Fondo de emergencia",
+    "mockGoal2": "Viaje a casa"
   },
   "auth": {
     "signupTitle": "Crea tu cuenta",

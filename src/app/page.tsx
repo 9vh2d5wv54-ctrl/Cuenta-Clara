@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Icon, type IconName } from "@/components/Icon";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { CtaLink } from "@/components/landing/CtaLink";
@@ -16,7 +16,9 @@ const SAMPLE_LEFT = 41250;
 
 export default async function Landing() {
   const t = await getTranslations("landing");
-  const d = await getTranslations("dashboard");
+  const hh = await getTranslations("homeHero");
+  const locale = await getLocale();
+  const monthName = new Date().toLocaleDateString(locale === "es" ? "es-US" : "en-US", { month: "long", year: "numeric" });
   const nav = await getTranslations("nav");
   const ac = await getTranslations("academy");
   const w = await getTranslations("words");
@@ -118,12 +120,17 @@ export default async function Landing() {
           <PhoneMock
             left={formatUSD(SAMPLE_LEFT)}
             labels={{
-              month: d("greeting"),
-              left: d("leftLabel"),
-              bills: d("bills"),
-              family: d("family"),
-              savings: d("savings"),
-              spending: d("spending"),
+              hello: t("mockHello"),
+              month: monthName.charAt(0).toUpperCase() + monthName.slice(1),
+              left: hh("left"),
+              onTrack: hh("onTrack"),
+              ring: hh("ringLabel"),
+              progress: hh("progress"),
+              goals: [
+                { name: t("mockGoal1"), saved: "$1,250", pct: 25, tone: "clara" },
+                { name: t("mockGoal2"), saved: "$744", pct: 62, tone: "violet" },
+              ],
+              actions: [hh("send"), hh("goals"), hh("log"), "Clara"],
               tabs: [nav("home"), nav("sends"), nav("add"), nav("goals"), nav("settings")],
             }}
           />
@@ -256,53 +263,85 @@ export default async function Landing() {
   );
 }
 
-/** Dashboard mock built from the brand tokens (the PRD's stand-in until a real screenshot). */
+/** Home mock built from the app's own tokens (the PRD's stand-in until a real screenshot). */
 function PhoneMock({
   left,
   labels,
 }: {
   left: string;
   labels: {
+    hello: string;
     month: string;
     left: string;
-    bills: string;
-    family: string;
-    savings: string;
-    spending: string;
+    onTrack: string;
+    ring: string;
+    progress: string;
+    goals: { name: string; saved: string; pct: number; tone: "clara" | "positive" | "violet" }[];
+    actions: string[];
     tabs: string[];
   };
 }) {
-  const bars = [
-    { label: labels.bills, value: "$1,520.00", pct: 48, mango: false },
-    { label: labels.family, value: "$200.00", pct: 7, mango: true },
-    { label: labels.savings, value: "$150.00", pct: 5, mango: false },
-    { label: labels.spending, value: "$917.50", pct: 29, mango: false },
-  ];
+  const r = 26;
+  const c = 2 * Math.PI * r;
+  const icons: (IconName | "clara")[] = ["send", "target", "list", "clara"];
+  const tones = ["clara", "positive", "violet", "clara"];
   return (
     <div className="phone" aria-hidden>
       <div className="phone__screen">
-        <p className="phone__month">{labels.month}</p>
-        <div className="phone__hero">
-          <p className="t-caption muted">{labels.left}</p>
-          <p className="phone__figure">{left}</p>
+        <div>
+          <p className="phone__hello">{labels.hello} 👋</p>
+          <p className="phone__month">{labels.month}</p>
         </div>
-        <div className="phone__bars">
-          {bars.map((b) => (
-            <div key={b.label} className="phone__bar">
-              <div className="row row--between">
-                <span className="t-caption">{b.label}</span>
-                <span className="t-caption num">{b.value}</span>
-              </div>
-              <div className={b.mango ? "progress progress--mango" : "progress"}>
-                <div className="progress__fill" style={{ width: `${b.pct}%` }} />
+        <div className="phone__hero">
+          <div className="phone__hero-main">
+            <p className="phone__label">
+              <Icon name="shield" size={11} />
+              {labels.left}
+            </p>
+            <p className="phone__figure">{left}</p>
+            <p className="phone__ok">{labels.onTrack} ✓</p>
+          </div>
+          <div className="phone__ring">
+            <svg viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r={r} className="phone__ring-track" />
+              <circle cx="32" cy="32" r={r} className="phone__ring-fill" strokeDasharray={`${c * 0.58} ${c}`} transform="rotate(-90 32 32)" />
+            </svg>
+            <span>58%</span>
+          </div>
+        </div>
+        <p className="phone__section">{labels.progress}</p>
+        <div className="phone__card">
+          {labels.goals.map((g) => (
+            <div key={g.name} className="phone__goal">
+              <span className={`phone__goal-icon goal-icon--${g.tone}`}>
+                <Icon name={g.tone === "clara" ? "shield" : "globe"} size={12} />
+              </span>
+              <div className="grow">
+                <div className="row row--between">
+                  <span className="phone__goal-name">{g.name}</span>
+                  <span className={`phone__goal-pct tone-${g.tone}`}>{g.pct}%</span>
+                </div>
+                <span className={`bar bar--${g.tone} phone__goal-bar`}>
+                  <span style={{ width: `${g.pct}%` }} />
+                </span>
               </div>
             </div>
           ))}
         </div>
+        <div className="phone__actions">
+          {labels.actions.map((a, i) => (
+            <span key={a} className="phone__action">
+              <span className={`phone__action-icon tone-${tones[i]}`}>
+                {icons[i] === "clara" ? <span className="phone__c">C</span> : <Icon name={icons[i] as IconName} size={13} />}
+              </span>
+              {a}
+            </span>
+          ))}
+        </div>
         <div className="phone__tabs">
           {labels.tabs.map((tab, i) => (
-            <span key={tab} className={i === 0 ? "phone__tab phone__tab--on" : "phone__tab"}>
-              {tab}
+            <span key={tab} className={i === 0 ? "phone__tab phone__tab--on" : i === 2 ? "phone__tab phone__tab--add" : "phone__tab"}>
+              {i === 2 ? <span className="phone__plus">+</span> : tab}
             </span>
           ))}
         </div>

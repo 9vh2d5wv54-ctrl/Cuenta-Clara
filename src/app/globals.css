@@ -694,75 +694,207 @@ textarea {
 }
 .phone {
   align-self: center;
-  width: 260px;
-  padding: 10px;
-  border-radius: 40px;
-  background: var(--ink);
-  box-shadow: var(--shadow-sm);
+  width: 272px;
+  padding: 9px;
+  border-radius: 42px;
+  background: #0b1020;
+  box-shadow: var(--card-shadow), 0 0 60px color-mix(in srgb, var(--clara) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--glow) 25%, transparent);
 }
 .phone__screen {
-  border-radius: 30px;
-  background: var(--surface);
-  padding: var(--space-6) var(--space-4) 0;
+  border-radius: 33px;
+  background: radial-gradient(120% 45% at 50% 0%, color-mix(in srgb, var(--clara) 16%, var(--surface)) 0%, var(--surface) 70%) no-repeat, var(--surface);
+  padding: 26px 14px 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: 10px;
   overflow: hidden;
+  color: var(--ink);
 }
-.phone__month {
+.phone__screen p {
+  margin: 0;
+}
+.phone__hello {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 17px;
+  line-height: 21px;
+}
+.phone__month {
+  font-size: 10px;
+  color: var(--ink-muted);
 }
 .phone__hero {
-  background: var(--surface-raised);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  padding: var(--space-4) var(--space-3);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--hero-bg);
+  border: 1px solid color-mix(in srgb, var(--clara) 55%, transparent);
+  box-shadow: var(--card-glow);
+  color: #fff;
+}
+.phone__hero-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.phone__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cfe0ff;
 }
 .phone__figure {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 36px;
-  line-height: 40px;
+  font-size: 28px;
+  line-height: 32px;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
-  color: var(--clara);
+  color: #fff;
 }
-.phone__bars {
-  background: var(--surface-raised);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
+.phone__ok {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--hero-ok);
+}
+.phone__ring {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  flex: none;
+}
+.phone__ring svg {
+  width: 100%;
+  height: 100%;
+}
+.phone__ring circle {
+  fill: none;
+  stroke-width: 6;
+}
+.phone__ring-track {
+  stroke: rgba(255, 255, 255, 0.14);
+}
+.phone__ring-fill {
+  stroke: var(--hero-ok);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px var(--hero-ok));
+}
+.phone__ring span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+}
+.phone__section {
+  font-size: 11px;
+  font-weight: 600;
+}
+.phone__card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-line);
+  box-shadow: var(--card-shadow);
 }
-.phone__bar {
+.phone__goal {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+  align-items: center;
+  gap: 8px;
 }
-.phone__bar .progress {
-  height: 6px;
+.phone__goal-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+}
+.phone__goal-name,
+.phone__goal-pct {
+  font-size: 10px;
+  font-weight: 600;
+}
+.phone__goal-bar {
+  height: 4px;
+  margin-top: 4px;
+}
+.phone__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.phone__action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px;
+  border-radius: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-line);
+  font-size: 10px;
+  font-weight: 600;
+}
+.phone__action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: color-mix(in srgb, currentColor 16%, transparent);
+}
+.phone__c {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
 }
 .phone__tabs {
   display: flex;
   justify-content: space-between;
-  margin: 0 calc(var(--space-4) * -1);
-  padding: var(--space-3) var(--space-3) var(--space-4);
-  border-top: 1px solid var(--line);
-  background: var(--surface-raised);
+  align-items: center;
+  margin: 2px -14px 0;
+  padding: 8px 14px 14px;
+  border-top: 1px solid var(--card-line, var(--line));
+  background: color-mix(in srgb, var(--surface-raised) 85%, transparent);
 }
 .phone__tab {
-  font-size: 10px;
-  line-height: 12px;
+  font-size: 8px;
+  line-height: 10px;
   font-weight: 600;
   color: var(--ink-muted);
 }
 .phone__tab--on {
   color: var(--clara);
+}
+.phone__plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--clara);
+  color: var(--on-clara);
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--clara) 55%, transparent);
 }
 
 /* Family sends band */
