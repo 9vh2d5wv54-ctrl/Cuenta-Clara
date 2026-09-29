@@ -113,7 +113,8 @@ export interface Store {
   claraConversation(id: string): Promise<ClaraTurnData[]>;
   claraDelete(id: string): Promise<boolean>;
   /** Clara's weekly note for this week or last (null if none yet; demo mode writes one from local data). */
-  claraNote(): Promise<ClaraNote | null>;
+  /** In `lang`: a note written in the other language is rewritten (once) in this one. */
+  claraNote(lang: "es" | "en"): Promise<ClaraNote | null>;
   claraNoteSeen(id: string): Promise<void>;
 }
 

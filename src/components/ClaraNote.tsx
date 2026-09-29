@@ -30,7 +30,7 @@ export function ClaraNoteCard() {
   useEffect(() => {
     let off = false;
     store
-      .claraNote()
+      .claraNote(locale === "en" ? "en" : "es")
       .then((n) => {
         if (off || !n) return;
         setNote(n);
@@ -44,7 +44,7 @@ export function ClaraNoteCard() {
       off = true;
     };
     // Demo notes are written from local data, so refresh when it changes.
-  }, [store, entries, business]);
+  }, [store, entries, business, locale]);
 
   if (!note) return null;
   return (

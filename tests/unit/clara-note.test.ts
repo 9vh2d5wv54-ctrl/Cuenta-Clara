@@ -56,3 +56,15 @@ describe("weekly note facts", () => {
     expect(hasNoteData(base, NOW)).toBe(true);
   });
 });
+
+describe("note language", () => {
+  it("tells Spanish notes from English ones", async () => {
+    const { noteLanguage } = await import("@/lib/clara-note");
+    expect(noteLanguage("Esta semana registraste $110.00 en gastos diarios, tu primer registro después de una semana sin anotar nada.")).toBe("es");
+    expect(noteLanguage("You spent $102.00 on everyday things this week, $11.00 less than the week before.")).toBe("en");
+    expect(noteLanguage("Este mes tu negocio te ha dejado $1,173.00.")).toBe("es");
+    expect(noteLanguage("Your business has kept you $1,173.00 so far this month.")).toBe("en");
+    expect(noteLanguage("Nothing logged this week. Log what you spend over the next few days and next Sunday I'll tell you how it's going.")).toBe("en");
+    expect(noteLanguage("Esta semana no anotaste gastos. Anota lo que gastes estos días y el próximo domingo te digo cómo vas.")).toBe("es");
+  });
+});

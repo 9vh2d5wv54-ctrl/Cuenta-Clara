@@ -41,6 +41,20 @@ export function spendingWeek(d: ClaraData, now = new Date()) {
   };
 }
 
+/**
+ * Which language a note is written in, from common words. Notes are saved as
+ * text, so this is how the app notices a note written before someone switched
+ * languages (and has Clara rewrite it).
+ */
+export function noteLanguage(text: string): "es" | "en" {
+  const t = ` ${text.toLowerCase().replace(/[^a-záéíóúñü$0-9]+/g, " ")} `;
+  const es = [" que ", " de ", " la ", " el ", " tu ", " tus ", " en ", " esta ", " semana ", " para ", " con ", " gastaste ", " quedan ", " mes ", " anota ", " negocio "];
+  const en = [" the ", " you ", " your ", " this ", " week ", " to ", " and ", " of ", " spent ", " left ", " month ", " log ", " business "];
+  const count = (words: string[]) => words.reduce((n, w) => n + (t.split(w).length - 1), 0);
+  const accents = (text.match(/[áéíóúñ¿¡]/gi) ?? []).length;
+  return count(es) + accents > count(en) ? "es" : "en";
+}
+
 /** Is there anything to write about? (No note for an empty account.) */
 export function hasNoteData(d: ClaraData, now = new Date()): boolean {
   const since = shift(todayISO(now), -30);

@@ -329,7 +329,7 @@ export class DemoStore implements Store {
     return load().clara.find((c) => c.id === id)?.turns ?? [];
   }
   /** Demo mode has no Sunday job: write this week's note from the local numbers (no AI). */
-  async claraNote(): Promise<ClaraNote | null> {
+  async claraNote(lang: "es" | "en"): Promise<ClaraNote | null> {
     const x = load();
     const now = new Date();
     const month = todayISO(now).slice(0, 7);
@@ -349,7 +349,6 @@ export class DemoStore implements Store {
     };
     if (!hasNoteData(d, now)) return null;
     const week = noteWeek(now);
-    const lang = x.profile?.language === "en" ? "en" : "es";
     return { id: `demo-${week}`, week, body: fallbackNote(d, lang, now), seen_at: x.noteSeen === week ? now.toISOString() : null };
   }
   async claraNoteSeen() {
