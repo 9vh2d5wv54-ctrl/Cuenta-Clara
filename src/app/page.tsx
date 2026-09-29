@@ -6,6 +6,7 @@ import { CtaLink } from "@/components/landing/CtaLink";
 import { StickyCta } from "@/components/landing/StickyCta";
 import { AuthHashForward } from "@/components/AuthHashForward";
 import { formatUSD } from "@/lib/money";
+import { OrbMark } from "@/components/ClaraCard";
 
 // The ad landing page (Cuenta Clara Landing Page PRD). Order follows the teardown:
 // result and trust first, then the pitch, then doubts, then the ask again.
@@ -28,7 +29,7 @@ export default async function Landing() {
     { icon: "check", text: t("trustFree") },
     { icon: "home", text: t("trustNotBank") },
     { icon: "eye", text: t("trustPassword") },
-    { icon: "heart", text: t("trustMadeIn") },
+    { icon: "globe", text: t("trustBuiltFor") },
   ];
 
   const vetTools: { icon: IconName; title: string; text: string }[] = [
@@ -51,27 +52,33 @@ export default async function Landing() {
       </header>
 
       <main>
-        {/* 1. Hero: headline, before/after, one button */}
+        {/* 1. Hero: headline, the app floating in glass, one button */}
         <section className="lp-wrap lp-hero">
           <div className="lp-hero__text">
-            <h1 className="lp-headline">{t("headline")}</h1>
-            <p className="t-body muted lp-sub">{t("sub")}</p>
+            <p className="lp-eyebrow">
+              <span aria-hidden>✦</span> {t("heroEyebrow")}
+            </p>
+            <h1 className="lp-headline">
+              {t("heroLine1")} <span className="lp-glow-text">{t("heroLine2")}</span>
+              <span className="lp-headline__small">{t("heroLine3")}</span>
+            </h1>
+            <p className="lp-sub">{t("heroSub")}</p>
           </div>
 
-          <div className="lp-ba" aria-label={`${t("beforeLabel")} / ${t("afterLabel")}`}>
-            <div className="lp-ba__card lp-ba__card--before">
-              <p className="t-label">{t("beforeLabel")}</p>
-              <p className="lp-ba__question">{t("beforeText")}</p>
-            </div>
-            <div className="lp-ba__card lp-ba__card--after">
-              <p className="t-label">{t("afterLabel")}</p>
-              <p className="t-body">{t("afterText")}</p>
-              <p className="t-money-xl lp-ba__figure">{formatUSD(SAMPLE_LEFT)}</p>
-            </div>
-          </div>
+          <HeroArt
+            labels={{
+              safe: t("artSafe"),
+              onTrack: t("artOnTrack"),
+              ask: t("artAsk"),
+              answer: t("artAnswer"),
+              send: t("artSend"),
+              sent: t("artSent"),
+            }}
+            amount={formatUSD(SAMPLE_LEFT)}
+          />
 
           <div className="lp-hero__cta">
-            <CtaLink placement="hero" id="hero-cta" className="btn btn--primary btn--cta btn--block">
+            <CtaLink placement="hero" id="hero-cta" className="btn btn--primary btn--cta btn--block lp-cta-glow">
               {t("cta")}
             </CtaLink>
             <p className="t-caption muted lp-center">{t("ctaMicro")}</p>
@@ -259,6 +266,44 @@ export default async function Landing() {
       </main>
 
       <StickyCta watchId="hero-cta">{t("cta")}</StickyCta>
+    </div>
+  );
+}
+
+/** The hero picture: Clara's orb with three glass cards from the app floating around it (sample numbers). */
+function HeroArt({ labels, amount }: { labels: Record<"safe" | "onTrack" | "ask" | "answer" | "send" | "sent", string>; amount: string }) {
+  return (
+    <div className="lp-art" aria-hidden>
+      <span className="lp-art__aurora lp-art__aurora--1" />
+      <span className="lp-art__aurora lp-art__aurora--2" />
+      <span className="lp-art__grid" />
+      <div className="lp-art__orb">
+        <OrbMark size="lg" />
+      </div>
+      <div className="lp-float lp-float--safe">
+        <p className="lp-float__label">
+          <Icon name="shield" size={12} /> {labels.safe}
+        </p>
+        <p className="lp-float__big">{amount}</p>
+        <p className="lp-float__ok">{labels.onTrack} ✓</p>
+      </div>
+      <div className="lp-float lp-float--clara">
+        <p className="lp-float__ask">{labels.ask}</p>
+        <p className="lp-float__answer">
+          <span className="lp-float__c">C</span>
+          {labels.answer}
+        </p>
+      </div>
+      <div className="lp-float lp-float--send">
+        <p className="lp-float__row">
+          <span className="lp-float__avatar">M</span>
+          <span className="grow">{labels.send}</span>
+          <span className="lp-float__tag">{labels.sent}</span>
+        </p>
+        <span className="lp-float__bar">
+          <span />
+        </span>
+      </div>
     </div>
   );
 }
