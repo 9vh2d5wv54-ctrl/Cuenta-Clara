@@ -2,6 +2,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
+import { isLocale } from "@/i18n/config";
 import { setAppCurrency } from "@/lib/money";
 import { getStore, type Store } from "@/lib/store";
 import { monthKey, todayISO } from "@/lib/dates";
@@ -87,6 +89,7 @@ async function loadAll(store: Store): Promise<Data> {
 
 export function DataProvider({ children, fallback }: { children: ReactNode; fallback: ReactNode }) {
   const router = useRouter();
+  const locale = useLocale();
   const [data, setData] = useState<Data | null>(null);
 
   useEffect(() => {
@@ -101,14 +104,16 @@ export function DataProvider({ children, fallback }: { children: ReactNode; fall
       if (!cancelled) setData(loaded);
       // The weekly email goes out Sunday 6 PM in each person's own timezone.
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      if (loaded.profile && tz && loaded.profile.timezone !== tz) {
-        store.updateProfile({ timezone: tz }).catch(() => {});
-      }
+      // Emails and Clara's note use the saved language; keep it the one they use on screen.
+      const patch: { timezone?: string; language?: "es" | "en" } = {};
+      if (loaded.profile && tz && loaded.profile.timezone !== tz) patch.timezone = tz;
+      if (loaded.profile && isLocale(locale) && loaded.profile.language !== locale) patch.language = locale;
+      if (Object.keys(patch).length) store.updateProfile(patch).catch(() => {});
     })();
     return () => {
       cancelled = true;
     };
-  }, [router]);
+  }, [router, locale]);
 
   const mutate = useCallback(
     async (fn: (store: Store) => Promise<unknown>) => {
