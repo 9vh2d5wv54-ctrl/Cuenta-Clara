@@ -44,11 +44,7 @@ export function ClaraOrb() {
           </h2>
           <p className="t-body muted">{t("orbLead")}</p>
         </div>
-        <span className="orb" aria-hidden>
-          <span className="orb__ring orb__ring--1" />
-          <span className="orb__ring orb__ring--2" />
-          <span className="orb__core">C</span>
-        </span>
+        <OrbMark />
       </div>
       <ul className="clara-orb__questions">
         {examples.slice(0, 3).map((q) => (
@@ -70,5 +66,16 @@ export function ClaraOrb() {
         <Icon name="forward" size={18} />
       </Link>
     </section>
+  );
+}
+
+/** Clara's glowing orb. xs: next to her messages; sm: headers; md: Home; lg: an empty chat. */
+export function OrbMark({ size = "md" }: { size?: "xs" | "sm" | "md" | "lg" }) {
+  return (
+    <span className={`orb orb--${size}`} aria-hidden>
+      {size !== "xs" && <span className="orb__ring orb__ring--1" />}
+      {size !== "xs" && <span className="orb__ring orb__ring--2" />}
+      <span className="orb__core">C</span>
+    </span>
   );
 }

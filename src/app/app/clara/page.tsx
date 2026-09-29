@@ -7,6 +7,7 @@ import { Suspense, useCallback, useEffect, useRef, useState, type FormEvent } fr
 import { useData } from "@/components/DataProvider";
 import { Icon } from "@/components/Icon";
 import { PlusCard } from "@/components/Plus";
+import { OrbMark } from "@/components/ClaraCard";
 import { WhatIfChart } from "@/components/WhatIfChart";
 import { hasPlus } from "@/lib/plan";
 import { Button, Card, Dialog } from "@/components/ui";
@@ -128,28 +129,28 @@ function ClaraChat() {
 
   return (
     <main className="page clara-page">
-      <div className="row row--between">
-        <div className="row">
-          <span className="clara-avatar clara-avatar--lg" aria-hidden>
-            C
-          </span>
-          <div>
-            <h1 className="t-title">{t("title")}</h1>
-            <p className="t-caption muted">{t("subtitle")}</p>
-          </div>
+      <header className="clara-head">
+        <OrbMark size="sm" />
+        <div className="grow">
+          <h1 className="clara-head__title">{t("title")}</h1>
+          <p className="t-caption muted">{t("subtitle")}</p>
         </div>
         {turns.length > 0 && (
-          <Button variant="ghost" onClick={startNew}>
-            <Icon name="plus" size={20} />
+          <button type="button" className="pill-btn" onClick={startNew}>
+            <Icon name="plus" size={18} />
             {t("new")}
-          </Button>
+          </button>
         )}
-      </div>
+      </header>
 
       {past.length > 0 && (
         <div className="stack-sm">
-          <button type="button" className="t-label clara-past-toggle" onClick={() => setShowPast(!showPast)} aria-expanded={showPast}>
-            {t("past", { count: past.length })} {showPast ? "▴" : "▾"}
+          <button type="button" className="clara-past-toggle" onClick={() => setShowPast(!showPast)} aria-expanded={showPast}>
+            <Icon name="list" size={16} />
+            {t("past", { count: past.length })}
+            <span className={showPast ? "fold__chevron clara-past-toggle__open" : "fold__chevron"} aria-hidden>
+              <Icon name="forward" size={16} />
+            </span>
           </button>
           {showPast && (
             <ul className="stack-sm" style={{ listStyle: "none", margin: 0, padding: 0 }}>
@@ -170,27 +171,43 @@ function ClaraChat() {
 
       <div className="clara-thread" aria-live="polite">
         {turns.length === 0 && (
-          <>
-            <div className="clara-bubble clara-bubble--clara t-body">{t("hello")}</div>
-            <div className="clara-chips">
+          <div className="clara-empty">
+            <OrbMark size="lg" />
+            <p className="t-body clara-empty__hello">{t("hello")}</p>
+            <ul className="clara-orb__questions">
               {suggestions.map((q) => (
-                <button key={q} type="button" className="clara-chip t-caption" onClick={() => ask(q)} disabled={busy}>
-                  {q}
-                </button>
+                <li key={q}>
+                  <button type="button" className="clara-orb__q" onClick={() => ask(q)} disabled={busy}>
+                    <span aria-hidden className="clara-orb__spark">
+                      ✦
+                    </span>
+                    “{q}”
+                  </button>
+                </li>
               ))}
-            </div>
-          </>
+            </ul>
+          </div>
         )}
         {turns.map((turn, i) => (
           <div key={i} className="stack-sm">
             <div className="clara-bubble clara-bubble--me t-body">{turn.question}</div>
             {turn.pending ? (
-              <div className="clara-bubble clara-bubble--clara t-body muted" role="status">
-                {t("thinking")}
+              <div className="clara-msg">
+                <OrbMark size="xs" />
+                <div className="clara-bubble clara-bubble--clara" role="status">
+                  <span className="sr-only">{t("thinking")}</span>
+                  <span className="typing" aria-hidden>
+                    <span />
+                    <span />
+                    <span />
+                  </span>
+                </div>
               </div>
             ) : turn.crisis ? (
               <CrisisCard text={turn.answer} />
             ) : (
+              <div className="clara-msg">
+              <OrbMark size="xs" />
               <div className={turn.failed ? "clara-bubble clara-bubble--clara clara-bubble--failed" : "clara-bubble clara-bubble--clara"}>
                 {turn.answer.split(/\n{2,}/).map((para, j) => (
                   <p key={j} className="t-body">
@@ -211,6 +228,7 @@ function ClaraChat() {
                     ))}
                   </div>
                 )}
+              </div>
               </div>
             )}
             {turn.links?.chart && !turn.pending && <WhatIfChart chart={turn.links.chart} locked={!(hasPlus(subscription) || turn.unlocked)} />}
@@ -238,9 +256,9 @@ function ClaraChat() {
             }
           }}
         />
-        <Button type="submit" disabled={busy || !text.trim()} aria-label={t("send")}>
+        <button type="submit" className="clara-send" disabled={busy || !text.trim()} aria-label={t("send")}>
           <Icon name="send" size={20} />
-        </Button>
+        </button>
       </form>
       {note && <p className="t-caption muted">{note}</p>}
       {limit && (
