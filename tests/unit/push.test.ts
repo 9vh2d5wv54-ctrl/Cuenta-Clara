@@ -34,3 +34,19 @@ describe("phone notifications", () => {
     expect(out).not.toMatch(/\s…$/);
   });
 });
+
+describe("key pair check", () => {
+  it("knows when both keys come from the same pair", async () => {
+    const make = async () => {
+      const pair = await webcrypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign", "verify"]);
+      return { pub: b64url(await webcrypto.subtle.exportKey("raw", pair.publicKey)), priv: (await webcrypto.subtle.exportKey("jwk", pair.privateKey)).d! };
+    };
+    const a = await make();
+    const b = await make();
+    const { keysMatch } = await import("@/lib/push");
+    expect(keysMatch(a.pub, a.priv)).toBe(true);
+    expect(keysMatch(` ${a.pub}\n`, a.priv)).toBe(true);
+    expect(keysMatch(a.pub, b.priv)).toBe(false);
+    expect(keysMatch(a.pub, "")).toBe(false);
+  });
+});

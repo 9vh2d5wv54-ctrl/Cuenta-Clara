@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import webpush from "web-push";
+import { keysMatch } from "./push";
 import { CLARA_MODEL } from "./clara";
 import { planIdFor, whopAccountId, whopClient } from "./whop";
 
@@ -111,6 +112,7 @@ async function push(db: SupabaseClient): Promise<Check> {
   } catch (err) {
     return { name, ok: false, detail: `The keys don't look right: ${why(err)}` };
   }
+  if (!keysMatch(pub, priv)) return { name, ok: false, detail: "The two keys aren't from the same pair: make new keys here and replace both in Vercel" };
   const { count, error } = await db.from("push_subscriptions").select("id", { count: "exact", head: true });
   if (error) return { name, ok: false, detail: "The push_subscriptions table is missing: run supabase/migrations/012_push.sql" };
   return { name, ok: true, detail: `Ready. ${count ?? 0} phone${count === 1 ? "" : "s"} signed up` };

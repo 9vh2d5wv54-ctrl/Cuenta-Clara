@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { createECDH } from "node:crypto";
 import webpush from "web-push";
 
 // Phone notifications (web push). Works on Android and desktop browsers, and on
@@ -24,10 +25,25 @@ function setup(): boolean {
   if (ready) return true;
   if (!pushConfigured()) return false;
   const subject = process.env.VAPID_SUBJECT || "https://micuentaclara.app";
-  webpush.setVapidDetails(subject, process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!, process.env.VAPID_PRIVATE_KEY!);
+  webpush.setVapidDetails(subject, process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!.trim(), process.env.VAPID_PRIVATE_KEY!.trim());
   ready = true;
   return true;
 }
+
+/** True when the private key really belongs to the public key (both must come from the same pair). */
+export function keysMatch(pub = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY, priv = process.env.VAPID_PRIVATE_KEY): boolean {
+  if (!pub || !priv) return false;
+  try {
+    const ecdh = createECDH("prime256v1");
+    ecdh.setPrivateKey(Buffer.from(priv.trim(), "base64url"));
+    return ecdh.getPublicKey().toString("base64url") === pub.trim();
+  } catch {
+    return false;
+  }
+}
+
+/** Why the last sendPush calls failed (for the tester check page). */
+export const lastPushErrors: string[] = [];
 
 /** Keeps a notification short enough to read on a lock screen. */
 export function shorten(text: string, max = 180): string {
@@ -69,6 +85,9 @@ export async function sendPush(db: SupabaseClient, userId: string, msg: PushMess
       // 404/410: the phone unsubscribed or the app was removed. Forget it.
       if (status === 404 || status === 410) await db.from("push_subscriptions").delete().eq("id", s.id);
       else console.error("push failed", status, (err as Error).message);
+      const body = (err as { body?: string }).body;
+      lastPushErrors.push(`${status ?? "?"} ${(body || (err as Error).message || "").slice(0, 160)}`.trim());
+      if (lastPushErrors.length > 5) lastPushErrors.shift();
     }
   }
   return delivered;
