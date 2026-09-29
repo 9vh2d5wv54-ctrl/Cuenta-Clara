@@ -31,24 +31,15 @@ alter table public.users add column if not exists push_payday_on boolean not nul
 grant update (push_note_on, push_bills_on, push_payday_on) on public.users to authenticated;
 ```
 
-### 2. ✓ Done: the two keys are in Vercel and it was redeployed
+### 2. The notification key (only one now)
 
-<details><summary>How it was done (only if keys ever need replacing)</summary>
+The app only needs `VAPID_PRIVATE_KEY` in Vercel; it works out the public key itself.
+`NEXT_PUBLIC_VAPID_PUBLIC_KEY` is no longer used (you can delete it in Vercel).
 
-
-1. Sign in to the app, then open `https://micuentaclara.app/app/admin`.
-2. Scroll to **Phone notification keys** → tap **Make notification keys**.
-3. Keep that tab open. Open a new tab: vercel.com → your Cuenta Clara project →
-   **Settings** → **Environment Variables**.
-4. Add the first key: Name `NEXT_PUBLIC_VAPID_PUBLIC_KEY`. For the value, go back to the
-   dashboard tab, tap **Copy value** under that name, paste it in Vercel. Environments:
-   all. Save.
-5. Same for `VAPID_PRIVATE_KEY` (tap its **Copy value**). Save.
-6. Vercel → **Deployments** → the top one → **⋯** → **Redeploy**. Wait until it says Ready.
-
-Don't paste the keys in chat or anywhere else. The private one stays only in Vercel.
-
-</details>
+Check it: open `https://micuentaclara.app/api/push/test` in Safari (signed in).
+- `"private_key_valid": true` → nothing to change in Vercel.
+- `false` → `/app/admin` → Make the notification key → Copy the key → Vercel →
+  Environment Variables → VAPID_PRIVATE_KEY → ⋯ → Edit → paste → Save → Redeploy.
 
 ### 3. Check, then turn them on on your iPhone
 

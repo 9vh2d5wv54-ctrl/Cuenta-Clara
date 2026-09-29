@@ -43,7 +43,10 @@ describe("key pair check", () => {
     };
     const a = await make();
     const b = await make();
-    const { keysMatch } = await import("@/lib/push");
+    const { keysMatch, publicKeyFor } = await import("@/lib/push");
+    expect(publicKeyFor(a.priv)).toBe(a.pub);
+    expect(publicKeyFor(a.pub)).toBeNull(); // the public key pasted by mistake
+    expect(publicKeyFor(" ")).toBeNull();
     expect(keysMatch(a.pub, a.priv)).toBe(true);
     expect(keysMatch(` ${a.pub}\n`, a.priv)).toBe(true);
     expect(keysMatch(a.pub, b.priv)).toBe(false);

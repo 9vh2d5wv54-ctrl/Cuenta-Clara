@@ -1,7 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import webpush from "web-push";
-import { keysMatch } from "./push";
+import { vapidPublicKey } from "./push";
 import { CLARA_MODEL } from "./clara";
 import { planIdFor, whopAccountId, whopClient } from "./whop";
 
@@ -100,19 +99,11 @@ async function database(db: SupabaseClient): Promise<Check> {
   return error ? { name: "Database (Supabase)", ok: false, detail: error.message.slice(0, 160) } : { name: "Database (Supabase)", ok: true, detail: "Reachable" };
 }
 
-/** Phone notifications: optional, so missing keys aren't a failure; wrong keys or no table are. */
+/** Phone notifications: optional, so a missing key isn't a failure; an invalid key or no table is. */
 async function push(db: SupabaseClient): Promise<Check> {
   const name = "Phone notifications";
-  const pub = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
-  const priv = process.env.VAPID_PRIVATE_KEY;
-  if (!pub && !priv) return { name, ok: true, detail: "Not set up yet (optional): make keys on this page, then add them in Vercel" };
-  if (!pub || !priv) return { name, ok: false, detail: `${pub ? "VAPID_PRIVATE_KEY" : "NEXT_PUBLIC_VAPID_PUBLIC_KEY"} is missing in Vercel` };
-  try {
-    webpush.setVapidDetails(process.env.VAPID_SUBJECT || "https://micuentaclara.app", pub, priv);
-  } catch (err) {
-    return { name, ok: false, detail: `The keys don't look right: ${why(err)}` };
-  }
-  if (!keysMatch(pub, priv)) return { name, ok: false, detail: "The two keys aren't from the same pair: make new keys here and replace both in Vercel" };
+  if (!process.env.VAPID_PRIVATE_KEY) return { name, ok: true, detail: "Not set up yet (optional): make the key on this page, then add it in Vercel" };
+  if (!vapidPublicKey()) return { name, ok: false, detail: "VAPID_PRIVATE_KEY isn't a valid key: make a new one on this page and replace it in Vercel" };
   const { count, error } = await db.from("push_subscriptions").select("id", { count: "exact", head: true });
   if (error) return { name, ok: false, detail: "The push_subscriptions table is missing: run supabase/migrations/012_push.sql" };
   return { name, ok: true, detail: `Ready. ${count ?? 0} phone${count === 1 ? "" : "s"} signed up` };

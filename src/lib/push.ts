@@ -3,9 +3,10 @@ import { createECDH } from "node:crypto";
 import webpush from "web-push";
 
 // Phone notifications (web push). Works on Android and desktop browsers, and on
-// iPhone once Cuenta Clara is added to the Home Screen (iOS 16.4+). Keys live in
-// Vercel: NEXT_PUBLIC_VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY (made on the
-// tester dashboard, /app/admin). VAPID_SUBJECT is optional.
+// iPhone once Cuenta Clara is added to the Home Screen (iOS 16.4+). Only one key
+// lives in Vercel: VAPID_PRIVATE_KEY (made on the tester dashboard, /app/admin).
+// The public key is worked out from it, so the two can never mismatch; phones get
+// it from /api/push/key. VAPID_SUBJECT is optional.
 
 export type PushKind = "note" | "bills" | "payday";
 export type PushMessage = { title: string; body: string; url: string; tag?: string };
@@ -16,8 +17,28 @@ const PREF: Record<PushKind, "push_note_on" | "push_bills_on" | "push_payday_on"
   payday: "push_payday_on",
 };
 
+/** The public key that belongs to a private key, or null if the private key isn't valid. */
+export function publicKeyFor(priv: string | undefined): string | null {
+  const raw = priv?.trim();
+  if (!raw) return null;
+  try {
+    const bytes = Buffer.from(raw, "base64url");
+    if (bytes.length !== 32) return null;
+    const ecdh = createECDH("prime256v1");
+    ecdh.setPrivateKey(bytes);
+    return ecdh.getPublicKey().toString("base64url");
+  } catch {
+    return null;
+  }
+}
+
+/** The public key phones sign up with (from VAPID_PRIVATE_KEY). */
+export function vapidPublicKey(): string | null {
+  return publicKeyFor(process.env.VAPID_PRIVATE_KEY);
+}
+
 export function pushConfigured(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY);
+  return vapidPublicKey() !== null;
 }
 
 let ready = false;
@@ -25,21 +46,15 @@ function setup(): boolean {
   if (ready) return true;
   if (!pushConfigured()) return false;
   const subject = process.env.VAPID_SUBJECT || "https://micuentaclara.app";
-  webpush.setVapidDetails(subject, process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!.trim(), process.env.VAPID_PRIVATE_KEY!.trim());
+  webpush.setVapidDetails(subject, vapidPublicKey()!, process.env.VAPID_PRIVATE_KEY!.trim());
   ready = true;
   return true;
 }
 
-/** True when the private key really belongs to the public key (both must come from the same pair). */
-export function keysMatch(pub = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY, priv = process.env.VAPID_PRIVATE_KEY): boolean {
-  if (!pub || !priv) return false;
-  try {
-    const ecdh = createECDH("prime256v1");
-    ecdh.setPrivateKey(Buffer.from(priv.trim(), "base64url"));
-    return ecdh.getPublicKey().toString("base64url") === pub.trim();
-  } catch {
-    return false;
-  }
+/** True when a private key belongs to a public key. */
+export function keysMatch(pub: string | undefined, priv: string | undefined): boolean {
+  const derived = publicKeyFor(priv);
+  return Boolean(pub && derived && derived === pub.trim());
 }
 
 /** Why the last sendPush calls failed (for the tester check page). */

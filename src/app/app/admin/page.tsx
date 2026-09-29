@@ -192,11 +192,11 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       <section className="card stack" aria-labelledby="push-keys-title">
         <div className="stack-sm">
           <h2 id="push-keys-title" className="t-heading">
-            Phone notification keys
+            Phone notification key
           </h2>
           <p className="t-caption muted">
-            Phone notifications need two keys in Vercel. Make them here (in your browser, not sent anywhere), copy each one into Vercel, then
-            redeploy.
+            Phone notifications need one key in Vercel (VAPID_PRIVATE_KEY). Make it here (in your browser, not sent anywhere), paste it into
+            Vercel, then redeploy.
           </p>
         </div>
         <PushKeyMaker configured={pushConfigured()} />

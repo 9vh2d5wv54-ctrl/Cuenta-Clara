@@ -8,7 +8,23 @@ export type PushState =
   | "off"
   | "on";
 
-const KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? "";
+let keyPromise: Promise<string | null> | null = null;
+/** The app's public push key, from the server (null when notifications aren't set up). */
+function serverKey(): Promise<string | null> {
+  keyPromise ??= fetch("/api/push/key")
+    .then((r) => r.json() as Promise<{ key: string | null }>)
+    .then((b) => b.key)
+    .catch(() => null);
+  return keyPromise;
+}
+
+function sameKey(sub: PushSubscription, key: string): boolean {
+  const current = sub.options?.applicationServerKey;
+  if (!current) return true;
+  const a = new Uint8Array(current);
+  const b = keyBytes(key);
+  return a.length === b.length && a.every((v, i) => v === b[i]);
+}
 
 function isIOS(): boolean {
   const ua = navigator.userAgent;
@@ -23,10 +39,16 @@ export async function pushState(): Promise<PushState> {
   if (typeof window === "undefined") return "unsupported";
   if (isIOS() && !standalone()) return "needs-home-screen";
   if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) return "unsupported";
-  if (!KEY) return "not-set-up";
+  const key = await serverKey();
+  if (!key) return "not-set-up";
   if (Notification.permission === "denied") return "blocked";
   const reg = await navigator.serviceWorker.getRegistration("/");
   const sub = await reg?.pushManager.getSubscription();
+  // Signed up with an old key: that sign-up can't receive anything; start over.
+  if (sub && !sameKey(sub, key)) {
+    await turnOffPush();
+    return "off";
+  }
   return sub ? "on" : "off";
 }
 
@@ -54,7 +76,14 @@ export async function turnOnPush(): Promise<PushState> {
   await navigator.serviceWorker.ready;
   const permission = await Notification.requestPermission();
   if (permission !== "granted") return permission === "denied" ? "blocked" : "off";
-  const sub = (await reg.pushManager.getSubscription()) ?? (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyBytes(KEY) }));
+  const key = await serverKey();
+  if (!key) return "not-set-up";
+  let sub = await reg.pushManager.getSubscription();
+  if (sub && !sameKey(sub, key)) {
+    await sub.unsubscribe().catch(() => {});
+    sub = null;
+  }
+  sub ??= await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyBytes(key) });
   const res = await fetch("/api/push", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
