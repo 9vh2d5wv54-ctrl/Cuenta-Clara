@@ -15,6 +15,20 @@ import { OrbMark } from "@/components/ClaraCard";
 
 const SAMPLE_LEFT = 41250;
 
+const APP_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Cuenta Clara",
+  url: "https://micuentaclara.app",
+  applicationCategory: "FinanceApplication",
+  applicationSubCategory: "AI money coach, business finance for side hustles and self-employed pay, productivity",
+  operatingSystem: "Web, iOS, Android",
+  inLanguage: ["en", "es"],
+  description:
+    "Cuenta Clara is an AI money coach. Clara reads your real numbers to show what's safe to spend, plan irregular and self-employed pay, set money aside for taxes, and reach your goals.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+
 export default async function Landing() {
   const t = await getTranslations("landing");
   const hh = await getTranslations("homeHero");
@@ -64,6 +78,11 @@ export default async function Landing() {
         <LanguageToggle />
       </header>
 
+      {/* Tells Google what kind of app this is: AI finance first, then business and productivity. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(APP_JSON_LD) }}
+      />
       <main>
         {/* 1. Hero: headline, the app floating in glass, one button */}
         <section className="lp-wrap lp-hero">
@@ -192,7 +211,29 @@ export default async function Landing() {
           </CtaLink>
         </section>
 
-        {/* 6. Education: free tools, no account needed */}
+        {/* 6. Work and business: irregular pay, side hustles, self-employed */}
+        <section className="lp-wrap lp-section">
+          <div className="stack-sm">
+            <p className="t-label lp-eyebrow">{t("bizEyebrow")}</p>
+            <h2 className="t-title">{t("bizTitle")}</h2>
+            <p className="t-body muted">{t("bizSub")}</p>
+          </div>
+          <ul className="lp-features lp-features--two">
+            {bizFeatures.map((f) => (
+              <li key={f.title} className="card lp-feature">
+                <span className="row-icon row-icon--positive" aria-hidden>
+                  <Icon name={f.icon} size={20} />
+                </span>
+                <span className="stack-sm">
+                  <span className="t-heading">{f.title}</span>
+                  <span className="t-body muted">{f.text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* 7. Education: free tools, no account needed */}
         <section className="lp-wrap lp-section">
           <div className="stack-sm">
             <p className="t-label lp-eyebrow">{t("eduEyebrow")}</p>
@@ -224,28 +265,6 @@ export default async function Landing() {
               <Icon name="forward" size={20} />
             </Link>
           </div>
-        </section>
-
-        {/* 7. Work and business: irregular pay, side hustles, self-employed */}
-        <section className="lp-wrap lp-section">
-          <div className="stack-sm">
-            <p className="t-label lp-eyebrow">{t("bizEyebrow")}</p>
-            <h2 className="t-title">{t("bizTitle")}</h2>
-            <p className="t-body muted">{t("bizSub")}</p>
-          </div>
-          <ul className="lp-features lp-features--two">
-            {bizFeatures.map((f) => (
-              <li key={f.title} className="card lp-feature">
-                <span className="row-icon row-icon--positive" aria-hidden>
-                  <Icon name={f.icon} size={20} />
-                </span>
-                <span className="stack-sm">
-                  <span className="t-heading">{f.title}</span>
-                  <span className="t-body muted">{f.text}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
         </section>
 
         {/* 8. Veterans: built by a veteran; free tools, estimates only */}

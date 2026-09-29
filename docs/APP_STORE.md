@@ -48,40 +48,49 @@ so "Sign in with Apple" isn't required).
 **Name** (30 max): `Cuenta Clara`
 
 **Subtitle** (30 max)
-- English: `Bilingual budget & money coach` (30)
-- Spanish: `Presupuesto bilingüe con Clara` (30)
+- English: `AI money coach & budget` (23)
+- Spanish: `Coach de dinero con IA` (22)
 
-**Category:** Finance. Secondary: Education.
+**Category:** Finance. Secondary: Business.
 
 **Keywords** (100 max, commas, no spaces after commas)
-- English: `budget,spanish,remittance,paycheck,veteran,gi bill,savings,debt,family,money coach` (82)
-- Spanish: `presupuesto,remesas,envios,ahorro,deudas,quincena,familia,veteranos,dinero,finanzas,cuentas` (91)
+- English: `ai,coach,budget,finance,side hustle,self employed,gig,freelance,tax,paycheck,savings,debt,veteran` (97)
+- Spanish: `ia,coach,presupuesto,finanzas,negocio,independiente,impuestos,quincena,ahorro,deudas,veteranos` (94)
 
 **Promotional text** (170 max, can change anytime)
-- English: `Know what's safe to spend until payday, in Spanish, English or both. Plan family sends, reach your goals, and ask Clara anything about your money.`
-- Spanish: `Sabe cuánto puedes gastar hasta tu día de pago, en español, inglés o los dos. Planea tus envíos, cumple tus metas y pregúntale a Clara sobre tu dinero.`
+- English: `Ask Clara, your AI money coach, anything. See what's safe to spend, plan side-hustle and self-employed pay, set aside for taxes, and hit your goals.`
+- Spanish: `Pregúntale a Clara, tu coach de dinero con IA. Mira cuánto puedes gastar, planea ingresos de negocio o por tu cuenta, aparta para impuestos y cumple tus metas.`
 
 **Description (English)**
 
-Cuenta Clara is a budgeting app for working families, immigrants, veterans and military families, in Spanish, English, or both.
+Cuenta Clara is an AI money coach. Clara reads your real numbers and tells you, in plain words, what you can afford and what to do next.
+
+CLARA, YOUR AI MONEY COACH
+Ask "Can I afford this?", "How much will I have on payday?" or "What if I save $200 more?" Clara answers with your own numbers. The app does the math; Clara explains it.
 
 SEE WHAT'S SAFE TO SPEND
-Type your balance and payday, and Cuenta Clara shows what you can spend until your next check, after bills, family sends and savings.
+Type your balance and payday, and Cuenta Clara shows what you can spend until your next check, after bills, savings and everything you've planned.
 
-YOUR FAMILY, PLANNED
-Plan what you send home each month, see it in their currency, and know it's covered.
+SMART MONEY TECH
+Log spending by voice or a receipt photo. See a 3-month forecast and a "What if?" chart. Get bill reminders and payday plans by email.
 
-GOALS YOU CAN SEE GROW
-Emergency fund, a trip home, a house: progress bars and a clear monthly amount for each one.
+FOR SIDE HUSTLES, GIG WORK AND SELF-EMPLOYED PAY
+Plan each paycheck on its own when pay changes week to week. Set aside a share of freelance or cash income for taxes. Snap a pay stub to check your hours and overtime.
 
-CLARA, YOUR MONEY COACH
-Ask "Can I afford this?" or "What is APR?" Clara answers with your own numbers, in plain words. The app does the math; Clara explains it.
+GOALS AND DEBT
+Progress bars and a clear monthly amount for every goal. See when you'll be debt-free and how much snowball or avalanche saves you.
 
-GET OUT OF DEBT FASTER
-See when you'll be debt-free, and how much interest snowball or avalanche saves you.
+LEARN AS YOU GO
+Short lessons, a money-style quiz and a glossary of money words, free and without an account.
 
-FOR VETERANS
+FOR VETERANS AND MILITARY FAMILIES
 Estimate your combined VA disability rating, plan your GI Bill, and check off benefits many veterans miss. Estimates only; Cuenta Clara is not affiliated with the VA.
+
+IN ENGLISH OR SPANISH, WITH FAMILY SENDS
+Use the app in English, Spanish or both, and plan money you send to family abroad in their currency.
+
+YOUR CURRENCY
+U.S. dollar, Canadian dollar or British pound.
 
 FREE, AND PRIVATE
 The basics are free forever. We never connect to your bank and never sell your data.
@@ -90,25 +99,34 @@ Cuenta Clara gives general information, not financial, tax or legal advice.
 
 **Description (Spanish)**
 
-Cuenta Clara es una app de presupuesto para familias trabajadoras, inmigrantes, veteranos y familias militares, en español, inglés o los dos.
+Cuenta Clara es un coach de dinero con IA. Clara lee tus números reales y te dice, en palabras claras, qué te alcanza y qué hacer ahora.
+
+CLARA, TU COACH DE DINERO CON IA
+Pregunta "¿Me alcanza?", "¿Cuánto tendré el día de pago?" o "¿Y si ahorro $200 más?". Clara responde con tus propios números. La app hace las cuentas; Clara las explica.
 
 MIRA CUÁNTO PUEDES GASTAR
-Escribe tu saldo y tu día de pago, y Cuenta Clara te dice cuánto puedes gastar hasta tu próximo cheque, después de cuentas, envíos y ahorro.
+Escribe tu saldo y tu día de pago, y Cuenta Clara te dice cuánto puedes gastar hasta tu próximo cheque, después de cuentas, ahorro y todo lo que planeaste.
 
-TU FAMILIA, PLANEADA
-Planea lo que mandas cada mes, míralo en su moneda y sabe que está cubierto.
+TECNOLOGÍA PARA TU DINERO
+Anota gastos con tu voz o una foto del recibo. Mira un pronóstico de 3 meses y una gráfica de "¿Y si…?". Recibe recordatorios de cuentas y planes de pago por email.
 
-METAS QUE VES CRECER
-Fondo de emergencia, un viaje a casa, una casa: barras de progreso y cuánto apartar cada mes.
+PARA NEGOCIOS PROPIOS, TRABAJOS POR APP Y POR TU CUENTA
+Planea cada cheque por separado cuando tu pago cambia. Aparta una parte de tus ingresos independientes o en efectivo para impuestos. Toma foto de tu talón de pago y revisa tus horas y overtime.
 
-CLARA, TU COACH DE DINERO
-Pregunta "¿Me alcanza?" o "¿Qué es el APR?". Clara responde con tus propios números y en palabras claras. La app hace las cuentas; Clara las explica.
+METAS Y DEUDAS
+Barras de progreso y cuánto apartar cada mes para cada meta. Mira cuándo terminas de pagar y cuánto te ahorras con bola de nieve o avalancha.
 
-SAL DE DEUDAS MÁS RÁPIDO
-Mira cuándo terminas de pagar y cuánto interés te ahorras con bola de nieve o avalancha.
+APRENDE MIENTRAS USAS
+Lecciones cortas, un quiz de tu estilo con el dinero y un glosario de palabras de dinero, gratis y sin cuenta.
 
-PARA VETERANOS
+PARA VETERANOS Y FAMILIAS MILITARES
 Calcula tu calificación combinada de discapacidad del VA, planea tu GI Bill y marca los beneficios que muchos veteranos no usan. Solo estimados; Cuenta Clara no está afiliada con el VA.
+
+EN ESPAÑOL O INGLÉS, CON ENVÍOS A TU FAMILIA
+Usa la app en español, inglés o los dos, y planea lo que mandas a tu familia en su moneda.
+
+TU MONEDA
+Dólar estadounidense, dólar canadiense o libra esterlina.
 
 GRATIS Y PRIVADA
 Lo básico es gratis para siempre. Nunca nos conectamos a tu banco ni vendemos tus datos.

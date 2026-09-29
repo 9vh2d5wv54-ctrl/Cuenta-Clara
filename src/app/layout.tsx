@@ -28,6 +28,21 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Cuenta Clara",
     description: t("sub"),
     applicationName: "Cuenta Clara",
+    // How the app ranks what it is: Clara (AI) finance, technology, business, education, then veterans and Spanish.
+    category: "finance",
+    keywords: [
+      "AI money coach",
+      "AI finance app",
+      "budget app",
+      "business finance for self-employed",
+      "side hustle income",
+      "gig work budget",
+      "tax set-aside",
+      "productivity",
+      "financial education",
+      "veterans",
+      "Spanish budget app",
+    ],
     // The link preview picture is src/app/opengraph-image.png (and twitter-image.png).
     openGraph: { title: "Cuenta Clara", description: t("sub"), siteName: "Cuenta Clara", type: "website", url: "/" },
     twitter: { card: "summary_large_image", title: "Cuenta Clara", description: t("sub") },

@@ -6,13 +6,14 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Cuenta Clara",
     short_name: "Cuenta Clara",
-    description: "Tu dinero, claro. En español, en inglés, o en los dos. / Your money, made clear.",
+    description: "Your AI money coach: know what's safe to spend, plan side-hustle and self-employed pay, and reach your goals. In English or Spanish.",
+    categories: ["finance", "business", "productivity", "education"],
     start_url: "/app",
     scope: "/",
     display: "standalone",
     background_color: "#07152f",
     theme_color: "#07152f",
-    lang: "es",
+    lang: "en",
     icons: [
       { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
       { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
