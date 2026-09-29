@@ -278,7 +278,12 @@
     "theme_light": "Light",
     "theme_auto": "Automatic",
     "name": "Your first name",
-    "nameHelp": "So Home can say hello. Saved on this phone only."
+    "nameHelp": "So Home can say hello. Saved on this phone only.",
+    "noName": "Add your name below",
+    "freePlan": "Free",
+    "sectionYou": "You",
+    "sectionMoney": "Your money",
+    "sectionAccount": "Account"
   },
   "explain": {
     "whatsLeft": "What's left is this month's income minus your fixed bills, what you send to family, what you set aside for goals, and the expenses you've logged. It's what you can spend and still stay on plan.",

@@ -278,7 +278,12 @@
     "theme_light": "Claro",
     "theme_auto": "Automático",
     "name": "Tu nombre",
-    "nameHelp": "Para saludarte en Inicio. Se guarda solo en este teléfono."
+    "nameHelp": "Para saludarte en Inicio. Se guarda solo en este teléfono.",
+    "noName": "Agrega tu nombre abajo",
+    "freePlan": "Gratis",
+    "sectionYou": "Tú",
+    "sectionMoney": "Tu dinero",
+    "sectionAccount": "Cuenta"
   },
   "explain": {
     "whatsLeft": "Lo que te queda es tu ingreso del mes menos tus cuentas fijas, lo que mandas a tu familia, lo que apartas para tus metas y los gastos que anotaste. Es lo que puedes gastar sin salirte del plan.",

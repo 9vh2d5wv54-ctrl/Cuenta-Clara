@@ -1271,11 +1271,47 @@ textarea {
   flex-direction: column;
   gap: var(--space-2);
 }
+/* On/off switch (a styled checkbox, so it keeps native keyboard and screen reader behavior). */
 .toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex: none;
+  width: 50px;
+  height: 30px;
+  margin: 0;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--ink-muted) 35%, transparent);
+  cursor: pointer;
+  transition: background 180ms ease, box-shadow 180ms ease;
+}
+.toggle::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
   width: 24px;
   height: 24px;
-  flex: none;
-  accent-color: var(--clara);
+  border-radius: var(--radius-full);
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 180ms ease;
+}
+.toggle:checked {
+  background: var(--clara);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--clara) 45%, transparent);
+}
+.toggle:checked::after {
+  transform: translateX(20px);
+}
+.toggle:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .toggle::after {
+    transition: none;
+  }
 }
 
 /* A text link that's a button (Safe to Spend → change payday). */
@@ -2955,4 +2991,84 @@ button.clara-orb__q {
 }
 .hero-card__plain .muted {
   color: #b9c8e4;
+}
+
+/* Settings: profile card and icon sections */
+.settings-page {
+  gap: var(--space-4);
+}
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--hero-bg);
+  border-color: color-mix(in srgb, var(--clara) 45%, transparent);
+  color: #fff;
+}
+.profile-card p {
+  margin: 0;
+}
+.profile-card .muted {
+  color: #b9c8e4;
+}
+.profile-card .status-tag {
+  color: #cfe0ff;
+  border-color: rgba(207, 224, 255, 0.4);
+}
+.profile-card .status-tag--done {
+  color: var(--hero-ok);
+  border-color: color-mix(in srgb, var(--hero-ok) 50%, transparent);
+}
+.profile-card__avatar {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  background: radial-gradient(circle at 35% 30%, #9cc0ff 0%, #4d8dff 45%, #2a3fb8 100%);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  box-shadow: 0 0 18px rgba(77, 141, 255, 0.5);
+}
+.profile-card__email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.settings-section__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.settings-section__title .row-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+}
+.fold--inline {
+  background: none;
+  border: 1px dashed var(--line);
+  box-shadow: none;
+  border-radius: var(--radius-md);
+  backdrop-filter: none;
+}
+.fold--inline .fold__summary {
+  padding: var(--space-3);
+  color: var(--clara);
+}
+.fold--inline .fold__body {
+  padding: var(--space-3);
 }

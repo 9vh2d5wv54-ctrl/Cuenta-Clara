@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useCallback, useEffect, useState, useTransition, type FormEvent } from "react";
+import { useCallback, useEffect, useState, useTransition, type FormEvent, type ReactNode } from "react";
 import { useData } from "@/components/DataProvider";
 import { BillForm } from "@/components/forms";
-import { Icon } from "@/components/Icon";
+import { Icon, type IconName } from "@/components/Icon";
 import { setLocaleCookie } from "@/components/LanguageToggle";
 import Link from "next/link";
 import { paywallHref, PlusCard } from "@/components/Plus";
@@ -121,35 +121,21 @@ export default function Ajustes() {
   }
 
   return (
-    <main className="page">
+    <main className="page settings-page">
       <h1 className="t-title">{t("title")}</h1>
 
-      <Card>
-        <div className="stack">
-          <div className="field">
-            <span className="field__label">{t("language")}</span>
-            <Segmented
-              label={t("language")}
-              value={locale}
-              onChange={changeLanguage}
-              options={[
-                { value: "es", label: "Español" },
-                { value: "en", label: "English" },
-              ]}
-            />
-          </div>
-          <div className="field">
-            <span className="field__label">{t("appearance")}</span>
-            <Segmented
-              label={t("appearance")}
-              value={theme}
-              onChange={(v) => {
-                applyTheme(v);
-                setTheme(v);
-              }}
-              options={THEMES.map((v) => ({ value: v, label: t(`theme_${v}`) }))}
-            />
-          </div>
+      <div className="card profile-card">
+        <span className="profile-card__avatar" aria-hidden>
+          {(name.trim() || profile?.email || "?").charAt(0).toUpperCase()}
+        </span>
+        <div className="grow" style={{ minWidth: 0 }}>
+          <p className="t-heading">{name.trim() || t("noName")}</p>
+          {profile && <p className="t-caption muted profile-card__email">{profile.email}</p>}
+        </div>
+        <span className={plus ? "status-tag status-tag--done" : "status-tag"}>{plus ? p("badge") : t("freePlan")}</span>
+      </div>
+
+      <Section icon="smile" tone="clara" title={t("sectionYou")}>
           <Field label={t("name")} hint={t("nameHelp")}>
             {(p) => (
               <Input
@@ -164,6 +150,18 @@ export default function Ajustes() {
               />
             )}
           </Field>
+          <div className="field">
+            <span className="field__label">{t("language")}</span>
+            <Segmented
+              label={t("language")}
+              value={locale}
+              onChange={changeLanguage}
+              options={[
+                { value: "es", label: "Español" },
+                { value: "en", label: "English" },
+              ]}
+            />
+          </div>
           <Field label={t("homeCountry")} hint={t("homeCountryHelp")}>
             {(p) => (
               <Select {...p} value={profile?.home_country ?? ""} onChange={(e) => changeCountry(e.target.value)}>
@@ -176,8 +174,72 @@ export default function Ajustes() {
               </Select>
             )}
           </Field>
-        </div>
-      </Card>
+      </Section>
+
+      <Section icon="eye" tone="violet" title={t("appearance")}>
+          <div className="field">
+            <span className="sr-only">{t("appearance")}</span>
+            <Segmented
+              label={t("appearance")}
+              value={theme}
+              onChange={(v) => {
+                applyTheme(v);
+                setTheme(v);
+              }}
+              options={THEMES.map((v) => ({ value: v, label: t(`theme_${v}`) }))}
+            />
+          </div>
+      </Section>
+
+      <Section icon="wallet" tone="positive" title={t("sectionMoney")}>
+        <form className="stack" onSubmit={saveIncome} noValidate>
+          <Field label={t("income")} error={incomeError}>
+            {(p) => <MoneyInput {...p} value={incomeText} onChange={(e) => setIncomeText(e.target.value)} />}
+          </Field>
+          <Explain text={x("income")} />
+          <Button type="submit" variant="secondary" block>
+            {c("save")}
+          </Button>
+        </form>
+      </Section>
+
+      <Section icon="calendar" tone="mango" title={t("bills")}>
+            {bills.length === 0 ? (
+              <p className="t-body muted">{t("noBills")}</p>
+            ) : (
+              <ul className="list" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                {bills.map((b) => (
+                  <li key={b.id} className="list-row">
+                    <div className="grow">
+                      <p className="t-body">{b.name}</p>
+                      <p className="t-caption muted">{t("dueOn", { day: b.due_day })}</p>
+                    </div>
+                    <span className="t-body num">{formatUSD(b.amount_cents)}</span>
+                    <button
+                      type="button"
+                      className="icon-btn"
+                      aria-label={`${c("delete")} ${b.name}`}
+                      onClick={() => mutate((st) => st.deleteBill(b.id)).catch(() => setToast(c("somethingWrong")))}
+                    >
+                      <Icon name="trash" size={20} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+        <details className="fold fold--inline">
+          <summary className="fold__summary">
+            <Icon name="plus" size={18} />
+            <span className="t-label grow">{s("addBill")}</span>
+            <span className="fold__chevron" aria-hidden>
+              <Icon name="forward" size={18} />
+            </span>
+          </summary>
+          <div className="fold__body">
+            <BillForm submitLabel={s("addBill")} onSave={(b) => mutate((st) => st.addBill(b))} />
+          </div>
+        </details>
+      </Section>
 
       {(plus || hasCheckup) && (
         <Card tone={plus ? "clara" : undefined}>
@@ -258,61 +320,11 @@ export default function Ajustes() {
 
       <WhatsAppCard />
 
-      <Card>
-        <form className="stack" onSubmit={saveIncome} noValidate>
-          <Field label={t("income")} error={incomeError}>
-            {(p) => <MoneyInput {...p} value={incomeText} onChange={(e) => setIncomeText(e.target.value)} />}
-          </Field>
-          <Explain text={x("income")} />
-          <Button type="submit" variant="secondary" block>
-            {c("save")}
-          </Button>
-        </form>
-      </Card>
-
-      <section className="stack-sm">
-        <h2 className="t-heading">{t("bills")}</h2>
-        <Card>
-          <div className="stack">
-            {bills.length === 0 ? (
-              <p className="t-body muted">{t("noBills")}</p>
-            ) : (
-              <ul className="list" style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                {bills.map((b) => (
-                  <li key={b.id} className="list-row">
-                    <div className="grow">
-                      <p className="t-body">{b.name}</p>
-                      <p className="t-caption muted">{t("dueOn", { day: b.due_day })}</p>
-                    </div>
-                    <span className="t-body num">{formatUSD(b.amount_cents)}</span>
-                    <button
-                      type="button"
-                      className="icon-btn"
-                      aria-label={`${c("delete")} ${b.name}`}
-                      onClick={() => mutate((st) => st.deleteBill(b.id)).catch(() => setToast(c("somethingWrong")))}
-                    >
-                      <Icon name="trash" size={20} />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <BillForm submitLabel={s("addBill")} onSave={(b) => mutate((st) => st.addBill(b))} />
-          </div>
-        </Card>
-      </section>
-
-      <section className="stack-sm">
-        <h2 className="t-heading">{vc("settingsTitle")}</h2>
-        <Card>
+      <Section icon="shield" tone="clara" title={vc("settingsTitle")}>
           <VeteranSetting label={vc("settingLabel")} help={vc("settingHelp")} />
-        </Card>
-      </section>
+      </Section>
 
-      <section className="stack-sm">
-        <h2 className="t-heading">{t("emails")}</h2>
-        <Card>
-          <div className="stack">
+      <Section icon="info" tone="violet" title={t("emails")}>
             <label className="row" style={{ cursor: "pointer" }}>
               <div className="grow">
                 <p className="t-label">{t("weekly")}</p>
@@ -337,11 +349,9 @@ export default function Ajustes() {
                 onChange={(e) => setting("email_bills_on", e.target.checked)}
               />
             </label>
-          </div>
-        </Card>
-      </section>
+      </Section>
 
-      <div className="stack-sm">
+      <Section icon="logout" tone="mango" title={t("sectionAccount")}>
         <Button variant="secondary" block onClick={signOut}>
           <Icon name="logout" size={20} />
           {t("signOut")}
@@ -349,7 +359,9 @@ export default function Ajustes() {
         <Button variant="danger" block onClick={() => setConfirming(true)}>
           {t("deleteAccount")}
         </Button>
-        {profile && <p className="t-caption muted" style={{ textAlign: "center" }}>{profile.email}</p>}
+      </Section>
+
+      <div className="stack-sm">
         <p className="t-caption muted" style={{ textAlign: "center" }}>
           <Link href="/privacidad">{lg("privacy")}</Link> · <Link href="/terminos">{lg("terms")}</Link>
         </p>
@@ -381,5 +393,19 @@ export default function Ajustes() {
 
       <Toast message={toast} onDone={clearToast} />
     </main>
+  );
+}
+
+function Section({ icon, tone, title, children }: { icon: IconName; tone: string; title: string; children: ReactNode }) {
+  return (
+    <section className="settings-section">
+      <h2 className="settings-section__title">
+        <span className={`row-icon row-icon--${tone}`} aria-hidden>
+          <Icon name={icon} size={18} />
+        </span>
+        {title}
+      </h2>
+      <div className="card stack">{children}</div>
+    </section>
   );
 }
