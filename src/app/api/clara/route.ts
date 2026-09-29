@@ -1,3 +1,4 @@
+import { inCurrency } from "@/lib/currency-scope";
 import { NextResponse, type NextRequest } from "next/server";
 import { USAGE_TAG_LIST } from "@/lib/ai-usage";
 import { isTester } from "@/lib/testers";
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
   if (isDemo) {
     const data = body?.snapshot as ClaraData | undefined;
     if (!data || typeof data !== "object") return NextResponse.json({ error: "bad input" }, { status: 400 });
-    const reply = await askClara({ question, history, data, lang });
+    const reply = await inCurrency(data.profile?.currency, () => askClara({ question, history, data, lang }));
     return NextResponse.json({ ...reply, conversationId });
   }
 
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "limit", plus, limit: allowance.limit, per: allowance.per }, { status: 429 });
   }
 
-  const reply = await askClara({ question, history, data, lang, now });
+  const reply = await inCurrency(data.profile?.currency, () => askClara({ question, history, data, lang, now }));
   let saved = false;
   if (reply.ai) {
     const row = { user_id: auth.user.id, date: todayISO(now), question, answer: reply.answer };

@@ -3,7 +3,9 @@ import { CLARA_TOOLS, runClaraTool, type ClaraData, type ClaraLinks } from "./cl
 import { summarize } from "./budget";
 import { todayISO } from "./dates";
 import { isDemo } from "./demo";
-import { formatUSD } from "./money";
+import { appCurrency, formatUSD, type AppCurrency } from "./money";
+
+const CURRENCY_NAME: Record<AppCurrency, string> = { USD: "US dollars", CAD: "Canadian dollars", GBP: "British pounds (£)" };
 import { crisisMessage, MAX_QUESTION_LENGTH, soundsLikeCrisis } from "./clara-safety";
 
 export { soundsLikeCrisis };
@@ -21,7 +23,7 @@ export type ClaraTurn = { question: string; answer: string };
 export type ClaraReply = { answer: string; links: ClaraLinks; crisis: boolean; ai: boolean };
 
 function system(lang: "es" | "en", today: string): string {
-  return `You are Clara, the money copilot inside Cuenta Clara, a bilingual budgeting app for working families, immigrants, veterans and military families in the U.S. Reply in ${lang === "es" ? "Spanish, using \"tú\"" : "English"}, even if the question mixes languages. Today is ${today}.
+  return `You are Clara, the money copilot inside Cuenta Clara, a bilingual budgeting app for people and families in the U.S., Canada and the UK. The person's money is in ${CURRENCY_NAME[appCurrency()]}; tool amounts already use it, so never convert or mention other currencies unless asked. Reply in ${lang === "es" ? "Spanish, using \"tú\"" : "English"}, even if the question mixes languages. Today is ${today}.
 
 Golden rule: the app does the math, you explain it.
 - Get every number from a tool. Never calculate, estimate or invent a number, and never add, subtract or multiply numbers from tool results yourself. If you need a new number, call the tool that computes it (check_purchase or what_if).

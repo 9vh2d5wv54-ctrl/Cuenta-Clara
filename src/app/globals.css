@@ -3869,3 +3869,14 @@ button.explore-tile {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+.onboard__currency {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.onboard__currency .pick-chip {
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  font-size: 14px;
+}

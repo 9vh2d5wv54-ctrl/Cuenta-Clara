@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { writeCheckup } from "@/lib/ai";
+import { currencyFor, inCurrency } from "@/lib/currency-scope";
 import { cronUnauthorized, monthKeyUTC } from "@/lib/cron";
 import { appUrl, sendEmail } from "@/lib/email";
 import { loadUserMonth, monthInput } from "@/lib/server-budget";
@@ -22,32 +23,34 @@ export async function GET(request: NextRequest) {
   let written = 0;
   let sent = 0;
   for (const user of (users ?? []) as Row[]) {
-    const { data: existing } = await db.from("checkups").select("id").eq("user_id", user.id).eq("month", month).maybeSingle();
-    if (existing) continue;
-    const u = await loadUserMonth(db, user.id, month);
-    if (!u.income) continue; // never finished setup
-
-    const summary_text = await writeCheckup(monthInput(u, user.language, month));
-    const { error: saveError } = await db
-      .from("checkups")
-      .insert({ user_id: user.id, month, language: user.language, summary_text });
-    if (saveError) continue;
-    written++;
-
-    if (!user.email_weekly_on) continue;
-    const es = user.language !== "en";
-    const ok = await sendEmail({
-      to: user.email,
-      userId: user.id,
-      kind: "weekly",
-      subject: es ? "Tu chequeo de dinero está listo" : "Your money checkup is ready",
-      body: {
-        lang: user.language,
-        paragraphs: [summary_text.split("\n").find((l) => l.trim()) ?? ""],
-        button: { label: es ? "Ver mi chequeo" : "See my checkup", url: appUrl("/app/chequeo") },
-      },
+    await inCurrency(await currencyFor(db, user.id), async () => {
+      const { data: existing } = await db.from("checkups").select("id").eq("user_id", user.id).eq("month", month).maybeSingle();
+      if (existing) return;
+      const u = await loadUserMonth(db, user.id, month);
+      if (!u.income) return; // never finished setup
+  
+      const summary_text = await writeCheckup(monthInput(u, user.language, month));
+      const { error: saveError } = await db
+        .from("checkups")
+        .insert({ user_id: user.id, month, language: user.language, summary_text });
+      if (saveError) return;
+      written++;
+  
+      if (!user.email_weekly_on) return;
+      const es = user.language !== "en";
+      const ok = await sendEmail({
+        to: user.email,
+        userId: user.id,
+        kind: "weekly",
+        subject: es ? "Tu chequeo de dinero está listo" : "Your money checkup is ready",
+        body: {
+          lang: user.language,
+          paragraphs: [summary_text.split("\n").find((l) => l.trim()) ?? ""],
+          button: { label: es ? "Ver mi chequeo" : "See my checkup", url: appUrl("/app/chequeo") },
+        },
+      });
+      if (ok) sent++;
     });
-    if (ok) sent++;
   }
   return NextResponse.json({ written, sent });
 }

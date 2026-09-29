@@ -9,7 +9,7 @@ import { Button, Card, Dialog, Field, Input, MoneyInput, Segmented } from "@/com
 import { Ring } from "@/components/HomeHero";
 import { monthFromNow, progress, simulate, type PayoffPlan } from "@/lib/debts";
 import { monthName } from "@/lib/forecast";
-import { formatUSD, parseCents } from "@/lib/money";
+import { formatUSD, localizeDollars, parseCents } from "@/lib/money";
 import { hasPlus } from "@/lib/plan";
 import type { Debt } from "@/lib/types";
 
@@ -309,7 +309,7 @@ export default function Deudas() {
         </section>
       )}
 
-      {open.length > 0 && <Card>{plus ? whatIf : <PlusPreview feature="debts" label={t("plusWhatIf")}>{whatIf}</PlusPreview>}</Card>}
+      {open.length > 0 && <Card>{plus ? whatIf : <PlusPreview feature="debts" label={localizeDollars(t("plusWhatIf"))}>{whatIf}</PlusPreview>}</Card>}
 
       <Dialog open={adding} onClose={() => setAdding(false)} title={t("add")}>
         <DebtForm onDone={() => setAdding(false)} />

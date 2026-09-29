@@ -1,5 +1,6 @@
 "use client";
 
+import { localizeDollars } from "@/lib/money";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useData } from "./DataProvider";
@@ -60,7 +61,7 @@ export function HealthCard() {
           <div className="notice">
             <div className="stack-sm grow">
               <p className="t-label">{t("next")}</p>
-              <p className="t-body">{t(`tip_${h.weakest}`)}</p>
+              <p className="t-body">{localizeDollars(t(`tip_${h.weakest}`))}</p>
               <Link href={LINKS[h.weakest]} className="t-label">
                 {t(`link_${h.weakest}`)}
               </Link>

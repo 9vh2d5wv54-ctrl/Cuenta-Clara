@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Suspense, useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
 import { Icon } from "@/components/Icon";
+import { localizeDollars } from "@/lib/money";
 import { PlusCard } from "@/components/Plus";
 import { OrbMark } from "@/components/ClaraCard";
 import { WhatIfChart } from "@/components/WhatIfChart";
@@ -125,7 +126,7 @@ function ClaraChat() {
     }
   }
 
-  const suggestions = t.raw("suggestions") as string[];
+  const suggestions = (t.raw("suggestions") as string[]).map(localizeDollars);
 
   return (
     <main className="page clara-page">

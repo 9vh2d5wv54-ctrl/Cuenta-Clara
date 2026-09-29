@@ -19,7 +19,7 @@ import { chartMissing, lowest, whatIfChart, type Scenario, type WhatIfChart } fr
 export type ClaraData = {
   profile: Pick<
     Profile,
-    "balance_cents" | "balance_on" | "buffer_cents" | "payday_anchor" | "payday_cycle" | "pay_frequency"
+    "balance_cents" | "balance_on" | "buffer_cents" | "payday_anchor" | "payday_cycle" | "pay_frequency" | "currency"
   > | null;
   income: number; // monthly, cents (0 = not set)
   bills: Bill[];

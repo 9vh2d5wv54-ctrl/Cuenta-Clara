@@ -11,6 +11,7 @@ create table public.users (
   email_weekly_on boolean not null default true,
   timezone text not null default 'America/New_York',
   rate_alert_on boolean not null default false,
+  currency text not null default 'USD' check (currency in ('USD', 'CAD', 'GBP')), -- the person's own currency (migration 008)
   rate_alert_baseline numeric,
   pay_frequency text check (pay_frequency in ('weekly', 'biweekly')), -- paycheck mode (Plus); null = plan by month
   tax_set_aside_pct smallint check (tax_set_aside_pct between 1 and 50), -- tax set-aside (Plus); null = off
@@ -149,7 +150,7 @@ create policy "own profile" on public.users
 -- People edit their settings; rate_alert_baseline and email are server-managed.
 revoke update on public.users from authenticated, anon;
 grant update (language, home_country, home_currency, email_bills_on, email_weekly_on, timezone, rate_alert_on, pay_frequency, tax_set_aside_pct,
-  balance_cents, balance_on, buffer_cents, payday_anchor, payday_cycle)
+  balance_cents, balance_on, buffer_cents, payday_anchor, payday_cycle, currency)
   on public.users to authenticated;
 create policy "own budgets" on public.budgets
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
@@ -228,7 +229,8 @@ create function public.reset_rate_baseline() returns trigger
 language plpgsql as $$
 begin
   if new.rate_alert_on is distinct from old.rate_alert_on
-     or new.home_currency is distinct from old.home_currency then
+     or new.home_currency is distinct from old.home_currency
+     or new.currency is distinct from old.currency then
     new.rate_alert_baseline := null;
   end if;
   return new;

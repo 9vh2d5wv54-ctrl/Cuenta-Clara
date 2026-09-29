@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { symbolFor } from "@/lib/currencies";
+import { rateBetween, symbolFor } from "@/lib/currencies";
 import { cronUnauthorized, longDate, monthKeyUTC } from "@/lib/cron";
 import { daysInMonth } from "@/lib/dates";
 import { appUrl, sendEmail } from "@/lib/email";
 import { formatUSD } from "@/lib/money";
+import { currencyFor, inCurrency } from "@/lib/currency-scope";
 import { loadUserMonth, monthTotals } from "@/lib/server-budget";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { writePaydayLine } from "@/lib/ai";
@@ -111,14 +112,16 @@ async function paydayEmails(db: ReturnType<typeof supabaseAdmin>) {
 
   let sent = 0;
   for (const user of (data ?? []) as Pick<User, "id" | "email" | "language" | "timezone">[]) {
-    const now = userNow(user.timezone);
-    const { data: money } = await loadClaraData(db, now, user.id);
-    const plan = paydayPlanTomorrow(money, now);
-    if (!plan) continue;
-    const lang = user.language === "en" ? "en" : "es";
-    const line = await writePaydayLine(paydayFacts(plan, lang), paydayFallbackLine(plan, lang));
-    const { subject, body } = paydayEmail(plan, lang, line, appUrl("/app"));
-    if (await sendEmail({ to: user.email, userId: user.id, kind: "weekly", subject, body })) sent++;
+    await inCurrency(await currencyFor(db, user.id), async () => {
+      const now = userNow(user.timezone);
+      const { data: money } = await loadClaraData(db, now, user.id);
+      const plan = paydayPlanTomorrow(money, now);
+      if (!plan) return;
+      const lang = user.language === "en" ? "en" : "es";
+      const line = await writePaydayLine(paydayFacts(plan, lang), paydayFallbackLine(plan, lang));
+      const { subject, body } = paydayEmail(plan, lang, line, appUrl("/app"));
+      if (await sendEmail({ to: user.email, userId: user.id, kind: "weekly", subject, body })) sent++;
+    });
   }
   return { sent };
 }
@@ -142,33 +145,35 @@ async function billReminders(db: ReturnType<typeof supabaseAdmin>) {
   let sent = 0;
   const month = monthKeyUTC();
   for (const bill of data ?? []) {
-    const user = bill.users as unknown as User;
-    const es = user.language !== "en";
-    const left = monthTotals(await loadUserMonth(db, user.id, month)).left;
-    const when = longDate(target, user.language, user.timezone);
-    const ok = await sendEmail({
-      to: user.email,
-      userId: user.id,
-      kind: "bills",
-      subject: es ? `Tu ${bill.name} vence el ${when}` : `Your ${bill.name} is due ${when}`,
-      body: {
-        lang: user.language,
-        paragraphs: es
-          ? [
-              `${bill.name}: ${formatUSD(bill.amount_cents)}, vence el ${when}.`,
-              `Ya está en tu plan. Después de pagarla te siguen quedando ${formatUSD(left)} este mes.`,
-            ]
-          : [
-              `${bill.name}: ${formatUSD(bill.amount_cents)}, due ${when}.`,
-              `It's already in your plan. After paying it you still have ${formatUSD(left)} left this month.`,
-            ],
-        button: {
-          label: es ? "Marcar como pagada" : "Mark as paid",
-          url: appUrl(`/app/add?type=bill_paid&bill=${bill.id}`),
+    await inCurrency(await currencyFor(db, bill.user_id), async () => {
+      const user = bill.users as unknown as User;
+      const es = user.language !== "en";
+      const left = monthTotals(await loadUserMonth(db, user.id, month)).left;
+      const when = longDate(target, user.language, user.timezone);
+      const ok = await sendEmail({
+        to: user.email,
+        userId: user.id,
+        kind: "bills",
+        subject: es ? `Tu ${bill.name} vence el ${when}` : `Your ${bill.name} is due ${when}`,
+        body: {
+          lang: user.language,
+          paragraphs: es
+            ? [
+                `${bill.name}: ${formatUSD(bill.amount_cents)}, vence el ${when}.`,
+                `Ya está en tu plan. Después de pagarla te siguen quedando ${formatUSD(left)} este mes.`,
+              ]
+            : [
+                `${bill.name}: ${formatUSD(bill.amount_cents)}, due ${when}.`,
+                `It's already in your plan. After paying it you still have ${formatUSD(left)} left this month.`,
+              ],
+          button: {
+            label: es ? "Marcar como pagada" : "Mark as paid",
+            url: appUrl(`/app/add?type=bill_paid&bill=${bill.id}`),
+          },
         },
-      },
+      });
+      if (ok) sent++;
     });
-    if (ok) sent++;
   }
   return { sent };
 }
@@ -225,16 +230,17 @@ async function rateAlerts(db: ReturnType<typeof supabaseAdmin>) {
     .eq("rate_alert_on", true)
     .eq("subscriptions.plan", "plus")
     .in("subscriptions.status", ["trialing", "active"])
-    .not("home_currency", "is", null)
-    .neq("home_currency", "USD");
+    .not("home_currency", "is", null);
   if (error) return { error: error.message };
 
   let sent = 0;
   for (const user of (data ?? []) as unknown as User[]) {
-    const rate = rates[user.home_currency!];
+    const mine = await currencyFor(db, user.id);
+    if (user.home_currency === mine) continue;
+    const rate = rateBetween(rates, mine, user.home_currency!);
     if (!rate) continue;
     const baseline = user.rate_alert_baseline;
-    // Track the low; alert once the dollar buys at least 1% more than it.
+    // Track the low; alert once their currency buys at least 1% more than it.
     if (baseline === null || rate < baseline) {
       await db.from("users").update({ rate_alert_baseline: rate }).eq("id", user.id);
       continue;
@@ -243,12 +249,12 @@ async function rateAlerts(db: ReturnType<typeof supabaseAdmin>) {
 
     const es = user.language !== "en";
     const pct = (((rate - baseline) / baseline) * 100).toFixed(1);
-    const shown = `1 USD = ${symbolFor(user.home_currency!)} ${rate.toFixed(2)}`;
+    const shown = `1 ${mine} = ${symbolFor(user.home_currency!)} ${rate.toFixed(2)}`;
     const ok = await sendEmail({
       to: user.email,
       userId: user.id,
       kind: "rates",
-      subject: es ? `Hoy tu dólar rinde ${pct}% más` : `Your dollar goes ${pct}% further today`,
+      subject: es ? `Hoy tu dinero rinde ${pct}% más` : `Your money goes ${pct}% further today`,
       body: {
         lang: user.language,
         paragraphs: es
@@ -284,6 +290,8 @@ async function taxReminders(db: ReturnType<typeof supabaseAdmin>) {
 
   let sent = 0;
   for (const user of (data ?? []) as unknown as (User & { tax_set_aside_pct: number })[]) {
+    // IRS due dates only apply to U.S. accounts.
+    if ((await currencyFor(db, user.id)) !== "USD") continue;
     const es = user.language !== "en";
     const when = longDate(target, user.language, "UTC");
     const ok = await sendEmail({

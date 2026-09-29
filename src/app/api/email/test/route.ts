@@ -1,3 +1,4 @@
+import { currencyFor, inCurrency } from "@/lib/currency-scope";
 import { NextResponse, type NextRequest } from "next/server";
 import { writePaydayLine } from "@/lib/ai";
 import { loadClaraData, userNow } from "@/lib/clara-server";
@@ -17,6 +18,13 @@ import { schedule } from "@/lib/what-if";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
+  const supabaseForCurrency = await supabaseFromCookies();
+  const { data: who } = await supabaseForCurrency.auth.getUser();
+  const currency = who.user ? await currencyFor(supabaseForCurrency, who.user.id) : "USD";
+  return inCurrency(currency, () => sendTest(request));
+}
+
+async function sendTest(request: NextRequest) {
   if (!process.env.RESEND_API_KEY) return NextResponse.json({ ok: false, problem: "RESEND_API_KEY is missing" });
   const supabase = await supabaseFromCookies();
   const { data } = await supabase.auth.getUser();

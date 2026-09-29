@@ -239,9 +239,9 @@
     "title": "Tus envíos de este mes",
     "monthlyTotal": "Mandas al mes",
     "sentSoFar": "Ya mandaste {amount} este mes.",
-    "rate": "1 USD = {rate}",
+    "rate": "1 {from} = {rate}",
     "receives": "Recibe {amount}",
-    "sameCurrency": "Usa dólares, no hay cambio",
+    "sameCurrency": "La misma moneda que la tuya, sin cambio",
     "ratesUnavailable": "No pudimos traer el tipo de cambio ahora. Lo intentamos más tarde.",
     "ratesUpdated": "Actualizado {date}",
     "credit": "Rates By Exchange Rate API",
@@ -319,7 +319,13 @@
     "freePlan": "Gratis",
     "sectionYou": "Tú",
     "sectionMoney": "Tu dinero",
-    "sectionAccount": "Cuenta"
+    "sectionAccount": "Cuenta",
+    "currency": "Tu moneda",
+    "currencyHelp": "Se usa en todos los montos de la app, en las respuestas de Clara y en tus correos.",
+    "currency_USD": "$ Dólar de EE. UU.",
+    "currency_CAD": "$ Dólar canadiense",
+    "currency_GBP": "£ Libra esterlina",
+    "currencyFailed": "No pudimos guardar tu moneda. Intenta otra vez en un momento."
   },
   "explain": {
     "whatsLeft": "Lo que te queda es tu ingreso del mes menos tus cuentas fijas, lo que mandas a tu familia, lo que apartas para tus metas y los gastos que anotaste. Es lo que puedes gastar sin salirte del plan.",
@@ -452,7 +458,8 @@
     "setAside": "Unos {amount} apartados para impuestos desde el {start}.",
     "nextDue": "Próximo pago estimado al IRS: {date}.",
     "dueSoon": "El pago estimado al IRS vence el {date}, en {days, plural, one {# día} other {# días}}.",
-    "explain": "Cuando no te descuentan impuestos del pago, el IRS espera pagos cuatro veces al año: 15 de abril, 15 de junio, 15 de septiembre y 15 de enero. Apartamos el {pct}% de lo que entra para que el dinero esté ahí cuando toque pagar. Esto es información general, no asesoría de impuestos."
+    "explain": "Cuando no te descuentan impuestos del pago, el IRS espera pagos cuatro veces al año: 15 de abril, 15 de junio, 15 de septiembre y 15 de enero. Apartamos el {pct}% de lo que entra para que el dinero esté ahí cuando toque pagar. Esto es información general, no asesoría de impuestos.",
+    "explainIntl": "Aparta el {pct}% de lo que entra, para que el dinero esté listo cuando toque pagar impuestos. Tu oficina de impuestos o un preparador te puede decir cuánto y cuándo pagar. Esto es información general, no asesoría de impuestos."
   },
   "quicklog": {
     "title": "Dilo o tómale foto",
@@ -1209,6 +1216,10 @@
     "goHome": "Ir a mi Inicio",
     "addFamily": "Agregar a la familia que apoyas",
     "addGoal": "Crear una meta de ahorro",
-    "checkup": "Ver mi chequeo de dinero gratis"
+    "checkup": "Ver mi chequeo de dinero gratis",
+    "currency": "Tu dinero está en",
+    "currency_USD": "$ EE. UU.",
+    "currency_CAD": "$ Canadá",
+    "currency_GBP": "£ Reino Unido"
   }
 }

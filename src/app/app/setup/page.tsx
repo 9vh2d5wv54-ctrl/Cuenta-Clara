@@ -12,7 +12,7 @@ import { useSafeToSpend } from "@/components/SafeToSpend";
 import { Button, Field, Input, ProgressBar } from "@/components/ui";
 import { summarize } from "@/lib/budget";
 import { formatShortDate, todayISO } from "@/lib/dates";
-import { centsToInput, formatUSD, parseCents } from "@/lib/money";
+import { APP_CURRENCIES, centsToInput, currencyFromLocale, formatUSD, isAppCurrency, parseCents, setAppCurrency, type AppCurrency } from "@/lib/money";
 import { monthlyFromPaycheck } from "@/lib/onboarding";
 import { addDays } from "@/lib/paycheck";
 import type { PaydayCycle } from "@/lib/safe-to-spend";
@@ -46,12 +46,25 @@ export default function Setup() {
   const [amount, setAmount] = useState("");
   const [payday, setPayday] = useState(profile?.payday_anchor ?? addDays(todayISO(), 7));
   const [balance, setBalance] = useState(profile?.balance_cents != null ? centsToInput(profile.balance_cents) : "");
+  const [currency, setCurrency] = useState<AppCurrency>(isAppCurrency(profile?.currency) ? profile.currency : "USD");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (profile) markSetupSeen(profile.id);
   }, [profile]);
+
+  // New accounts start in the currency of the phone's region (UK → £, Canada → C$).
+  useEffect(() => {
+    if (!profile?.currency || profile.currency === "USD") setCurrency(currencyFromLocale(navigator.language));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /** Saves the currency along with the first answer; before the database update it just shows it. */
+  function keepCurrency() {
+    setAppCurrency(currency);
+    if (currency !== (profile?.currency ?? "USD")) mutate((st) => st.updateProfile({ currency })).catch(() => {});
+  }
 
   const varies = cycle === "varies";
   const order: Step[] = varies ? ["cycle", "amount", "bill", "done"] : ["cycle", "amount", "payday", "bill", "balance", "done"];
@@ -125,6 +138,24 @@ export default function Setup() {
         <section className="stack">
           <h1 className="onboard__q">{t("cycleQ")}</h1>
           <p className="t-body muted">{t("cycleHelp")}</p>
+          <div className="onboard__currency" role="radiogroup" aria-label={t("currency")}>
+            <span className="t-caption muted">{t("currency")}</span>
+            {APP_CURRENCIES.map((c) => (
+              <button
+                key={c}
+                type="button"
+                role="radio"
+                aria-checked={currency === c}
+                className={currency === c ? "pick-chip pick-chip--on" : "pick-chip"}
+                onClick={() => {
+                  setCurrency(c);
+                  setAppCurrency(c);
+                }}
+              >
+                {t(`currency_${c}`)}
+              </button>
+            ))}
+          </div>
           <div className="onboard__choices">
             {CYCLES.map((o) => (
               <button
@@ -133,6 +164,7 @@ export default function Setup() {
                 className={cycle === o.value ? "onboard__choice onboard__choice--on" : "onboard__choice"}
                 onClick={() => {
                   setCycle(o.value);
+                  keepCurrency();
                   go("amount");
                 }}
               >

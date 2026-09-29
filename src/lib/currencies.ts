@@ -24,3 +24,13 @@ export function countryByCode(code: string | null | undefined): Country | undefi
 export function symbolFor(currency: string): string {
   return COUNTRIES.find((c) => c.currency === currency)?.symbol ?? currency;
 }
+
+/**
+ * How much of `to` one `from` buys, from rates quoted per 1 US dollar (what the
+ * rates service returns). Null when either rate is missing.
+ */
+export function rateBetween(rates: Record<string, number>, from: string, to: string): number | null {
+  const a = from === "USD" ? 1 : rates[from];
+  const b = to === "USD" ? 1 : rates[to];
+  return a && b ? b / a : null;
+}

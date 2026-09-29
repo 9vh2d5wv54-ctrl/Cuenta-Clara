@@ -5,12 +5,13 @@ import { useData } from "./DataProvider";
 import { Icon } from "./Icon";
 import { Card, Explain } from "./ui";
 import { daysBetween, formatLongDate, formatShortDate } from "@/lib/dates";
-import { formatUSD } from "@/lib/money";
+import { appCurrency, formatUSD } from "@/lib/money";
 import { estimatedTaxPeriod, setAsideThisPeriod } from "@/lib/taxes";
 
 /** Tax set-aside (Plus): what's set aside this IRS period and when the next payment is due. */
 export function TaxCard() {
   const t = useTranslations("taxes");
+  const us = appCurrency() === "USD";
   const locale = useLocale();
   const { taxPct, profile, recent, income } = useData();
   if (!taxPct) return null;
@@ -35,12 +36,15 @@ export function TaxCard() {
         <p className="t-body">
           {t("setAside", { amount: formatUSD(amount), start: formatShortDate(period.start, locale) })}
         </p>
-        <p className="t-caption muted">
-          {days <= 14
-            ? t("dueSoon", { date: formatLongDate(period.due, locale), days })
-            : t("nextDue", { date: formatLongDate(period.due, locale) })}
-        </p>
-        <Explain text={t("explain", { pct: taxPct })} />
+        {/* IRS due dates only apply to U.S. accounts. */}
+        {us && (
+          <p className="t-caption muted">
+            {days <= 14
+              ? t("dueSoon", { date: formatLongDate(period.due, locale), days })
+              : t("nextDue", { date: formatLongDate(period.due, locale) })}
+          </p>
+        )}
+        <Explain text={us ? t("explain", { pct: taxPct }) : t("explainIntl", { pct: taxPct })} />
       </div>
     </Card>
   );

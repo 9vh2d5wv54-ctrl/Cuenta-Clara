@@ -1,3 +1,4 @@
+import { currencyFor, inCurrency } from "./currency-scope";
 import { answerQuestion, readQuickLog, type QuickLogInput } from "./ai";
 import { formatUSD } from "./money";
 import { ASK_DAILY_LIMIT } from "./plan";
@@ -120,33 +121,35 @@ export async function handleWhatsApp(msg: IncomingMessage): Promise<void> {
       .eq("whatsapp_phone", msg.from)
       .maybeSingle<User>();
     if (!user) return void (await sendText(msg.from, say.notLinked));
-    const lang: Lang = user.language === "en" ? "en" : "es";
+    return await inCurrency(await currencyFor(db, user.id), async () => {
+      const lang: Lang = user.language === "en" ? "en" : "es";
 
-    const { data: plus } = await db.rpc("has_plus", { uid: user.id });
-    if (!plus) return void (await sendText(msg.from, say.plus[lang]));
+      const { data: plus } = await db.rpc("has_plus", { uid: user.id });
+      if (!plus) return void (await sendText(msg.from, say.plus[lang]));
 
-    const today = todayIn(user.timezone);
-    const month = today.slice(0, 7);
+      const today = todayIn(user.timezone);
+      const month = today.slice(0, 7);
 
-    if (msg.type === "image" && msg.image?.id) {
-      const photo = await downloadMedia(msg.image.id);
-      const mediaType = ["image/jpeg", "image/png", "image/webp"].find((t) => t === photo?.mediaType) as
-        | "image/jpeg"
-        | "image/png"
-        | "image/webp"
-        | undefined;
-      if (!photo || !mediaType) return void (await sendText(msg.from, say.photoFail[lang]));
-      return await log(db, user, lang, msg.from, { kind: "image", mediaType, data: photo.data }, today, month);
-    }
-    if (!text) return void (await sendText(msg.from, say.help[lang]));
-    if (HELP.test(text)) return void (await sendText(msg.from, say.help[lang]));
-    if (BALANCE.test(text.replace(/^¿/, ""))) {
-      const totals = monthTotals(await loadUserMonth(db, user.id, month));
-      return void (await sendText(msg.from, left(lang, totals.left)));
-    }
-    if (UNDO.test(text)) return await undo(db, user, lang, msg.from, month);
-    if (QUESTION.test(text)) return await ask(db, user, lang, msg.from, text, month);
-    return await log(db, user, lang, msg.from, { kind: "text", text }, today, month);
+      if (msg.type === "image" && msg.image?.id) {
+        const photo = await downloadMedia(msg.image.id);
+        const mediaType = ["image/jpeg", "image/png", "image/webp"].find((t) => t === photo?.mediaType) as
+          | "image/jpeg"
+          | "image/png"
+          | "image/webp"
+          | undefined;
+        if (!photo || !mediaType) return void (await sendText(msg.from, say.photoFail[lang]));
+        return await log(db, user, lang, msg.from, { kind: "image", mediaType, data: photo.data }, today, month);
+      }
+      if (!text) return void (await sendText(msg.from, say.help[lang]));
+      if (HELP.test(text)) return void (await sendText(msg.from, say.help[lang]));
+      if (BALANCE.test(text.replace(/^¿/, ""))) {
+        const totals = monthTotals(await loadUserMonth(db, user.id, month));
+        return void (await sendText(msg.from, left(lang, totals.left)));
+      }
+      if (UNDO.test(text)) return await undo(db, user, lang, msg.from, month);
+      if (QUESTION.test(text)) return await ask(db, user, lang, msg.from, text, month);
+      return await log(db, user, lang, msg.from, { kind: "text", text }, today, month);
+    });
   } catch (err) {
     console.error("whatsapp handler error", err);
     await sendText(msg.from, `${say.error.es}\n\n${say.error.en}`).catch(() => {});

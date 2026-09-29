@@ -239,9 +239,9 @@
     "title": "Your sends this month",
     "monthlyTotal": "You send each month",
     "sentSoFar": "You've sent {amount} so far this month.",
-    "rate": "1 USD = {rate}",
+    "rate": "1 {from} = {rate}",
     "receives": "Receives {amount}",
-    "sameCurrency": "Uses US dollars, no exchange",
+    "sameCurrency": "Same currency as yours, no exchange",
     "ratesUnavailable": "We couldn't get exchange rates right now. We'll try again later.",
     "ratesUpdated": "Updated {date}",
     "credit": "Rates By Exchange Rate API",
@@ -319,7 +319,13 @@
     "freePlan": "Free",
     "sectionYou": "You",
     "sectionMoney": "Your money",
-    "sectionAccount": "Account"
+    "sectionAccount": "Account",
+    "currency": "Your currency",
+    "currencyHelp": "Used for every amount in the app, in Clara's answers and in your emails.",
+    "currency_USD": "$ US dollar",
+    "currency_CAD": "$ Canadian dollar",
+    "currency_GBP": "£ British pound",
+    "currencyFailed": "We couldn't save your currency. Try again in a moment."
   },
   "explain": {
     "whatsLeft": "What's left is this month's income minus your fixed bills, what you send to family, what you set aside for goals, and the expenses you've logged. It's what you can spend and still stay on plan.",
@@ -452,7 +458,8 @@
     "setAside": "About {amount} set aside for taxes since {start}.",
     "nextDue": "Next IRS estimated payment: {date}.",
     "dueSoon": "IRS estimated payment due {date}, in {days, plural, one {# day} other {# days}}.",
-    "explain": "When taxes aren't taken out of your pay, the IRS expects payments four times a year: April 15, June 15, September 15 and January 15. We set aside {pct}% of what comes in so the money is there when it's due. This is general information, not tax advice."
+    "explain": "When taxes aren't taken out of your pay, the IRS expects payments four times a year: April 15, June 15, September 15 and January 15. We set aside {pct}% of what comes in so the money is there when it's due. This is general information, not tax advice.",
+    "explainIntl": "Put aside {pct}% of what comes in, so the money is there when tax is due. Your tax office or a tax preparer can tell you how much and when to pay. This is general information, not tax advice."
   },
   "quicklog": {
     "title": "Say it or snap it",
@@ -1209,6 +1216,10 @@
     "goHome": "Go to my Home",
     "addFamily": "Add family you send money to",
     "addGoal": "Set a savings goal",
-    "checkup": "Get my free money checkup"
+    "checkup": "Get my free money checkup",
+    "currency": "Your money is in",
+    "currency_USD": "$ US",
+    "currency_CAD": "$ Canada",
+    "currency_GBP": "£ UK"
   }
 }

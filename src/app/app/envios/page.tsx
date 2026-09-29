@@ -10,8 +10,8 @@ import { Icon } from "@/components/Icon";
 import Link from "next/link";
 import { Card, Dialog, Explain } from "@/components/ui";
 import { monthlySendCents } from "@/lib/budget";
-import { countryByCode, symbolFor } from "@/lib/currencies";
-import { formatHome, formatUSD } from "@/lib/money";
+import { countryByCode, rateBetween, symbolFor } from "@/lib/currencies";
+import { appCurrency, formatHome, formatUSD } from "@/lib/money";
 
 type Rates = { updated: string; rates: Record<string, number> };
 
@@ -35,6 +35,7 @@ export default function Envios() {
       .catch(() => setRatesFailed(true));
   }, []);
 
+  const mine = appCurrency();
   const total = recipients.reduce((sum, r) => sum + monthlySendCents(r), 0);
   const sends = entries.filter((e) => e.type === "send");
   const sent = sends.reduce((sum, e) => sum + e.amount_cents, 0);
@@ -92,7 +93,7 @@ export default function Envios() {
             const monthly = monthlySendCents(r);
             const done = sentTo(r.id);
             const pct = monthly ? Math.min(1, done / monthly) : 0;
-            const rate = r.currency === "USD" ? 1 : rates?.rates[r.currency];
+            const rate = r.currency === mine ? 1 : rates ? rateBetween(rates.rates, mine, r.currency) : null;
             const tone = TONES[i % TONES.length];
             return (
               <article key={r.id} className="card person-card">
@@ -122,12 +123,12 @@ export default function Envios() {
                 <div className="row row--between" style={{ alignItems: "flex-end" }}>
                   <div>
                     <p className="person-card__amount num">{formatUSD(r.default_amount_cents)}</p>
-                    {r.currency !== "USD" && rate ? (
+                    {r.currency !== mine && rate ? (
                       <p className="t-caption num tone-clara">
                         {t("receives", { amount: formatHome((r.default_amount_cents / 100) * rate, r.currency) })} ·{" "}
-                        {t("rate", { rate: `${symbolFor(r.currency)} ${rate.toFixed(2)}` })}
+                        {t("rate", { from: mine, rate: `${symbolFor(r.currency)} ${rate.toFixed(2)}` })}
                       </p>
-                    ) : r.currency === "USD" ? (
+                    ) : r.currency === mine ? (
                       <p className="t-caption muted">{t("sameCurrency")}</p>
                     ) : null}
                   </div>
@@ -164,7 +165,7 @@ export default function Envios() {
         </section>
       )}
 
-      {recipients.some((r) => r.currency !== "USD") && <Explain text={x("exchangeRate")} />}
+      {recipients.some((r) => r.currency !== mine) && <Explain text={x("exchangeRate")} />}
 
       <Dialog open={adding} onClose={() => setAdding(false)} title={t("addTitle")}>
         <RecipientForm

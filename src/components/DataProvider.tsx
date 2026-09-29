@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { setAppCurrency } from "@/lib/money";
 import { getStore, type Store } from "@/lib/store";
 import { monthKey, todayISO } from "@/lib/dates";
 import { taxPct } from "@/lib/plan";
@@ -114,5 +115,7 @@ export function DataProvider({ children, fallback }: { children: ReactNode; fall
   );
 
   if (!data) return <>{fallback}</>;
+  // Every amount on screen uses the person's own currency.
+  setAppCurrency(data.profile?.currency);
   return <DataContext.Provider value={{ ...data, mutate }}>{children}</DataContext.Provider>;
 }

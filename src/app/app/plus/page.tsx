@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useData } from "@/components/DataProvider";
 import { Icon } from "@/components/Icon";
 import { OrbMark } from "@/components/ClaraCard";
+import { localizeDollars, usdPrice } from "@/lib/money";
 import { Button } from "@/components/ui";
 import { trackTrialStart } from "@/lib/analytics";
 import { hadTrial, hasPlus, PRICES, type Interval } from "@/lib/plan";
@@ -67,7 +68,7 @@ export default function PlusPage() {
   if (!hasCheckup) return null;
 
   const trial = !hadTrial(subscription);
-  const price = interval === "yearly" ? t("perYear", { price: PRICES.yearly.label }) : t("perMonth", { price: PRICES.monthly.label });
+  const price = interval === "yearly" ? t("perYear", { price: usdPrice(PRICES.yearly.label) }) : t("perMonth", { price: usdPrice(PRICES.monthly.label) });
 
   async function onStart() {
     setBusy(true);
@@ -98,7 +99,7 @@ export default function PlusPage() {
     [t("rowBudget"), t("rowBudgetPlus")],
     [t("rowPay"), t("rowPayPlus")],
     [t("rowLog"), t("rowLogPlus")],
-    [t("rowDebts"), t("rowDebtsPlus")],
+    [t("rowDebts"), localizeDollars(t("rowDebtsPlus"))],
     [t("rowCheckup"), t("rowForecast")],
     [t("rowGoals"), t("rowGoalsPlus")],
     [t("rowSends"), t("rowRates")],
@@ -162,7 +163,7 @@ export default function PlusPage() {
               onClick={() => setInterval_("monthly")}
             >
               <span className="t-label">{t("monthly")}</span>
-              <span className="t-heading num">{t("perMonth", { price: PRICES.monthly.label })}</span>
+              <span className="t-heading num">{t("perMonth", { price: usdPrice(PRICES.monthly.label) })}</span>
             </button>
             <button
               type="button"
@@ -172,10 +173,10 @@ export default function PlusPage() {
               onClick={() => setInterval_("yearly")}
             >
               <span className="t-label">{t("yearly")}</span>
-              <span className="t-heading num">{t("perYear", { price: PRICES.yearly.label })}</span>
+              <span className="t-heading num">{t("perYear", { price: usdPrice(PRICES.yearly.label) })}</span>
               <span className="plus-plan__tag">{t("bestValue")}</span>
               <span className="t-caption plus-save">
-                {t("yearlySave", { perMonth: PRICES.yearly.perMonth, pct: PRICES.yearly.savingsPct })}
+                {t("yearlySave", { perMonth: usdPrice(PRICES.yearly.perMonth), pct: PRICES.yearly.savingsPct })}
               </span>
             </button>
           </div>

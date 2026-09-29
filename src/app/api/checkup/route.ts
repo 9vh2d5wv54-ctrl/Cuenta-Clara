@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { writeCheckup } from "@/lib/ai";
+import { currencyFor, inCurrency } from "@/lib/currency-scope";
 import { parseCheckupInput } from "@/lib/checkup-input";
 import { isDemo } from "@/lib/demo";
 import { supabaseAdmin, supabaseFromCookies } from "@/lib/supabase-server";
@@ -21,7 +22,7 @@ export async function POST(request: NextRequest) {
   const { data: existing } = await supabase.from("checkups").select("*").eq("month", input.month).maybeSingle();
   if (existing) return NextResponse.json(existing);
 
-  const summary_text = await writeCheckup(input);
+  const summary_text = await inCurrency(await currencyFor(supabase, auth.user.id), () => writeCheckup(input));
   const { data, error } = await supabaseAdmin()
     .from("checkups")
     .upsert(

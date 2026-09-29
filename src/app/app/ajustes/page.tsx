@@ -18,7 +18,7 @@ import { hadTrial, hasPlus } from "@/lib/plan";
 import { Button, Card, Dialog, Explain, Field, Input, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
 import { MAX_NAME, readName, saveName } from "@/lib/home-name";
 import { COUNTRIES, countryByCode } from "@/lib/currencies";
-import { centsToInput, formatUSD, parseCents } from "@/lib/money";
+import { APP_CURRENCIES, centsToInput, formatUSD, isAppCurrency, parseCents, type AppCurrency } from "@/lib/money";
 import type { Locale } from "@/i18n/config";
 import type { PayFrequency } from "@/lib/types";
 import { applyTheme, DEFAULT_THEME, parseTheme, THEMES, type Theme } from "@/lib/theme";
@@ -52,6 +52,14 @@ export default function Ajustes() {
   const [confirming, setConfirming] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const clearToast = useCallback(() => setToast(null), []);
+
+  async function changeCurrency(next: AppCurrency) {
+    try {
+      await mutate((st) => st.updateProfile({ currency: next }));
+    } catch {
+      setToast(t("currencyFailed"));
+    }
+  }
 
   async function changeLanguage(next: Locale) {
     setLocaleCookie(next);
@@ -194,6 +202,18 @@ export default function Ajustes() {
       </Section>
 
       <Section icon="wallet" tone="positive" title={t("sectionMoney")}>
+        <div className="field">
+          <span className="field__label">{t("currency")}</span>
+          <p className="t-caption muted" style={{ margin: 0 }}>
+            {t("currencyHelp")}
+          </p>
+          <Segmented
+            label={t("currency")}
+            value={isAppCurrency(profile?.currency) ? profile.currency : "USD"}
+            onChange={changeCurrency}
+            options={APP_CURRENCIES.map((v) => ({ value: v, label: t(`currency_${v}`) }))}
+          />
+        </div>
         <form className="stack" onSubmit={saveIncome} noValidate>
           <Field label={t("income")} error={incomeError}>
             {(p) => <MoneyInput {...p} value={incomeText} onChange={(e) => setIncomeText(e.target.value)} />}
