@@ -76,7 +76,7 @@ export function HomeHero({ left, spendable, hasIncome }: { left: number; spendab
             <Icon name="shield" size={18} />
             {sts ? safe("title") : t("left")}
           </p>
-          <p className={value < 0 ? "hero-card__big hero-card__big--neg" : "hero-card__big"}>{money(value)}</p>
+          <p className={["hero-card__big", value < 0 && "hero-card__big--neg", money(value).length > 8 && (money(value).length > 10 ? "hero-card__big--xlong" : "hero-card__big--long")].filter(Boolean).join(" ")}>{money(value)}</p>
           {status && (
             <p className={`hero-card__status hero-card__status--${status}`}>
               {status === "over" ? t("over", { amount: money(-value) }) : status === "fast" ? t("fast") : t("onTrack")}

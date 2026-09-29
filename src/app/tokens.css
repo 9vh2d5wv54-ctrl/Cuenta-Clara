@@ -32,6 +32,9 @@
   --card-shadow: 0 1px 2px #1c28260f, 0 2px 8px #1c28260d;
   --card-glow: 0 0 0 1px #0f6b5f33, 0 6px 20px #0f6b5f1f;
   --hero-bg: linear-gradient(145deg, #0f6b5f 0%, #0b5249 100%);
+  --hero-ok: #3ee0b1;
+  --hero-warn: #ffc56e;
+  --card-blur: none;
 
   /* Shadow */
   --shadow-sm: 0 1px 2px #1c28260f, 0 2px 8px #1c28260d;
@@ -83,7 +86,10 @@
   --card-line: rgba(255, 255, 255, 0.08);
   --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   --card-glow: 0 0 30px rgba(77, 141, 255, 0.15);
-  --hero-bg: linear-gradient(145deg, #0c1f45 0%, #122a5b 100%);
+  --hero-bg: linear-gradient(145deg, #07152f 0%, #122a5b 100%);
+  --hero-ok: #21d19f;
+  --hero-warn: #ffb547;
+  --card-blur: blur(20px);
 
   --shadow-sm: 0 1px 3px #00000080;
   --focus-ring: 0 0 0 2px #07152f, 0 0 0 4px #4d8dff;
@@ -114,7 +120,10 @@
     --card-line: rgba(255, 255, 255, 0.08);
     --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
     --card-glow: 0 0 30px rgba(77, 141, 255, 0.15);
-    --hero-bg: linear-gradient(145deg, #0c1f45 0%, #122a5b 100%);
+    --hero-bg: linear-gradient(145deg, #07152f 0%, #122a5b 100%);
+  --hero-ok: #21d19f;
+  --hero-warn: #ffb547;
+  --card-blur: blur(20px);
 
     --shadow-sm: 0 1px 3px #00000080;
     --focus-ring: 0 0 0 2px #07152f, 0 0 0 4px #4d8dff;
