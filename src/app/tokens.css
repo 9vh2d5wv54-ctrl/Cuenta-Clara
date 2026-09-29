@@ -23,6 +23,15 @@
   --alerta-soft: #fbe4de;
   --link: var(--clara);
   --positive: #0f6b5f;
+  --violet: #6d4fd1;
+  --glow: #0f6b5f;
+
+  /* Cards (Midnight turns these into glass with depth) */
+  --card-bg: var(--surface-raised);
+  --card-line: transparent;
+  --card-shadow: 0 1px 2px #1c28260f, 0 2px 8px #1c28260d;
+  --card-glow: 0 0 0 1px #0f6b5f33, 0 6px 20px #0f6b5f1f;
+  --hero-bg: linear-gradient(145deg, #0f6b5f 0%, #0b5249 100%);
 
   /* Shadow */
   --shadow-sm: 0 1px 2px #1c28260f, 0 2px 8px #1c28260d;
@@ -52,45 +61,63 @@
 :root[data-theme="midnight"] {
   color-scheme: dark;
 
-  --surface: #0b1426;
-  --surface-raised: #121e36;
-  --line: #1f2d4a;
+  --surface: #07152f;
+  --surface-raised: #10213f;
+  --line: #1d2f52;
   --ink: #eef3fb;
-  --ink-muted: #93a3bf;
-  --clara: #3d9bff;
-  --clara-soft: #13294a;
+  --ink-muted: #9aaac6;
+  --clara: #4d8dff;
+  --clara-soft: #13294f;
   --on-clara: #04101f;
-  --mango: #f4b24d;
-  --mango-soft: #33240c;
-  --mango-ink: #f4b24d;
+  --mango: #ffb547;
+  --mango-soft: #33260e;
+  --mango-ink: #ffb547;
   --alerta: #ff8f75;
   --alerta-soft: #3a1811;
-  --positive: #34d6b8;
+  --positive: #21d19f;
+  --violet: #a78bfa;
+  --glow: #7aa8ff;
+
+  /* Glass cards with depth */
+  --card-bg: rgba(20, 34, 68, 0.75);
+  --card-line: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --card-glow: 0 0 30px rgba(77, 141, 255, 0.15);
+  --hero-bg: linear-gradient(145deg, #0c1f45 0%, #122a5b 100%);
 
   --shadow-sm: 0 1px 3px #00000080;
-  --focus-ring: 0 0 0 2px #0b1426, 0 0 0 4px #3d9bff;
+  --focus-ring: 0 0 0 2px #07152f, 0 0 0 4px #4d8dff;
 }
 @media (prefers-color-scheme: dark) {
   :root[data-theme="auto"] {
     color-scheme: dark;
 
-    --surface: #0b1426;
-    --surface-raised: #121e36;
-    --line: #1f2d4a;
+    --surface: #07152f;
+    --surface-raised: #10213f;
+    --line: #1d2f52;
     --ink: #eef3fb;
-    --ink-muted: #93a3bf;
-    --clara: #3d9bff;
-    --clara-soft: #13294a;
+    --ink-muted: #9aaac6;
+    --clara: #4d8dff;
+    --clara-soft: #13294f;
     --on-clara: #04101f;
-    --mango: #f4b24d;
-    --mango-soft: #33240c;
-    --mango-ink: #f4b24d;
+    --mango: #ffb547;
+    --mango-soft: #33260e;
+    --mango-ink: #ffb547;
     --alerta: #ff8f75;
     --alerta-soft: #3a1811;
-    --positive: #34d6b8;
+    --positive: #21d19f;
+    --violet: #a78bfa;
+    --glow: #7aa8ff;
+
+    /* Glass cards with depth */
+    --card-bg: rgba(20, 34, 68, 0.75);
+    --card-line: rgba(255, 255, 255, 0.08);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    --card-glow: 0 0 30px rgba(77, 141, 255, 0.15);
+    --hero-bg: linear-gradient(145deg, #0c1f45 0%, #122a5b 100%);
 
     --shadow-sm: 0 1px 3px #00000080;
-    --focus-ring: 0 0 0 2px #0b1426, 0 0 0 4px #3d9bff;
+    --focus-ring: 0 0 0 2px #07152f, 0 0 0 4px #4d8dff;
   }
 }
 

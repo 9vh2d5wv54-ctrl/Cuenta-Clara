@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export async function generateViewport(): Promise<Viewport> {
   const theme = parseTheme((await cookies()).get(THEME_COOKIE)?.value);
-  const night = "#0b1426";
+  const night = "#07152f";
   const day = "#f8f8f4";
   return {
     width: "device-width",

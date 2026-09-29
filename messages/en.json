@@ -202,9 +202,22 @@
     "ratesUnavailable": "We couldn't get exchange rates right now. We'll try again later.",
     "ratesUpdated": "Updated {date}",
     "credit": "Rates By Exchange Rate API",
-    "empty": "You haven't added anyone yet.",
+    "empty": "Family back home, a parent, a child in school. Add them to plan each send.",
     "addTitle": "Add someone",
-    "remove": "Remove {name}"
+    "remove": "Remove {name}",
+    "heading": "Sends",
+    "lead": "Support the people who matter most.",
+    "add": "Add",
+    "emptyTitle": "Add someone you support",
+    "recipients": "Your people",
+    "options": "Options for {name}",
+    "statusDone": "Sent ✓",
+    "statusLeft": "{amount} to go",
+    "sentThisMonth": "Sent this month",
+    "of": "of",
+    "logSend": "Log a send to {name}",
+    "addNew": "Add a new person",
+    "addNewLead": "Plan support for someone new"
   },
   "goals": {
     "title": "Your goals",
@@ -216,7 +229,23 @@
     "addMoneyTitle": "How much are you putting toward {name}?",
     "empty": "You don't have any goals yet.",
     "addTitle": "New goal",
-    "remove": "Delete {name}"
+    "remove": "Delete {name}",
+    "new": "New goal",
+    "active": "Active",
+    "completed": "Completed",
+    "noneDone": "No finished goals yet. You'll get there.",
+    "allDone": "Every goal is done. Time for a new one?",
+    "options": "Options for {name}",
+    "of": "of",
+    "target": "Target: {date}",
+    "reachedShort": "Reached",
+    "thisMonth": "This month",
+    "inMonths": "{n, plural, one {In # month} other {In # months}}",
+    "cheer_start": "Great start: a quarter of the way there.",
+    "cheer_half": "Halfway there. Keep going.",
+    "cheer_almost": "Almost there: three quarters saved.",
+    "winTitle": "You're doing great!",
+    "winLead": "{n, plural, one {You've finished # goal.} other {You've finished # goals.}}"
   },
   "settings": {
     "title": "Settings",
@@ -240,7 +269,9 @@
     "appearance": "Appearance",
     "theme_midnight": "Midnight",
     "theme_light": "Light",
-    "theme_auto": "Automatic"
+    "theme_auto": "Automatic",
+    "name": "Your first name",
+    "nameHelp": "So Home can say hello. Saved on this phone only."
   },
   "explain": {
     "whatsLeft": "What's left is this month's income minus your fixed bills, what you send to family, what you set aside for goals, and the expenses you've logged. It's what you can spend and still stay on plan.",
@@ -1012,6 +1043,24 @@
     "actions": "Quick actions",
     "log": "Log",
     "send": "Send",
-    "goals": "Goals"
+    "goals": "Goals",
+    "hello": "Hello, {name}",
+    "helloNoName": "Hello",
+    "onTrack": "You're on track",
+    "fast": "Spending a little fast this month",
+    "over": "Over by {amount}",
+    "paydayIn": "{days, plural, =0 {Payday is today} one {Payday tomorrow} other {Payday in # days}}",
+    "perDay": "About {amount} a day",
+    "ringLabel": "of spending money left",
+    "ringAria": "{pct}% of this month's spending money is still left",
+    "progress": "Your progress",
+    "seeAll": "See all",
+    "of": "of",
+    "noGoals": "Set your first goal",
+    "noGoalsLead": "Saving for something? Watch it grow here.",
+    "sendSub": "Send money",
+    "goalsSub": "Track goals",
+    "logSub": "Add a transaction",
+    "claraSub": "Ask Clara"
   }
 }

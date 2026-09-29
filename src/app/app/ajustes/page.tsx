@@ -14,7 +14,8 @@ import { VeteranSetting } from "@/components/VeteranCard";
 import { formatLongDate } from "@/lib/dates";
 import { TAX_OPTIONS } from "@/lib/taxes";
 import { hadTrial, hasPlus } from "@/lib/plan";
-import { Button, Card, Dialog, Explain, Field, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
+import { Button, Card, Dialog, Explain, Field, Input, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
+import { MAX_NAME, readName, saveName } from "@/lib/home-name";
 import { COUNTRIES, countryByCode } from "@/lib/currencies";
 import { centsToInput, formatUSD, parseCents } from "@/lib/money";
 import type { Locale } from "@/i18n/config";
@@ -38,8 +39,10 @@ export default function Ajustes() {
   const plus = hasPlus(subscription);
   const [cancelOpen, setCancelOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
+  const [name, setName] = useState("");
   useEffect(() => {
     setTheme(parseTheme(document.documentElement.dataset.theme));
+    setName(readName());
   }, []);
 
   const [incomeText, setIncomeText] = useState(income ? centsToInput(income) : "");
@@ -147,6 +150,20 @@ export default function Ajustes() {
               options={THEMES.map((v) => ({ value: v, label: t(`theme_${v}`) }))}
             />
           </div>
+          <Field label={t("name")} hint={t("nameHelp")}>
+            {(p) => (
+              <Input
+                {...p}
+                value={name}
+                maxLength={MAX_NAME}
+                autoComplete="given-name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                  saveName(e.target.value);
+                }}
+              />
+            )}
+          </Field>
           <Field label={t("homeCountry")} hint={t("homeCountryHelp")}>
             {(p) => (
               <Select {...p} value={profile?.home_country ?? ""} onChange={(e) => changeCountry(e.target.value)}>

@@ -38,7 +38,7 @@ export default function AddEntry() {
   const [toast, setToast] = useState<string | null>(null);
   const clearToast = useCallback(() => setToast(null), []);
 
-  // The bill reminder email links here with ?type=bill_paid&bill=<id>.
+  // The bill reminder email links here with ?type=bill_paid&bill=<id>; Sends with ?type=send&to=<id>.
   const params = useSearchParams();
   const applied = useRef(false);
   useEffect(() => {
@@ -46,6 +46,12 @@ export default function AddEntry() {
     applied.current = true;
     if (params.get("type") === "income" && payMode) {
       setType("income");
+      return;
+    }
+    const toParam = params.get("to");
+    if (params.get("type") === "send" && toParam && recipients.some((r) => r.id === toParam)) {
+      setType("send");
+      pickRecipient(toParam);
       return;
     }
     const billParam = params.get("bill");

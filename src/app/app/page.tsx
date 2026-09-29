@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useData } from "@/components/DataProvider";
-import { LanguageToggle } from "@/components/LanguageToggle";
 import { Card, Explain, ProgressBar } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { PaycheckCard } from "@/components/Paycheck";
@@ -14,7 +13,7 @@ import { HealthCard } from "@/components/Health";
 import { WarningsCard } from "@/components/Warnings";
 import { PatternsCard } from "@/components/Patterns";
 import { SafeToSpendCard, useSafeToSpend } from "@/components/SafeToSpend";
-import { HomeHero } from "@/components/HomeHero";
+import { GoalProgress, HomeHero, QuickActions } from "@/components/HomeHero";
 import { ClaraCard } from "@/components/ClaraCard";
 import { VeteranCard } from "@/components/VeteranCard";
 import { InstallCard } from "@/components/InstallCard";
@@ -54,9 +53,6 @@ export default function Dashboard() {
     .filter((u) => u.days <= 7)
     .sort((a, b) => a.days - b.days);
 
-  const monthName = today.toLocaleDateString(locale === "es" ? "es-US" : "en-US", { month: "long", year: "numeric" });
-  const month = monthName.charAt(0).toUpperCase() + monthName.slice(1);
-
   const rows = [
     { key: "bills", label: t("bills"), value: s.bills, tone: "clara" as const, explain: x("bills") },
     { key: "family", label: t("family"), value: s.family, tone: "mango" as const, explain: x("family") },
@@ -67,29 +63,22 @@ export default function Dashboard() {
 
   return (
     <main className="page">
-      <header className="topbar">
-        <div>
-          <p className="t-caption muted">
-            {month}
-          </p>
-          <h1 className="t-title">{t("greeting")}</h1>
-        </div>
-        <LanguageToggle />
-      </header>
+      <HomeHero left={s.left} spendable={s.left + s.spending} hasIncome={income !== null} />
 
       {(income === null || bills.length === 0) && (
-        <div className="notice">
+        <Link href="/app/setup" className="notice notice--link">
           <Icon name="info" />
-          <div className="stack-sm grow">
-            <p className="t-body">{income === null ? t("nudgeIncome") : t("nudgeBill")}</p>
-            <Link href="/app/setup" className="t-label">
-              {t("finishSetup")}
-            </Link>
-          </div>
-        </div>
+          <span className="stack-sm grow">
+            <span className="t-body">{income === null ? t("nudgeIncome") : t("nudgeBill")}</span>
+            <span className="t-label link-text">{t("finishSetup")}</span>
+          </span>
+          <Icon name="forward" size={20} />
+        </Link>
       )}
 
-      <HomeHero left={s.left} hasIncome={income !== null} />
+      <GoalProgress />
+
+      <QuickActions />
 
       <PaycheckCard />
 

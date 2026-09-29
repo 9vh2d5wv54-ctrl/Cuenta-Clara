@@ -202,9 +202,22 @@
     "ratesUnavailable": "No pudimos traer el tipo de cambio ahora. Lo intentamos más tarde.",
     "ratesUpdated": "Actualizado {date}",
     "credit": "Rates By Exchange Rate API",
-    "empty": "Todavía no agregas a nadie.",
+    "empty": "Tu familia allá, tu mamá, un hijo en la escuela. Agrégalos para planear cada envío.",
     "addTitle": "Agregar a alguien",
-    "remove": "Quitar a {name}"
+    "remove": "Quitar a {name}",
+    "heading": "Envíos",
+    "lead": "Apoya a las personas que más te importan.",
+    "add": "Agregar",
+    "emptyTitle": "Agrega a alguien que apoyas",
+    "recipients": "Tu gente",
+    "options": "Opciones para {name}",
+    "statusDone": "Enviado ✓",
+    "statusLeft": "Faltan {amount}",
+    "sentThisMonth": "Enviado este mes",
+    "of": "de",
+    "logSend": "Anotar un envío a {name}",
+    "addNew": "Agregar a otra persona",
+    "addNewLead": "Planea el apoyo para alguien más"
   },
   "goals": {
     "title": "Tus metas",
@@ -216,7 +229,23 @@
     "addMoneyTitle": "¿Cuánto apartas para {name}?",
     "empty": "Todavía no tienes metas.",
     "addTitle": "Nueva meta",
-    "remove": "Borrar {name}"
+    "remove": "Borrar {name}",
+    "new": "Nueva meta",
+    "active": "Activas",
+    "completed": "Cumplidas",
+    "noneDone": "Todavía no has cumplido una meta. Ya llegarás.",
+    "allDone": "Cumpliste todas tus metas. ¿Una nueva?",
+    "options": "Opciones para {name}",
+    "of": "de",
+    "target": "Para: {date}",
+    "reachedShort": "Cumplida",
+    "thisMonth": "Este mes",
+    "inMonths": "{n, plural, one {En # mes} other {En # meses}}",
+    "cheer_start": "Buen comienzo: ya llevas una cuarta parte.",
+    "cheer_half": "Vas por la mitad. Sigue así.",
+    "cheer_almost": "Ya casi: llevas tres cuartas partes.",
+    "winTitle": "¡Vas muy bien!",
+    "winLead": "{n, plural, one {Ya cumpliste # meta.} other {Ya cumpliste # metas.}}"
   },
   "settings": {
     "title": "Ajustes",
@@ -240,7 +269,9 @@
     "appearance": "Apariencia",
     "theme_midnight": "Midnight",
     "theme_light": "Claro",
-    "theme_auto": "Automático"
+    "theme_auto": "Automático",
+    "name": "Tu nombre",
+    "nameHelp": "Para saludarte en Inicio. Se guarda solo en este teléfono."
   },
   "explain": {
     "whatsLeft": "Lo que te queda es tu ingreso del mes menos tus cuentas fijas, lo que mandas a tu familia, lo que apartas para tus metas y los gastos que anotaste. Es lo que puedes gastar sin salirte del plan.",
@@ -1012,6 +1043,24 @@
     "actions": "Acciones rápidas",
     "log": "Anotar",
     "send": "Enviar",
-    "goals": "Metas"
+    "goals": "Metas",
+    "hello": "Hola, {name}",
+    "helloNoName": "Hola",
+    "onTrack": "Vas bien",
+    "fast": "Estás gastando un poco rápido este mes",
+    "over": "Te pasaste por {amount}",
+    "paydayIn": "{days, plural, =0 {Hoy es día de pago} one {Te pagan mañana} other {Te pagan en # días}}",
+    "perDay": "Unos {amount} al día",
+    "ringLabel": "de tu dinero para gastar",
+    "ringAria": "Todavía te queda el {pct}% de tu dinero para gastar este mes",
+    "progress": "Tu progreso",
+    "seeAll": "Ver todo",
+    "of": "de",
+    "noGoals": "Crea tu primera meta",
+    "noGoalsLead": "¿Ahorrando para algo? Míralo crecer aquí.",
+    "sendSub": "Enviar dinero",
+    "goalsSub": "Tus metas",
+    "logSub": "Anotar un gasto",
+    "claraSub": "Pregúntale a Clara"
   }
 }
