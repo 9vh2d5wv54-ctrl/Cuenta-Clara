@@ -349,7 +349,10 @@
     "rowLogPlus": "Anotar con tu voz o una foto del recibo, y revisar tu talón de pago",
     "rowDebts": "Plan para salir de deudas y bola de nieve vs. avalancha",
     "rowDebtsPlus": "\"¿Y si pago $50 más?\", logros y cuenta regresiva",
-    "claraTitle": "Pregúntale a Clara 30 veces al día"
+    "claraTitle": "Pregúntale a Clara 30 veces al día",
+    "youGet": "Lo que suma Plus",
+    "bestValue": "Mejor precio",
+    "freeStays": "Lo que sigue gratis, siempre"
   },
   "checkup": {
     "title": "Chequeo de dinero",

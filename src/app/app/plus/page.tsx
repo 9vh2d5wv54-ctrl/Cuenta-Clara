@@ -7,7 +7,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useData } from "@/components/DataProvider";
 import { Icon } from "@/components/Icon";
-import { Button, Card } from "@/components/ui";
+import { OrbMark } from "@/components/ClaraCard";
+import { Button } from "@/components/ui";
 import { trackTrialStart } from "@/lib/analytics";
 import { hadTrial, hasPlus, PRICES, type Interval } from "@/lib/plan";
 import { getStore, type CheckoutStart } from "@/lib/store";
@@ -103,41 +104,54 @@ export default function PlusPage() {
     [t("rowSends"), t("rowRates")],
     [t("rowReminders"), t("rowAsk")],
   ];
-  const dark = typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  // The checkout follows the app's look: Midnight is dark, Automático follows the phone.
+  const theme = typeof document !== "undefined" ? document.documentElement.dataset.theme : "midnight";
+  const dark = theme === "midnight" || (theme === "auto" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   return (
     <main className="page">
-      <div className="stack-sm">
+      <header className="plus-hero">
+        <span className="hero-card__sparkles" aria-hidden />
+        <OrbMark size="md" />
         <span className="plus-badge t-caption">{t("badge")}</span>
-        <h1 className="t-title">{t("title")}</h1>
-        <p className="t-body muted">{t("lead")}</p>
-      </div>
+        <h1 className="plus-hero__title">{t("title")}</h1>
+        <p className="plus-hero__lead">{t("lead")}</p>
+      </header>
 
       {step.kind === "choose" && (
         <>
-          <Card>
-            <table className="compare">
-              <thead>
-                <tr>
-                  <th scope="col">{t("colFree")}</th>
-                  <th scope="col">{t("colPlus")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map(([free, plus]) => (
-                  <tr key={free}>
-                    <td>{free}</td>
-                    <td>
-                      <span className="compare__plus">
-                        <Icon name="check" size={16} />
-                        {plus}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Card>
+          <section className="card stack-sm" aria-labelledby="plus-gets">
+            <h2 id="plus-gets" className="t-heading">{t("youGet")}</h2>
+            <ul className="plus-features">
+              {rows.map(([, plus]) => (
+                <li key={plus} className="plus-feature">
+                  <span className="plus-feature__check" aria-hidden>
+                    <Icon name="check" size={16} />
+                  </span>
+                  <span className="t-label">{plus}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <details className="card fold">
+            <summary className="fold__summary">
+              <span className="t-label grow">{t("freeStays")}</span>
+              <span className="fold__chevron" aria-hidden>
+                <Icon name="forward" size={20} />
+              </span>
+            </summary>
+            <ul className="fold__body plus-features plus-features--free">
+              {rows.map(([free]) => (
+                <li key={free} className="plus-feature">
+                  <span className="plus-feature__check" aria-hidden>
+                    <Icon name="check" size={16} />
+                  </span>
+                  <span className="t-body">{free}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
 
           <div className="plus-plans" role="radiogroup" aria-label={t("name")}>
             <button
@@ -159,6 +173,7 @@ export default function PlusPage() {
             >
               <span className="t-label">{t("yearly")}</span>
               <span className="t-heading num">{t("perYear", { price: PRICES.yearly.label })}</span>
+              <span className="plus-plan__tag">{t("bestValue")}</span>
               <span className="t-caption plus-save">
                 {t("yearlySave", { perMonth: PRICES.yearly.perMonth, pct: PRICES.yearly.savingsPct })}
               </span>
@@ -171,7 +186,7 @@ export default function PlusPage() {
             </p>
           )}
           {store.mode === "demo" && <p className="t-caption muted">{t("demoNote")}</p>}
-          <Button block onClick={onStart} disabled={busy}>
+          <Button block onClick={onStart} disabled={busy} className="log-save">
             {store.mode === "demo" ? t("demoTrial") : trial ? t("trialButton") : t("startButton")}
           </Button>
           <p className="t-caption muted">{trial ? t("terms", { price }) : t("termsNoTrial")}</p>

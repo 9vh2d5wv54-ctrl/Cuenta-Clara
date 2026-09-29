@@ -3239,3 +3239,197 @@ button.explore-tile {
   text-align: start;
   cursor: pointer;
 }
+
+/* Money checkup letter */
+.checkup-letter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.checkup-letter p {
+  margin: 0;
+}
+.checkup-lead {
+  font-size: 18px;
+  line-height: 27px;
+  font-weight: 500;
+}
+.checkup-step {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.checkup-step__n {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--clara) 18%, transparent);
+  color: var(--clara);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Pay stub check: photo upload zone, pay lines, verdict */
+.upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-6) var(--space-4);
+  border-radius: 20px;
+  border: 2px dashed color-mix(in srgb, var(--clara) 50%, transparent);
+  background: color-mix(in srgb, var(--clara) 8%, var(--card-bg));
+  color: var(--ink);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+.upload-zone:hover {
+  border-color: var(--clara);
+}
+.upload-zone:disabled {
+  cursor: progress;
+}
+.upload-zone__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-full);
+  background: var(--clara);
+  color: var(--on-clara);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--clara) 45%, transparent);
+}
+.pay-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pay-line {
+  display: flex;
+  gap: var(--space-3);
+  font-size: 15px;
+  line-height: 22px;
+  color: #eef3fb;
+}
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--mango) 16%, transparent);
+  color: var(--mango-ink);
+}
+.verdict--match {
+  background: color-mix(in srgb, var(--positive) 16%, transparent);
+  color: var(--positive);
+}
+.verdict--under {
+  background: var(--alerta-soft);
+  color: var(--alerta);
+}
+
+/* Plus page: hero, feature list, plan cards */
+.plus-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  border-radius: 24px;
+  background: var(--hero-bg);
+  border: 1px solid color-mix(in srgb, var(--clara) 55%, transparent);
+  box-shadow: var(--card-shadow), var(--card-glow);
+  color: #fff;
+  text-align: center;
+  isolation: isolate;
+}
+.plus-hero .plus-badge {
+  align-self: center;
+}
+.plus-hero__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+}
+.plus-hero__lead {
+  margin: 0;
+  max-width: 34ch;
+  color: #cfe0ff;
+  font-size: 16px;
+  line-height: 24px;
+}
+.plus-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.plus-feature {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.plus-feature__check {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--positive) 18%, transparent);
+  color: var(--positive);
+}
+.plus-plan {
+  position: relative;
+  background: var(--card-bg);
+  border-color: var(--card-line, var(--line));
+  border-radius: 16px;
+  color: var(--ink);
+  font: inherit;
+  padding: var(--space-4);
+}
+.plus-plan[aria-checked="true"] {
+  border-color: var(--clara);
+  background: color-mix(in srgb, var(--clara) 12%, var(--card-bg));
+  box-shadow: 0 0 0 1px var(--clara), var(--card-glow);
+}
+.plus-plan__tag {
+  position: absolute;
+  top: -10px;
+  right: var(--space-3);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--positive);
+  color: var(--surface);
+  font-size: 11px;
+  font-weight: 700;
+}
+.plus-features--free {
+  padding-top: var(--space-4);
+}
+.plus-features--free .plus-feature__check {
+  background: color-mix(in srgb, var(--ink-muted) 16%, transparent);
+  color: var(--ink-muted);
+}

@@ -110,21 +110,21 @@ export default function PayCheck() {
         <p className="t-body muted">{t("lead")}</p>
       </div>
 
-      <Card tone="clara">
-        <div className="stack-sm">
-          <Button variant="secondary" block onClick={() => photoInput.current?.click()} disabled={busy}>
-            <Icon name="camera" size={20} />
-            {busy ? t("reading") : t("photo")}
-          </Button>
-          <input ref={photoInput} type="file" accept="image/*" hidden onChange={photo} />
-          <p className="t-caption muted">{t("photoNote")}</p>
-          {message && (
-            <p className="notice t-caption" role="status">
-              {message}
-            </p>
-          )}
-        </div>
-      </Card>
+      <div className="stack-sm">
+        <button type="button" className="upload-zone" onClick={() => photoInput.current?.click()} disabled={busy}>
+          <span className="upload-zone__icon" aria-hidden>
+            {busy ? <span className="typing"><span /><span /><span /></span> : <Icon name="camera" size={28} />}
+          </span>
+          <span className="t-label">{busy ? t("reading") : t("photo")}</span>
+          <span className="t-caption muted">{t("photoNote")}</span>
+        </button>
+        <input ref={photoInput} type="file" accept="image/*" hidden onChange={photo} />
+        {message && (
+          <p className="notice t-caption" role="status">
+            {message}
+          </p>
+        )}
+      </div>
 
       <Card>
         <div className="stack">
@@ -158,32 +158,42 @@ export default function PayCheck() {
       </Card>
 
       {ready && (
-        <Card className="hero">
-          <p className="t-label muted">{t("expectedTitle")}</p>
-          <p className="t-money-xl hero__figure">{formatUSD(expected.total)}</p>
-          <ul className="list" style={{ listStyle: "none", margin: 0, padding: 0, textAlign: "start" }}>
-            <li className="list-row">
-              <span className="t-body grow">
+        <div className="stack">
+          <section className="hero-card" aria-label={t("expectedTitle")}>
+            <span className="hero-card__sparkles" aria-hidden />
+            <div className="hero-card__main">
+              <p className="hero-card__label">
+                <Icon name="wallet" size={18} />
+                {t("expectedTitle")}
+              </p>
+              <p className="hero-card__big">{formatUSD(expected.total)}</p>
+              <div className="hero-card__foot">
+          <ul className="pay-lines">
+            <li className="pay-line">
+              <span className="grow">
                 {t("regularLine", { hours: fmtHours(expected.regularHours), rate: formatUSD(rateCents) })}
               </span>
-              <span className="t-body num">{formatUSD(expected.regular)}</span>
+              <span className="num">{formatUSD(expected.regular)}</span>
             </li>
             {expected.overtimeHours > 0 && (
-              <li className="list-row">
-                <span className="t-body grow">
+              <li className="pay-line">
+                <span className="grow">
                   {t("overtimeLine", {
                     hours: fmtHours(expected.overtimeHours),
                     rate: formatUSD(Math.round(rateCents * OVERTIME_RATE)),
                   })}
                 </span>
-                <span className="t-body num">{formatUSD(expected.overtime)}</span>
+                <span className="num">{formatUSD(expected.overtime)}</span>
               </li>
             )}
           </ul>
+              </div>
+            </div>
+          </section>
 
           {verdict && (
             <p
-              className={verdict.status === "under" ? "notice notice--alerta t-body" : "notice t-body"}
+              className={verdict.status === "under" ? "verdict verdict--under" : verdict.status === "match" ? "verdict verdict--match" : "verdict"}
               role="status"
             >
               {verdict.status === "match" && <Icon name="check" size={20} />}
@@ -209,7 +219,7 @@ export default function PayCheck() {
               {t("logIt", { amount: formatUSD(netCents) })}
             </Button>
           )}
-        </Card>
+        </div>
       )}
     </main>
   );

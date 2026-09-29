@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ClaraCard } from "@/components/ClaraCard";
+import { ClaraOrb, OrbMark } from "@/components/ClaraCard";
+import { Icon } from "@/components/Icon";
 import { useData } from "@/components/DataProvider";
 import { Forecast } from "@/components/Forecast";
 import { PlusPreview } from "@/components/Plus";
@@ -64,7 +65,7 @@ export default function Chequeo() {
           </div>
         ) : (
           <div className="stack" role="status">
-            <span className="spinner" aria-hidden />
+            <OrbMark size="lg" />
             <p className="t-title">{t("loading")}</p>
           </div>
         )}
@@ -87,18 +88,43 @@ export default function Chequeo() {
         <h1 className="t-title">{t("title")}</h1>
       </div>
 
-      <Card className="checkup-card">
-        {/* Live number; the text below is a snapshot from when the checkup was written. */}
-        <p className="t-label muted">{t("leftToday")}</p>
-        <p className={left < 0 ? "t-money-xl hero__figure hero__figure--negative" : "t-money-xl hero__figure"}>
-          {formatUSD(left)}
-        </p>
+      <section className="hero-card" aria-label={t("leftToday")}>
+        <span className="hero-card__sparkles" aria-hidden />
+        <div className="hero-card__main">
+          <p className="hero-card__label">
+            <Icon name="heart" size={18} />
+            {t("leftToday")}
+          </p>
+          {/* Live number; the letter below is a snapshot from when the checkup was written. */}
+          <p className={left < 0 ? "hero-card__big hero-card__big--neg" : "hero-card__big"}>{formatUSD(left)}</p>
+        </div>
+      </section>
+
+      <article className="card checkup-letter">
+        <div className="row">
+          <OrbMark size="xs" />
+          <p className="t-label">Clara</p>
+        </div>
         <div className="checkup-text">
-          {checkup.summary_text.split(/\n{2,}|\n(?=\d\))/).map((para, i) => (
-            <p key={i} className="t-body">
-              {para.trim()}
-            </p>
-          ))}
+          {checkup.summary_text
+            .split(/\n{2,}|\n(?=\d\))/)
+            .map((para) => para.trim())
+            .filter(Boolean)
+            .map((para, i) => {
+              const step = para.match(/^(\d)\)\s*(.*)$/s);
+              return step ? (
+                <p key={i} className="checkup-step t-body">
+                  <span className="checkup-step__n" aria-hidden>
+                    {step[1]}
+                  </span>
+                  <span>{step[2]}</span>
+                </p>
+              ) : (
+                <p key={i} className={i === 0 ? "t-body checkup-lead" : "t-body"}>
+                  {para}
+                </p>
+              );
+            })}
         </div>
         <p className="t-caption muted">
           {t("writtenOn", {
@@ -109,7 +135,7 @@ export default function Chequeo() {
           })}{" "}
           {t("free")}
         </p>
-      </Card>
+      </article>
 
       <Card>
         {plus ? (
@@ -121,7 +147,7 @@ export default function Chequeo() {
         )}
       </Card>
 
-      <ClaraCard />
+      <ClaraOrb />
     </main>
   );
 }

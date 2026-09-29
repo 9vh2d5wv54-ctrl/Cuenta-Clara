@@ -349,7 +349,10 @@
     "rowLogPlus": "Log by voice or receipt photo, and check your pay stub",
     "rowDebts": "Debt payoff plan and snowball vs. avalanche",
     "rowDebtsPlus": "\"What if I pay $50 more?\", milestones and countdown",
-    "claraTitle": "Ask Clara 30 times a day"
+    "claraTitle": "Ask Clara 30 times a day",
+    "youGet": "What Plus adds",
+    "bestValue": "Best value",
+    "freeStays": "What stays free, always"
   },
   "checkup": {
     "title": "Money checkup",
