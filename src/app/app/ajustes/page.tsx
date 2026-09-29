@@ -8,6 +8,7 @@ import { BillForm } from "@/components/forms";
 import { Icon, type IconName } from "@/components/Icon";
 import { setLocaleCookie } from "@/components/LanguageToggle";
 import Link from "next/link";
+import { SwitchRow } from "@/components/VetNav";
 import { paywallHref, PlusCard } from "@/components/Plus";
 import { WhatsAppCard } from "@/components/WhatsApp";
 import { FeedbackButton } from "@/components/Feedback";
@@ -40,6 +41,7 @@ export default function Ajustes() {
   const plus = hasPlus(subscription);
   const [cancelOpen, setCancelOpen] = useState(false);
   const fb = useTranslations("feedback");
+  const bz = useTranslations("business");
   const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
   const [name, setName] = useState("");
   useEffect(() => {
@@ -58,6 +60,14 @@ export default function Ajustes() {
       await mutate((st) => st.updateProfile({ currency: next }));
     } catch {
       setToast(t("currencyFailed"));
+    }
+  }
+
+  async function changeBusiness(on: boolean) {
+    try {
+      await mutate((st) => st.updateProfile({ business_on: on }));
+    } catch {
+      setToast(bz("settingFailed"));
     }
   }
 
@@ -214,6 +224,12 @@ export default function Ajustes() {
             options={APP_CURRENCIES.map((v) => ({ value: v, label: t(`currency_${v}`) }))}
           />
         </div>
+        <SwitchRow label={bz("settingTitle")} help={bz("settingHelp")} checked={Boolean(profile?.business_on)} onChange={changeBusiness} />
+        {profile?.business_on && (
+          <Link href="/app/negocio" className="t-label">
+            {bz("seeAll")}
+          </Link>
+        )}
         <form className="stack" onSubmit={saveIncome} noValidate>
           <Field label={t("income")} error={incomeError}>
             {(p) => <MoneyInput {...p} value={incomeText} onChange={(e) => setIncomeText(e.target.value)} />}

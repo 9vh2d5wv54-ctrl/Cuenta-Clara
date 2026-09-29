@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { BusinessCard } from "@/components/Business";
 import { useData } from "@/components/DataProvider";
 import { Explain } from "@/components/ui";
 import { Icon } from "@/components/Icon";
@@ -28,6 +29,7 @@ export default function Dashboard() {
   const t = useTranslations("dashboard");
   const x = useTranslations("explain");
   const cat = useTranslations("add.categories");
+  const bz = useTranslations("business");
   const locale = useLocale();
   const ch = useTranslations("checkup");
   const { income, bills, recipients, goals, entries, checkup, profile, subscription, taxPct } = useData();
@@ -122,6 +124,8 @@ export default function Dashboard() {
 
       <SafeToSpendCard details />
 
+      <BusinessCard />
+
       <section className="stack-sm">
         <h2 className="t-heading">{t("upcoming")}</h2>
         <div className="card">
@@ -194,6 +198,7 @@ export default function Dashboard() {
                       <p className="t-body">{e.note || cat(e.category)}</p>
                       <p className="t-caption muted">
                         {cat(e.category)} · {formatShortDate(e.date, locale)}
+                        {e.business && <span className="biz-tag">{bz("tag")}</span>}
                       </p>
                     </div>
                     <span className={e.type === "income" ? "t-body num tone-positive" : "t-body num"}>

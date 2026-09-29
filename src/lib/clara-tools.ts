@@ -1,5 +1,6 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { goalMonthlyCents, summarize } from "./budget";
+import { businessTotals, costsByCategory, taxOnProfit } from "./business";
 import { todayISO } from "./dates";
 import { monthFromNow, simulate, type Strategy } from "./debts";
 import { forecast } from "./forecast";
@@ -19,13 +20,15 @@ import { chartMissing, lowest, whatIfChart, type Scenario, type WhatIfChart } fr
 export type ClaraData = {
   profile: Pick<
     Profile,
-    "balance_cents" | "balance_on" | "buffer_cents" | "payday_anchor" | "payday_cycle" | "pay_frequency" | "currency"
+    "balance_cents" | "balance_on" | "buffer_cents" | "payday_anchor" | "payday_cycle" | "pay_frequency" | "currency" | "business_on"
   > | null;
   income: number; // monthly, cents (0 = not set)
   bills: Bill[];
   recipients: Recipient[];
   goals: Goal[];
   recent: Entry[]; // at least from the start of this month
+  /** Business mode: this year's business entries. Missing on older snapshots. */
+  business?: Entry[];
   debts: Debt[];
   subscription: Subscription | null;
   taxPct: number;
@@ -108,6 +111,13 @@ export const CLARA_TOOLS: Anthropic.Beta.BetaTool[] = [
   {
     name: "get_goals",
     description: "Their savings goals: target, saved so far, what's left, target date and the monthly amount the plan sets aside.",
+    input_schema: EMPTY,
+    strict: true,
+  },
+  {
+    name: "get_business",
+    description:
+      "Business mode (side hustle, gig work, self-employed): business income, business costs and profit (what they kept) for this month and this year so far, costs by category, and the tax set-aside on this year's profit if they turned it on. Call this for any question about their business, side hustle, gig earnings, profit, business costs or how much to set aside for taxes on self-employed income.",
     input_schema: EMPTY,
     strict: true,
   },
@@ -382,6 +392,25 @@ export function runClaraTool(name: string, input: Record<string, unknown>, d: Cl
           monthly_in_plan: usd(goalMonthlyCents(g, now)),
           done: g.saved_cents >= g.target_cents,
         })),
+      };
+    }
+    case "get_business": {
+      const entries = d.business ?? d.recent.filter((e) => e.business);
+      if (!d.profile?.business_on && entries.length === 0) {
+        return { available: false, reason: "Business mode is off. They can turn it on in Settings → Your money → Business mode, then mark income and costs as business when they log them." };
+      }
+      const today = todayISO(now);
+      const month = businessTotals(entries, today.slice(0, 7));
+      const year = businessTotals(entries, today.slice(0, 4));
+      if (year.count === 0) return { available: false, reason: "Business mode is on but nothing is marked as business yet. They can log business income or costs in Log and turn on \"For my business\"." };
+      const total = (t: typeof month) => ({ income: usd(t.income), costs: usd(t.costs), profit: usd(t.profit), lost_money: t.profit < 0 });
+      return {
+        this_month: total(month),
+        this_year_so_far: total(year),
+        costs_this_year_by_category: costsByCategory(entries, today.slice(0, 4)).map((c) => ({ category: c.category, amount: usd(c.cents) })),
+        ...(d.taxPct > 0
+          ? { tax_set_aside_percent: d.taxPct, tax_set_aside_on_profit_this_year: usd(taxOnProfit(year.profit, d.taxPct)) }
+          : { tax_set_aside: "off (Plus → Settings → Tax set-aside). Don't give a tax amount; you can say many self-employed people set some aside and point them there." }),
       };
     }
     case "suggest_lesson": {

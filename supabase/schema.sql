@@ -12,6 +12,7 @@ create table public.users (
   timezone text not null default 'America/New_York',
   rate_alert_on boolean not null default false,
   currency text not null default 'USD' check (currency in ('USD', 'CAD', 'GBP', 'DOP')), -- the person's own currency (migrations 008, 009)
+  business_on boolean not null default false, -- Business mode (migration 010)
   rate_alert_baseline numeric,
   pay_frequency text check (pay_frequency in ('weekly', 'biweekly')), -- paycheck mode (Plus); null = plan by month
   tax_set_aside_pct smallint check (tax_set_aside_pct between 1 and 50), -- tax set-aside (Plus); null = off
@@ -68,9 +69,11 @@ create table public.entries (
   category text not null,
   recipient_id uuid references public.recipients (id) on delete set null,
   date date not null,
-  note text
+  note text,
+  business boolean not null default false -- Business mode (migration 010)
 );
 create index entries_user_date on public.entries (user_id, date);
+create index entries_user_business on public.entries (user_id, date) where business;
 
 create table public.goals (
   id uuid primary key default gen_random_uuid(),
@@ -150,7 +153,7 @@ create policy "own profile" on public.users
 -- People edit their settings; rate_alert_baseline and email are server-managed.
 revoke update on public.users from authenticated, anon;
 grant update (language, home_country, home_currency, email_bills_on, email_weekly_on, timezone, rate_alert_on, pay_frequency, tax_set_aside_pct,
-  balance_cents, balance_on, buffer_cents, payday_anchor, payday_cycle, currency)
+  balance_cents, balance_on, buffer_cents, payday_anchor, payday_cycle, currency, business_on)
   on public.users to authenticated;
 create policy "own budgets" on public.budgets
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());

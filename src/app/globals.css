@@ -3880,3 +3880,127 @@ button.explore-tile {
   padding: 0 var(--space-3);
   font-size: 14px;
 }
+
+/* Business mode: Home card, Business page and the Log switch */
+.biz-card__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+.biz-card__title .row-icon {
+  width: 28px;
+  height: 28px;
+}
+.biz-card__link {
+  color: var(--clara);
+  text-decoration: none;
+}
+.biz-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+/* "You kept" gets its own row so big amounts never get cut off */
+.biz-stat--kept {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.biz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card-line) 40%, transparent);
+  min-width: 0;
+}
+.biz-stat--kept {
+  background: color-mix(in srgb, var(--positive) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--positive) 35%, transparent);
+}
+.biz-stat__num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+.biz-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.biz-actions .btn {
+  gap: 6px;
+  padding-inline: var(--space-2);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.biz-hero {
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.biz-hero .t-label,
+.biz-hero .t-caption {
+  color: color-mix(in srgb, #fff 75%, transparent);
+  margin: 0;
+}
+.biz-hero__big {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 46px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: #fff;
+}
+.biz-hero .biz-stats {
+  margin-top: var(--space-3);
+}
+.biz-hero .biz-stat {
+  background: rgba(255, 255, 255, 0.07);
+}
+.biz-hero .biz-stat .muted {
+  color: rgba(255, 255, 255, 0.7);
+}
+.biz-hero .biz-stat__num {
+  color: #fff;
+}
+.biz-hero .biz-stat__num.tone-positive {
+  color: var(--positive);
+}
+.biz-switch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+.biz-switch .switch-row {
+  flex: 1;
+}
+.biz-switch--on {
+  border-color: color-mix(in srgb, var(--positive) 55%, transparent);
+  box-shadow: var(--card-shadow), 0 0 24px color-mix(in srgb, var(--positive) 20%, transparent);
+}
+.biz-tag {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--positive);
+  background: color-mix(in srgb, var(--positive) 14%, transparent);
+  vertical-align: 1px;
+}
+.biz-ask {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: inherit;
+}

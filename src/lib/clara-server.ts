@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { ClaraData } from "./clara-tools";
 import { todayISO } from "./dates";
+import { businessEntries, loadSince } from "./business";
 import { taxPct } from "./plan";
 import type { Bill, Debt, Entry, Goal, Profile, Recipient, Subscription } from "./types";
 
@@ -19,6 +20,7 @@ export function userNow(timezone: string | null | undefined, at = new Date()): D
 /** With the person's session (RLS scopes it), or the admin client plus userId (cron). */
 export async function loadClaraData(db: SupabaseClient, now: Date, userId?: string): Promise<{ data: ClaraData; profile: Profile | null }> {
   const since = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 130);
+  // One query for the recent window and the whole year (Business mode).
   const month = todayISO(now).slice(0, 7);
   const users = db.from("users").select("*");
   const budgets = db.from("budgets").select("income_cents");
@@ -37,7 +39,7 @@ export async function loadClaraData(db: SupabaseClient, now: Date, userId?: stri
     budgets.lte("month", month).order("month", { ascending: false }).limit(1).maybeSingle(),
     billsQ,
     recipientsQ,
-    entriesQ.gte("date", todayISO(since)),
+    entriesQ.gte("date", todayISO(loadSince(now, 130))),
     goalsQ,
     debtsQ,
     subs.maybeSingle(),
@@ -51,7 +53,8 @@ export async function loadClaraData(db: SupabaseClient, now: Date, userId?: stri
       income: (budget.data as { income_cents?: number } | null)?.income_cents ?? 0,
       bills: (bills.data ?? []) as Bill[],
       recipients: (recipients.data ?? []) as Recipient[],
-      recent: (recent.data ?? []) as Entry[],
+      recent: ((recent.data ?? []) as Entry[]).filter((e) => e.date >= todayISO(since)),
+      business: businessEntries((recent.data ?? []) as Entry[], todayISO(now)),
       goals: (goals.data ?? []) as Goal[],
       // Before migration 006 the debts table may not exist; Clara just sees none.
       debts: ((debts.data ?? []) as Debt[]).map((d) => ({ ...d, apr: Number(d.apr) })),

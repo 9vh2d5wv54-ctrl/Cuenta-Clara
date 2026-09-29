@@ -83,6 +83,7 @@ Clara and Academy:
 - [x] Run `supabase/migrations/007_clara.sql` in Supabase (saved Clara conversations)
 - [x] Run `supabase/migrations/008_currency.sql` in Supabase (US, Canadian and UK currency)
 - [ ] Run `supabase/migrations/009_currency_dop.sql` in Supabase (Dominican peso). Until then, picking RD$ in Settings shows "couldn't save" and accounts stay in their current currency
+- [ ] Run `supabase/migrations/010_business.sql` in Supabase (Business mode). Until then, the Business mode switch shows "couldn't turn on"; logging keeps working
 - [x] What-if 30/60/90-day chart (Plus)
 - [x] Payday plan email the day before payday (preview: /api/email/test?kind=payday)
 - [x] App checkup (Sep 28, 2026): every page, es/en, new/free/Plus, light/dark; new-user flow; no broken links

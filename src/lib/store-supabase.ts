@@ -142,7 +142,9 @@ export class SupabaseStore implements Store {
     ) as Entry[];
   }
   async addEntry(e: NewEntry) {
-    must(await this.db.from("entries").insert({ ...e, user_id: await this.uid() }));
+    // "business" is only sent when true, so logging keeps working before migration 010.
+    const { business, ...rest } = e;
+    must(await this.db.from("entries").insert({ ...rest, ...(business ? { business: true } : {}), user_id: await this.uid() }));
   }
   async deleteEntry(id: string) {
     must(await this.db.from("entries").delete().eq("id", id));

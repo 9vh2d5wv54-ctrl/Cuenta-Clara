@@ -36,7 +36,7 @@ function ClaraChat() {
   const pl = useTranslations("plus");
   const locale = useLocale() as "es" | "en";
   const params = useSearchParams();
-  const { store, profile, income, bills, recipients, goals, recent, debts, subscription, taxPct } = useData();
+  const { store, profile, income, bills, recipients, goals, recent, business, debts, subscription, taxPct } = useData();
   const [conversationId, setConversationId] = useState(newId);
   const [turns, setTurns] = useState<Turn[]>([]);
   const [text, setText] = useState("");
@@ -67,7 +67,7 @@ function ClaraChat() {
       setText("");
       const history = turns.filter((x) => !x.pending && !x.failed && !x.crisis).map(({ question, answer }) => ({ question, answer }));
       setTurns((prev) => [...prev, { question: q, answer: "", pending: true }]);
-      const snapshot: ClaraData = { profile, income: income ?? 0, bills, recipients, goals, recent, debts, subscription, taxPct };
+      const snapshot: ClaraData = { profile, income: income ?? 0, bills, recipients, goals, recent, business, debts, subscription, taxPct };
       const result = await store.claraAsk({ question: q, conversationId, history, lang: locale }, snapshot);
       setBusy(false);
       if (result.kind === "answer") {

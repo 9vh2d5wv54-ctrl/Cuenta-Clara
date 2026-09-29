@@ -12,7 +12,9 @@ import { hasPlus } from "@/lib/plan";
 import { QuickLog } from "@/components/QuickLog";
 import { PlusCard } from "@/components/Plus";
 import type { ParsedEntry } from "@/lib/quick-log";
-import { centsToInput, formatUSD, parseCents } from "@/lib/money";
+import { centsToInput, currencySymbol, formatUSD, parseCents } from "@/lib/money";
+import { BUSINESS_CATEGORIES, canBeBusiness } from "@/lib/business";
+import { SwitchRow } from "@/components/VetNav";
 import type { EntryType, NewEntry } from "@/lib/types";
 
 const CAT_ICONS: Record<(typeof EXPENSE_CATEGORIES)[number], IconName> = {
@@ -26,15 +28,28 @@ const CAT_ICONS: Record<(typeof EXPENSE_CATEGORIES)[number], IconName> = {
   other: "more",
 };
 
+const BIZ_ICONS: Record<(typeof BUSINESS_CATEGORIES)[number], IconName> = {
+  supplies: "box",
+  equipment: "tool",
+  transport: "car",
+  phone: "phone",
+  marketing: "trending",
+  fees: "percent",
+  other: "more",
+};
+
 export default function AddEntry() {
   const t = useTranslations("add");
   const c = useTranslations("common");
   const cat = useTranslations("add.categories");
   const q = useTranslations("quicklog");
+  const bz = useTranslations("business");
   const { recipients, bills, goals, profile, subscription, mutate } = useData();
   const router = useRouter();
   // Paycheck mode (Plus) adds "I got paid".
   const payMode = hasPlus(subscription) && Boolean(profile?.pay_frequency);
+  // Business mode adds income (business pay) and the "For my business" switch.
+  const businessOn = Boolean(profile?.business_on);
 
   const [type, setType] = useState<EntryType>("expense");
   const [amount, setAmount] = useState("");
@@ -47,6 +62,7 @@ export default function AddEntry() {
   const [amountError, setAmountError] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [business, setBusiness] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const clearToast = useCallback(() => setToast(null), []);
 
@@ -56,7 +72,15 @@ export default function AddEntry() {
   useEffect(() => {
     if (applied.current) return;
     applied.current = true;
-    if (params.get("type") === "income" && payMode) {
+    // Business page links here with ?business=1&type=income|expense.
+    if (params.get("business") === "1" && businessOn) {
+      const tp = params.get("type") === "income" ? "income" : "expense";
+      setType(tp);
+      setBusiness(true);
+      if (tp === "expense") setCategory("supplies");
+      return;
+    }
+    if (params.get("type") === "income" && (payMode || businessOn)) {
       setType("income");
       return;
     }
@@ -81,6 +105,7 @@ export default function AddEntry() {
     setDate(e.date);
     setNote(e.note ?? "");
     if (e.type === "expense") setCategory(e.category);
+    setBusiness(false);
     if (e.type === "send" && e.match_id) setRecipientId(e.match_id);
     if (e.type === "bill_paid" && e.match_id) setBillId(e.match_id);
     if (e.type === "savings" && e.match_id) setGoalId(e.match_id);
@@ -110,6 +135,13 @@ export default function AddEntry() {
       setNote(b.name);
     }
   }
+  function toggleBusiness(on: boolean) {
+    setBusiness(on);
+    // Business costs have their own categories (supplies, equipment…).
+    if (on && !(BUSINESS_CATEGORIES as readonly string[]).includes(category)) setCategory("supplies");
+    if (!on && !(EXPENSE_CATEGORIES as readonly string[]).includes(category)) setCategory("food");
+  }
+
   function changeType(next: EntryType) {
     setType(next);
     setFormError(null);
@@ -130,7 +162,7 @@ export default function AddEntry() {
         if (goal) await s.addToGoal(goal, entry.amount_cents);
       });
       // A new paycheck changes the number on Home, so show it right away.
-      if (entry.type === "income") {
+      if (entry.type === "income" && !entry.business) {
         router.push("/app");
         return;
       }
@@ -152,7 +184,8 @@ export default function AddEntry() {
       return;
     }
     setAmountError(null);
-    const base = { amount_cents: cents, date, note: note.trim() || null, recipient_id: null };
+    const biz = businessOn && business && canBeBusiness(type) ? { business: true } : {};
+    const base = { amount_cents: cents, date, note: note.trim() || null, recipient_id: null, ...biz };
     if (type === "expense") save({ ...base, type, category });
     if (type === "send") {
       const r = recipients.find((x) => x.id === recipientId);
@@ -177,7 +210,7 @@ export default function AddEntry() {
     { value: "send", label: t("typeSend"), icon: "send", tone: "mango" },
     { value: "bill_paid", label: t("typeBill"), icon: "calendar", tone: "clara" },
     { value: "savings", label: t("typeSavings"), icon: "target", tone: "positive" },
-    ...(payMode ? [{ value: "income" as const, label: t("typeIncome"), icon: "wallet" as const, tone: "positive" }] : []),
+    ...(payMode || businessOn ? [{ value: "income" as const, label: t("typeIncome"), icon: "wallet" as const, tone: "positive" }] : []),
   ];
 
   return (
@@ -222,7 +255,7 @@ export default function AddEntry() {
             </label>
             <div className="amount-hero__row">
               <span className="amount-hero__dollar" aria-hidden>
-                $
+                {currencySymbol()}
               </span>
               <input
                 id="log-amount"
@@ -244,11 +277,20 @@ export default function AddEntry() {
             )}
           </div>
 
+          {businessOn && canBeBusiness(type) && (
+            <div className={business ? "card biz-switch biz-switch--on" : "card biz-switch"}>
+              <span className="row-icon row-icon--positive" aria-hidden>
+                <Icon name="briefcase" size={18} />
+              </span>
+              <SwitchRow label={bz("forBusiness")} help={bz("forBusinessHelp")} checked={business} onChange={toggleBusiness} />
+            </div>
+          )}
+
           {type === "expense" && (
             <fieldset className="pick">
               <legend className="field__label">{t("category")}</legend>
               <div className="cat-grid">
-                {EXPENSE_CATEGORIES.map((k) => (
+                {(business && businessOn ? BUSINESS_CATEGORIES : EXPENSE_CATEGORIES).map((k) => (
                   <button
                     key={k}
                     type="button"
@@ -257,7 +299,7 @@ export default function AddEntry() {
                     onClick={() => setCategory(k)}
                   >
                     <span className="cat-btn__icon" aria-hidden>
-                      <Icon name={CAT_ICONS[k]} size={22} />
+                      <Icon name={business && businessOn ? BIZ_ICONS[k as keyof typeof BIZ_ICONS] : CAT_ICONS[k as keyof typeof CAT_ICONS]} size={22} />
                     </span>
                     {cat(k)}
                   </button>

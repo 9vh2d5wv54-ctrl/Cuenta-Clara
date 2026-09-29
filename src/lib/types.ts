@@ -27,6 +27,8 @@ export type Profile = {
   payday_cycle?: "weekly" | "biweekly" | "semimonthly" | "monthly" | null;
   /** The person's own currency: US dollar, Canadian dollar or British pound. Null/missing = USD. */
   currency?: "USD" | "CAD" | "GBP" | "DOP" | null;
+  /** Business mode: mark income and spending as business (side hustle, gig, self-employed). */
+  business_on?: boolean;
   created_at: string;
 };
 
@@ -86,6 +88,8 @@ export type Entry = {
   recipient_id: string | null;
   date: string; // YYYY-MM-DD
   note: string | null;
+  /** Business mode: this income or cost is for their business. Missing = personal. */
+  business?: boolean;
 };
 
 export type Goal = {
