@@ -66,12 +66,28 @@ describe("currencyFromCountry", () => {
     expect(currencyFromCountry("gb")).toBe("GBP");
     expect(currencyFromCountry("CA")).toBe("CAD");
     expect(currencyFromCountry("US")).toBe("USD");
-    expect(currencyFromCountry("DO")).toBe("USD");
+    expect(currencyFromCountry("MX")).toBe("USD");
     expect(currencyFromCountry(null)).toBe("USD");
   });
   it("prices and dollar amounts for a given currency", () => {
     expect(localizeDollars("Can I afford $150?", "GBP")).toBe("Can I afford £150?");
     expect(usdPrice("$4.99", "CAD")).toBe("US$4.99");
     expect(usdPrice("$4.99", "USD")).toBe("$4.99");
+  });
+});
+
+describe("Dominican peso", () => {
+  it("formats, parses and guesses RD$", () => {
+    expect(formatUSD(125000, "DOP")).toBe("RD$1,250.00");
+    expect(parseCents("RD$1,250")).toBe(125000);
+    expect(currencyFromCountry("DO")).toBe("DOP");
+    expect(currencyFromLocale("es-DO")).toBe("DOP");
+  });
+  it("scales example amounts so they read like pesos", () => {
+    expect(localizeDollars("Can I afford $150 this week?", "DOP")).toBe("Can I afford RD$9,000 this week?");
+    expect(localizeDollars("You'd still have $262.50", "DOP")).toBe("You'd still have RD$15,750");
+    expect(localizeDollars("$1,250 saved", "DOP")).toBe("RD$75,000 saved");
+    expect(localizeDollars("$150", "USD")).toBe("$150");
+    expect(usdPrice("$4.99", "DOP")).toBe("US$4.99");
   });
 });

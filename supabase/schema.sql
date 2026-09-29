@@ -11,7 +11,7 @@ create table public.users (
   email_weekly_on boolean not null default true,
   timezone text not null default 'America/New_York',
   rate_alert_on boolean not null default false,
-  currency text not null default 'USD' check (currency in ('USD', 'CAD', 'GBP')), -- the person's own currency (migration 008)
+  currency text not null default 'USD' check (currency in ('USD', 'CAD', 'GBP', 'DOP')), -- the person's own currency (migrations 008, 009)
   rate_alert_baseline numeric,
   pay_frequency text check (pay_frequency in ('weekly', 'biweekly')), -- paycheck mode (Plus); null = plan by month
   tax_set_aside_pct smallint check (tax_set_aside_pct between 1 and 50), -- tax set-aside (Plus); null = off

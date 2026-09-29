@@ -7,7 +7,7 @@ import { StickyCta } from "@/components/landing/StickyCta";
 import { AuthHashForward } from "@/components/AuthHashForward";
 import { headers } from "next/headers";
 import { COUNTRY_HEADER } from "@/lib/country";
-import { currencyFromCountry, formatUSD, localizeDollars, usdPrice, type AppCurrency } from "@/lib/money";
+import { currencyFromCountry, formatUSD, localizeDollars, sampleCents, usdPrice, type AppCurrency } from "@/lib/money";
 import { PRICES } from "@/lib/plan";
 import { OrbMark } from "@/components/ClaraCard";
 
@@ -19,7 +19,7 @@ import { OrbMark } from "@/components/ClaraCard";
 const SAMPLE_LEFT = 41250;
 
 // Sample exchange rates for the family-sends preview (not live).
-const MOCK_DOP: Record<AppCurrency, number> = { USD: 63.42, CAD: 46.3, GBP: 80.54 };
+const MOCK_DOP: Record<AppCurrency, number> = { USD: 63.42, CAD: 46.3, GBP: 80.54, DOP: 1 };
 
 const APP_JSON_LD = {
   "@context": "https://schema.org",
@@ -29,7 +29,7 @@ const APP_JSON_LD = {
   applicationCategory: "FinanceApplication",
   applicationSubCategory: "AI money coach, business finance for side hustles and self-employed pay, productivity",
   operatingSystem: "Web, iOS, Android",
-  areaServed: ["US", "CA", "GB"],
+  areaServed: ["US", "CA", "GB", "DO"],
   inLanguage: ["en", "es"],
   description:
     "Cuenta Clara is an AI money coach. Clara reads your real numbers to show what's safe to spend, plan irregular and self-employed pay, set money aside for taxes, and reach your goals.",
@@ -53,7 +53,7 @@ export default async function Landing() {
     { icon: "check", text: t("trustFree") },
     { icon: "home", text: t("trustNotBank") },
     { icon: "eye", text: t("trustPassword") },
-    { icon: "globe", text: cur === "GBP" ? t("trustUK") : cur === "CAD" ? t("trustCA") : t("trustBuiltFor") },
+    { icon: "globe", text: cur === "GBP" ? t("trustUK") : cur === "CAD" ? t("trustCA") : cur === "DOP" ? t("trustDO") : t("trustBuiltFor") },
   ];
 
   const vetTools: { icon: IconName; title: string; text: string }[] = [
@@ -116,7 +116,7 @@ export default async function Landing() {
               send: t("artGoal"),
               sent: t("artGoalPct"),
             }}
-            amount={formatUSD(SAMPLE_LEFT, cur)}
+            amount={formatUSD(sampleCents(SAMPLE_LEFT, cur), cur)}
           />
 
           <div className="lp-hero__cta">
@@ -200,7 +200,7 @@ export default async function Landing() {
             </CtaLink>
           </div>
           <PhoneMock
-            left={formatUSD(SAMPLE_LEFT, cur)}
+            left={formatUSD(sampleCents(SAMPLE_LEFT, cur), cur)}
             labels={{
               hello: t("mockHello"),
               month: monthName.charAt(0).toUpperCase() + monthName.slice(1),
@@ -315,9 +315,12 @@ export default async function Landing() {
               <p className="t-label">{t("sendsMock")}</p>
               <div className="row row--between">
                 <span className="t-heading num">{$(t("sendsMockPlan"))}</span>
-                <span className="t-label num lp-sends__receives">{t("sendsMockReceives", { amount: `RD$ ${Math.round(200 * MOCK_DOP[cur]).toLocaleString("en-US")}` })}</span>
+                {cur !== "DOP" && (
+                  <span className="t-label num lp-sends__receives">{t("sendsMockReceives", { amount: `RD$ ${Math.round(200 * MOCK_DOP[cur]).toLocaleString("en-US")}` })}</span>
+                )}
               </div>
-              <p className="t-caption muted">1 {cur} = RD$ {MOCK_DOP[cur].toFixed(2)}</p>
+              {/* In the Dominican Republic the family preview is already in pesos: no rate to show. */}
+              {cur !== "DOP" && <p className="t-caption muted">1 {cur} = RD$ {MOCK_DOP[cur].toFixed(2)}</p>}
               <div className="stack-sm">
                 <div className="row row--between">
                   <span className="t-caption muted">{t("sendsMockProgress")}</span>

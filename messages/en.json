@@ -57,7 +57,7 @@
     "faqFreeQ": "Is it really free?",
     "faqFreeA": "Yes. The basics are free forever, no card required. If you want to see further ahead, Plus is {price} a month, with 7 days free to try it.",
     "faqWhereQ": "Does it work outside the U.S.?",
-    "faqWhereA": "Yes. Cuenta Clara works in the U.S., Canada and the UK, and shows your money in U.S. dollars, Canadian dollars or pounds. Plus is billed in U.S. dollars. The veteran tools and tax reminders follow U.S. rules.",
+    "faqWhereA": "Yes. Cuenta Clara works in the U.S., Canada, the UK and the Dominican Republic, and shows your money in U.S. dollars, Canadian dollars, pounds or Dominican pesos. Plus is billed in U.S. dollars. The veteran tools and tax reminders follow U.S. rules.",
     "faqBankQ": "Is it a bank?",
     "faqBankA": "No. It works with the bank you already have.",
     "faqForMeQ": "Is it for me?",
@@ -101,6 +101,7 @@
     "trustBuiltFor": "Works in English and Spanish",
     "trustUK": "Works in the UK, in pounds (£)",
     "trustCA": "Works in Canada, in Canadian dollars",
+    "trustDO": "Works in the Dominican Republic, in pesos (RD$)",
     "artGoal": "Emergency fund",
     "artGoalPct": "62%",
     "claraEyebrow": "Clara · AI money coach",
@@ -329,7 +330,8 @@
     "currency_USD": "$ US dollar",
     "currency_CAD": "$ Canadian dollar",
     "currency_GBP": "£ British pound",
-    "currencyFailed": "We couldn't save your currency. Try again in a moment."
+    "currencyFailed": "We couldn't save your currency. Try again in a moment.",
+    "currency_DOP": "RD$ Dominican peso"
   },
   "explain": {
     "whatsLeft": "What's left is this month's income minus your fixed bills, what you send to family, what you set aside for goals, and the expenses you've logged. It's what you can spend and still stay on plan.",
@@ -1224,6 +1226,7 @@
     "currency": "Your money is in",
     "currency_USD": "$ US",
     "currency_CAD": "$ Canada",
-    "currency_GBP": "£ UK"
+    "currency_GBP": "£ UK",
+    "currency_DOP": "RD$ Dom. Rep."
   }
 }

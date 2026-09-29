@@ -26,7 +26,7 @@ export type Profile = {
   payday_anchor?: string | null;
   payday_cycle?: "weekly" | "biweekly" | "semimonthly" | "monthly" | null;
   /** The person's own currency: US dollar, Canadian dollar or British pound. Null/missing = USD. */
-  currency?: "USD" | "CAD" | "GBP" | null;
+  currency?: "USD" | "CAD" | "GBP" | "DOP" | null;
   created_at: string;
 };
 

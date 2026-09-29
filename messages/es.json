@@ -57,7 +57,7 @@
     "faqFreeQ": "¿De verdad es gratis?",
     "faqFreeA": "Sí. Lo básico es gratis para siempre y sin tarjeta. Si quieres ver más adelante, Plus cuesta {price} al mes, con 7 días gratis para probarlo.",
     "faqWhereQ": "¿Funciona fuera de EE. UU.?",
-    "faqWhereA": "Sí. Cuenta Clara funciona en EE. UU., Canadá y el Reino Unido, y muestra tu dinero en dólares estadounidenses, dólares canadienses o libras. Plus se cobra en dólares estadounidenses. Las herramientas para veteranos y los recordatorios de impuestos siguen las reglas de EE. UU.",
+    "faqWhereA": "Sí. Cuenta Clara funciona en EE. UU., Canadá, el Reino Unido y República Dominicana, y muestra tu dinero en dólares estadounidenses, dólares canadienses, libras o pesos dominicanos. Plus se cobra en dólares estadounidenses. Las herramientas para veteranos y los recordatorios de impuestos siguen las reglas de EE. UU.",
     "faqBankQ": "¿Es un banco?",
     "faqBankA": "No. Funciona con el banco que ya usas.",
     "faqForMeQ": "¿Es para mí?",
@@ -101,6 +101,7 @@
     "trustBuiltFor": "En español e inglés",
     "trustUK": "Funciona en el Reino Unido, en libras (£)",
     "trustCA": "Funciona en Canadá, en dólares canadienses",
+    "trustDO": "Funciona en República Dominicana, en pesos (RD$)",
     "artGoal": "Fondo de emergencia",
     "artGoalPct": "62%",
     "claraEyebrow": "Clara · coach de dinero con IA",
@@ -329,7 +330,8 @@
     "currency_USD": "$ Dólar de EE. UU.",
     "currency_CAD": "$ Dólar canadiense",
     "currency_GBP": "£ Libra esterlina",
-    "currencyFailed": "No pudimos guardar tu moneda. Intenta otra vez en un momento."
+    "currencyFailed": "No pudimos guardar tu moneda. Intenta otra vez en un momento.",
+    "currency_DOP": "RD$ Peso dominicano"
   },
   "explain": {
     "whatsLeft": "Lo que te queda es tu ingreso del mes menos tus cuentas fijas, lo que mandas a tu familia, lo que apartas para tus metas y los gastos que anotaste. Es lo que puedes gastar sin salirte del plan.",
@@ -1224,6 +1226,7 @@
     "currency": "Tu dinero está en",
     "currency_USD": "$ EE. UU.",
     "currency_CAD": "$ Canadá",
-    "currency_GBP": "£ Reino Unido"
+    "currency_GBP": "£ Reino Unido",
+    "currency_DOP": "RD$ Rep. Dom."
   }
 }

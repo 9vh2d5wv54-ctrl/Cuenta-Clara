@@ -8,9 +8,12 @@ import { symbolFor } from "./currencies";
 // request with inCurrency() (lib/currency-scope.ts). formatUSD keeps its old name
 // but formats in that currency.
 
-export type AppCurrency = "USD" | "CAD" | "GBP";
-export const APP_CURRENCIES: AppCurrency[] = ["USD", "CAD", "GBP"];
-const SYMBOL: Record<AppCurrency, string> = { USD: "$", CAD: "$", GBP: "£" };
+export type AppCurrency = "USD" | "CAD" | "GBP" | "DOP";
+export const APP_CURRENCIES: AppCurrency[] = ["USD", "CAD", "GBP", "DOP"];
+const SYMBOL: Record<AppCurrency, string> = { USD: "$", CAD: "$", GBP: "£", DOP: "RD$" };
+// Example amounts ("Can I afford $150?") are written in dollars; in pesos they're
+// scaled so they still read like real life (RD$9,000, not RD$150).
+const SAMPLE_SCALE: Record<AppCurrency, number> = { USD: 1, CAD: 1, GBP: 1, DOP: 60 };
 
 export function isAppCurrency(value: unknown): value is AppCurrency {
   return typeof value === "string" && (APP_CURRENCIES as string[]).includes(value);
@@ -38,14 +41,16 @@ export function currencyFromCountry(country: string | null | undefined): AppCurr
   const code = (country ?? "").toUpperCase();
   if (code === "GB" || code === "UK" || code === "GG" || code === "JE" || code === "IM") return "GBP";
   if (code === "CA") return "CAD";
+  if (code === "DO") return "DOP";
   return "USD";
 }
 
-/** A best guess from the browser's language, for new accounts: en-GB → GBP, en-CA/fr-CA → CAD. */
+/** A best guess from the browser's language, for new accounts: en-GB → GBP, en-CA/fr-CA → CAD, es-DO → DOP. */
 export function currencyFromLocale(locale: string | undefined): AppCurrency {
   const region = (locale ?? "").split("-")[1]?.toUpperCase();
   if (region === "GB" || region === "UK") return "GBP";
   if (region === "CA") return "CAD";
+  if (region === "DO") return "DOP";
   return "USD";
 }
 
@@ -65,7 +70,7 @@ export function formatHome(amount: number, currency: string): string {
 export function parseCents(input: string): number | null {
   const cleaned = input
     .trim()
-    .replace(/^(US|CA|C)(?=\$)/i, "")
+    .replace(/^(US|CA|C|RD)(?=\$)/i, "")
     .replace(/[$£,\s]/g, "");
   if (!/^\d+(\.\d{0,2})?$/.test(cleaned)) return null;
   const [dollars, fraction = ""] = cleaned.split(".");
@@ -80,7 +85,17 @@ export function centsToInput(cents: number): string {
 /** Example text written with "$" ("Can I afford $600?") shown in the person's currency symbol. */
 export function localizeDollars(text: string, currency: AppCurrency = appCurrency()): string {
   const symbol = currencySymbol(currency);
-  return symbol === "$" ? text : text.replace(/\$(?=\d)/g, symbol);
+  const scale = SAMPLE_SCALE[currency];
+  if (symbol === "$" && scale === 1) return text;
+  return text.replace(/\$(\d[\d,]*(?:\.\d+)?)/g, (_, n: string) => {
+    if (scale === 1) return symbol + n;
+    return symbol + whole.format(Math.round(Number(n.replace(/,/g, "")) * scale));
+  });
+}
+
+/** A sample amount (in dollar cents) for the website, in the visitor's currency. */
+export function sampleCents(cents: number, currency: AppCurrency): number {
+  return cents * SAMPLE_SCALE[currency];
 }
 
 /** Plus is billed in US dollars everywhere, so outside the U.S. the price says so: US$4.99. */
