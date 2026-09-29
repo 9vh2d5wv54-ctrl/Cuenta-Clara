@@ -560,7 +560,20 @@
     "deleteConfirm": "¿Borrar {name}?",
     "notAdvice": "Información general, no asesoría financiera. Las tasas y los mínimos cambian; actualízalos con tus estados de cuenta.",
     "goalsLink": "Plan para salir de deudas",
-    "owe": "Debes"
+    "owe": "Debes",
+    "addShort": "Agregar",
+    "leastInterest": "Menos interés",
+    "avalancheShort": "Avalancha",
+    "snowballShort": "Bola de nieve",
+    "savesShort": "Ahorras {amount}",
+    "neverShort": "Con solo los mínimos no terminas",
+    "ringLabel": "pagado",
+    "ringAria": "Ya pagaste el {pct}% de tus deudas",
+    "emptyTitle": "Agrega tu primera deuda",
+    "emptyLead": "Una tarjeta, una tarjeta de tienda o un préstamo. Mira cuándo te liberas.",
+    "options": "Opciones para {name}",
+    "paidOfStart": "{paid} pagado de {start}",
+    "rollTitle": "Pasando pagos a la siguiente"
   },
   "veterans": {
     "title": "Calculadora de discapacidad del VA",

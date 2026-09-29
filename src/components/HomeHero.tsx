@@ -111,7 +111,7 @@ export function HomeHero({ left, spendable, hasIncome }: { left: number; spendab
   );
 }
 
-function Ring({ value, label, aria }: { value: number; label: string; aria: string }) {
+export function Ring({ value, label, aria }: { value: number; label: string; aria: string }) {
   const r = 42;
   const c = 2 * Math.PI * r;
   return (

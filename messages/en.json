@@ -560,7 +560,20 @@
     "deleteConfirm": "Delete {name}?",
     "notAdvice": "General information, not financial advice. Rates and minimums change; update them from your statements.",
     "goalsLink": "Debt payoff plan",
-    "owe": "You owe"
+    "owe": "You owe",
+    "addShort": "Add",
+    "leastInterest": "Least interest",
+    "avalancheShort": "Avalanche",
+    "snowballShort": "Snowball",
+    "savesShort": "Saves {amount}",
+    "neverShort": "Minimums alone won't finish it",
+    "ringLabel": "paid off",
+    "ringAria": "{pct}% of your debt is paid off",
+    "emptyTitle": "Add your first debt",
+    "emptyLead": "A card, a store card or a loan. See when you'll be free of it.",
+    "options": "Options for {name}",
+    "paidOfStart": "{paid} paid of {start}",
+    "rollTitle": "Rolling payments over"
   },
   "veterans": {
     "title": "VA disability estimate",
