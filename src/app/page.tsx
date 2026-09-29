@@ -32,7 +32,7 @@ const APP_JSON_LD = {
   areaServed: ["US", "CA", "GB", "DO"],
   inLanguage: ["en", "es"],
   description:
-    "Cuenta Clara is an AI money coach. Clara reads your real numbers to show what's safe to spend, plan irregular and self-employed pay, set money aside for taxes, and reach your goals.",
+    "Cuenta Clara is an AI money coach. Clara reads your real numbers to show what's safe to spend, track side-hustle and self-employed income, costs and profit in Business mode, set money aside for taxes, and reach your goals.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 
@@ -45,6 +45,7 @@ export default async function Landing() {
   const ac = await getTranslations("academy");
   const w = await getTranslations("words");
   const lg = await getTranslations("legal");
+  const bz = await getTranslations("business");
   // UK visitors see pounds, Canadians see their dollars; everyone else U.S. dollars.
   const cur = currencyFromCountry((await headers()).get(COUNTRY_HEADER));
   const $ = (text: string) => localizeDollars(text, cur);
@@ -69,10 +70,10 @@ export default async function Landing() {
   ];
 
   const bizFeatures: { icon: IconName; title: string; text: string }[] = [
-    { icon: "calendar", title: t("biz1Title"), text: t("biz1Text") },
+    { icon: "briefcase", title: t("biz1Title"), text: t("biz1Text") },
     { icon: "shield", title: t("biz2Title"), text: t("biz2Text") },
-    { icon: "camera", title: t("biz3Title"), text: t("biz3Text") },
-    { icon: "target", title: t("biz4Title"), text: t("biz4Text") },
+    { icon: "calendar", title: t("biz3Title"), text: t("biz3Text") },
+    { icon: "camera", title: t("biz4Title"), text: t("biz4Text") },
   ];
 
   const faq = (["Safe", "Free", "Where", "Bank", "ForMe", "Data", "Numbers"] as const).map((k) => ({
@@ -223,10 +224,42 @@ export default async function Landing() {
 
         {/* 6. Work and business: irregular pay, side hustles, self-employed */}
         <section className="lp-wrap lp-section">
-          <div className="stack-sm">
-            <p className="t-label lp-eyebrow">{t("bizEyebrow")}</p>
-            <h2 className="t-title">{t("bizTitle")}</h2>
-            <p className="t-body muted">{t("bizSub")}</p>
+          <div className="lp-biz">
+            <div className="stack-sm">
+              <p className="t-label lp-eyebrow">{t("bizEyebrow")}</p>
+              <h2 className="t-title">{t("bizTitle")}</h2>
+              <p className="t-body muted">{t("bizSub")}</p>
+            </div>
+            {/* A sample of the Business card from the app, in the visitor's currency */}
+            <div className="card lp-bizmock" aria-hidden>
+              <p className="t-label biz-card__title">
+                <span className="row-icon row-icon--positive">
+                  <Icon name="briefcase" size={16} />
+                </span>
+                {bz("cardTitle")}
+              </p>
+              <div className="biz-stats">
+                <div className="biz-stat">
+                  <span className="t-caption muted">{bz("income")}</span>
+                  <span className="biz-stat__num num tone-positive">{formatUSD(sampleCents(127000, cur), cur)}</span>
+                </div>
+                <div className="biz-stat">
+                  <span className="t-caption muted">{bz("costs")}</span>
+                  <span className="biz-stat__num num">{formatUSD(sampleCents(9700, cur), cur)}</span>
+                </div>
+                <div className="biz-stat biz-stat--kept">
+                  <span className="t-caption muted">{bz("profit")}</span>
+                  <span className="biz-stat__num num">{formatUSD(sampleCents(117300, cur), cur)}</span>
+                </div>
+              </div>
+              <div className="lp-bizmock__clara">
+                <p className="lp-float__ask">{t("bizMockAsk")}</p>
+                <p className="lp-float__answer">
+                  <span className="lp-float__c">C</span>
+                  {$(t("bizMockAnswer"))}
+                </p>
+              </div>
+            </div>
           </div>
           <ul className="lp-features lp-features--two">
             {bizFeatures.map((f) => (

@@ -58,7 +58,7 @@ so "Sign in with Apple" isn't required).
 - Spanish: `ia,coach,presupuesto,finanzas,negocio,independiente,impuestos,quincena,ahorro,deudas,veteranos` (94)
 
 **Promotional text** (170 max, can change anytime)
-- English: `Ask Clara, your AI money coach, anything. See what's safe to spend, plan side-hustle and self-employed pay, set aside for taxes, and hit your goals.`
+- English: `Ask Clara, your AI money coach, anything. See what's safe to spend, track what your side hustle really keeps, set aside for taxes, and hit your goals.`
 - Spanish: `Pregúntale a Clara, tu coach de dinero con IA. Mira cuánto puedes gastar, planea ingresos de negocio o por tu cuenta, aparta para impuestos y cumple tus metas.`
 
 **Description (English)**
@@ -74,8 +74,8 @@ Type your balance and payday, and Cuenta Clara shows what you can spend until yo
 SMART MONEY TECH
 Log spending by voice or a receipt photo. See a 3-month forecast and a "What if?" chart. Get bill reminders and payday plans by email.
 
-FOR SIDE HUSTLES, GIG WORK AND SELF-EMPLOYED PAY
-Plan each paycheck on its own when pay changes week to week. Set aside a share of freelance or cash income for taxes. Snap a pay stub to check your hours and overtime.
+BUSINESS MODE FOR SIDE HUSTLES AND SELF-EMPLOYED PAY
+Mark income and costs as business in one tap and see what came in, what it cost and what you kept, this month and all year, with costs by category. Set aside for taxes on your profit. Plan each paycheck on its own when pay changes week to week, and snap a pay stub to check your hours and overtime.
 
 GOALS AND DEBT
 Progress bars and a clear monthly amount for every goal. See when you'll be debt-free and how much snowball or avalanche saves you.
@@ -110,8 +110,8 @@ Escribe tu saldo y tu día de pago, y Cuenta Clara te dice cuánto puedes gastar
 TECNOLOGÍA PARA TU DINERO
 Anota gastos con tu voz o una foto del recibo. Mira un pronóstico de 3 meses y una gráfica de "¿Y si…?". Recibe recordatorios de cuentas y planes de pago por email.
 
-PARA NEGOCIOS PROPIOS, TRABAJOS POR APP Y POR TU CUENTA
-Planea cada cheque por separado cuando tu pago cambia. Aparta una parte de tus ingresos independientes o en efectivo para impuestos. Toma foto de tu talón de pago y revisa tus horas y overtime.
+MODO NEGOCIO PARA NEGOCIOS PROPIOS Y TRABAJO POR TU CUENTA
+Marca ingresos y gastos como del negocio con un toque y mira lo que entró, lo que costó y lo que te quedó, en el mes y en todo el año, con gastos por categoría. Aparta para impuestos sobre tu ganancia. Planea cada cheque por separado cuando tu pago cambia y toma foto de tu talón para revisar tus horas y overtime.
 
 METAS Y DEUDAS
 Barras de progreso y cuánto apartar cada mes para cada meta. Mira cuándo terminas de pagar y cuánto te ahorras con bola de nieve o avalancha.

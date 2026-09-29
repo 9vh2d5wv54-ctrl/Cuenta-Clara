@@ -23,7 +23,8 @@ Veterans and Spanish are features, not the headline. The App Store listing is in
 | Google / Meta ads | Finance: budgeting apps | Small business and self-employed, productivity tools |
 
 **Business finance software:** yes, for freelancers, gig workers and side hustles
-(pay that changes, tax set-aside, pay stub check). Don't claim invoicing, payroll or
+(Business mode: business income, costs and profit by month and year, costs by
+category, tax set-aside on profit; plus paycheck mode and the pay stub check). Don't claim invoicing, payroll or
 accounting; the app doesn't do those.
 
 **Productivity SaaS:** yes. Voice and receipt logging, reminders, the 3-month

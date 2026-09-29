@@ -4004,3 +4004,35 @@ button.explore-tile {
   text-decoration: none;
   color: inherit;
 }
+
+/* Landing: the Business card sample */
+.lp-biz {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5, 20px);
+}
+.lp-bizmock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border-color: color-mix(in srgb, var(--positive) 35%, transparent);
+  box-shadow: var(--card-shadow), 0 0 40px color-mix(in srgb, var(--positive) 14%, transparent);
+}
+.lp-bizmock p {
+  margin: 0;
+}
+.lp-bizmock__clara {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--card-line);
+}
+
+@media (min-width: 900px) {
+  .lp-biz {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    align-items: center;
+    column-gap: var(--space-8);
+  }
+}
