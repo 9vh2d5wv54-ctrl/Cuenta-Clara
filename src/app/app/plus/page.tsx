@@ -189,7 +189,7 @@ export default function PlusPage() {
             locale={locale}
             skipRedirect
             prefill={profile?.email ? { email: profile.email } : undefined}
-            themeOptions={{ accentColor: dark ? "#5fc7b4" : "#0f6b5f", borderRadius: 12 }}
+            themeOptions={{ accentColor: dark ? "#4d8dff" : "#0f6b5f", borderRadius: 12 }}
             fallback={<p className="t-body muted">{c("loading")}</p>}
             onComplete={() => {
               trackTrialStart(interval);
