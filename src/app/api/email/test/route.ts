@@ -24,7 +24,10 @@ export async function GET(request: NextRequest) {
   const supabaseForCurrency = await supabaseFromCookies();
   const { data: who } = await supabaseForCurrency.auth.getUser();
   const currency = who.user ? await currencyFor(supabaseForCurrency, who.user.id) : "USD";
-  return inCurrency(currency, () => sendTest(request));
+  const res = await inCurrency(currency, () => sendTest(request));
+  // Say it's UTF-8 so Safari shows accents (después, no despuÃ©s) on this page.
+  res.headers.set("Content-Type", "application/json; charset=utf-8");
+  return res;
 }
 
 async function sendTest(request: NextRequest) {
