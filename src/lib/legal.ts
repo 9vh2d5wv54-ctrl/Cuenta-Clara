@@ -3,7 +3,7 @@
 // a law school clinic review before growing, adding bank connections or running
 // ads. When the app changes what it collects or who it shares with, update this.
 
-export const LEGAL_UPDATED = "2026-09-28";
+export const LEGAL_UPDATED = "2026-09-29";
 export const CONTACT_EMAIL = "hola@micuentaclara.app";
 
 export type LegalSection = { h: string; p?: string[]; list?: string[] };
@@ -17,7 +17,7 @@ export const PRIVACY: Record<"es" | "en", LegalDoc> = {
       {
         h: "Who we are",
         p: [
-          "Cuenta Clara (micuentaclara.app) is a budgeting app made in Newark, New Jersey, operated by its founder, Manny Abreu. When this policy says \"we\" or \"us,\" it means Cuenta Clara.",
+          "Cuenta Clara (micuentaclara.app) is a budgeting app operated by its founder, Manny Abreu. When this policy says \"we\" or \"us,\" it means Cuenta Clara.",
         ],
       },
       {
@@ -135,7 +135,7 @@ export const PRIVACY: Record<"es" | "en", LegalDoc> = {
       {
         h: "Quiénes somos",
         p: [
-          "Cuenta Clara (micuentaclara.app) es una app de presupuesto hecha en Newark, Nueva Jersey, manejada por su fundador, Manny Abreu. Cuando esta política dice \"nosotros\", se refiere a Cuenta Clara.",
+          "Cuenta Clara (micuentaclara.app) es una app de presupuesto manejada por su fundador, Manny Abreu. Cuando esta política dice \"nosotros\", se refiere a Cuenta Clara.",
         ],
       },
       {
