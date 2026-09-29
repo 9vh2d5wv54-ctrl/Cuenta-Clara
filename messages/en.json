@@ -1003,7 +1003,10 @@
     "limitMonth": "You've used your {limit} free questions this month. With Plus you can ask Clara 30 questions a day.",
     "disclaimer": "General information, not financial advice. The numbers come from your app; Clara explains them and can make mistakes.",
     "call988": "Call 988",
-    "text838255": "Text 838255"
+    "text838255": "Text 838255",
+    "orbTitle": "Clara is here for you",
+    "orbLead": "Your AI money partner. Ask anything about your money.",
+    "orbCta": "Chat with Clara"
   },
   "whatIf": {
     "title": "What if?",

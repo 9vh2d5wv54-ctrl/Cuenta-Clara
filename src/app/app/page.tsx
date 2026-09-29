@@ -14,7 +14,7 @@ import { WarningsCard } from "@/components/Warnings";
 import { PatternsCard } from "@/components/Patterns";
 import { SafeToSpendCard, useSafeToSpend } from "@/components/SafeToSpend";
 import { GoalProgress, HomeHero, QuickActions } from "@/components/HomeHero";
-import { ClaraCard } from "@/components/ClaraCard";
+import { ClaraOrb } from "@/components/ClaraCard";
 import { VeteranCard } from "@/components/VeteranCard";
 import { InstallCard } from "@/components/InstallCard";
 import { summarize } from "@/lib/budget";
@@ -80,11 +80,11 @@ export default function Dashboard() {
 
       <QuickActions />
 
+      <ClaraOrb />
+
       <PaycheckCard />
 
       <SafeToSpendCard details />
-
-      <ClaraCard />
 
       {sts && (
       <Card className="hero">

@@ -30,3 +30,45 @@ export function ClaraCard() {
     </div>
   );
 }
+
+/** Home's Clara section: a glowing orb, three questions to tap, and a way into the chat. */
+export function ClaraOrb() {
+  const t = useTranslations("clara");
+  const examples = t.raw("suggestions") as string[];
+  return (
+    <section className="clara-orb card" aria-labelledby="clara-orb-title">
+      <div className="clara-orb__top">
+        <div className="stack-sm grow">
+          <h2 id="clara-orb-title" className="clara-orb__title">
+            {t("orbTitle")}
+          </h2>
+          <p className="t-body muted">{t("orbLead")}</p>
+        </div>
+        <span className="orb" aria-hidden>
+          <span className="orb__ring orb__ring--1" />
+          <span className="orb__ring orb__ring--2" />
+          <span className="orb__core">C</span>
+        </span>
+      </div>
+      <ul className="clara-orb__questions">
+        {examples.slice(0, 3).map((q) => (
+          <li key={q}>
+            <Link href={`/app/clara?q=${encodeURIComponent(q)}`} className="clara-orb__q">
+              <span aria-hidden className="clara-orb__spark">
+                ✦
+              </span>
+              “{q}”
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <Link href="/app/clara" className="clara-orb__cta">
+        <span className="clara-orb__cta-c" aria-hidden>
+          C
+        </span>
+        {t("orbCta")}
+        <Icon name="forward" size={18} />
+      </Link>
+    </section>
+  );
+}
