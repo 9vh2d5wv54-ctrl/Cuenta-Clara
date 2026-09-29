@@ -12,9 +12,11 @@ import { paydayEmail, paydayFacts, paydayFallbackLine } from "@/lib/payday-email
 import { paydayPlanTomorrow } from "@/lib/payday-plan";
 import { runHealthChecks } from "@/lib/health-check";
 import { feedbackRecipient } from "@/lib/feedback";
+import { needsNudge, nudgeWindow, welcomeEmail } from "@/lib/welcome-email";
 
 // Daily (vercel.json): a health check of the paid path (emails the owner only when
-// something is broken), payday plans the day before payday, bill reminders 3 days
+// something is broken), the next-day welcome nudge for people who didn't finish setup,
+// payday plans the day before payday, bill reminders 3 days
 // out, trial-ending notices 2 days out, Plus exchange-rate alerts, and Plus tax
 // set-aside reminders 7 days before each IRS estimated-tax due date.
 
@@ -33,15 +35,44 @@ export async function GET(request: NextRequest) {
   const denied = cronUnauthorized(request);
   if (denied) return denied;
   const db = supabaseAdmin();
-  const [bills, trials, rates, taxes, paydays, health] = await Promise.all([
+  const [bills, trials, rates, taxes, paydays, health, welcome] = await Promise.all([
     billReminders(db),
     trialReminders(db),
     rateAlerts(db),
     taxReminders(db),
     paydayEmails(db),
     healthAlert(db),
+    welcomeNudges(db),
   ]);
-  return NextResponse.json({ bills, trials, rates, taxes, paydays, health });
+  return NextResponse.json({ bills, trials, rates, taxes, paydays, health, welcome });
+}
+
+/** Yesterday's sign-ups who haven't entered income or a bill: one friendly nudge back to setup. */
+async function welcomeNudges(db: ReturnType<typeof supabaseAdmin>) {
+  const now = new Date();
+  const { from, to } = nudgeWindow(now);
+  const { data: users, error } = await db
+    .from("users")
+    .select("id, email, language, created_at")
+    .eq("email_weekly_on", true)
+    .gte("created_at", from)
+    .lt("created_at", to);
+  if (error) return { error: error.message };
+  if (!users?.length) return { sent: 0 };
+  const ids = users.map((u) => u.id as string);
+  const [{ data: budgets }, { data: bills }] = await Promise.all([
+    db.from("budgets").select("user_id").in("user_id", ids).gt("income_cents", 0),
+    db.from("bills").select("user_id").in("user_id", ids),
+  ]);
+  const setUp = new Set([...(budgets ?? []), ...(bills ?? [])].map((r) => r.user_id as string));
+  const replyTo = feedbackRecipient() ?? undefined;
+  let sent = 0;
+  for (const u of users as { id: string; email: string; language: string; created_at: string }[]) {
+    if (!needsNudge(u, setUp, now)) continue;
+    const { subject, body } = welcomeEmail(u.language === "en" ? "en" : "es", appUrl("/app/setup"));
+    if (await sendEmail({ to: u.email, userId: u.id, kind: "weekly", subject, body, replyTo })) sent++;
+  }
+  return { sent };
 }
 
 /** Runs the health check and emails the owner the problems, if there are any. */

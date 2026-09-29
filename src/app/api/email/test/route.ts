@@ -4,6 +4,8 @@ import { loadClaraData, userNow } from "@/lib/clara-server";
 import * as email from "@/lib/email";
 import { paydayEmail, paydayFacts, paydayFallbackLine } from "@/lib/payday-email";
 import { paydayPlan } from "@/lib/payday-plan";
+import { feedbackRecipient } from "@/lib/feedback";
+import { welcomeEmail } from "@/lib/welcome-email";
 import { supabaseFromCookies } from "@/lib/supabase-server";
 import { isTester } from "@/lib/testers";
 import { schedule } from "@/lib/what-if";
@@ -11,6 +13,7 @@ import { schedule } from "@/lib/what-if";
 // Open /api/email/test while signed in: sends a sample bill reminder to your
 // own email and shows what Resend said, so setup problems are visible.
 // /api/email/test?kind=payday sends your real payday plan for your next payday.
+// /api/email/test?kind=welcome sends the next-day welcome nudge (add &lang=en or es).
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
@@ -23,6 +26,21 @@ export async function GET(request: NextRequest) {
 
   const { data: profile } = await supabase.from("users").select("language").maybeSingle();
   const lang = profile?.language === "en" ? "en" : "es";
+
+  if (request.nextUrl.searchParams.get("kind") === "welcome") {
+    const wantLang = request.nextUrl.searchParams.get("lang");
+    const l = wantLang === "en" || wantLang === "es" ? wantLang : lang;
+    const { subject, body } = welcomeEmail(l, email.appUrl("/app/setup"));
+    const sent = await email.sendEmail({
+      to: data.user.email,
+      userId: data.user.id,
+      kind: "weekly",
+      subject: `${l === "es" ? "Prueba" : "Test"}: ${subject}`,
+      body,
+      replyTo: feedbackRecipient() ?? undefined,
+    });
+    return NextResponse.json({ ok: sent, sent_to: data.user.email, resend_error: sent ? null : email.lastSendError });
+  }
 
   if (request.nextUrl.searchParams.get("kind") === "payday") {
     const { data: tz } = await supabase.from("users").select("timezone").maybeSingle();
