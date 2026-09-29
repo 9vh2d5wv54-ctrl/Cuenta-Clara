@@ -1,6 +1,6 @@
 # To do at the laptop
 
-## 1. One paste in Supabase (pesos + Business mode + Clara's note)
+## 1. ✓ Done: one paste in Supabase (pesos + Business mode + Clara's note)
 
 supabase.com → Dashboard → your project → SQL Editor (the >_ icon) → + New query →
 select all old text and delete it → paste everything below → Run.
