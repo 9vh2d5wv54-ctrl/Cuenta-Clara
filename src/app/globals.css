@@ -3512,3 +3512,61 @@ button.explore-tile {
   background: var(--alerta-soft);
   color: var(--alerta);
 }
+
+/* First-run setup: one question per screen */
+.onboard {
+  gap: var(--space-5, 20px);
+}
+.onboard__q {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.onboard .stack > p {
+  margin: 0;
+}
+.onboard__choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.onboard__choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 60px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 16px;
+  border: 1px solid var(--card-line, var(--line));
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+.onboard__choice--on,
+.onboard__choice:hover {
+  border-color: var(--clara);
+}
+.onboard__hint {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--positive);
+}
+.onboard__added {
+  list-style: none;
+  margin: 0;
+}
+.onboard__private {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
