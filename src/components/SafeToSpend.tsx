@@ -89,24 +89,39 @@ function SetupForm({ onDone, full }: { onDone: () => void; full: boolean }) {
   );
 }
 
-/** Free: what's safe to spend until payday, starting from the balance they type. Plus: day by day. */
-export function SafeToSpendCard() {
+/** The payday Safe to Spend counts to: paycheck mode's (Plus), or the one they set. */
+function usePayday(): string | null {
+  const { profile, subscription, recent, bills, recipients, goals, taxPct } = useData();
+  const plus = hasPlus(subscription);
+  const period = plus && profile?.pay_frequency ? currentPayPeriod(profile.pay_frequency, recent, bills, recipients, goals, undefined, taxPct) : null;
+  return period && period.daysLeft > 0
+    ? period.nextPayday
+    : profile?.payday_anchor && profile.payday_cycle
+      ? nextPayday(profile.payday_anchor, profile.payday_cycle, todayISO())
+      : null;
+}
+
+/** Safe to Spend right now, or null until a balance and payday are set. Home's big number uses it. */
+export function useSafeToSpend() {
+  const { profile, recent, bills, recipients } = useData();
+  const payday = usePayday();
+  if (profile?.balance_cents == null || !profile.balance_on || !payday) return null;
+  return safeToSpend({ balance: profile.balance_cents, balanceOn: profile.balance_on, payday, buffer: profile.buffer_cents ?? 0, bills, recipients, recent });
+}
+
+/**
+ * Free: what's safe to spend until payday, starting from the balance they type. Plus: day by day.
+ * With `details`, the big number is left out (Home shows it at the top).
+ */
+export function SafeToSpendCard({ details = false }: { details?: boolean }) {
   const t = useTranslations("safe");
   const locale = useLocale();
-  const { profile, subscription, recent, bills, recipients, goals, taxPct } = useData();
+  const { profile, subscription, recent, bills, recipients } = useData();
   const [editing, setEditing] = useState<"none" | "balance" | "setup">("none");
 
   const hasBalance = profile?.balance_cents != null && Boolean(profile?.balance_on);
   const plus = hasPlus(subscription);
-  // Paycheck mode (Plus) knows the payday from the last paycheck; otherwise use theirs.
-  const period = plus && profile?.pay_frequency ? currentPayPeriod(profile.pay_frequency, recent, bills, recipients, goals, undefined, taxPct) : null;
-  const today = todayISO();
-  const payday =
-    period && period.daysLeft > 0
-      ? period.nextPayday
-      : profile?.payday_anchor && profile.payday_cycle
-        ? nextPayday(profile.payday_anchor, profile.payday_cycle, today)
-        : null;
+  const payday = usePayday();
 
   if (!hasBalance || !payday || editing === "setup") {
     return (
@@ -149,16 +164,20 @@ export function SafeToSpendCard() {
       <div className="row" style={{ justifyContent: "center" }}>
         <p className="t-label muted">{t("title")}</p>
       </div>
-      <p className={negative ? "t-money-xl hero__figure hero__figure--negative" : "t-money-xl hero__figure"}>
-        {formatUSD(s.safe)}
-      </p>
-      <p className="t-body">{t("untilPayday", { date: dayLabel(s.payday, locale), days: s.daysToPayday })}</p>
+      {!details && (
+        <>
+          <p className={negative ? "t-money-xl hero__figure hero__figure--negative" : "t-money-xl hero__figure"}>
+            {formatUSD(s.safe)}
+          </p>
+          <p className="t-body">{t("untilPayday", { date: dayLabel(s.payday, locale), days: s.daysToPayday })}</p>
+        </>
+      )}
       {negative ? (
         <p className="notice notice--alerta t-caption" role="alert">
           {t("over", { amount: formatUSD(-s.safe) })}
         </p>
       ) : (
-        s.perDay !== null && <p className="t-caption muted">{t("perDay", { amount: formatUSD(s.perDay) })}</p>
+        !details && s.perDay !== null && <p className="t-caption muted">{t("perDay", { amount: formatUSD(s.perDay) })}</p>
       )}
 
       <ul className="list" style={{ listStyle: "none", margin: 0, padding: 0, textAlign: "start" }}>

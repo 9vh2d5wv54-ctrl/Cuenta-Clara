@@ -13,7 +13,8 @@ import { TaxCard } from "@/components/Taxes";
 import { HealthCard } from "@/components/Health";
 import { WarningsCard } from "@/components/Warnings";
 import { PatternsCard } from "@/components/Patterns";
-import { SafeToSpendCard } from "@/components/SafeToSpend";
+import { SafeToSpendCard, useSafeToSpend } from "@/components/SafeToSpend";
+import { HomeHero } from "@/components/HomeHero";
 import { ClaraCard } from "@/components/ClaraCard";
 import { VeteranCard } from "@/components/VeteranCard";
 import { InstallCard } from "@/components/InstallCard";
@@ -35,6 +36,7 @@ export default function Dashboard() {
   const ms = useTranslations("moneyStyle");
   const tx = useTranslations("taxes");
   const router = useRouter();
+  const sts = useSafeToSpend();
 
   // A brand-new account with nothing entered goes straight to setup, once.
   const brandNew = income === null && bills.length === 0 && recipients.length === 0 && goals.length === 0;
@@ -87,12 +89,15 @@ export default function Dashboard() {
         </div>
       )}
 
+      <HomeHero left={s.left} hasIncome={income !== null} />
+
       <PaycheckCard />
 
-      <SafeToSpendCard />
+      <SafeToSpendCard details />
 
       <ClaraCard />
 
+      {sts && (
       <Card className="hero">
         <div className="row" style={{ justifyContent: "center" }}>
           <p className="t-label muted">{t("leftLabel")}</p>
@@ -110,6 +115,7 @@ export default function Dashboard() {
         )}
         <Explain text={x("whatsLeft")} />
       </Card>
+      )}
 
       {income !== null && (
         <Link href="/app/chequeo" className="card card--mango checkup-teaser">

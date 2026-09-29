@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { Bricolage_Grotesque, Figtree } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
+import { parseTheme, THEME_COOKIE } from "@/lib/theme";
 import "./globals.css";
 
 // Brand type: Bricolage Grotesque for titles and money, Figtree for everything else.
@@ -30,19 +32,30 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8f8f4" },
-    { media: "(prefers-color-scheme: dark)", color: "#121918" },
-  ],
-};
+export async function generateViewport(): Promise<Viewport> {
+  const theme = parseTheme((await cookies()).get(THEME_COOKIE)?.value);
+  const night = "#0b1426";
+  const day = "#f8f8f4";
+  return {
+    width: "device-width",
+    initialScale: 1,
+    themeColor:
+      theme === "auto"
+        ? [
+            { media: "(prefers-color-scheme: light)", color: day },
+            { media: "(prefers-color-scheme: dark)", color: night },
+          ]
+        : theme === "light"
+          ? day
+          : night,
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const theme = parseTheme((await cookies()).get(THEME_COOKIE)?.value);
   return (
-    <html lang={locale} className={`${bricolage.variable} ${figtree.variable}`}>
+    <html lang={locale} data-theme={theme} className={`${bricolage.variable} ${figtree.variable}`}>
       <body>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
         <AnalyticsScripts />

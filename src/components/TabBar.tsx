@@ -16,7 +16,7 @@ const TABS: { href: string; key: "home" | "sends" | "add" | "goals" | "settings"
 export function TabBar() {
   const t = useTranslations("nav");
   const path = usePathname();
-  if (path.startsWith("/app/setup") || path.startsWith("/app/preview")) return null;
+  if (path.startsWith("/app/setup")) return null;
   return (
     <nav className="tabbar" aria-label="Cuenta Clara">
       <div className="tabbar__inner">

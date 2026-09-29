@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useCallback, useState, useTransition, type FormEvent } from "react";
+import { useCallback, useEffect, useState, useTransition, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
 import { BillForm } from "@/components/forms";
 import { Icon } from "@/components/Icon";
@@ -19,6 +19,7 @@ import { COUNTRIES, countryByCode } from "@/lib/currencies";
 import { centsToInput, formatUSD, parseCents } from "@/lib/money";
 import type { Locale } from "@/i18n/config";
 import type { PayFrequency } from "@/lib/types";
+import { applyTheme, DEFAULT_THEME, parseTheme, THEMES, type Theme } from "@/lib/theme";
 
 export default function Ajustes() {
   const t = useTranslations("settings");
@@ -36,6 +37,10 @@ export default function Ajustes() {
   const { profile, income, bills, month, store, subscription, hasCheckup, mutate } = useData();
   const plus = hasPlus(subscription);
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
+  useEffect(() => {
+    setTheme(parseTheme(document.documentElement.dataset.theme));
+  }, []);
 
   const [incomeText, setIncomeText] = useState(income ? centsToInput(income) : "");
   const [incomeError, setIncomeError] = useState<string | null>(null);
@@ -128,6 +133,18 @@ export default function Ajustes() {
                 { value: "es", label: "Español" },
                 { value: "en", label: "English" },
               ]}
+            />
+          </div>
+          <div className="field">
+            <span className="field__label">{t("appearance")}</span>
+            <Segmented
+              label={t("appearance")}
+              value={theme}
+              onChange={(v) => {
+                applyTheme(v);
+                setTheme(v);
+              }}
+              options={THEMES.map((v) => ({ value: v, label: t(`theme_${v}`) }))}
             />
           </div>
           <Field label={t("homeCountry")} hint={t("homeCountryHelp")}>

@@ -236,7 +236,11 @@
     "emails": "Correos",
     "weekly": "Resumen semanal y plan del día de pago",
     "weeklyHelp": "Los domingos a las 6 PM, y el día antes de tu pago.",
-    "billsHelp": "3 días antes de que venza una cuenta."
+    "billsHelp": "3 días antes de que venza una cuenta.",
+    "appearance": "Apariencia",
+    "theme_midnight": "Midnight",
+    "theme_light": "Claro",
+    "theme_auto": "Automático"
   },
   "explain": {
     "whatsLeft": "Lo que te queda es tu ingreso del mes menos tus cuentas fijas, lo que mandas a tu familia, lo que apartas para tus metas y los gastos que anotaste. Es lo que puedes gastar sin salirte del plan.",
@@ -1000,40 +1004,14 @@
     "button": "Instalar la app",
     "dismiss": "Ahora no"
   },
-  "midnight": {
-    "previewNote": "Vista previa del diseño con tus números. La app real no ha cambiado.",
-    "accent": "Color de acento",
-    "blue": "Azul",
-    "green": "Verde Clara",
-    "hello": "Hola, así va tu dinero",
-    "safe": "Seguro para gastar",
+  "homeHero": {
     "left": "Te queda este mes",
-    "show": "Mostrar cantidad",
-    "hide": "Ocultar cantidad",
-    "untilPayday": "Hasta tu pago, {date} · {days, plural, one {# día} other {# días}}",
-    "thisMonth": "Después de cuentas, envíos y ahorro",
-    "perDay": "unos {amount} al día",
+    "afterPlan": "Después de cuentas, envíos y ahorro",
+    "show": "Mostrar cantidades",
+    "hide": "Ocultar cantidades",
     "actions": "Acciones rápidas",
     "log": "Anotar",
     "send": "Enviar",
-    "goals": "Metas",
-    "claraTitle": "Pregúntale a Clara",
-    "claraText": "\"¿Me alcanza?\" \"¿Cuánto me queda el día de pago?\" Usa tus propios números.",
-    "claraCta": "Preguntarle",
-    "lessonTitle": "Lecciones de dinero de 2 minutos",
-    "lessonText": "Crédito, APR, fondo de emergencia y más, en palabras sencillas.",
-    "lessonCta": "Empezar una lección",
-    "vetTitle": "Lista de beneficios para veteranos",
-    "vetText": "14 beneficios que muchos veteranos no aprovechan, con los enlaces oficiales.",
-    "vetCta": "Ver la lista",
-    "chartTitle": "Tu saldo, próximos 30 días",
-    "days30": "30 días",
-    "today": "Hoy",
-    "payday": "Día de pago",
-    "dueSoon": "Vence pronto",
-    "seeAll": "Ver todo",
-    "inDays": "En {days, plural, one {# día} other {# días}}",
-    "recent": "Recientes",
-    "backToApp": "Volver al diseño actual"
+    "goals": "Metas"
   }
 }

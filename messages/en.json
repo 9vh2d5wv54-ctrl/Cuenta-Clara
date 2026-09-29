@@ -236,7 +236,11 @@
     "emails": "Emails",
     "weekly": "Weekly summary and payday plan",
     "weeklyHelp": "Sundays at 6 PM, and the day before payday.",
-    "billsHelp": "3 days before a bill is due."
+    "billsHelp": "3 days before a bill is due.",
+    "appearance": "Appearance",
+    "theme_midnight": "Midnight",
+    "theme_light": "Light",
+    "theme_auto": "Automatic"
   },
   "explain": {
     "whatsLeft": "What's left is this month's income minus your fixed bills, what you send to family, what you set aside for goals, and the expenses you've logged. It's what you can spend and still stay on plan.",
@@ -1000,40 +1004,14 @@
     "button": "Install the app",
     "dismiss": "Not now"
   },
-  "midnight": {
-    "previewNote": "Design preview with your numbers. The real app hasn't changed.",
-    "accent": "Accent color",
-    "blue": "Blue",
-    "green": "Clara green",
-    "hello": "Hi, here's your money",
-    "safe": "Safe to spend",
+  "homeHero": {
     "left": "Left this month",
-    "show": "Show amount",
-    "hide": "Hide amount",
-    "untilPayday": "Until payday, {date} · {days, plural, one {# day} other {# days}}",
-    "thisMonth": "After bills, sends and savings",
-    "perDay": "about {amount} a day",
+    "afterPlan": "After bills, sends and savings",
+    "show": "Show amounts",
+    "hide": "Hide amounts",
     "actions": "Quick actions",
     "log": "Log",
     "send": "Send",
-    "goals": "Goals",
-    "claraTitle": "Ask Clara anything",
-    "claraText": "\"Can I afford it?\" \"How much will I have on payday?\" She uses your own numbers.",
-    "claraCta": "Ask Clara",
-    "lessonTitle": "2-minute money lessons",
-    "lessonText": "Credit, APR, emergency funds and more, in plain words.",
-    "lessonCta": "Start a lesson",
-    "vetTitle": "Veteran benefits checklist",
-    "vetText": "14 benefits veterans often miss, with the official links.",
-    "vetCta": "See the checklist",
-    "chartTitle": "Your balance, next 30 days",
-    "days30": "30 days",
-    "today": "Today",
-    "payday": "Payday",
-    "dueSoon": "Due soon",
-    "seeAll": "See all",
-    "inDays": "In {days, plural, one {# day} other {# days}}",
-    "recent": "Recent",
-    "backToApp": "Back to the current design"
+    "goals": "Goals"
   }
 }

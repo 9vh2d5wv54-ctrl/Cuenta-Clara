@@ -1,6 +1,7 @@
 /*
- * Cuenta Clara design tokens, copied value for value from the brand kit
- * (design system "Cuenta Clara", project/tokens.json). Change them there first.
+ * Cuenta Clara design tokens. The light values come from the brand kit
+ * (design system "Cuenta Clara", project/tokens.json); Midnight (navy + blue,
+ * the default look since Sep 2026) is below. Update the brand kit to match.
  */
 
 :root {
@@ -21,6 +22,7 @@
   --alerta: #b8412b;
   --alerta-soft: #fbe4de;
   --link: var(--clara);
+  --positive: #0f6b5f;
 
   /* Shadow */
   --shadow-sm: 0 1px 2px #1c28260f, 0 2px 8px #1c28260d;
@@ -45,26 +47,50 @@
   --radius-full: 9999px;
 }
 
+/* Midnight (default): navy with bright blue. Chosen in Settings → Appearance;
+   "auto" follows the phone. The light values above stay for "Claro". */
+:root[data-theme="midnight"] {
+  color-scheme: dark;
+
+  --surface: #0b1426;
+  --surface-raised: #121e36;
+  --line: #1f2d4a;
+  --ink: #eef3fb;
+  --ink-muted: #93a3bf;
+  --clara: #3d9bff;
+  --clara-soft: #13294a;
+  --on-clara: #04101f;
+  --mango: #f4b24d;
+  --mango-soft: #33240c;
+  --mango-ink: #f4b24d;
+  --alerta: #ff8f75;
+  --alerta-soft: #3a1811;
+  --positive: #34d6b8;
+
+  --shadow-sm: 0 1px 3px #00000080;
+  --focus-ring: 0 0 0 2px #0b1426, 0 0 0 4px #3d9bff;
+}
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root[data-theme="auto"] {
     color-scheme: dark;
 
-    --surface: #121918;
-    --surface-raised: #1b2422;
-    --line: #2c3835;
-    --ink: #e9efec;
-    --ink-muted: #9aa7a3;
-    --clara: #5fc7b4;
-    --clara-soft: #0e2e29;
-    --on-clara: #121918;
+    --surface: #0b1426;
+    --surface-raised: #121e36;
+    --line: #1f2d4a;
+    --ink: #eef3fb;
+    --ink-muted: #93a3bf;
+    --clara: #3d9bff;
+    --clara-soft: #13294a;
+    --on-clara: #04101f;
     --mango: #f4b24d;
     --mango-soft: #33240c;
     --mango-ink: #f4b24d;
     --alerta: #ff8f75;
     --alerta-soft: #3a1811;
+    --positive: #34d6b8;
 
-    --shadow-sm: 0 1px 3px #000000a6;
-    --focus-ring: 0 0 0 2px #121918, 0 0 0 4px #5fc7b4;
+    --shadow-sm: 0 1px 3px #00000080;
+    --focus-ring: 0 0 0 2px #0b1426, 0 0 0 4px #3d9bff;
   }
 }
 
