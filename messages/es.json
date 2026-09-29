@@ -1102,5 +1102,30 @@
     "goalsSub": "Tus metas",
     "logSub": "Anotar un gasto",
     "claraSub": "Pregúntale a Clara"
+  },
+  "feedback": {
+    "title": "Enviar comentarios",
+    "lead": "Dinos qué te confunde, qué falló o qué te gustaría ver. Leemos cada mensaje.",
+    "kindLabel": "¿Qué tipo de comentario?",
+    "kind_confusing": "Me confunde",
+    "kind_bug": "Algo falló",
+    "kind_idea": "Una idea",
+    "kind_love": "Me encanta",
+    "messageLabel": "Tu mensaje",
+    "placeholder_confusing": "¿Qué querías hacer y dónde te trabaste?",
+    "placeholder_bug": "¿Qué pasó y qué esperabas?",
+    "placeholder_idea": "¿Qué haría Cuenta Clara mejor para ti?",
+    "placeholder_love": "¿Qué te está funcionando bien?",
+    "privacy": "Veremos tu correo y la pantalla donde estabas, para poder responderte. Por favor no incluyas números de tarjeta o de cuenta.",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "error": "No pudimos enviarlo. Revisa tu conexión e intenta otra vez.",
+    "limit": "Hoy ya enviaste muchos. ¡Gracias! Intenta mañana.",
+    "thanks": "¡Gracias!",
+    "thanksLead": "Recibimos tu mensaje. Si preguntaste algo, te respondemos por correo.",
+    "close": "Cerrar",
+    "homeTile": "Enviar comentarios",
+    "settingsTitle": "Ayúdanos a mejorar",
+    "settingsLead": "¿Algo te confundió o no funcionó? Cuéntanos."
   }
 }

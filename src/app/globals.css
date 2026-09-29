@@ -3199,3 +3199,43 @@ button.clara-orb__q {
   color: var(--surface);
   box-shadow: 0 0 12px color-mix(in srgb, var(--positive) 45%, transparent);
 }
+
+/* Feedback pop-up */
+.feedback-kinds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.feedback-kinds .pick-chip {
+  padding-left: var(--space-3);
+  justify-content: flex-start;
+}
+.feedback-text {
+  min-height: 110px;
+  padding: var(--space-3);
+  resize: vertical;
+  font: inherit;
+}
+.feedback-done {
+  align-items: center;
+  text-align: center;
+}
+.feedback-done p {
+  margin: 0;
+}
+.feedback-done__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--positive);
+  color: var(--surface);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--positive) 45%, transparent);
+}
+button.explore-tile {
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}

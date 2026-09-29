@@ -83,7 +83,7 @@ function render(body: EmailBody, unsubscribe: string | null): { html: string; te
 }
 
 /** kind null = transactional (the trial-ending notice): no unsubscribe, it's about their billing. */
-export async function sendEmail(opts: { to: string; userId: string; kind: EmailKind | null; subject: string; body: EmailBody }): Promise<boolean> {
+export async function sendEmail(opts: { to: string; userId: string; kind: EmailKind | null; subject: string; body: EmailBody; replyTo?: string }): Promise<boolean> {
   const key = process.env.RESEND_API_KEY;
   if (!key) return false;
   const unsub = opts.kind ? unsubscribeUrl(opts.userId, opts.kind) : null;
@@ -95,6 +95,7 @@ export async function sendEmail(opts: { to: string; userId: string; kind: EmailK
       from: process.env.REMINDER_FROM_EMAIL ?? "Cuenta Clara <hola@micuentaclara.app>",
       to: opts.to,
       subject: opts.subject,
+      reply_to: opts.replyTo,
       html,
       text,
       headers: unsub

@@ -17,6 +17,7 @@ import { GoalProgress, HomeHero, QuickActions } from "@/components/HomeHero";
 import { ClaraOrb } from "@/components/ClaraCard";
 import { VeteranCard } from "@/components/VeteranCard";
 import { InstallCard } from "@/components/InstallCard";
+import { FeedbackButton } from "@/components/Feedback";
 import { summarize } from "@/lib/budget";
 import { daysBetween, formatShortDate, nextDueDate } from "@/lib/dates";
 import { formatUSD } from "@/lib/money";
@@ -34,6 +35,7 @@ export default function Dashboard() {
   const ac = useTranslations("academy");
   const ms = useTranslations("moneyStyle");
   const tx = useTranslations("taxes");
+  const fb = useTranslations("feedback");
   const router = useRouter();
   const sts = useSafeToSpend();
 
@@ -221,6 +223,12 @@ export default function Dashboard() {
             </span>
             <span className="t-label">{ms("homeLink")}</span>
           </Link>
+          <FeedbackButton className="explore-tile">
+            <span className="row-icon row-icon--mango" aria-hidden>
+              <Icon name="send" size={18} />
+            </span>
+            <span className="t-label">{fb("homeTile")}</span>
+          </FeedbackButton>
           {hasPlus(subscription) && (
             <Link href="/app/pago" className="explore-tile">
               <span className="row-icon row-icon--positive" aria-hidden>

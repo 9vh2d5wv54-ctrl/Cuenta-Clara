@@ -7,6 +7,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 export const USAGE_LIMITS = {
   "[quick-log]": 60, // voice, typed and receipt-photo logging (app and WhatsApp)
   "[paystub]": 10, // pay stub photos
+  "[feedback]": 10, // feedback messages (no Claude, but each one sends an email)
 } as const;
 export type UsageKind = keyof typeof USAGE_LIMITS;
 export const USAGE_TAGS = Object.keys(USAGE_LIMITS) as UsageKind[];

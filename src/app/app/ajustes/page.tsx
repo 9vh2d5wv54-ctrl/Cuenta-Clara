@@ -10,6 +10,7 @@ import { setLocaleCookie } from "@/components/LanguageToggle";
 import Link from "next/link";
 import { paywallHref, PlusCard } from "@/components/Plus";
 import { WhatsAppCard } from "@/components/WhatsApp";
+import { FeedbackButton } from "@/components/Feedback";
 import { VeteranSetting } from "@/components/VeteranCard";
 import { formatLongDate } from "@/lib/dates";
 import { TAX_OPTIONS } from "@/lib/taxes";
@@ -38,6 +39,7 @@ export default function Ajustes() {
   const { profile, income, bills, month, store, subscription, hasCheckup, mutate } = useData();
   const plus = hasPlus(subscription);
   const [cancelOpen, setCancelOpen] = useState(false);
+  const fb = useTranslations("feedback");
   const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
   const [name, setName] = useState("");
   useEffect(() => {
@@ -349,6 +351,14 @@ export default function Ajustes() {
                 onChange={(e) => setting("email_bills_on", e.target.checked)}
               />
             </label>
+      </Section>
+
+      <Section icon="send" tone="clara" title={fb("settingsTitle")}>
+        <p className="t-body muted" style={{ margin: 0 }}>{fb("settingsLead")}</p>
+        <FeedbackButton className="btn btn--secondary btn--block">
+          <Icon name="send" size={18} />
+          {fb("title")}
+        </FeedbackButton>
       </Section>
 
       <Section icon="logout" tone="mango" title={t("sectionAccount")}>

@@ -1102,5 +1102,30 @@
     "goalsSub": "Track goals",
     "logSub": "Add a transaction",
     "claraSub": "Ask Clara"
+  },
+  "feedback": {
+    "title": "Send feedback",
+    "lead": "Tell us what's confusing, what broke, or what you'd love to see. We read every message.",
+    "kindLabel": "What kind of feedback?",
+    "kind_confusing": "Confusing",
+    "kind_bug": "Something broke",
+    "kind_idea": "Idea",
+    "kind_love": "I love this",
+    "messageLabel": "Your message",
+    "placeholder_confusing": "What were you trying to do, and where did you get stuck?",
+    "placeholder_bug": "What happened, and what did you expect?",
+    "placeholder_idea": "What would make Cuenta Clara better for you?",
+    "placeholder_love": "What's working well for you?",
+    "privacy": "We'll see your email and the screen you were on, so we can write back. Please don't include card or account numbers.",
+    "send": "Send",
+    "sending": "Sending…",
+    "error": "We couldn't send it. Check your connection and try again.",
+    "limit": "You've sent a lot today. Thank you! Try again tomorrow.",
+    "thanks": "Thank you!",
+    "thanksLead": "We got your message. If you asked something, we'll reply by email.",
+    "close": "Close",
+    "homeTile": "Send feedback",
+    "settingsTitle": "Help us improve",
+    "settingsLead": "Found something confusing or broken? Tell us."
   }
 }
