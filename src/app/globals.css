@@ -3433,3 +3433,82 @@ button.explore-tile {
   background: color-mix(in srgb, var(--ink-muted) 16%, transparent);
   color: var(--ink-muted);
 }
+
+/* Private dashboard */
+.chip-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--card-line, var(--line));
+  background: var(--card-bg);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.chip-link--on {
+  background: var(--clara);
+  border-color: var(--clara);
+  color: var(--on-clara);
+}
+.funnel {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.funnel__step {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.funnel__bar {
+  display: block;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--ink-muted) 18%, transparent);
+  overflow: hidden;
+}
+.funnel__bar > span {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: inherit;
+  background: var(--clara);
+}
+.health {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.health__row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.health__dot {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 14px;
+}
+.health__dot--ok {
+  background: color-mix(in srgb, var(--positive) 20%, transparent);
+  color: var(--positive);
+}
+.health__dot--bad {
+  background: var(--alerta-soft);
+  color: var(--alerta);
+}

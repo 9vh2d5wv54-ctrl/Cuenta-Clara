@@ -10,8 +10,11 @@ import { writePaydayLine } from "@/lib/ai";
 import { loadClaraData, userNow } from "@/lib/clara-server";
 import { paydayEmail, paydayFacts, paydayFallbackLine } from "@/lib/payday-email";
 import { paydayPlanTomorrow } from "@/lib/payday-plan";
+import { runHealthChecks } from "@/lib/health-check";
+import { feedbackRecipient } from "@/lib/feedback";
 
-// Daily (vercel.json): payday plans the day before payday, bill reminders 3 days
+// Daily (vercel.json): a health check of the paid path (emails the owner only when
+// something is broken), payday plans the day before payday, bill reminders 3 days
 // out, trial-ending notices 2 days out, Plus exchange-rate alerts, and Plus tax
 // set-aside reminders 7 days before each IRS estimated-tax due date.
 
@@ -30,14 +33,40 @@ export async function GET(request: NextRequest) {
   const denied = cronUnauthorized(request);
   if (denied) return denied;
   const db = supabaseAdmin();
-  const [bills, trials, rates, taxes, paydays] = await Promise.all([
+  const [bills, trials, rates, taxes, paydays, health] = await Promise.all([
     billReminders(db),
     trialReminders(db),
     rateAlerts(db),
     taxReminders(db),
     paydayEmails(db),
+    healthAlert(db),
   ]);
-  return NextResponse.json({ bills, trials, rates, taxes, paydays });
+  return NextResponse.json({ bills, trials, rates, taxes, paydays, health });
+}
+
+/** Runs the health check and emails the owner the problems, if there are any. */
+async function healthAlert(db: ReturnType<typeof supabaseAdmin>) {
+  const checks = await runHealthChecks(db);
+  const broken = checks.filter((c) => !c.ok);
+  const to = feedbackRecipient();
+  if (broken.length && to) {
+    await sendEmail({
+      to,
+      userId: "health-check",
+      kind: null,
+      subject: `Cuenta Clara: ${broken.length} ${broken.length === 1 ? "thing needs" : "things need"} attention`,
+      body: {
+        lang: "en",
+        paragraphs: [
+          "Today's automatic check found a problem. If ads are running, pause them until it's fixed.",
+          ...broken.map((c) => `✗ ${c.name}: ${c.detail}`),
+          "Everything that passed is on the dashboard.",
+        ],
+        button: { label: "Open the dashboard", url: appUrl("/app/admin") },
+      },
+    });
+  }
+  return { ok: checks.length - broken.length, broken: broken.map((c) => c.name) };
 }
 
 /** "Mañana es día de pago": the plan for tomorrow's paycheck, to people who get summary emails. */

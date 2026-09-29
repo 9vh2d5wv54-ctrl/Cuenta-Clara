@@ -11,7 +11,8 @@ export { soundsLikeCrisis };
 // Server-only. Clara, the AI money copilot (MVP PRD → "Clara, the AI money
 // copilot"). Claude writes the words; every number comes from clara-tools.ts.
 
-const MODEL = "claude-opus-5";
+export const CLARA_MODEL = "claude-opus-5";
+const MODEL = CLARA_MODEL;
 const MAX_TOOL_ROUNDS = 6;
 export const MAX_QUESTION = MAX_QUESTION_LENGTH;
 export const MAX_HISTORY_TURNS = 6;
