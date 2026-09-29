@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { writeWeeklyLine } from "@/lib/ai";
 import { makeClaraNote, saveClaraNote } from "@/lib/clara-note-server";
+import { pushUsers, sendPush } from "@/lib/push";
 import { goalMonthlyCents } from "@/lib/budget";
 import { cronUnauthorized, monthKeyUTC } from "@/lib/cron";
 import { daysBetween, nextDueDate } from "@/lib/dates";
@@ -50,12 +51,17 @@ export async function GET(request: NextRequest) {
   const month = monthKeyUTC();
   let sent = 0;
   let notes = 0;
+  let pushed = 0;
+  const wantsPush = await pushUsers(db, "note");
   for (const user of (data ?? []) as unknown as Row[]) {
     await inCurrency(await currencyFor(db, user.id), async () => {
       if (process.env.WEEKLY_LOCAL_TIME === "true" && !isSunday6pm(user.timezone)) return;
       // Clara's note first: it goes on Home even for people who turned the email off.
       const note = await makeClaraNote(db, user.id, user.language === "en" ? "en" : "es", user.timezone).catch(() => null);
       if (note && (await saveClaraNote(db, user.id, note.week, note.body))) notes++;
+      if (note && wantsPush.has(user.id)) {
+        pushed += await sendPush(db, user.id, { title: user.language === "en" ? "Clara's note" : "La nota de Clara", body: note.body, url: "/app", tag: "clara-note" });
+      }
       if (!user.email_weekly_on) return;
 
       const u = await loadUserMonth(db, user.id, month);
@@ -112,5 +118,5 @@ export async function GET(request: NextRequest) {
       if (ok) sent++;
     });
   }
-  return NextResponse.json({ sent, notes });
+  return NextResponse.json({ sent, notes, pushed });
 }

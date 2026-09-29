@@ -1275,5 +1275,32 @@
     "new": "New",
     "ask": "Ask Clara about this week",
     "askQ": "What should I focus on this week?"
+  },
+  "push": {
+    "title": "Phone notifications",
+    "lead": "Get Clara's Sunday note, bill reminders and your payday plan as notifications on this phone.",
+    "turnOn": "Turn on notifications",
+    "turnOff": "Turn off on this phone",
+    "onHere": "On for this phone",
+    "note": "Clara's weekly note",
+    "noteHelp": "Sundays around 6 PM",
+    "bills": "Bills due tomorrow",
+    "billsHelp": "The day before each bill",
+    "payday": "Payday plan",
+    "paydayHelp": "The day before payday",
+    "test": "Send a test",
+    "testSent": "Sent. It should show up in a few seconds.",
+    "testFailed": "Couldn't send it. Try turning notifications off and on again.",
+    "turnedOn": "Notifications are on.",
+    "failed": "Couldn't turn them on. Try again in a moment.",
+    "unsupported": "This browser can't show notifications. Try Chrome or Safari, or the app on your phone.",
+    "notSetUp": "Phone notifications aren't ready yet. Check back soon.",
+    "blocked": "Notifications are blocked for Cuenta Clara. Turn them on in your phone's Settings → Notifications → Cuenta Clara, then come back here.",
+    "demo": "Notifications work once you sign up (not in the demo).",
+    "iosTitle": "On iPhone, add Cuenta Clara to your Home Screen first",
+    "ios1": "In Safari, tap the Share button (the square with an arrow).",
+    "ios2": "Tap “Add to Home Screen”, then “Add”.",
+    "ios3": "Open Cuenta Clara from your Home Screen and come back to this page.",
+    "homeLink": "Get Clara's note on your phone"
   }
 }

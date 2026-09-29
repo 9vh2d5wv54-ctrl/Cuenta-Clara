@@ -29,6 +29,10 @@ export type Profile = {
   currency?: "USD" | "CAD" | "GBP" | "DOP" | null;
   /** Business mode: mark income and spending as business (side hustle, gig, self-employed). */
   business_on?: boolean;
+  /** Phone notifications, by kind (on unless turned off). */
+  push_note_on?: boolean;
+  push_bills_on?: boolean;
+  push_payday_on?: boolean;
   created_at: string;
 };
 

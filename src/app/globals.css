@@ -4077,3 +4077,31 @@ button.explore-tile {
   color: var(--clara);
   text-decoration: none;
 }
+
+/* Settings: phone notifications */
+.push-steps__list {
+  margin: 0;
+  padding-left: 1.2em;
+  display: grid;
+  gap: var(--space-2);
+}
+.push-on {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  color: var(--positive);
+}
+.push-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.clara-note__push {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  color: var(--ink-muted);
+  text-decoration: none;
+}

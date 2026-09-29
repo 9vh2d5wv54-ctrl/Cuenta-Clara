@@ -3,6 +3,7 @@ import { rateBetween, symbolFor } from "@/lib/currencies";
 import { cronUnauthorized, longDate, monthKeyUTC } from "@/lib/cron";
 import { daysInMonth } from "@/lib/dates";
 import { appUrl, sendEmail } from "@/lib/email";
+import { pushUsers, sendPush } from "@/lib/push";
 import { formatUSD } from "@/lib/money";
 import { currencyFor, inCurrency } from "@/lib/currency-scope";
 import { loadUserMonth, monthTotals } from "@/lib/server-budget";
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
   const denied = cronUnauthorized(request);
   if (denied) return denied;
   const db = supabaseAdmin();
-  const [bills, trials, rates, taxes, paydays, health, welcome] = await Promise.all([
+  const [bills, trials, rates, taxes, paydays, health, welcome, billPush] = await Promise.all([
     billReminders(db),
     trialReminders(db),
     rateAlerts(db),
@@ -44,8 +45,9 @@ export async function GET(request: NextRequest) {
     paydayEmails(db),
     healthAlert(db),
     welcomeNudges(db),
+    billPushes(db),
   ]);
-  return NextResponse.json({ bills, trials, rates, taxes, paydays, health, welcome });
+  return NextResponse.json({ bills, trials, rates, taxes, paydays, health, welcome, billPush });
 }
 
 /** Yesterday's sign-ups who haven't entered income or a bill: one friendly nudge back to setup. */
@@ -101,17 +103,22 @@ async function healthAlert(db: ReturnType<typeof supabaseAdmin>) {
   return { ok: checks.length - broken.length, broken: broken.map((c) => c.name) };
 }
 
-/** "Mañana es día de pago": the plan for tomorrow's paycheck, to people who get summary emails. */
+/**
+ * "Mañana es día de pago": the plan for tomorrow's paycheck, by email to people who
+ * get summary emails and as a phone notification to people who turned that on.
+ */
 async function paydayEmails(db: ReturnType<typeof supabaseAdmin>) {
+  const wantsPush = await pushUsers(db, "payday");
   const { data, error } = await db
     .from("users")
-    .select("id, email, language, timezone")
-    .eq("email_weekly_on", true)
+    .select("id, email, language, timezone, email_weekly_on")
     .or("payday_anchor.not.is.null,pay_frequency.not.is.null");
   if (error) return { error: error.message };
 
   let sent = 0;
-  for (const user of (data ?? []) as Pick<User, "id" | "email" | "language" | "timezone">[]) {
+  let pushed = 0;
+  for (const user of (data ?? []) as (Pick<User, "id" | "email" | "language" | "timezone"> & { email_weekly_on: boolean })[]) {
+    if (!user.email_weekly_on && !wantsPush.has(user.id)) continue;
     await inCurrency(await currencyFor(db, user.id), async () => {
       const now = userNow(user.timezone);
       const { data: money } = await loadClaraData(db, now, user.id);
@@ -119,11 +126,49 @@ async function paydayEmails(db: ReturnType<typeof supabaseAdmin>) {
       if (!plan) return;
       const lang = user.language === "en" ? "en" : "es";
       const line = await writePaydayLine(paydayFacts(plan, lang), paydayFallbackLine(plan, lang));
+      if (wantsPush.has(user.id)) {
+        pushed += await sendPush(db, user.id, { title: lang === "es" ? "Mañana es día de pago" : "Payday tomorrow", body: line, url: "/app", tag: "payday" });
+      }
+      if (!user.email_weekly_on) return;
       const { subject, body } = paydayEmail(plan, lang, line, appUrl("/app"));
       if (await sendEmail({ to: user.email, userId: user.id, kind: "weekly", subject, body })) sent++;
     });
   }
-  return { sent };
+  return { sent, pushed };
+}
+
+/** Phone notification the day before each bill is due (bills with reminders on). */
+async function billPushes(db: ReturnType<typeof supabaseAdmin>) {
+  const wantsPush = await pushUsers(db, "bills");
+  if (wantsPush.size === 0) return { pushed: 0 };
+  const target = new Date();
+  target.setUTCDate(target.getUTCDate() + 1);
+  const day = target.getUTCDate();
+  const lastDay = daysInMonth(target.getUTCFullYear(), target.getUTCMonth());
+  const dueDays = day === lastDay ? Array.from({ length: 32 - day }, (_, i) => day + i) : [day];
+  const { data, error } = await db
+    .from("bills")
+    .select("id, name, amount_cents, user_id, users!inner(language)")
+    .in("due_day", dueDays)
+    .eq("reminder_on", true)
+    .in("user_id", [...wantsPush]);
+  if (error) return { error: error.message };
+  let pushed = 0;
+  for (const bill of data ?? []) {
+    await inCurrency(await currencyFor(db, bill.user_id), async () => {
+      const u = bill.users as unknown as { language: string } | { language: string }[];
+      const es = (Array.isArray(u) ? u[0]?.language : u?.language) !== "en";
+      pushed += await sendPush(db, bill.user_id, {
+        title: es ? `${bill.name} vence mañana` : `${bill.name} is due tomorrow`,
+        body: es
+          ? `${formatUSD(bill.amount_cents)}. Ya está en tu plan. Toca para marcarla como pagada.`
+          : `${formatUSD(bill.amount_cents)}. It's already in your plan. Tap to mark it paid.`,
+        url: `/app/add?type=bill_paid&bill=${bill.id}`,
+        tag: `bill-${bill.id}`,
+      });
+    });
+  }
+  return { pushed };
 }
 
 async function billReminders(db: ReturnType<typeof supabaseAdmin>) {

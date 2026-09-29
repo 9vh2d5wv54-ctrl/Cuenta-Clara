@@ -5,6 +5,8 @@ import { USAGE_TAG_LIST } from "@/lib/ai-usage";
 import { isDemo } from "@/lib/demo";
 import { computeFunnel, type FunnelInput } from "@/lib/funnel";
 import { runHealthChecks, type Check } from "@/lib/health-check";
+import { PushKeyMaker } from "@/components/PushKeyMaker";
+import { pushConfigured } from "@/lib/push";
 import { supabaseAdmin, supabaseFromCookies } from "@/lib/supabase-server";
 import { isTester } from "@/lib/testers";
 
@@ -185,6 +187,19 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
             {checks ? "Run again" : "Run the checks now"}
           </Link>
         )}
+      </section>
+
+      <section className="card stack" aria-labelledby="push-keys-title">
+        <div className="stack-sm">
+          <h2 id="push-keys-title" className="t-heading">
+            Phone notification keys
+          </h2>
+          <p className="t-caption muted">
+            Phone notifications need two keys in Vercel. Make them here (in your browser, not sent anywhere), copy each one into Vercel, then
+            redeploy.
+          </p>
+        </div>
+        <PushKeyMaker configured={pushConfigured()} />
       </section>
     </main>
   );

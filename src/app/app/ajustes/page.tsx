@@ -9,6 +9,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { setLocaleCookie } from "@/components/LanguageToggle";
 import Link from "next/link";
 import { SwitchRow } from "@/components/VetNav";
+import { PushSettings } from "@/components/PushSettings";
 import { paywallHref, PlusCard } from "@/components/Plus";
 import { WhatsAppCard } from "@/components/WhatsApp";
 import { FeedbackButton } from "@/components/Feedback";
@@ -42,6 +43,7 @@ export default function Ajustes() {
   const [cancelOpen, setCancelOpen] = useState(false);
   const fb = useTranslations("feedback");
   const bz = useTranslations("business");
+  const pu = useTranslations("push");
   const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
   const [name, setName] = useState("");
   useEffect(() => {
@@ -361,6 +363,12 @@ export default function Ajustes() {
       <Section icon="shield" tone="clara" title={vc("settingsTitle")}>
           <VeteranSetting label={vc("settingLabel")} help={vc("settingHelp")} />
       </Section>
+
+      <div id="notifications">
+        <Section icon="bell" tone="clara" title={pu("title")}>
+          <PushSettings />
+        </Section>
+      </div>
 
       <Section icon="info" tone="violet" title={t("emails")}>
             <label className="row" style={{ cursor: "pointer" }}>

@@ -1,58 +1,56 @@
 # To do at the laptop
 
-## 1. ✓ Done: one paste in Supabase (pesos + Business mode + Clara's note)
+(Done: pesos, Business mode and Clara's note SQL.)
 
-supabase.com → Dashboard → your project → SQL Editor (the >_ icon) → + New query →
-select all old text and delete it → paste everything below → Run.
+## Phone notifications (about 10 minutes)
 
-You should see "Success. No rows returned." If it warns the query is "destructive",
-click "Run this query": it only changes the list of currencies and adds new columns.
-Nothing is deleted.
+### 1. One paste in Supabase
+
+supabase.com → Dashboard → your project → SQL Editor (>_) → + New query → delete any
+old text → paste everything below → Run. You should see "Success. No rows returned."
 
 ```sql
--- Dominican peso (migration 009)
-alter table public.users drop constraint if exists users_currency_check;
-alter table public.users
-  add constraint users_currency_check check (currency in ('USD', 'CAD', 'GBP', 'DOP'));
-
--- Business mode (migration 010)
-alter table public.users add column if not exists business_on boolean not null default false;
-grant update (business_on) on public.users to authenticated;
-alter table public.entries add column if not exists business boolean not null default false;
-create index if not exists entries_user_business on public.entries (user_id, date) where business;
-
--- Weekly note from Clara (migration 011)
-create table if not exists public.clara_notes (
+create table if not exists public.push_subscriptions (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.users (id) on delete cascade,
-  week date not null,
-  body text not null,
-  created_at timestamptz not null default now(),
-  seen_at timestamptz,
-  unique (user_id, week)
+  endpoint text not null unique,
+  p256dh text not null,
+  auth text not null,
+  device text,
+  created_at timestamptz not null default now()
 );
-alter table public.clara_notes enable row level security;
-drop policy if exists "own clara notes" on public.clara_notes;
-create policy "own clara notes" on public.clara_notes for select using (auth.uid() = user_id);
-drop policy if exists "mark clara notes seen" on public.clara_notes;
-create policy "mark clara notes seen" on public.clara_notes for update using (auth.uid() = user_id);
-revoke all on public.clara_notes from anon, authenticated;
-grant select on public.clara_notes to authenticated;
-grant update (seen_at) on public.clara_notes to authenticated;
+create index if not exists push_subscriptions_user on public.push_subscriptions (user_id);
+alter table public.push_subscriptions enable row level security;
+drop policy if exists "own push subscriptions" on public.push_subscriptions;
+create policy "own push subscriptions" on public.push_subscriptions
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+alter table public.users add column if not exists push_note_on boolean not null default true;
+alter table public.users add column if not exists push_bills_on boolean not null default true;
+alter table public.users add column if not exists push_payday_on boolean not null default true;
+grant update (push_note_on, push_bills_on, push_payday_on) on public.users to authenticated;
 ```
 
-Then check the boxes for 009, 010 and 011 in `docs/LAUNCH_CHECKLIST.md`.
+### 2. Make the two keys (on your private dashboard)
 
-## 2. Try it on your phone
+1. Sign in to the app, then open `https://micuentaclara.app/app/admin`.
+2. Scroll to **Phone notification keys** → tap **Make notification keys**.
+3. Keep that tab open. Open a new tab: vercel.com → your Cuenta Clara project →
+   **Settings** → **Environment Variables**.
+4. Add the first key: Name `NEXT_PUBLIC_VAPID_PUBLIC_KEY`. For the value, go back to the
+   dashboard tab, tap **Copy value** under that name, paste it in Vercel. Environments:
+   all. Save.
+5. Same for `VAPID_PRIVATE_KEY` (tap its **Copy value**). Save.
+6. Vercel → **Deployments** → the top one → **⋯** → **Redeploy**. Wait until it says Ready.
 
-1. Settings → Your money → turn on **Business mode**.
-2. Log → **I got paid** → switch on **For my business** → type an amount → Log it.
-3. It shows on Home ("Your business this month") and on the Business page.
-4. Optional: Settings → Your currency → **RD$ Peso dominicano** saves, then switch back.
+Don't paste the keys in chat or anywhere else. The private one stays only in Vercel.
 
-## 3. Get your first note from Clara now (instead of waiting for Sunday)
+### 3. Turn them on on your iPhone
 
-While signed in to the app on the laptop, open:
-`https://micuentaclara.app/api/email/test?kind=note`
-
-It writes this week's note, puts it on Home and emails it to you.
+1. In Safari, open micuentaclara.app → Share button → **Add to Home Screen** → Add
+   (skip if Cuenta Clara is already on your Home Screen).
+2. Open Cuenta Clara **from the Home Screen icon** → Settings → **Phone notifications**
+   → **Turn on notifications** → Allow.
+3. Tap **Send a test**. A notification from Clara should show up in a few seconds.
+4. Optional: `/app/admin` → Run the checks now → "Phone notifications: Ready. 1 phone
+   signed up".

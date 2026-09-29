@@ -13,6 +13,9 @@ create table public.users (
   rate_alert_on boolean not null default false,
   currency text not null default 'USD' check (currency in ('USD', 'CAD', 'GBP', 'DOP')), -- the person's own currency (migrations 008, 009)
   business_on boolean not null default false, -- Business mode (migration 010)
+  push_note_on boolean not null default true, -- phone notifications by kind (migration 012)
+  push_bills_on boolean not null default true,
+  push_payday_on boolean not null default true,
   rate_alert_baseline numeric,
   pay_frequency text check (pay_frequency in ('weekly', 'biweekly')), -- paycheck mode (Plus); null = plan by month
   tax_set_aside_pct smallint check (tax_set_aside_pct between 1 and 50), -- tax set-aside (Plus); null = off
@@ -153,7 +156,8 @@ create policy "own profile" on public.users
 -- People edit their settings; rate_alert_baseline and email are server-managed.
 revoke update on public.users from authenticated, anon;
 grant update (language, home_country, home_currency, email_bills_on, email_weekly_on, timezone, rate_alert_on, pay_frequency, tax_set_aside_pct,
-  balance_cents, balance_on, buffer_cents, payday_anchor, payday_cycle, currency, business_on)
+  balance_cents, balance_on, buffer_cents, payday_anchor, payday_cycle, currency, business_on,
+  push_note_on, push_bills_on, push_payday_on)
   on public.users to authenticated;
 create policy "own budgets" on public.budgets
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
@@ -262,3 +266,20 @@ create policy "mark clara notes seen" on public.clara_notes for update using (au
 revoke all on public.clara_notes from anon, authenticated;
 grant select on public.clara_notes to authenticated;
 grant update (seen_at) on public.clara_notes to authenticated;
+
+-- Phone notifications (web push). One row per phone or browser that turned them
+-- on; people manage their own rows. Which kinds they want lives on users.
+create table if not exists public.push_subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.users (id) on delete cascade,
+  endpoint text not null unique,
+  p256dh text not null,
+  auth text not null,
+  device text,
+  created_at timestamptz not null default now()
+);
+create index if not exists push_subscriptions_user on public.push_subscriptions (user_id);
+alter table public.push_subscriptions enable row level security;
+drop policy if exists "own push subscriptions" on public.push_subscriptions;
+create policy "own push subscriptions" on public.push_subscriptions
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);

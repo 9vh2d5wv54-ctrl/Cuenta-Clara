@@ -85,6 +85,8 @@ Clara and Academy:
 - [x] Run `supabase/migrations/009_currency_dop.sql` in Supabase (Dominican peso)
 - [x] Run `supabase/migrations/010_business.sql` in Supabase (Business mode)
 - [x] Run `supabase/migrations/011_clara_notes.sql` in Supabase (weekly note from Clara)
+- [ ] Run `supabase/migrations/012_push.sql` in Supabase (phone notifications)
+- [ ] Make notification keys on /app/admin and add `NEXT_PUBLIC_VAPID_PUBLIC_KEY` and `VAPID_PRIVATE_KEY` in Vercel, then redeploy (see docs/LAPTOP_TODO.md)
 - [x] What-if 30/60/90-day chart (Plus)
 - [x] Payday plan email the day before payday (preview: /api/email/test?kind=payday)
 - [x] App checkup (Sep 28, 2026): every page, es/en, new/free/Plus, light/dark; new-user flow; no broken links

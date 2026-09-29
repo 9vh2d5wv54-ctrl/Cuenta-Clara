@@ -8,6 +8,7 @@ import { OrbMark } from "./ClaraCard";
 import { Icon } from "./Icon";
 import type { ClaraNote } from "@/lib/clara-note";
 import { formatShortDate } from "@/lib/dates";
+import { pushState } from "@/lib/push-client";
 
 /** Home: Clara's weekly note (written Sundays from the person's own numbers). */
 export function ClaraNoteCard() {
@@ -16,6 +17,15 @@ export function ClaraNoteCard() {
   const { store, entries, business } = useData();
   const [note, setNote] = useState<ClaraNote | null>(null);
   const [fresh, setFresh] = useState(false);
+  const pu = useTranslations("push");
+  // Invite people who could get this on their phone but haven't turned it on.
+  const [invite, setInvite] = useState(false);
+  useEffect(() => {
+    if (store.mode === "demo") return;
+    pushState()
+      .then((s) => setInvite(s === "off" || s === "needs-home-screen"))
+      .catch(() => {});
+  }, [store]);
 
   useEffect(() => {
     let off = false;
@@ -54,6 +64,12 @@ export function ClaraNoteCard() {
         {t("ask")}
         <Icon name="forward" size={16} />
       </Link>
+      {invite && (
+        <Link href="/app/ajustes#notifications" className="t-caption clara-note__push">
+          <Icon name="bell" size={14} />
+          {pu("homeLink")}
+        </Link>
+      )}
     </section>
   );
 }

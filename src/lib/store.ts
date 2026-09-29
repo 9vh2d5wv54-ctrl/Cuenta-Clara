@@ -7,7 +7,7 @@ import type { Bill, Budget, Checkup, Debt, Entry, Goal, NewBill, NewDebt, NewEnt
 // store that keeps everything in this browser so the app runs with no setup.
 
 export type EditableProfile = Partial<
-  Pick<Profile, "language" | "home_country" | "home_currency" | "email_bills_on" | "email_weekly_on" | "timezone" | "rate_alert_on" | "pay_frequency" | "tax_set_aside_pct" | "balance_cents" | "balance_on" | "buffer_cents" | "payday_anchor" | "payday_cycle" | "currency" | "business_on">
+  Pick<Profile, "language" | "home_country" | "home_currency" | "email_bills_on" | "email_weekly_on" | "timezone" | "rate_alert_on" | "pay_frequency" | "tax_set_aside_pct" | "balance_cents" | "balance_on" | "buffer_cents" | "payday_anchor" | "payday_cycle" | "currency" | "business_on" | "push_note_on" | "push_bills_on" | "push_payday_on">
 >;
 
 /** Totals the AI receives. Computed in code so every number is right. */

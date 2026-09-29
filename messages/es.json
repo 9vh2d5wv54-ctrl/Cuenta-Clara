@@ -1275,5 +1275,32 @@
     "new": "Nueva",
     "ask": "Pregúntale a Clara sobre esta semana",
     "askQ": "¿En qué me enfoco esta semana?"
+  },
+  "push": {
+    "title": "Avisos en el teléfono",
+    "lead": "Recibe la nota de Clara del domingo, los recordatorios de cuentas y tu plan del día de pago como avisos en este teléfono.",
+    "turnOn": "Activar avisos",
+    "turnOff": "Desactivar en este teléfono",
+    "onHere": "Activados en este teléfono",
+    "note": "La nota semanal de Clara",
+    "noteHelp": "Los domingos a eso de las 6 PM",
+    "bills": "Cuentas que vencen mañana",
+    "billsHelp": "El día antes de cada cuenta",
+    "payday": "Plan del día de pago",
+    "paydayHelp": "El día antes de tu pago",
+    "test": "Enviar una prueba",
+    "testSent": "Enviado. Debe llegar en unos segundos.",
+    "testFailed": "No se pudo enviar. Desactiva los avisos y vuelve a activarlos.",
+    "turnedOn": "Los avisos están activados.",
+    "failed": "No se pudieron activar. Intenta de nuevo en un momento.",
+    "unsupported": "Este navegador no puede mostrar avisos. Prueba con Chrome o Safari, o con la app en tu teléfono.",
+    "notSetUp": "Los avisos todavía no están listos. Vuelve pronto.",
+    "blocked": "Los avisos están bloqueados para Cuenta Clara. Actívalos en Ajustes del teléfono → Notificaciones → Cuenta Clara y vuelve aquí.",
+    "demo": "Los avisos funcionan cuando creas tu cuenta (no en la demo).",
+    "iosTitle": "En iPhone, primero agrega Cuenta Clara a tu pantalla de inicio",
+    "ios1": "En Safari, toca el botón Compartir (el cuadrito con la flecha).",
+    "ios2": "Toca “Agregar a pantalla de inicio” y luego “Agregar”.",
+    "ios3": "Abre Cuenta Clara desde tu pantalla de inicio y vuelve a esta página.",
+    "homeLink": "Recibe la nota de Clara en tu teléfono"
   }
 }
