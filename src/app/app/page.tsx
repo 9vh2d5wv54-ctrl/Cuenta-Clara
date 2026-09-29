@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useData } from "@/components/DataProvider";
-import { Card, Explain, ProgressBar } from "@/components/ui";
+import { Explain } from "@/components/ui";
 import { Icon } from "@/components/Icon";
 import { PaycheckCard } from "@/components/Paycheck";
 import { TaxCard } from "@/components/Taxes";
@@ -76,6 +76,8 @@ export default function Dashboard() {
         </Link>
       )}
 
+      <WarningsCard />
+
       <GoalProgress />
 
       <QuickActions />
@@ -84,60 +86,79 @@ export default function Dashboard() {
 
       <PaycheckCard />
 
-      <SafeToSpendCard details />
-
-      {sts && (
-      <Card className="hero">
-        <div className="row" style={{ justifyContent: "center" }}>
-          <p className="t-label muted">{t("leftLabel")}</p>
-        </div>
-        <p className={negative ? "t-money-xl hero__figure hero__figure--negative" : "t-money-xl hero__figure"}>
-          {formatUSD(s.left)}
-        </p>
-        <p className="t-body">
-          {negative
-            ? t("leftNegative", { amount: formatUSD(-s.left) })
-            : t("leftPositive", { amount: formatUSD(s.left) })}
-        </p>
-        {income !== null && (
-          <p className="t-caption muted num">{t("ofIncome", { amount: formatUSD(s.income) })}</p>
-        )}
-        <Explain text={x("whatsLeft")} />
-      </Card>
+      {income !== null && (
+        <section className="card month-card" aria-labelledby="month-title">
+          <div className="row row--between">
+            <h2 id="month-title" className="t-heading">
+              {t("thisMonth")}
+            </h2>
+            <span className="t-caption muted num">{t("ofIncome", { amount: formatUSD(s.income) })}</span>
+          </div>
+          {sts && (
+            <div className="month-card__left">
+              <p className="t-label muted">{t("leftLabel")}</p>
+              <p className={negative ? "month-card__figure tone-alerta" : "month-card__figure tone-positive"}>{formatUSD(s.left)}</p>
+            </div>
+          )}
+          {negative && <p className="t-body tone-alerta">{t("leftNegative", { amount: formatUSD(-s.left) })}</p>}
+          <div className="breakdown">
+            {rows.map((r) => (
+              <div key={r.key} className="stack-sm">
+                <div className="row row--between">
+                  <span className="t-label">{r.label}</span>
+                  <span className="t-body num">{formatUSD(r.value)}</span>
+                </div>
+                <span className={`bar bar--${r.tone}`} role="progressbar" aria-label={r.label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(Math.min(1, r.value / base) * 100)}>
+                  <span style={{ width: `${Math.min(1, r.value / base) * 100}%` }} />
+                </span>
+              </div>
+            ))}
+          </div>
+          <Explain text={x("whatsLeft")} />
+        </section>
       )}
 
+      <SafeToSpendCard details />
+
+      <section className="stack-sm">
+        <h2 className="t-heading">{t("upcoming")}</h2>
+        <div className="card">
+          {upcoming.length === 0 ? (
+            <p className="t-body muted">{t("noUpcoming")}</p>
+          ) : (
+            <ul className="list" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {upcoming.map(({ bill, days }) => (
+                <li key={bill.id} className="list-row">
+                  <span className={days <= 2 ? "row-icon row-icon--mango" : "row-icon row-icon--clara"} aria-hidden>
+                    <Icon name="calendar" size={18} />
+                  </span>
+                  <div className="grow">
+                    <p className="t-body">{bill.name}</p>
+                    <p className={days <= 2 ? "t-caption tone-mango" : "t-caption muted"}>{days === 0 ? t("dueToday") : t("dueInDays", { days })}</p>
+                  </div>
+                  <span className="t-body num">{formatUSD(bill.amount_cents)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+
       {income !== null && (
-        <Link href="/app/chequeo" className="card card--mango checkup-teaser">
-          <span className="checkup-teaser__icon" aria-hidden>
-            <Icon name="heart" />
+        <Link href="/app/chequeo" className="card checkup-teaser">
+          <span className="row-icon row-icon--mango" aria-hidden>
+            <Icon name="heart" size={18} />
           </span>
           <span className="grow stack-sm">
             <span className="t-label">
               {checkup ? ch("teaser", { month: today.toLocaleDateString(locale === "es" ? "es-US" : "en-US", { month: "long" }) }) : ch("title")}
             </span>
-            {checkup && (
-              <span className="t-body checkup-teaser__text">{checkup.summary_text.split(/\n/)[0]}</span>
-            )}
+            {checkup && <span className="t-body muted checkup-teaser__text">{checkup.summary_text.split(/\n/)[0]}</span>}
             <span className="t-label checkup-teaser__link">{ch("open")}</span>
           </span>
+          <Icon name="forward" size={20} />
         </Link>
       )}
-
-      <Card>
-        <div className="breakdown">
-          {rows.map((r) => (
-            <div key={r.key} className="stack-sm">
-              <div className="row row--between">
-                <span className="t-label">{r.label}</span>
-                <span className="t-body num">{formatUSD(r.value)}</span>
-              </div>
-              <ProgressBar value={r.value / base} tone={r.tone} label={r.label} />
-            </div>
-          ))}
-        </div>
-      </Card>
-
-      <WarningsCard />
 
       <HealthCard />
 
@@ -147,52 +168,9 @@ export default function Dashboard() {
 
       <VeteranCard />
 
-      <InstallCard />
-
-      <Link href="/aprende" className="card row" style={{ textDecoration: "none" }}>
-        <Icon name="info" />
-        <span className="t-label grow">{ac("homeLink")}</span>
-        <Icon name="forward" size={20} />
-      </Link>
-      <Link href="/estilo" className="card row" style={{ textDecoration: "none" }}>
-        <Icon name="heart" />
-        <span className="t-label grow">{ms("homeLink")}</span>
-        <Icon name="forward" size={20} />
-      </Link>
-
-      {hasPlus(subscription) && (
-        <Link href="/app/pago" className="card row" style={{ textDecoration: "none" }}>
-          <Icon name="check" />
-          <span className="t-label grow">{tp("homeLink")}</span>
-          <Icon name="forward" size={20} />
-        </Link>
-      )}
-
-      <section className="stack-sm">
-        <h2 className="t-heading">{t("upcoming")}</h2>
-        <Card>
-          {upcoming.length === 0 ? (
-            <p className="t-body muted">{t("noUpcoming")}</p>
-          ) : (
-            <ul className="list" style={{ listStyle: "none", margin: 0, padding: 0 }}>
-              {upcoming.map(({ bill, days }) => (
-                <li key={bill.id} className="list-row">
-                  <Icon name="calendar" />
-                  <div className="grow">
-                    <p className="t-body">{bill.name}</p>
-                    <p className="t-caption muted">{days === 0 ? t("dueToday") : t("dueInDays", { days })}</p>
-                  </div>
-                  <span className="t-body num">{formatUSD(bill.amount_cents)}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Card>
-      </section>
-
       <section className="stack-sm">
         <h2 className="t-heading">{t("recent")}</h2>
-        <Card>
+        <div className="card">
           {entries.length === 0 ? (
             <div className="stack-sm">
               <p className="t-body muted">{t("noEntries")}</p>
@@ -202,26 +180,59 @@ export default function Dashboard() {
             </div>
           ) : (
             <ul className="list" style={{ listStyle: "none", margin: 0, padding: 0 }}>
-              {entries.slice(0, 5).map((e) => (
-                <li key={e.id} className="list-row">
-                  <span
-                    className="dot"
-                    style={{ background: e.type === "send" ? "var(--mango)" : "var(--clara)" }}
-                  />
-                  <div className="grow">
-                    <p className="t-body">{e.note || cat(e.category)}</p>
-                    <p className="t-caption muted">{cat(e.category)} · {formatShortDate(e.date, locale)}</p>
-                  </div>
-                  <span className="t-body num">
-                    {e.type === "income" ? "+" : ""}
-                    {formatUSD(e.amount_cents)}
-                  </span>
-                </li>
-              ))}
+              {entries.slice(0, 5).map((e) => {
+                const tone = e.type === "income" ? "positive" : e.type === "send" ? "mango" : e.type === "savings" ? "violet" : "clara";
+                const icon = e.type === "income" ? "plus" : e.type === "send" ? "send" : e.type === "savings" ? "target" : e.type === "bill_paid" ? "calendar" : "list";
+                return (
+                  <li key={e.id} className="list-row">
+                    <span className={`row-icon row-icon--${tone}`} aria-hidden>
+                      <Icon name={icon} size={18} />
+                    </span>
+                    <div className="grow">
+                      <p className="t-body">{e.note || cat(e.category)}</p>
+                      <p className="t-caption muted">
+                        {cat(e.category)} · {formatShortDate(e.date, locale)}
+                      </p>
+                    </div>
+                    <span className={e.type === "income" ? "t-body num tone-positive" : "t-body num"}>
+                      {e.type === "income" ? "+" : "−"}
+                      {formatUSD(e.amount_cents)}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           )}
-        </Card>
+        </div>
       </section>
+
+      <section className="stack-sm">
+        <h2 className="t-heading">{t("explore")}</h2>
+        <div className="explore-grid">
+          <Link href="/aprende" className="explore-tile">
+            <span className="row-icon row-icon--clara" aria-hidden>
+              <Icon name="info" size={18} />
+            </span>
+            <span className="t-label">{ac("homeLink")}</span>
+          </Link>
+          <Link href="/estilo" className="explore-tile">
+            <span className="row-icon row-icon--violet" aria-hidden>
+              <Icon name="heart" size={18} />
+            </span>
+            <span className="t-label">{ms("homeLink")}</span>
+          </Link>
+          {hasPlus(subscription) && (
+            <Link href="/app/pago" className="explore-tile">
+              <span className="row-icon row-icon--positive" aria-hidden>
+                <Icon name="check" size={18} />
+              </span>
+              <span className="t-label">{tp("homeLink")}</span>
+            </Link>
+          )}
+        </div>
+      </section>
+
+      <InstallCard />
     </main>
   );
 }

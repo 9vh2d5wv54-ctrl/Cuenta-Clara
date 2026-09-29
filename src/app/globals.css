@@ -2427,3 +2427,110 @@ textarea {
     font-size: 30px;
   }
 }
+
+/* Home, lower half: month card, tap-to-open sections, row icons, explore tiles */
+.month-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.month-card p {
+  margin: 0;
+}
+.month-card__figure {
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 40px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.tone-alerta {
+  color: var(--alerta);
+}
+.tone-mango {
+  color: var(--mango-ink);
+}
+.fold {
+  padding: 0;
+}
+.fold__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  cursor: pointer;
+  list-style: none;
+}
+.fold__summary::-webkit-details-marker {
+  display: none;
+}
+.fold__chevron {
+  display: inline-flex;
+  color: var(--ink-muted);
+  transition: transform 200ms ease;
+}
+.fold[open] .fold__chevron {
+  transform: rotate(90deg);
+}
+.fold__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0 var(--space-4) var(--space-4);
+  border-top: 1px solid var(--line);
+}
+.fold__body.hero {
+  padding-top: var(--space-4);
+}
+.row-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+.row-icon--clara {
+  color: var(--clara);
+  background: color-mix(in srgb, var(--clara) 16%, transparent);
+}
+.row-icon--positive {
+  color: var(--positive);
+  background: color-mix(in srgb, var(--positive) 16%, transparent);
+}
+.row-icon--violet {
+  color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 16%, transparent);
+}
+.row-icon--mango {
+  color: var(--mango-ink);
+  background: color-mix(in srgb, var(--mango) 18%, transparent);
+}
+.list-row p {
+  margin: 0;
+}
+.checkup-teaser {
+  align-items: center;
+}
+.explore-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.explore-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-line);
+  box-shadow: var(--card-shadow);
+  color: var(--ink);
+  text-decoration: none;
+}
+.explore-tile:hover {
+  box-shadow: var(--card-shadow), var(--card-glow);
+}

@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { useData } from "./DataProvider";
+import { Icon } from "./Icon";
 import { PlusPreview } from "./Plus";
 import { Button, Card, Explain, Field, Input, MoneyInput, Segmented } from "./ui";
 import { addDays, currentPayPeriod } from "@/lib/paycheck";
@@ -159,11 +160,13 @@ export function SafeToSpendCard({ details = false }: { details?: boolean }) {
   ].filter((l) => l.value > 0);
   const days = projectToPayday(s);
 
-  return (
-    <Card className="hero">
-      <div className="row" style={{ justifyContent: "center" }}>
-        <p className="t-label muted">{t("title")}</p>
-      </div>
+  const inner = (
+    <>
+      {!details && (
+        <div className="row" style={{ justifyContent: "center" }}>
+          <p className="t-label muted">{t("title")}</p>
+        </div>
+      )}
       {!details && (
         <>
           <p className={negative ? "t-money-xl hero__figure hero__figure--negative" : "t-money-xl hero__figure"}>
@@ -259,6 +262,26 @@ export function SafeToSpendCard({ details = false }: { details?: boolean }) {
       <button type="button" className="t-caption link-button" onClick={() => setEditing("setup")}>
         {t("editSetup")}
       </button>
-    </Card>
+    </>
   );
+
+  if (details) {
+    // Home: the big number is on the hero card, so the breakdown folds away.
+    return (
+      <details className="card fold">
+        <summary className="fold__summary">
+          <span className="grow stack-sm">
+            <span className="t-heading">{t("detailsTitle")}</span>
+            <span className="t-caption muted">{t("detailsLead", { amount: formatUSD(s.safe) })}</span>
+          </span>
+          <span className="fold__chevron" aria-hidden>
+            <Icon name="forward" size={20} />
+          </span>
+        </summary>
+        <div className="fold__body hero">{inner}</div>
+      </details>
+    );
+  }
+
+  return <Card className="hero">{inner}</Card>;
 }

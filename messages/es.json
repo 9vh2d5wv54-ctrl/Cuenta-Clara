@@ -158,7 +158,9 @@
     "finishSetup": "Terminar de configurar",
     "recent": "Lo último que anotaste",
     "noEntries": "Todavía no anotas nada este mes.",
-    "logSomething": "Anotar un gasto"
+    "logSomething": "Anotar un gasto",
+    "thisMonth": "Este mes",
+    "explore": "Explora"
   },
   "add": {
     "title": "Anotar",
@@ -510,7 +512,9 @@
     "projection": "Día por día hasta tu pago",
     "projectionLead": "Si cada cuenta sale el día que vence y gastas lo demás parejo.",
     "plusProjection": "Mira tu saldo día por día",
-    "amountInvalid": "Escribe la cantidad, como 1250.00"
+    "amountInvalid": "Escribe la cantidad, como 1250.00",
+    "detailsTitle": "Cómo calculamos tu Seguro para gastar",
+    "detailsLead": "Mira la cuenta detrás de {amount}, actualiza tu saldo o cambia tu día de pago."
   },
   "debts": {
     "title": "Plan para salir de deudas",

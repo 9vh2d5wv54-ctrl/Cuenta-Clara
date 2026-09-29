@@ -158,7 +158,9 @@
     "finishSetup": "Finish setup",
     "recent": "Recently logged",
     "noEntries": "Nothing logged yet this month.",
-    "logSomething": "Log an expense"
+    "logSomething": "Log an expense",
+    "thisMonth": "This month",
+    "explore": "Explore"
   },
   "add": {
     "title": "Log",
@@ -510,7 +512,9 @@
     "projection": "Day by day until payday",
     "projectionLead": "If each bill leaves on its due date and you spend the rest evenly.",
     "plusProjection": "See your balance day by day",
-    "amountInvalid": "Type the amount, like 1250.00"
+    "amountInvalid": "Type the amount, like 1250.00",
+    "detailsTitle": "How we got your Safe to Spend",
+    "detailsLead": "See the math behind {amount}, update your balance, or change your payday."
   },
   "debts": {
     "title": "Debt payoff plan",
