@@ -3829,3 +3829,43 @@ button.explore-tile {
     width: 230px;
   }
 }
+
+/* Landing sections: feature grids, glowing Clara cards, check lists */
+.lp-feature--glow {
+  border-color: color-mix(in srgb, var(--glow) 25%, transparent);
+  box-shadow: var(--card-shadow), var(--card-glow);
+}
+.lp-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.lp-checks li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 15px;
+  font-weight: 600;
+}
+.lp-float__avatar--goal {
+  background: color-mix(in srgb, var(--positive) 22%, transparent);
+  color: var(--positive);
+}
+.lp-float__pct {
+  font-weight: 700;
+  color: var(--positive);
+}
+.lp-float__bar--goal > span {
+  width: 62%;
+}
+@media (min-width: 900px) {
+  .lp-features--three {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .lp-features--two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

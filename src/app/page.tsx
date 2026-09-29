@@ -38,6 +38,19 @@ export default async function Landing() {
     { icon: "check", title: t("vetBenefitsTitle"), text: t("vetBenefitsText") },
   ];
 
+  const claraFeatures: { icon: IconName; title: string; text: string }[] = [
+    { icon: "wallet", title: t("clara1Title"), text: t("clara1Text") },
+    { icon: "activity", title: t("clara2Title"), text: t("clara2Text") },
+    { icon: "heart", title: t("clara3Title"), text: t("clara3Text") },
+  ];
+
+  const bizFeatures: { icon: IconName; title: string; text: string }[] = [
+    { icon: "calendar", title: t("biz1Title"), text: t("biz1Text") },
+    { icon: "shield", title: t("biz2Title"), text: t("biz2Text") },
+    { icon: "camera", title: t("biz3Title"), text: t("biz3Text") },
+    { icon: "target", title: t("biz4Title"), text: t("biz4Text") },
+  ];
+
   const faq = (["Safe", "Free", "Bank", "ForMe", "Data", "Numbers"] as const).map((k) => ({
     q: t(`faq${k}Q`),
     a: t(`faq${k}A`),
@@ -71,8 +84,8 @@ export default async function Landing() {
               onTrack: t("artOnTrack"),
               ask: t("artAsk"),
               answer: t("artAnswer"),
-              send: t("artSend"),
-              sent: t("artSent"),
+              send: t("artGoal"),
+              sent: t("artGoalPct"),
             }}
             amount={formatUSD(SAMPLE_LEFT)}
           />
@@ -100,7 +113,29 @@ export default async function Landing() {
           </ul>
         </section>
 
-        {/* 3. How it works */}
+        {/* 3. Clara, the AI money coach */}
+        <section className="lp-wrap lp-section">
+          <div className="stack-sm">
+            <p className="t-label lp-eyebrow">{t("claraEyebrow")}</p>
+            <h2 className="t-title">{t("claraTitle")}</h2>
+            <p className="t-body muted">{t("claraSub")}</p>
+          </div>
+          <ul className="lp-features lp-features--three">
+            {claraFeatures.map((f) => (
+              <li key={f.title} className="card lp-feature lp-feature--glow">
+                <span className="row-icon row-icon--clara" aria-hidden>
+                  <Icon name={f.icon} size={20} />
+                </span>
+                <span className="stack-sm">
+                  <span className="t-heading">{f.title}</span>
+                  <span className="t-body muted">{f.text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* 4. How it works */}
         <section className="lp-wrap lp-section">
           <h2 className="t-title">{t("howTitle")}</h2>
           <ol className="lp-steps">
@@ -115,11 +150,22 @@ export default async function Landing() {
           </ol>
         </section>
 
-        {/* 4. Big number preview + second CTA */}
+        {/* 5. Technology: the big number preview + second CTA */}
         <section className="lp-wrap lp-section lp-number">
           <div className="lp-number__text">
+            <p className="t-label lp-eyebrow">{t("techEyebrow")}</p>
             <h2 className="t-title">{t("numberTitle")}</h2>
             <p className="t-body muted">{t("numberSub")}</p>
+            <ul className="lp-checks">
+              {[t("tech1"), t("tech2"), t("tech3"), t("tech4")].map((line) => (
+                <li key={line}>
+                  <span className="plus-feature__check" aria-hidden>
+                    <Icon name="check" size={14} />
+                  </span>
+                  {line}
+                </li>
+              ))}
+            </ul>
             <CtaLink placement="number" className="btn btn--primary btn--cta lp-desktop-inline">
               {t("cta")}
             </CtaLink>
@@ -146,62 +192,12 @@ export default async function Landing() {
           </CtaLink>
         </section>
 
-        {/* 5. Family sends */}
-        <section className="lp-band">
-          <div className="lp-wrap lp-section lp-sends">
-            <div>
-              <h2 className="t-title">{t("sendsTitle")}</h2>
-              <p className="t-body lp-sends__sub">{t("sendsSub")}</p>
-            </div>
-            <div className="card lp-sends__card">
-              <p className="t-label">{t("sendsMock")}</p>
-              <div className="row row--between">
-                <span className="t-heading num">{t("sendsMockPlan")}</span>
-                <span className="t-label num lp-sends__receives">{t("sendsMockReceives")}</span>
-              </div>
-              <p className="t-caption muted">1 USD = RD$ 63.42</p>
-              <div className="stack-sm">
-                <div className="row row--between">
-                  <span className="t-caption muted">{t("sendsMockProgress")}</span>
-                  <span className="t-caption num">$100.00 / $200.00</span>
-                </div>
-                <div className="progress progress--mango" aria-hidden>
-                  <div className="progress__fill" style={{ width: "50%" }} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 6. Veterans: built by a veteran; free tools, estimates only */}
-        <section className="lp-band lp-band--clara">
-          <div className="lp-wrap lp-section">
-            <div className="stack-sm">
-              <p className="t-label lp-eyebrow">{t("vetEyebrow")}</p>
-              <h2 className="t-title">{t("vetTitle")}</h2>
-              <p className="t-body">{t("vetSub")}</p>
-            </div>
-            <ul className="lp-features">
-              {vetTools.map((tool) => (
-                <li key={tool.title} className="card lp-feature">
-                  <Icon name={tool.icon} />
-                  <span className="stack-sm">
-                    <span className="t-heading">{tool.title}</span>
-                    <span className="t-body muted">{tool.text}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <CtaLink placement="veterans" className="btn btn--primary btn--cta lp-self-start">
-              {t("cta")}
-            </CtaLink>
-            <p className="t-caption muted">{t("vetNote")}</p>
-          </div>
-        </section>
-
-        {/* 7. Free tools, no account needed */}
+        {/* 6. Education: free tools, no account needed */}
         <section className="lp-wrap lp-section">
-          <h2 className="t-title">{t("freeTitle")}</h2>
+          <div className="stack-sm">
+            <p className="t-label lp-eyebrow">{t("eduEyebrow")}</p>
+            <h2 className="t-title">{t("freeTitle")}</h2>
+          </div>
           <div className="lp-features">
             <Link href="/estilo" className="card lp-feature lp-feature--link">
               <Icon name="heart" />
@@ -230,7 +226,83 @@ export default async function Landing() {
           </div>
         </section>
 
-        {/* 8. FAQ: closed accordion, six questions */}
+        {/* 7. Work and business: irregular pay, side hustles, self-employed */}
+        <section className="lp-wrap lp-section">
+          <div className="stack-sm">
+            <p className="t-label lp-eyebrow">{t("bizEyebrow")}</p>
+            <h2 className="t-title">{t("bizTitle")}</h2>
+            <p className="t-body muted">{t("bizSub")}</p>
+          </div>
+          <ul className="lp-features lp-features--two">
+            {bizFeatures.map((f) => (
+              <li key={f.title} className="card lp-feature">
+                <span className="row-icon row-icon--positive" aria-hidden>
+                  <Icon name={f.icon} size={20} />
+                </span>
+                <span className="stack-sm">
+                  <span className="t-heading">{f.title}</span>
+                  <span className="t-body muted">{f.text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* 8. Veterans: built by a veteran; free tools, estimates only */}
+        <section className="lp-band lp-band--clara">
+          <div className="lp-wrap lp-section">
+            <div className="stack-sm">
+              <p className="t-label lp-eyebrow">{t("vetEyebrow")}</p>
+              <h2 className="t-title">{t("vetTitle")}</h2>
+              <p className="t-body">{t("vetSub")}</p>
+            </div>
+            <ul className="lp-features">
+              {vetTools.map((tool) => (
+                <li key={tool.title} className="card lp-feature">
+                  <Icon name={tool.icon} />
+                  <span className="stack-sm">
+                    <span className="t-heading">{tool.title}</span>
+                    <span className="t-body muted">{tool.text}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <CtaLink placement="veterans" className="btn btn--primary btn--cta lp-self-start">
+              {t("cta")}
+            </CtaLink>
+            <p className="t-caption muted">{t("vetNote")}</p>
+          </div>
+        </section>
+
+        {/* 9. Bilingual families and family sends */}
+        <section className="lp-band">
+          <div className="lp-wrap lp-section lp-sends">
+            <div className="stack-sm">
+              <p className="t-label lp-eyebrow">{t("familyEyebrow")}</p>
+              <h2 className="t-title">{t("sendsTitle")}</h2>
+              <p className="t-body lp-sends__sub">{t("sendsSub")}</p>
+            </div>
+            <div className="card lp-sends__card">
+              <p className="t-label">{t("sendsMock")}</p>
+              <div className="row row--between">
+                <span className="t-heading num">{t("sendsMockPlan")}</span>
+                <span className="t-label num lp-sends__receives">{t("sendsMockReceives")}</span>
+              </div>
+              <p className="t-caption muted">1 USD = RD$ 63.42</p>
+              <div className="stack-sm">
+                <div className="row row--between">
+                  <span className="t-caption muted">{t("sendsMockProgress")}</span>
+                  <span className="t-caption num">$100.00 / $200.00</span>
+                </div>
+                <div className="progress progress--mango" aria-hidden>
+                  <div className="progress__fill" style={{ width: "50%" }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 10. FAQ: closed accordion, six questions */}
         <section className="lp-wrap lp-section lp-faq">
           <h2 className="t-title">{t("faqTitle")}</h2>
           <div className="lp-faq__list">
@@ -248,7 +320,7 @@ export default async function Landing() {
           </div>
         </section>
 
-        {/* 9. Final CTA */}
+        {/* 11. Final CTA */}
         <section className="lp-wrap lp-final">
           <h2 className="t-title">{t("finalTitle")}</h2>
           <p className="t-body muted">{t("finalSub")}</p>
@@ -296,11 +368,13 @@ function HeroArt({ labels, amount }: { labels: Record<"safe" | "onTrack" | "ask"
       </div>
       <div className="lp-float lp-float--send">
         <p className="lp-float__row">
-          <span className="lp-float__avatar">M</span>
+          <span className="lp-float__avatar lp-float__avatar--goal">
+            <Icon name="target" size={14} />
+          </span>
           <span className="grow">{labels.send}</span>
-          <span className="lp-float__tag">{labels.sent}</span>
+          <span className="lp-float__pct">{labels.sent}</span>
         </p>
-        <span className="lp-float__bar">
+        <span className="lp-float__bar lp-float__bar--goal">
           <span />
         </span>
       </div>
