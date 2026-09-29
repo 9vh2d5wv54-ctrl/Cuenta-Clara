@@ -1,3 +1,4 @@
+import type { ClaraNote } from "./clara-note";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { AuthResult, CheckoutStart, CheckupInput, ClaraConversation, ClaraRequest, ClaraResult, ClaraTurnData, EditableProfile, Store } from "./store";
 import { supabaseBrowser } from "./supabase-browser";
@@ -227,6 +228,22 @@ export class SupabaseStore implements Store {
     if (!res?.ok) return [];
     return ((await res.json()) as { turns: ClaraTurnData[] }).turns ?? [];
   }
+  async claraNote(): Promise<ClaraNote | null> {
+    // Notes older than 8 days are stale; before migration 011 there's no table (no note).
+    const since = new Date(Date.now() - 8 * 86_400_000).toISOString().slice(0, 10);
+    const { data, error } = await this.db
+      .from("clara_notes")
+      .select("id, week, body, seen_at")
+      .gte("week", since)
+      .order("week", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    return error ? null : ((data as ClaraNote | null) ?? null);
+  }
+  async claraNoteSeen(id: string) {
+    await this.db.from("clara_notes").update({ seen_at: new Date().toISOString() }).eq("id", id);
+  }
+
   async claraDelete(id: string): Promise<boolean> {
     const res = await fetch(`/api/clara?c=${encodeURIComponent(id)}`, { method: "DELETE" }).catch(() => null);
     return Boolean(res?.ok);

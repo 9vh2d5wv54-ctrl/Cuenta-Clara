@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { writeWeeklyLine } from "@/lib/ai";
+import { makeClaraNote, saveClaraNote } from "@/lib/clara-note-server";
 import { goalMonthlyCents } from "@/lib/budget";
 import { cronUnauthorized, monthKeyUTC } from "@/lib/cron";
 import { daysBetween, nextDueDate } from "@/lib/dates";
@@ -9,7 +10,9 @@ import { currencyFor, inCurrency } from "@/lib/currency-scope";
 import { loadUserMonth, monthInput, monthTotals } from "@/lib/server-budget";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-// "Tu resumen / Your week": Sundays at 6 PM.
+// "Tu resumen / Your week": Sundays at 6 PM. It also writes Clara's weekly note
+// for everyone with something to write about (shown on Home), and leads the
+// email with it.
 // Default (works on Vercel Hobby): one run Sundays 22:00 UTC, which is 6 PM in
 // New York during daylight time, sent to everyone. With WEEKLY_LOCAL_TIME=true
 // and the cron set to hourly on Sundays (Vercel Pro), each person gets it at 6 PM
@@ -20,6 +23,7 @@ type Row = {
   email: string;
   language: "es" | "en";
   timezone: string;
+  email_weekly_on: boolean;
   subscriptions: { plan: string; status: string; trial_ends_at: string | null } | null;
 };
 
@@ -40,20 +44,25 @@ export async function GET(request: NextRequest) {
   const db = supabaseAdmin();
   const { data, error } = await db
     .from("users")
-    .select("id, email, language, timezone, subscriptions(plan, status, trial_ends_at)")
-    .eq("email_weekly_on", true);
+    .select("id, email, language, timezone, email_weekly_on, subscriptions(plan, status, trial_ends_at)");
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const month = monthKeyUTC();
   let sent = 0;
+  let notes = 0;
   for (const user of (data ?? []) as unknown as Row[]) {
     await inCurrency(await currencyFor(db, user.id), async () => {
       if (process.env.WEEKLY_LOCAL_TIME === "true" && !isSunday6pm(user.timezone)) return;
+      // Clara's note first: it goes on Home even for people who turned the email off.
+      const note = await makeClaraNote(db, user.id, user.language === "en" ? "en" : "es", user.timezone).catch(() => null);
+      if (note && (await saveClaraNote(db, user.id, note.week, note.body))) notes++;
+      if (!user.email_weekly_on) return;
+
       const u = await loadUserMonth(db, user.id, month);
       if (!u.income) return; // nothing to summarize before setup
       const es = user.language !== "en";
       const totals = monthTotals(u);
-      const line = await writeWeeklyLine(monthInput(u, user.language, month));
+      const line = note?.body ?? (await writeWeeklyLine(monthInput(u, user.language, month)));
   
       const now = new Date();
       const dueSoon = u.bills
@@ -103,5 +112,5 @@ export async function GET(request: NextRequest) {
       if (ok) sent++;
     });
   }
-  return NextResponse.json({ sent });
+  return NextResponse.json({ sent, notes });
 }

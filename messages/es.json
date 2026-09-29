@@ -1268,5 +1268,12 @@
     "settingFailed": "No se pudo activar el Modo negocio. Intenta de nuevo en un momento.",
     "tag": "Negocio",
     "explain": "“Te quedó” es lo que entró al negocio menos lo que gastó. Es tu ganancia antes de impuestos."
+  },
+  "claraNote": {
+    "title": "La nota de Clara",
+    "week": "Semana del {date}",
+    "new": "Nueva",
+    "ask": "Pregúntale a Clara sobre esta semana",
+    "askQ": "¿En qué me enfoco esta semana?"
   }
 }

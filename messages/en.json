@@ -1268,5 +1268,12 @@
     "settingFailed": "Couldn't turn on Business mode. Try again in a moment.",
     "tag": "Business",
     "explain": "“You kept” is business income minus business costs. It's your profit before taxes."
+  },
+  "claraNote": {
+    "title": "Clara's note",
+    "week": "Week of {date}",
+    "new": "New",
+    "ask": "Ask Clara about this week",
+    "askQ": "What should I focus on this week?"
   }
 }

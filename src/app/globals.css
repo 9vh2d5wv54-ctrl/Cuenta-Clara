@@ -4036,3 +4036,44 @@ button.explore-tile {
     column-gap: var(--space-8);
   }
 }
+
+/* Home: Clara's weekly note */
+.clara-note {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border-color: color-mix(in srgb, var(--clara) 45%, transparent);
+  box-shadow: var(--card-shadow), 0 0 32px color-mix(in srgb, var(--glow) 18%, transparent);
+  background:
+    radial-gradient(120% 80% at 0% 0%, color-mix(in srgb, var(--clara) 16%, transparent) 0%, transparent 60%),
+    var(--card-bg);
+}
+.clara-note__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.clara-note__head p,
+.clara-note__title {
+  margin: 0;
+}
+.clara-note__new {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: var(--on-clara);
+  background: var(--clara);
+}
+.clara-note__body {
+  margin: 0;
+  font-size: 17px;
+  line-height: 26px;
+}
+.clara-note__ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  color: var(--clara);
+  text-decoration: none;
+}

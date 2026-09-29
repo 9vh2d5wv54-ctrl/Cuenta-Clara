@@ -1,7 +1,9 @@
 import type { AuthResult, CheckoutStart, CheckupInput, ClaraConversation, ClaraRequest, ClaraResult, ClaraTurnData, EditableProfile, Store } from "./store";
 import type { ClaraData } from "./clara-tools";
 import { soundsLikeCrisis } from "./clara-safety";
-import { claraAllowance, hasPlus, TRIAL_DAYS } from "./plan";
+import { claraAllowance, hasPlus, taxPct, TRIAL_DAYS } from "./plan";
+import { businessEntries } from "./business";
+import { fallbackNote, hasNoteData, noteWeek, type ClaraNote } from "./clara-note";
 import { todayISO } from "./dates";
 import type {
   Bill, Budget, Checkup, Debt, Entry, Goal, NewBill, NewDebt, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription,
@@ -24,6 +26,8 @@ type DemoData = {
   /** Clara: the dates of counted questions, and saved conversations. */
   claraAsked: string[];
   clara: (ClaraConversation & { turns: ClaraTurnData[] })[];
+  /** Weekly note: the week it was last marked seen. */
+  noteSeen?: string;
 };
 
 const FREE: Subscription = {
@@ -324,6 +328,36 @@ export class DemoStore implements Store {
   async claraConversation(id: string): Promise<ClaraTurnData[]> {
     return load().clara.find((c) => c.id === id)?.turns ?? [];
   }
+  /** Demo mode has no Sunday job: write this week's note from the local numbers (no AI). */
+  async claraNote(): Promise<ClaraNote | null> {
+    const x = load();
+    const now = new Date();
+    const month = todayISO(now).slice(0, 7);
+    const income = x.budgets.filter((b) => b.month <= month).sort((a, b) => b.month.localeCompare(a.month))[0]?.income_cents ?? 0;
+    const since = todayISO(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 130));
+    const d: ClaraData = {
+      profile: x.profile,
+      income,
+      bills: x.bills,
+      recipients: x.recipients,
+      goals: x.goals,
+      recent: x.entries.filter((e) => e.date >= since),
+      business: businessEntries(x.entries, todayISO(now)),
+      debts: x.debts ?? [],
+      subscription: x.subscription ?? FREE,
+      taxPct: taxPct(x.profile, x.subscription ?? FREE),
+    };
+    if (!hasNoteData(d, now)) return null;
+    const week = noteWeek(now);
+    const lang = x.profile?.language === "en" ? "en" : "es";
+    return { id: `demo-${week}`, week, body: fallbackNote(d, lang, now), seen_at: x.noteSeen === week ? now.toISOString() : null };
+  }
+  async claraNoteSeen() {
+    this.update((x) => {
+      x.noteSeen = noteWeek();
+    });
+  }
+
   async claraDelete(id: string): Promise<boolean> {
     this.update((x) => {
       x.clara = x.clara.filter((c) => c.id !== id);

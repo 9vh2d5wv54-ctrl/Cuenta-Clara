@@ -104,6 +104,21 @@ export async function writeWeeklyLine(i: CheckupInput): Promise<string> {
 
 const PAYDAY_SYSTEM = `You write the one friendly opening line of a "payday tomorrow" email from Clara, the money copilot in Cuenta Clara. Reply in the user's language (Spanish or English), using "tú" in Spanish. One sentence, under 25 words, no exclamation marks, no emoji. Use only numbers given below, never calculate new ones. If what's left is negative, be calm and practical: bills first. Never judge or shame. Tone: warm, clear, like a relative who's good with money.`;
 
+const NOTE_SYSTEM = `You write Clara's weekly note in Cuenta Clara, an AI money coach app. Clara is warm and clear, like a relative who's good with money. Write in the language given (Spanish with "tú", or English).
+- 2 or 3 short sentences, under 60 words in total.
+- First, the one most useful thing from the facts: a change from last week, what their business kept, a goal getting close, or a bill coming up. Then one small, concrete step for this week.
+- Use only numbers that appear in the facts, exactly as written (same currency symbol). Never calculate, round or invent a number.
+- Category names in the facts are in English (food, transport, supplies…); translate them naturally.
+- If spending went up or money is tight, stay calm and practical. Never judge or shame.
+- No greeting, no sign-off, no emoji, no markdown, no exclamation marks.`;
+
+/** Clara's weekly note, written from facts the app computed. Null when Claude isn't reachable. */
+export async function writeClaraNote(facts: string[], lang: "es" | "en"): Promise<string | null> {
+  if (!hasKey()) return null;
+  const text = await write(NOTE_SYSTEM, `Language: ${lang === "es" ? "Spanish" : "English"}\n\nFacts:\n${facts.map((f) => `- ${f}`).join("\n")}`, 400);
+  return text ? text.replace(/\s*\n+\s*/g, " ").trim() : null;
+}
+
 /** Clara's first line in the payday email. The plan below it comes from code. */
 export async function writePaydayLine(facts: string, fallback: string): Promise<string> {
   if (hasKey()) {

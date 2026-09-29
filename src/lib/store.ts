@@ -1,3 +1,4 @@
+import type { ClaraNote } from "./clara-note";
 import type { ClaraData, ClaraLinks } from "./clara-tools";
 import { isDemo } from "./demo";
 import type { Bill, Budget, Checkup, Debt, Entry, Goal, NewBill, NewDebt, NewEntry, NewGoal, NewRecipient, Profile, Recipient, Subscription } from "./types";
@@ -111,6 +112,9 @@ export interface Store {
   claraConversations(): Promise<ClaraConversation[]>;
   claraConversation(id: string): Promise<ClaraTurnData[]>;
   claraDelete(id: string): Promise<boolean>;
+  /** Clara's weekly note for this week or last (null if none yet; demo mode writes one from local data). */
+  claraNote(): Promise<ClaraNote | null>;
+  claraNoteSeen(id: string): Promise<void>;
 }
 
 let store: Store | null = null;
