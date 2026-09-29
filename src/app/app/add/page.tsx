@@ -4,7 +4,8 @@ import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { useData } from "@/components/DataProvider";
-import { Button, Field, Input, MoneyInput, Segmented, Select, Toast } from "@/components/ui";
+import { Button, Field, Input, Toast } from "@/components/ui";
+import { Icon, type IconName } from "@/components/Icon";
 import { EXPENSE_CATEGORIES } from "@/lib/budget";
 import { todayISO } from "@/lib/dates";
 import { hasPlus } from "@/lib/plan";
@@ -13,6 +14,17 @@ import { PlusCard } from "@/components/Plus";
 import type { ParsedEntry } from "@/lib/quick-log";
 import { centsToInput, formatUSD, parseCents } from "@/lib/money";
 import type { EntryType, NewEntry } from "@/lib/types";
+
+const CAT_ICONS: Record<(typeof EXPENSE_CATEGORIES)[number], IconName> = {
+  food: "utensils",
+  transport: "car",
+  home: "home",
+  health: "activity",
+  phone: "phone",
+  kids: "smile",
+  fun: "music",
+  other: "more",
+};
 
 export default function AddEntry() {
   const t = useTranslations("add");
@@ -160,141 +172,188 @@ export default function AddEntry() {
     (type === "savings" && goals.length === 0 && t("noGoals")) ||
     null;
 
-  return (
-    <main className="page">
-      <h1 className="t-title">{t("title")}</h1>
+  const types: { value: EntryType; label: string; icon: IconName; tone: string }[] = [
+    { value: "expense", label: t("typeExpense"), icon: "list", tone: "clara" },
+    { value: "send", label: t("typeSend"), icon: "send", tone: "mango" },
+    { value: "bill_paid", label: t("typeBill"), icon: "calendar", tone: "clara" },
+    { value: "savings", label: t("typeSavings"), icon: "target", tone: "positive" },
+    ...(payMode ? [{ value: "income" as const, label: t("typeIncome"), icon: "wallet" as const, tone: "positive" }] : []),
+  ];
 
-      {hasPlus(subscription) ? (
+  return (
+    <main className="page log-page">
+      <header className="stack-sm">
+        <h1 className="t-title">{t("title")}</h1>
+        <p className="t-body muted">{t("lead")}</p>
+      </header>
+
+      {hasPlus(subscription) && (
         <>
           <QuickLog onEdit={fillForm} onSaved={quickSaved} />
           <p className="t-label muted">{q("orByHand")}</p>
         </>
-      ) : (
-        <PlusCard feature="quicklog" title={q("plusTitle")} />
       )}
 
-      <Segmented
-        label={t("title")}
-        value={type}
-        onChange={changeType}
-        options={[
-          { value: "expense", label: t("typeExpense") },
-          { value: "send", label: t("typeSend") },
-          { value: "bill_paid", label: t("typeBill") },
-          { value: "savings", label: t("typeSavings") },
-          ...(payMode ? [{ value: "income" as const, label: t("typeIncome") }] : []),
-        ]}
-      />
-
-      {type === "send" && recipients.length > 0 && (
-        <div className="stack-sm">
-          <p className="t-label">{t("presets")}</p>
-          <div className="chips">
-            {recipients.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                className="chip chip--mango"
-                disabled={busy}
-                onClick={() =>
-                  save({
-                    type: "send",
-                    amount_cents: r.default_amount_cents,
-                    category: "family",
-                    recipient_id: r.id,
-                    date: todayISO(),
-                    note: r.name,
-                  })
-                }
-              >
-                {r.name} · <span className="num">{formatUSD(r.default_amount_cents)}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      <div className="type-grid" role="radiogroup" aria-label={t("kind")} style={{ gridTemplateColumns: `repeat(${types.length}, 1fr)` }}>
+        {types.map((o) => (
+          <button
+            key={o.value}
+            type="button"
+            role="radio"
+            aria-checked={type === o.value}
+            className={type === o.value ? "type-tile type-tile--on" : "type-tile"}
+            onClick={() => changeType(o.value)}
+          >
+            <span className={`row-icon row-icon--${o.tone}`} aria-hidden>
+              <Icon name={o.icon} size={18} />
+            </span>
+            {o.label}
+          </button>
+        ))}
+      </div>
 
       {blocked ? (
         <p className="notice t-body">{blocked}</p>
       ) : (
         <form className="stack" onSubmit={submit} noValidate>
-          <Field label={c("amount")} error={amountError}>
-            {(p) => <MoneyInput big {...p} value={amount} onChange={(e) => setAmount(e.target.value)} />}
-          </Field>
-
-          {type === "expense" && (
-            <div className="field">
-              <span className="field__label">{t("category")}</span>
-              <Segmented
-                label={t("category")}
-                value={category}
-                onChange={setCategory}
-                options={EXPENSE_CATEGORIES.map((k) => ({ value: k, label: cat(k) }))}
+          <div className={amountError ? "amount-hero amount-hero--error" : "amount-hero"}>
+            <label htmlFor="log-amount" className="amount-hero__label">
+              {c("amount")}
+            </label>
+            <div className="amount-hero__row">
+              <span className="amount-hero__dollar" aria-hidden>
+                $
+              </span>
+              <input
+                id="log-amount"
+                className="amount-hero__input"
+                inputMode="decimal"
+                autoComplete="off"
+                placeholder="0.00"
+                value={amount}
+                style={{ width: `${Math.max(4, amount.length) + 0.5}ch` }}
+                aria-invalid={amountError ? true : undefined}
+                aria-describedby={amountError ? "log-amount-error" : undefined}
+                onChange={(e) => setAmount(e.target.value)}
               />
             </div>
+            {amountError && (
+              <p id="log-amount-error" className="field__error">
+                {amountError}
+              </p>
+            )}
+          </div>
+
+          {type === "expense" && (
+            <fieldset className="pick">
+              <legend className="field__label">{t("category")}</legend>
+              <div className="cat-grid">
+                {EXPENSE_CATEGORIES.map((k) => (
+                  <button
+                    key={k}
+                    type="button"
+                    className={category === k ? "cat-btn cat-btn--on" : "cat-btn"}
+                    aria-pressed={category === k}
+                    onClick={() => setCategory(k)}
+                  >
+                    <span className="cat-btn__icon" aria-hidden>
+                      <Icon name={CAT_ICONS[k]} size={22} />
+                    </span>
+                    {cat(k)}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
           )}
 
           {type === "send" && (
-            <Field label={t("recipient")}>
-              {(p) => (
-                <Select {...p} value={recipientId} onChange={(e) => pickRecipient(e.target.value)}>
-                  {recipients.map((r) => (
-                    <option key={r.id} value={r.id}>
+            <fieldset className="pick">
+              <legend className="field__label">{t("recipient")}</legend>
+              <div className="pick-row">
+                {recipients.map((r) => (
+                  <button
+                    key={r.id}
+                    type="button"
+                    className={recipientId === r.id ? "pick-chip pick-chip--on" : "pick-chip"}
+                    aria-pressed={recipientId === r.id}
+                    onClick={() => pickRecipient(r.id)}
+                  >
+                    <span className="pick-chip__avatar" aria-hidden>
+                      {r.name.trim().charAt(0).toUpperCase()}
+                    </span>
+                    <span>
                       {r.name}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            </Field>
+                      <span className="pick-chip__sub num">{formatUSD(r.default_amount_cents)}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
           )}
 
           {type === "bill_paid" && (
-            <Field label={t("bill")}>
-              {(p) => (
-                <Select {...p} value={billId} onChange={(e) => pickBill(e.target.value)}>
-                  {bills.map((b) => (
-                    <option key={b.id} value={b.id}>
+            <fieldset className="pick">
+              <legend className="field__label">{t("bill")}</legend>
+              <div className="pick-row">
+                {bills.map((b) => (
+                  <button
+                    key={b.id}
+                    type="button"
+                    className={billId === b.id ? "pick-chip pick-chip--on" : "pick-chip"}
+                    aria-pressed={billId === b.id}
+                    onClick={() => pickBill(b.id)}
+                  >
+                    <span>
                       {b.name}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            </Field>
+                      <span className="pick-chip__sub num">{formatUSD(b.amount_cents)}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
           )}
 
           {type === "savings" && (
-            <Field label={t("goal")}>
-              {(p) => (
-                <Select {...p} value={goalId} onChange={(e) => setGoalId(e.target.value)}>
-                  {goals.map((g) => (
-                    <option key={g.id} value={g.id}>
-                      {g.name}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            </Field>
+            <fieldset className="pick">
+              <legend className="field__label">{t("goal")}</legend>
+              <div className="pick-row">
+                {goals.map((g) => (
+                  <button
+                    key={g.id}
+                    type="button"
+                    className={goalId === g.id ? "pick-chip pick-chip--on" : "pick-chip"}
+                    aria-pressed={goalId === g.id}
+                    onClick={() => setGoalId(g.id)}
+                  >
+                    {g.name}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
           )}
 
-          <Field label={t("date")}>
-            {(p) => <Input {...p} type="date" value={date} onChange={(e) => setDate(e.target.value)} />}
-          </Field>
-          <Field label={t("note")}>
-            {(p) => (
-              <Input {...p} value={note} placeholder={t("notePlaceholder")} onChange={(e) => setNote(e.target.value)} />
-            )}
-          </Field>
+          <div className="card log-details">
+            <Field label={t("date")}>
+              {(p) => <Input {...p} type="date" value={date} onChange={(e) => setDate(e.target.value)} />}
+            </Field>
+            <Field label={t("note")}>
+              {(p) => <Input {...p} value={note} placeholder={t("notePlaceholder")} onChange={(e) => setNote(e.target.value)} />}
+            </Field>
+          </div>
 
           {formError && (
             <p className="notice notice--alerta t-caption" role="alert">
               {formError}
             </p>
           )}
-          <Button type="submit" block disabled={busy}>
+          <Button type="submit" block disabled={busy} className="log-save">
+            <Icon name="check" size={20} />
             {busy ? c("saving") : t("save")}
           </Button>
         </form>
       )}
+
+      {!hasPlus(subscription) && <PlusCard feature="quicklog" title={q("plusTitle")} />}
 
       <Toast message={toast} onDone={clearToast} />
     </main>

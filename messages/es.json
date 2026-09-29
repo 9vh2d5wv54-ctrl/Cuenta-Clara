@@ -195,7 +195,9 @@
       "savings": "Ahorro",
       "income": "Pago"
     },
-    "typeIncome": "Me pagaron"
+    "typeIncome": "Me pagaron",
+    "lead": "¿Qué pasó con tu dinero?",
+    "kind": "¿Qué vas a anotar?"
   },
   "sends": {
     "title": "Tus envíos de este mes",

@@ -195,7 +195,9 @@
       "savings": "Savings",
       "income": "Pay"
     },
-    "typeIncome": "I got paid"
+    "typeIncome": "I got paid",
+    "lead": "What happened with your money?",
+    "kind": "What are you logging?"
   },
   "sends": {
     "title": "Your sends this month",
