@@ -434,13 +434,38 @@ textarea {
   justify-content: center;
   height: 32px;
 }
-/* A lime undertone glow under each icon; brighter on the page you're on. */
+/* The radar blip's glow: a soft green halo behind each icon, strongest on the page you're on. */
+.tabbar__icon {
+  position: relative;
+  isolation: isolate;
+}
+.tabbar__icon::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--lime) 42%, transparent) 0%, color-mix(in srgb, var(--lime) 16%, transparent) 42%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
 .tabbar__icon svg {
-  filter: drop-shadow(0 3px 6px color-mix(in srgb, var(--lime) 55%, transparent));
-  transition: filter 0.2s ease;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--lime) 60%, transparent));
+}
+.tabbar__item[aria-current="page"] .tabbar__icon::before {
+  width: 58px;
+  height: 58px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--lime) 75%, transparent) 0%, color-mix(in srgb, var(--lime) 35%, transparent) 40%, transparent 70%);
 }
 .tabbar__item[aria-current="page"] .tabbar__icon svg {
-  filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--lime) 70%, transparent)) drop-shadow(0 4px 10px color-mix(in srgb, var(--lime) 55%, transparent));
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--lime) 90%, transparent)) drop-shadow(0 0 9px color-mix(in srgb, var(--lime) 70%, transparent));
+}
+.tabbar__add::before {
+  display: none;
 }
 .tabbar__add {
   width: 52px;
@@ -452,7 +477,7 @@ textarea {
   box-shadow:
     0 0 0 4px var(--surface),
     0 6px 22px color-mix(in srgb, var(--clara) 50%, transparent),
-    0 10px 26px color-mix(in srgb, var(--lime) 35%, transparent);
+    0 10px 30px color-mix(in srgb, var(--lime) 55%, transparent);
 }
 .tabbar__add svg {
   filter: none;
