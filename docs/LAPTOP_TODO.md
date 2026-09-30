@@ -2,6 +2,16 @@
 
 (Done: pesos, Business mode and Clara's note SQL.)
 
+## Lock things down before testers (about 5 minutes)
+
+1. **GitHub private:** github.com/9vh2d5wv54-ctrl/Cuenta-Clara → Settings → scroll to
+   Danger Zone → Change visibility → Change to private → confirm.
+2. **Unused key:** Vercel → Pocket Recon project → Settings → Environment Variables →
+   NEXT_PUBLIC_VAPID_PUBLIC_KEY → ⋯ → Delete. (Keep VAPID_PRIVATE_KEY. Keep the old
+   Resend key until the new one works.)
+3. **Spend limit:** Vercel → team (Cuenta Clara) → Settings → Billing → Spend
+   Management → On → $50 → leave email alerts on → turn on "Pause production deployment".
+
 ## Phone notifications (about 10 minutes)
 
 ### 1. ✓ Done: one paste in Supabase
