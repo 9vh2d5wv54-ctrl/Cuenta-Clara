@@ -4,6 +4,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { USAGE_TAG_LIST } from "@/lib/ai-usage";
 import { isDemo } from "@/lib/demo";
 import { computeFunnel, type FunnelInput } from "@/lib/funnel";
+import { peopleRows, type PeopleInput, type PersonRow } from "@/lib/people";
 import { runHealthChecks, type Check } from "@/lib/health-check";
 import { PushKeyMaker } from "@/components/PushKeyMaker";
 import { pushConfigured } from "@/lib/push";
@@ -55,6 +56,31 @@ async function load(db: SupabaseClient): Promise<FunnelInput> {
   };
 }
 
+/** Extra data for the People list. Optional tables (push, notes) may not exist yet. */
+async function loadPeople(db: SupabaseClient, funnel: FunnelInput): Promise<PeopleInput> {
+  const soft = async <T,>(p: Promise<T[]>) => p.catch(() => [] as T[]);
+  const since = new Date(Date.now() - 120 * 86_400_000).toISOString().slice(0, 10);
+  const [users, entries, questions, notesSeen, phones] = await Promise.all([
+    soft(all<{ id: string; business_on?: boolean | null }>(db, "users", "id, business_on")),
+    all<{ user_id: string; date: string }>(db, "entries", "user_id, date", (q) => q.gte("date", since)),
+    all<{ user_id: string; created_at: string }>(db, "ai_questions", "user_id, created_at", (q) => q.not("question", "in", USAGE_TAG_LIST)),
+    soft(all<{ user_id: string; seen_at: string | null }>(db, "clara_notes", "user_id, seen_at", (q) => q.not("seen_at", "is", null))),
+    soft(all<{ user_id: string }>(db, "push_subscriptions", "user_id")),
+  ]);
+  const biz = new Map(users.map((u) => [u.id, u.business_on]));
+  return {
+    users: funnel.users.map((u) => ({ ...u, business_on: biz.get(u.id) ?? false })),
+    setUp: funnel.setUp,
+    entries,
+    questions,
+    notesSeen,
+    phones: new Set(phones.map((p) => p.user_id)),
+    plus: funnel.trial,
+  };
+}
+
+const STATUS: Record<PersonRow["status"], string> = { active: "Active", quiet: "Quiet", gone: "Gone quiet", new: "New" };
+
 /** Sample numbers for demo mode, so the page can be seen without a database. */
 function sample(): FunnelInput {
   const users = Array.from({ length: 40 }, (_, i) => ({
@@ -74,6 +100,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
 
   let input: FunnelInput;
   let checks: Check[] | null = null;
+  let people: PersonRow[] = [];
   let error: string | null = null;
   if (isDemo) {
     input = sample();
@@ -83,6 +110,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
     const db = supabaseAdmin();
     try {
       input = await load(db);
+      people = peopleRows(await loadPeople(db, input));
     } catch (err) {
       input = { users: [], setUp: new Set(), logged: new Set(), askedClara: new Set(), trial: new Set(), paying: new Set() };
       error = err instanceof Error ? err.message : String(err);
@@ -90,6 +118,9 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
     if (params.check === "1") checks = await runHealthChecks(db);
   }
 
+  if (isDemo) {
+    people = peopleRows({ users: input.users.slice(0, 8), setUp: input.setUp, entries: [], questions: [], notesSeen: [], phones: new Set(), plus: new Set() });
+  }
   const since = range === "all" ? null : new Date(Date.now() - Number(range) * 86_400_000).toISOString();
   const { steps, testers, worst } = computeFunnel(input, since, (email) => (isDemo ? false : isTester(email)));
   const max = Math.max(steps[0].count, 1);
@@ -152,6 +183,53 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
         <p className="t-caption muted">
           Visitors to the landing page aren&apos;t counted here: see them in Meta Events Manager (the Pixel) as PageView and Lead.
         </p>
+      </section>
+
+      <section className="card stack" aria-labelledby="people-title">
+        <div className="stack-sm">
+          <h2 id="people-title" className="t-heading">
+            People
+          </h2>
+          <p className="t-caption muted">
+            Newest first (up to 50). Emails are shortened so screenshots stay private. Active = used it in the last 3 days; Quiet = 4–14
+            days; Gone quiet = more than 14. A good time to text the quiet ones.
+          </p>
+        </div>
+        {people.length === 0 ? (
+          <p className="t-body muted">No one yet.</p>
+        ) : (
+          <div className="people">
+            <table className="people__table">
+              <thead>
+                <tr>
+                  <th>Who</th>
+                  <th>Joined</th>
+                  <th>Last used</th>
+                  <th>Set up</th>
+                  <th>Logged</th>
+                  <th>Clara</th>
+                  <th>Extras</th>
+                </tr>
+              </thead>
+              <tbody>
+                {people.map((p) => (
+                  <tr key={p.id}>
+                    <td>
+                      <span className="people__email">{p.email}</span>
+                      <span className={`people__status people__status--${p.status}`}>{STATUS[p.status]}</span>
+                    </td>
+                    <td className="num">{p.joinedDaysAgo === 0 ? "today" : `${p.joinedDaysAgo}d`}</td>
+                    <td className="num">{p.lastActiveDaysAgo === null ? "—" : p.lastActiveDaysAgo === 0 ? "today" : `${p.lastActiveDaysAgo}d ago`}</td>
+                    <td>{p.setUp ? "✓" : "—"}</td>
+                    <td className="num">{p.entries}</td>
+                    <td className="num">{p.questions}</td>
+                    <td className="t-caption">{[p.business && "Business", p.phone && "Phone alerts", p.plus && "Plus"].filter(Boolean).join(" · ") || "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       <section className="card stack" aria-labelledby="health-title">

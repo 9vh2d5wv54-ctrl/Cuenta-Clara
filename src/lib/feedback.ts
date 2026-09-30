@@ -2,7 +2,9 @@
 // It goes by email to the team (FEEDBACK_TO, or the first tester email).
 
 export const FEEDBACK_KINDS = ["confusing", "bug", "idea", "love"] as const;
-export type FeedbackKind = (typeof FEEDBACK_KINDS)[number];
+/** "checkin" comes from the 3-day check-in card on Home, not from the feedback form. */
+const ALL_KINDS = [...FEEDBACK_KINDS, "checkin"] as const;
+export type FeedbackKind = (typeof ALL_KINDS)[number];
 export const MAX_FEEDBACK = 2000;
 
 export type FeedbackInput = { kind: FeedbackKind; message: string; page: string; lang: "es" | "en" };
@@ -11,7 +13,7 @@ export type FeedbackInput = { kind: FeedbackKind; message: string; page: string;
 export function cleanFeedback(body: unknown): FeedbackInput | null {
   const b = body as Record<string, unknown> | null;
   if (!b || typeof b !== "object") return null;
-  const kind = FEEDBACK_KINDS.find((k) => k === b.kind);
+  const kind = ALL_KINDS.find((k) => k === b.kind);
   const message = typeof b.message === "string" ? b.message.trim() : "";
   const page = typeof b.page === "string" && /^\/[\w\-/]*$/.test(b.page) ? b.page.slice(0, 120) : "/";
   const lang = b.lang === "en" ? "en" : "es";

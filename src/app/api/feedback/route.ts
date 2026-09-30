@@ -5,7 +5,7 @@ import { sendEmail } from "@/lib/email";
 import { cleanFeedback, feedbackRecipient } from "@/lib/feedback";
 import { supabaseAdmin, supabaseFromCookies } from "@/lib/supabase-server";
 
-const LABELS = { confusing: "Something's confusing", bug: "Something's broken", idea: "Idea", love: "Something I love" } as const;
+const LABELS = { confusing: "Something's confusing", bug: "Something's broken", idea: "Idea", love: "Something I love", checkin: "3-day check-in" } as const;
 
 // In-app feedback (signed in): emailed to the team with the person's email as reply-to.
 export async function POST(request: NextRequest) {

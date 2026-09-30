@@ -1302,5 +1302,21 @@
     "ios2": "Tap “Add to Home Screen”, then “Add”.",
     "ios3": "Open Pocket Recon from your Home Screen and come back to this page.",
     "homeLink": "Get Clara's note on your phone"
+  },
+  "checkin": {
+    "title": "How's Pocket Recon going so far?",
+    "mood_meh": "Not for me yet",
+    "mood_ok": "It's OK",
+    "mood_love": "Loving it",
+    "ask_meh": "What's getting in the way? (optional)",
+    "ask_ok": "What's one thing that would make it better? (optional)",
+    "ask_love": "What do you like most? (optional)",
+    "placeholder": "A sentence or two is plenty.",
+    "send": "Send",
+    "sending": "Sending…",
+    "error": "We couldn't send it. Try again in a moment.",
+    "thanks": "Thank you!",
+    "thanksLead": "This goes straight to the person building Pocket Recon.",
+    "dismiss": "Not now"
   }
 }

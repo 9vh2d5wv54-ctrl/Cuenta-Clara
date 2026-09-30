@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { BusinessCard } from "@/components/Business";
 import { ClaraNoteCard } from "@/components/ClaraNote";
+import { CheckinCard } from "@/components/Checkin";
 import { useData } from "@/components/DataProvider";
 import { Explain } from "@/components/ui";
 import { Icon } from "@/components/Icon";
@@ -84,6 +85,8 @@ export default function Dashboard() {
       <WarningsCard />
 
       <ClaraNoteCard />
+
+      <CheckinCard />
 
       <GoalProgress />
 

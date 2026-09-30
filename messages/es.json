@@ -1302,5 +1302,21 @@
     "ios2": "Toca “Agregar a pantalla de inicio” y luego “Agregar”.",
     "ios3": "Abre Pocket Recon desde tu pantalla de inicio y vuelve a esta página.",
     "homeLink": "Recibe la nota de Clara en tu teléfono"
+  },
+  "checkin": {
+    "title": "¿Cómo te va con Pocket Recon?",
+    "mood_meh": "Todavía no me convence",
+    "mood_ok": "Está bien",
+    "mood_love": "Me encanta",
+    "ask_meh": "¿Qué te lo impide? (opcional)",
+    "ask_ok": "¿Qué la mejoraría? (opcional)",
+    "ask_love": "¿Qué es lo que más te gusta? (opcional)",
+    "placeholder": "Con una o dos frases basta.",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "error": "No se pudo enviar. Intenta de nuevo en un momento.",
+    "thanks": "¡Gracias!",
+    "thanksLead": "Esto le llega directo a quien está creando Pocket Recon.",
+    "dismiss": "Ahora no"
   }
 }

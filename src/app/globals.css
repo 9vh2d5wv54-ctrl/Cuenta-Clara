@@ -4146,3 +4146,91 @@ button.explore-tile {
   color: var(--ink-muted);
   text-decoration: none;
 }
+
+/* Home: 3-day check-in */
+.checkin {
+  border-color: color-mix(in srgb, var(--mango, #ffb547) 45%, transparent);
+}
+.checkin__moods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+.checkin__mood {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-3) var(--space-1);
+  border-radius: 14px;
+  border: 1px solid var(--card-line, var(--line));
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  text-align: center;
+}
+.checkin__mood--on {
+  border-color: var(--clara);
+  background: color-mix(in srgb, var(--clara) 16%, transparent);
+}
+.checkin__emoji {
+  font-size: 28px;
+  line-height: 1;
+}
+.checkin__text {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Dashboard: People */
+.people {
+  overflow-x: auto;
+  margin: 0 calc(-1 * var(--space-2));
+}
+.people__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.people__table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--ink-muted);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--card-line, var(--line));
+}
+.people__table td {
+  padding: 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--card-line, var(--line)) 60%, transparent);
+  vertical-align: top;
+}
+.people__email {
+  display: block;
+  font-weight: 600;
+}
+.people__status {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.people__status--active {
+  color: var(--positive);
+  background: color-mix(in srgb, var(--positive) 14%, transparent);
+}
+.people__status--quiet {
+  color: var(--mango, #ffb547);
+  background: color-mix(in srgb, var(--mango, #ffb547) 14%, transparent);
+}
+.people__status--gone {
+  color: var(--alerta, #ff6b6b);
+  background: color-mix(in srgb, var(--alerta, #ff6b6b) 14%, transparent);
+}
+.people__status--new {
+  color: var(--clara);
+  background: color-mix(in srgb, var(--clara) 14%, transparent);
+}

@@ -7,7 +7,7 @@ import { Icon, type IconName } from "./Icon";
 import { Button, Dialog } from "./ui";
 import { FEEDBACK_KINDS, MAX_FEEDBACK, type FeedbackKind } from "@/lib/feedback";
 
-const ICONS: Record<FeedbackKind, IconName> = { confusing: "info", bug: "alert", idea: "smile", love: "heart" };
+const ICONS: Record<(typeof FEEDBACK_KINDS)[number], IconName> = { confusing: "info", bug: "alert", idea: "smile", love: "heart" };
 
 /** A button that opens the feedback pop-up. `children` is what the button looks like. */
 export function FeedbackButton({ className, children }: { className?: string; children: ReactNode }) {
@@ -15,7 +15,7 @@ export function FeedbackButton({ className, children }: { className?: string; ch
   const locale = useLocale();
   const page = usePathname();
   const [open, setOpen] = useState(false);
-  const [kind, setKind] = useState<FeedbackKind>("confusing");
+  const [kind, setKind] = useState<(typeof FEEDBACK_KINDS)[number]>("confusing");
   const [message, setMessage] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error" | "limit">("idle");
 
