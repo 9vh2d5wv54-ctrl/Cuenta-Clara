@@ -74,6 +74,12 @@ New web address pocketrecon.app (bought Sep 30 in Vercel, renews $15/yr; Vercel 
 
 - ✓ Whop webhook moved to https://pocketrecon.app/api/webhooks/whop (test event: 200, secret OK)
 
+- ⏳ Resend: pocketrecon.app added with Auto configure (Vercel), waiting for Verified.
+  When all 3 records say Verified: Vercel → Environment Variables →
+  REMINDER_FROM_EMAIL = "Pocket Recon <hola@pocketrecon.app>" (delete and re-add, Config),
+  add NEXT_PUBLIC_CONTACT_EMAIL = hola@pocketrecon.app, then Redeploy.
+  Don't switch before Verified, or emails fail.
+
 Still to do:
 3. **Vercel → Settings → Domains:** add it, follow the DNS steps, keep micuentaclara.app
    too (it will forward, so old links keep working).
