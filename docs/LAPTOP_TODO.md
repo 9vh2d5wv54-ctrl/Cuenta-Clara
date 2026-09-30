@@ -72,6 +72,8 @@ New web address pocketrecon.app (bought Sep 30 in Vercel, renews $15/yr; Vercel 
   (done in code). Whop's webhook and sign-in links stay on micuentaclara.app on purpose;
   keep micuentaclara.app connected in Vercel and renewing (Sep 25 each year).
 
+- ✓ Whop webhook moved to https://pocketrecon.app/api/webhooks/whop (test event: 200, secret OK)
+
 Still to do:
 3. **Vercel → Settings → Domains:** add it, follow the DNS steps, keep micuentaclara.app
    too (it will forward, so old links keep working).
