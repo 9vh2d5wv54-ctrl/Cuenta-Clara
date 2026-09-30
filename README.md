@@ -157,7 +157,7 @@ At the top of Log: type or say "Gasté 25 en gasolina" (the mic uses the phone's
 
 Plus members connect their number in Settings: the app shows a code, WhatsApp opens with "CLARA 123456" typed, and the webhook links the number. Then they can text an expense ("Gasté 25 en gasolina"), send a receipt photo, ask "¿Me alcanza…?", text "saldo" for what's left, or "borrar" to undo the last thing logged. Replies are free-form text inside the 24-hour window their message opens; messages we start (weekly summary, reminders) need Meta-approved templates and are a later step.
 
-Setup (Meta WhatsApp Cloud API): create a Meta app with WhatsApp, add a phone number, make a permanent system-user token, and set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_APP_SECRET`, `WHATSAPP_VERIFY_TOKEN`, `NEXT_PUBLIC_WHATSAPP_NUMBER` in Vercel. Webhook URL: `https://micuentaclara.app/api/whatsapp/webhook`, subscribed to `messages`. Run `supabase/migrations/004_whatsapp.sql`. Code: `src/lib/whatsapp.ts` (API, signature check), `src/lib/whatsapp-bot.ts` (what each message does).
+Setup (Meta WhatsApp Cloud API): create a Meta app with WhatsApp, add a phone number, make a permanent system-user token, and set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_APP_SECRET`, `WHATSAPP_VERIFY_TOKEN`, `NEXT_PUBLIC_WHATSAPP_NUMBER` in Vercel. Webhook URL: `https://pocketrecon.app/api/whatsapp/webhook`, subscribed to `messages`. Run `supabase/migrations/004_whatsapp.sql`. Code: `src/lib/whatsapp.ts` (API, signature check), `src/lib/whatsapp-bot.ts` (what each message does).
 
 ## Emails
 

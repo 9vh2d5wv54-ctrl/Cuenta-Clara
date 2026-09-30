@@ -134,10 +134,10 @@ Lo básico es gratis para siempre. Nunca nos conectamos a tu banco ni vendemos t
 Pocket Recon da información general, no asesoría financiera, de impuestos ni legal.
 
 **URLs**
-- Privacy policy: `https://micuentaclara.app/privacidad`
-- Terms: `https://micuentaclara.app/terminos`
-- Support: `https://micuentaclara.app` (Apple needs a page with a way to contact you; the landing page footer and the privacy page list hola@micuentaclara.app)
-- Marketing: `https://micuentaclara.app`
+- Privacy policy: `https://pocketrecon.app/privacidad`
+- Terms: `https://pocketrecon.app/terminos`
+- Support: `https://pocketrecon.app` (Apple needs a page with a way to contact you; the landing page footer and the privacy page list hola@micuentaclara.app)
+- Marketing: `https://pocketrecon.app`
 
 **Age rating:** answer Apple's questionnaire honestly (no gambling, no mature content,
 an AI chat limited to money topics). Our terms are for adults, so choose the 18+

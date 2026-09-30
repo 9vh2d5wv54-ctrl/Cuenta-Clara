@@ -1,7 +1,7 @@
-// The app's name and web address, in one place. To move to a new domain
-// (like pocketrecon.app), set NEXT_PUBLIC_SITE_URL and CONTACT_EMAIL in Vercel.
+// The app's name and web address, in one place. NEXT_PUBLIC_SITE_URL and
+// NEXT_PUBLIC_CONTACT_EMAIL in Vercel override these.
 export const BRAND = "Pocket Recon";
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://micuentaclara.app").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://pocketrecon.app").replace(/\/$/, "");
 export const SITE_HOST = SITE_URL.replace(/^https?:\/\//, "");
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hola@micuentaclara.app";
 

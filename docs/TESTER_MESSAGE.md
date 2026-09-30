@@ -8,8 +8,8 @@ Hey! I'm building an app called Pocket Recon. It helps you plan your money in En
 
 Could you try it this week and tell me what you think? It's free and takes about 10 minutes. You don't connect a bank, you just type your own numbers.
 
-1. Start with the 2-minute quiz: https://micuentaclara.app/estilo
-2. Then sign up and set up your month: https://micuentaclara.app
+1. Start with the 2-minute quiz: https://pocketrecon.app/estilo
+2. Then sign up and set up your month: https://pocketrecon.app
 3. Try adding one expense and one goal.
 
 Then just text me back:
@@ -25,8 +25,8 @@ Be honest, it really helps. Thank you!
 
 ¿Me ayudas a probarla esta semana y me dices qué piensas? Es gratis y toma unos 10 minutos. No conectas tu banco, solo escribes tus propios números.
 
-1. Empieza con el quiz de 2 minutos: https://micuentaclara.app/estilo
-2. Luego regístrate y arma tu mes: https://micuentaclara.app
+1. Empieza con el quiz de 2 minutos: https://pocketrecon.app/estilo
+2. Luego regístrate y arma tu mes: https://pocketrecon.app
 3. Prueba anotar un gasto y crear una meta.
 
 Después solo respóndeme:

@@ -79,6 +79,8 @@ New web address pocketrecon.app (bought Sep 30 in Vercel, renews $15/yr; Vercel 
   REMINDER_FROM_EMAIL = "Pocket Recon <hola@pocketrecon.app>" (delete and re-add, Config),
   add NEXT_PUBLIC_CONTACT_EMAIL = hola@pocketrecon.app, then Redeploy.
   Don't switch before Verified, or emails fail.
+  Also then: Supabase → Authentication → Emails → SMTP Settings: sender email
+  hola@pocketrecon.app, sender name Pocket Recon (sign-in emails).
 
 Still to do:
 3. **Vercel → Settings → Domains:** add it, follow the DNS steps, keep micuentaclara.app

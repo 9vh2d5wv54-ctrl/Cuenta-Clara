@@ -569,6 +569,8 @@ textarea {
 /* Landing page (Pocket Recon Landing Page PRD) */
 .lp {
   padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  /* The glows and orb rings reach past the edge on phones; never scroll sideways. */
+  overflow-x: clip;
 }
 .lp-wrap {
   max-width: 1040px;

@@ -46,10 +46,10 @@ The website shows each visitor their own currency automatically (UK → £, Cana
 Canadian dollars, Dominican Republic → RD$ pesos, everyone else → U.S. dollars), and new accounts start in it. For
 ads aimed at one country, you can force it with a link:
 
-- UK: `https://micuentaclara.app/?country=GB`
-- Canada: `https://micuentaclara.app/?country=CA`
-- Dominican Republic: `https://micuentaclara.app/?country=DO&lang=es`
-- U.S.: `https://micuentaclara.app/?country=US`
+- UK: `https://pocketrecon.app/?country=GB`
+- Canada: `https://pocketrecon.app/?country=CA`
+- Dominican Republic: `https://pocketrecon.app/?country=DO&lang=es`
+- U.S.: `https://pocketrecon.app/?country=US`
 
 Add `&lang=es` for Spanish. Plus is always billed in U.S. dollars and shows as
 US$4.99 outside the U.S.
