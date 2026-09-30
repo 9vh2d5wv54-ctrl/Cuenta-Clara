@@ -1318,5 +1318,22 @@
     "thanks": "¡Gracias!",
     "thanksLead": "Esto le llega directo a quien está creando Pocket Recon.",
     "dismiss": "Ahora no"
+  },
+  "firstSteps": {
+    "title": "Tus primeros 3 pasos",
+    "progress": "{count} de {total} listos",
+    "hide": "Ocultar",
+    "setup": "Agrega tu pago y tus cuentas",
+    "setup_why": "Así Clara sabe cuánto puedes gastar.",
+    "setup_done": "Pago y cuentas agregados",
+    "clara": "Hazle una pregunta a Clara",
+    "clara_why": "Prueba \"¿Me alcanza para $100 esta semana?\"",
+    "clara_done": "Le preguntaste a Clara",
+    "log": "Anota algo que gastaste",
+    "log_why": "Hasta un café cuenta. Toma unos segundos.",
+    "log_done": "Anotaste tu primer gasto",
+    "claraQuestion": "¿Me alcanza para $100 esta semana?",
+    "allSet": "¡Listo! 🎉",
+    "allSetLead": "Ya está todo. Anota tus gastos cuando pasen, y cada domingo Clara te manda una nota corta de cómo te fue en la semana."
   }
 }

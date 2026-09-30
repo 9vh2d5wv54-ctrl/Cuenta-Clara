@@ -11,6 +11,7 @@ import { PlusCard } from "@/components/Plus";
 import { OrbMark } from "@/components/ClaraCard";
 import { WhatIfChart } from "@/components/WhatIfChart";
 import { hasPlus } from "@/lib/plan";
+import { askedClaraKey } from "@/lib/first-steps";
 import { Button, Card, Dialog } from "@/components/ui";
 import type { ClaraData, ClaraLinks } from "@/lib/clara-tools";
 import { MAX_QUESTION_LENGTH } from "@/lib/clara-safety";
@@ -71,6 +72,9 @@ function ClaraChat() {
       const result = await store.claraAsk({ question: q, conversationId, history, lang: locale }, snapshot);
       setBusy(false);
       if (result.kind === "answer") {
+        try {
+          if (profile) localStorage.setItem(askedClaraKey(profile.id), "1");
+        } catch {}
         setTurns((prev) => [...prev.slice(0, -1), { question: q, answer: result.answer, links: result.links, crisis: result.crisis, unlocked: result.unlocked }]);
         if (result.ai) {
           setNote(result.per === "day" ? t("leftToday", { count: result.remaining }) : t("leftMonth", { count: result.remaining, limit: result.limit }));

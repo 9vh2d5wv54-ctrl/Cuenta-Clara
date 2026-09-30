@@ -1318,5 +1318,22 @@
     "thanks": "Thank you!",
     "thanksLead": "This goes straight to the person building Pocket Recon.",
     "dismiss": "Not now"
+  },
+  "firstSteps": {
+    "title": "Your first 3 steps",
+    "progress": "{count} of {total} done",
+    "hide": "Hide",
+    "setup": "Add your pay and bills",
+    "setup_why": "So Clara knows what's safe to spend.",
+    "setup_done": "Pay and bills added",
+    "clara": "Ask Clara a question",
+    "clara_why": "Try \"Can I afford $100 this week?\"",
+    "clara_done": "Asked Clara",
+    "log": "Log something you spent",
+    "log_why": "Even a coffee counts. It takes a few seconds.",
+    "log_done": "Logged your first entry",
+    "claraQuestion": "Can I afford $100 this week?",
+    "allSet": "You're all set 🎉",
+    "allSetLead": "That's the whole setup. Log what you spend as you go, and every Sunday Clara sends you a short note on how the week went."
   }
 }

@@ -4234,3 +4234,49 @@ button.explore-tile {
   color: var(--clara);
   background: color-mix(in srgb, var(--clara) 14%, transparent);
 }
+
+/* Home: your first 3 steps */
+.first-steps {
+  border-color: color-mix(in srgb, var(--lime) 45%, transparent);
+}
+.first-steps__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+.first-steps__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  color: inherit;
+  text-decoration: none;
+  min-height: 44px;
+}
+.first-steps__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.first-steps__dot {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--lime) 60%, transparent);
+}
+.first-steps__item--done .first-steps__dot {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #06281c;
+}
+.first-steps__item--done .t-body {
+  color: var(--ink-muted);
+}
+.first-steps .bar > span {
+  background: var(--lime);
+}

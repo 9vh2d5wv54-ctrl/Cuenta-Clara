@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { BusinessCard } from "@/components/Business";
 import { ClaraNoteCard } from "@/components/ClaraNote";
 import { CheckinCard } from "@/components/Checkin";
+import { FirstStepsCard } from "@/components/FirstSteps";
 import { useData } from "@/components/DataProvider";
 import { Explain } from "@/components/ui";
 import { Icon } from "@/components/Icon";
@@ -81,6 +82,8 @@ export default function Dashboard() {
           <Icon name="forward" size={20} />
         </Link>
       )}
+
+      <FirstStepsCard />
 
       <WarningsCard />
 
