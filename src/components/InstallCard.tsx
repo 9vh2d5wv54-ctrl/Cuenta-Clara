@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "./ui";
 
-// "Put Cuenta Clara on your home screen." iPhone and iPad can't show an install
+// "Put Pocket Recon on your home screen." iPhone and iPad can't show an install
 // button, so they get the two steps; Chrome (Android, computers) gets a button.
 // Hidden once installed (opened from the home screen) or dismissed on this device.
 

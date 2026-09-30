@@ -29,7 +29,7 @@ const QUESTION = /[?¿]|^(me alcanza|alcanza|puedo|can i|should i|do i have)\b/i
 const say = {
   help: {
     es: [
-      "Soy Cuenta Clara. Escríbeme:",
+      "Soy Pocket Recon. Escríbeme:",
       "• \"Gasté 25 en gasolina\" para anotar un gasto",
       "• \"Le mandé 200 a mi mamá\" para anotar un envío",
       "• Una foto de un recibo",
@@ -38,7 +38,7 @@ const say = {
       "• \"Borrar\" para deshacer lo último",
     ].join("\n"),
     en: [
-      "I'm Cuenta Clara. Text me:",
+      "I'm Pocket Recon. Text me:",
       "• \"Spent 25 on gas\" to log an expense",
       "• \"Sent 200 to my mom\" to log a send",
       "• A photo of a receipt",
@@ -47,15 +47,15 @@ const say = {
       "• \"Undo\" to remove the last thing logged",
     ].join("\n"),
   },
-  notLinked: `Este número no está conectado a Cuenta Clara. Conéctalo en ${appUrl("/app/ajustes")}\n\nThis number isn't connected to Cuenta Clara. Connect it in Settings: ${appUrl("/app/ajustes")}`,
+  notLinked: `Este número no está conectado a Pocket Recon. Conéctalo en ${appUrl("/app/ajustes")}\n\nThis number isn't connected to Pocket Recon. Connect it in Settings: ${appUrl("/app/ajustes")}`,
   badCode: {
     es: "Ese código no funciona o ya venció. Pide uno nuevo en Ajustes → WhatsApp.",
     en: "That code doesn't work or has expired. Get a new one in Settings → WhatsApp.",
   },
   linked: { es: "Listo, tu WhatsApp está conectado.", en: "Done, your WhatsApp is connected." },
   plus: {
-    es: `El asistente de WhatsApp es parte de Cuenta Clara Plus: ${appUrl("/app/plus")}`,
-    en: `The WhatsApp assistant is part of Cuenta Clara Plus: ${appUrl("/app/plus")}`,
+    es: `El asistente de WhatsApp es parte de Pocket Recon Plus: ${appUrl("/app/plus")}`,
+    en: `The WhatsApp assistant is part of Pocket Recon Plus: ${appUrl("/app/plus")}`,
   },
   nothing: {
     es: "No encontré una cantidad. Prueba \"Gasté 25 en gasolina\" o escribe \"ayuda\".",

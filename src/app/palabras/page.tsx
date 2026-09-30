@@ -29,7 +29,7 @@ export default async function Palabras() {
     <main className="page page--bare">
       <header className="topbar">
         <Link href="/" className="wordmark">
-          Cuenta Clara
+          Pocket Recon
         </Link>
         <LanguageToggle />
       </header>

@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "Cuenta Clara",
+    "appName": "Pocket Recon",
     "switchTo": "English",
     "switchToLabel": "Cambiar a inglés",
     "save": "Guardar",
@@ -57,7 +57,7 @@
     "faqFreeQ": "¿De verdad es gratis?",
     "faqFreeA": "Sí. Lo básico es gratis para siempre y sin tarjeta. Si quieres ver más adelante, Plus cuesta {price} al mes, con 7 días gratis para probarlo.",
     "faqWhereQ": "¿Funciona fuera de EE. UU.?",
-    "faqWhereA": "Sí. Cuenta Clara funciona en EE. UU., Canadá, el Reino Unido y República Dominicana, y muestra tu dinero en dólares estadounidenses, dólares canadienses, libras o pesos dominicanos. Plus se cobra en dólares estadounidenses. Las herramientas para veteranos y los recordatorios de impuestos siguen las reglas de EE. UU.",
+    "faqWhereA": "Sí. Pocket Recon funciona en EE. UU., Canadá, el Reino Unido y República Dominicana, y muestra tu dinero en dólares estadounidenses, dólares canadienses, libras o pesos dominicanos. Plus se cobra en dólares estadounidenses. Las herramientas para veteranos y los recordatorios de impuestos siguen las reglas de EE. UU.",
     "faqBankQ": "¿Es un banco?",
     "faqBankA": "No. Funciona con el banco que ya usas.",
     "faqForMeQ": "¿Es para mí?",
@@ -78,7 +78,7 @@
     "vetGiText": "Lo que cubre el Post-9/11 GI Bill para estudios o capacitación: matrícula, vivienda y libros.",
     "vetBenefitsTitle": "Lista de beneficios",
     "vetBenefitsText": "14 beneficios que muchos veteranos no aprovechan, cada uno con el enlace oficial para aplicar.",
-    "vetNote": "Solo estimados. Cuenta Clara no está afiliada al Departamento de Asuntos de Veteranos de EE. UU.",
+    "vetNote": "Solo estimados. Pocket Recon no está afiliado al Departamento de Asuntos de Veteranos de EE. UU.",
     "freeTitle": "Aprende de dinero, dos minutos a la vez",
     "quizTitle": "¿Cuál es tu estilo con el dinero?",
     "quizText": "Un quiz de 2 minutos con 3 consejos hechos para ti.",
@@ -350,9 +350,9 @@
     "goalMonthly": "Lo que falta para tu meta dividido entre los meses que quedan hasta la fecha que elegiste."
   },
   "plus": {
-    "name": "Cuenta Clara Plus",
+    "name": "Pocket Recon Plus",
     "badge": "Plus",
-    "title": "Cuenta Clara Plus",
+    "title": "Pocket Recon Plus",
     "lead": "Lo básico sigue gratis para siempre. Plus es para cuando quieres ver más adelante.",
     "colFree": "Gratis",
     "colPlus": "Plus",
@@ -378,7 +378,7 @@
     "notNow": "Ahora no",
     "processing": "Confirmando…",
     "processingSlow": "Tu pago se está procesando. Plus se activa en unos minutos; puedes salir de aquí.",
-    "success": "Ya tienes Plus. Gracias por apoyar Cuenta Clara.",
+    "success": "Ya tienes Plus. Gracias por apoyar a Pocket Recon.",
     "unavailable": "El pago no está disponible ahora. Inténtalo más tarde.",
     "demoNote": "Modo de prueba: no hay pagos reales.",
     "demoTrial": "Empezar prueba de mentira",
@@ -528,12 +528,12 @@
     "logIt": "Anotar {amount} como este pago",
     "plusTitle": "Revisar tu pago es parte de Plus",
     "homeLink": "¿Te pagaron bien? Revisa tu talón de pago",
-    "plusLater": "Esto es parte de Cuenta Clara Plus. Termina tu primer chequeo de dinero para probar Plus gratis 7 días.",
+    "plusLater": "Esto es parte de Pocket Recon Plus. Termina tu primer chequeo de dinero para probar Plus gratis 7 días.",
     "limit": "Revisaste muchos talones hoy. Escribe los números abajo, o prueba la foto otra vez mañana."
   },
   "whatsapp": {
     "title": "Asistente de WhatsApp",
-    "lead": "Mándale a Cuenta Clara tus gastos, fotos de recibos y preguntas de \"¿Me alcanza?\" por WhatsApp.",
+    "lead": "Mándale a Pocket Recon tus gastos, fotos de recibos y preguntas de \"¿Me alcanza?\" por WhatsApp.",
     "connect": "Conectar WhatsApp",
     "step": "Envía este mensaje desde tu WhatsApp. Conecta tu número en menos de un minuto; el código sirve por 15 minutos.",
     "open": "Abrir WhatsApp",
@@ -640,7 +640,7 @@
   },
   "veterans": {
     "title": "Calculadora de discapacidad del VA",
-    "lead": "Agrega tus calificaciones del VA para ver tu calificación combinada como la calcula el VA. Es un estimado: Cuenta Clara no es el VA.",
+    "lead": "Agrega tus calificaciones del VA para ver tu calificación combinada como la calcula el VA. Es un estimado: Pocket Recon no es el VA.",
     "rating": "Calificación",
     "choose": "Elige",
     "bilateral": "Afecta ambos brazos o ambas piernas (bilateral)",
@@ -655,7 +655,7 @@
     "monthlyLink": "Ver la tabla del VA",
     "help": "Para tu reclamo, un representante acreditado por el VA (VSO) te ayuda gratis.",
     "helpLink": "Buscar un representante acreditado",
-    "notVa": "Es un estimado, no una decisión sobre tus beneficios. Cuenta Clara no está afiliada al Departamento de Asuntos de Veteranos de EE. UU.",
+    "notVa": "Es un estimado, no una decisión sobre tus beneficios. Pocket Recon no está afiliado al Departamento de Asuntos de Veteranos de EE. UU.",
     "empty": "Agrega al menos una calificación para ver tu calificación combinada.",
     "goalsLink": "Veteranos: calculadora de discapacidad del VA",
     "familyTitle": "Tu familia",
@@ -681,7 +681,7 @@
     "howShort": "Cómo combina VA las calificaciones"
   },
   "academy": {
-    "title": "Academia Cuenta Clara",
+    "title": "Academia Pocket Recon",
     "lead": "Lecciones cortas sobre dinero, en palabras claras. Gratis, en español e inglés.",
     "minutes": "{n} min",
     "next": "Siguiente lección",
@@ -833,7 +833,7 @@
     "noHousing": "No hay pago de vivienda mientras estás en servicio activo.",
     "cap": "Para este tipo de escuela, el VA paga hasta {cap} al año al 100%.",
     "ratesLink": "Tarifas del GI Bill del VA",
-    "rules": "La vivienda se paga si tomas más de medio tiempo en clases (esto asume tiempo completo) y no durante vacaciones. Tarifas vigentes del {from} al {to}. Es un estimado; Cuenta Clara no está afiliada al VA.",
+    "rules": "La vivienda se paga si tomas más de medio tiempo en clases (esto asume tiempo completo) y no durante vacaciones. Tarifas vigentes del {from} al {to}. Es un estimado; Pocket Recon no está afiliado al VA.",
     "vaLink": "Planificador del GI Bill",
     "flight": "Escuela de vuelo",
     "correspondence": "Escuela por correspondencia",
@@ -900,7 +900,7 @@
     "crisisTitle": "Línea de Crisis para Veteranos",
     "crisis": "Si tú o un veterano que conoces está en crisis: marca 988 y presiona 1, o envía un texto al 838255. Gratis, confidencial, 24/7.",
     "saved": "Tus marcas se guardan solo en este dispositivo.",
-    "notVa": "Información general, no una decisión sobre beneficios. Cuenta Clara no está afiliada al Departamento de Asuntos de Veteranos de EE. UU. ni a ninguna agencia del gobierno.",
+    "notVa": "Información general, no una decisión sobre beneficios. Pocket Recon no está afiliado al Departamento de Asuntos de Veteranos de EE. UU. ni a ninguna agencia del gobierno.",
     "vaLink": "Lista de beneficios para veteranos"
   },
   "moneyStyle": {
@@ -988,7 +988,7 @@
     "watchOut": "Cuidado con",
     "tipsTitle": "3 consejos para ti",
     "lesson": "Lección de 2 minutos",
-    "cta": "Prueba Cuenta Clara gratis",
+    "cta": "Prueba Pocket Recon gratis",
     "share": "Compartir el quiz",
     "shareText": "¿Cuál es tu estilo con el dinero? Haz el quiz de 2 minutos.",
     "copied": "Enlace copiado",
@@ -1046,7 +1046,7 @@
     "yes": "Sí",
     "no": "No, gracias",
     "title": "Herramientas para veteranos",
-    "thanks": "Gracias por tu servicio. Herramientas gratis, solo estimados. Cuenta Clara no es el VA.",
+    "thanks": "Gracias por tu servicio. Herramientas gratis, solo estimados. Pocket Recon no es el VA.",
     "disability": "Calculadora de discapacidad del VA",
     "giBill": "Planificador del GI Bill",
     "benefits": "Lista de beneficios",
@@ -1125,7 +1125,7 @@
     "signupNote": "Al crear tu cuenta aceptas los <terms>Términos de uso</terms> y la <privacy>Política de privacidad</privacy>."
   },
   "install": {
-    "title": "Pon Cuenta Clara en tu pantalla de inicio",
+    "title": "Pon Pocket Recon en tu pantalla de inicio",
     "lead": "Ábrela como una app, en pantalla completa, con un toque.",
     "ios1": "Toca el botón Compartir (el cuadrito con una flecha) abajo o arriba de la pantalla.",
     "ios2": "Baja y toca \"Agregar a pantalla de inicio\", luego \"Agregar\".",
@@ -1172,7 +1172,7 @@
     "messageLabel": "Tu mensaje",
     "placeholder_confusing": "¿Qué querías hacer y dónde te trabaste?",
     "placeholder_bug": "¿Qué pasó y qué esperabas?",
-    "placeholder_idea": "¿Qué haría Cuenta Clara mejor para ti?",
+    "placeholder_idea": "¿Qué haría Pocket Recon mejor para ti?",
     "placeholder_love": "¿Qué te está funcionando bien?",
     "privacy": "Veremos tu correo y la pantalla donde estabas, para poder responderte. Por favor no incluyas números de tarjeta o de cuenta.",
     "send": "Enviar",
@@ -1295,12 +1295,12 @@
     "failed": "No se pudieron activar. Intenta de nuevo en un momento.",
     "unsupported": "Este navegador no puede mostrar avisos. Prueba con Chrome o Safari, o con la app en tu teléfono.",
     "notSetUp": "Los avisos todavía no están listos. Vuelve pronto.",
-    "blocked": "Los avisos están bloqueados para Cuenta Clara. Actívalos en Ajustes del teléfono → Notificaciones → Cuenta Clara y vuelve aquí.",
+    "blocked": "Los avisos están bloqueados para Pocket Recon. Actívalos en Ajustes del teléfono → Notificaciones → Pocket Recon y vuelve aquí.",
     "demo": "Los avisos funcionan cuando creas tu cuenta (no en la demo).",
-    "iosTitle": "En iPhone, primero agrega Cuenta Clara a tu pantalla de inicio",
+    "iosTitle": "En iPhone, primero agrega Pocket Recon a tu pantalla de inicio",
     "ios1": "En Safari, toca el botón Compartir (el cuadrito con la flecha).",
     "ios2": "Toca “Agregar a pantalla de inicio” y luego “Agregar”.",
-    "ios3": "Abre Cuenta Clara desde tu pantalla de inicio y vuelve a esta página.",
+    "ios3": "Abre Pocket Recon desde tu pantalla de inicio y vuelve a esta página.",
     "homeLink": "Recibe la nota de Clara en tu teléfono"
   }
 }

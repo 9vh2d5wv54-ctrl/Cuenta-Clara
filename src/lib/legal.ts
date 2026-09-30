@@ -3,8 +3,9 @@
 // a law school clinic review before growing, adding bank connections or running
 // ads. When the app changes what it collects or who it shares with, update this.
 
-export const LEGAL_UPDATED = "2026-09-29";
-export const CONTACT_EMAIL = "hola@micuentaclara.app";
+export const LEGAL_UPDATED = "2026-09-30";
+export { CONTACT_EMAIL } from "./brand";
+import { CONTACT_EMAIL, SITE_HOST } from "./brand";
 
 export type LegalSection = { h: string; p?: string[]; list?: string[] };
 export type LegalDoc = { title: string; lead: string; sections: LegalSection[] };
@@ -12,12 +13,12 @@ export type LegalDoc = { title: string; lead: string; sections: LegalSection[] }
 export const PRIVACY: Record<"es" | "en", LegalDoc> = {
   en: {
     title: "Privacy policy",
-    lead: "Cuenta Clara helps you plan your money. This page explains, in plain words, what we collect, why, who helps us run the app, and what you can do about it. The short version: we only keep what you type into the app, we never ask for your bank password, and we never sell your data.",
+    lead: "Pocket Recon helps you plan your money. This page explains, in plain words, what we collect, why, who helps us run the app, and what you can do about it. The short version: we only keep what you type into the app, we never ask for your bank password, and we never sell your data.",
     sections: [
       {
         h: "Who we are",
         p: [
-          "Cuenta Clara (micuentaclara.app) is a budgeting app operated by its founder, Manny Abreu. When this policy says \"we\" or \"us,\" it means Cuenta Clara.",
+          `Pocket Recon (${SITE_HOST}) is a budgeting app operated by its founder, Manny Abreu. When this policy says "we" or "us," it means Pocket Recon.`,
         ],
       },
       {
@@ -112,7 +113,7 @@ export const PRIVACY: Record<"es" | "en", LegalDoc> = {
       },
       {
         h: "Children",
-        p: ["Cuenta Clara is for adults. It isn't meant for children under 13, and we don't knowingly collect their information. If you think a child gave us information, write to us and we'll delete it."],
+        p: ["Pocket Recon is for adults. It isn't meant for children under 13, and we don't knowingly collect their information. If you think a child gave us information, write to us and we'll delete it."],
       },
       {
         h: "Where your data is",
@@ -130,12 +131,12 @@ export const PRIVACY: Record<"es" | "en", LegalDoc> = {
   },
   es: {
     title: "Política de privacidad",
-    lead: "Cuenta Clara te ayuda a planear tu dinero. Esta página explica, en palabras sencillas, qué guardamos, para qué, quién nos ayuda a manejar la app y qué puedes hacer tú. En corto: solo guardamos lo que escribes en la app, nunca te pedimos la contraseña de tu banco y nunca vendemos tus datos.",
+    lead: "Pocket Recon te ayuda a planear tu dinero. Esta página explica, en palabras sencillas, qué guardamos, para qué, quién nos ayuda a manejar la app y qué puedes hacer tú. En corto: solo guardamos lo que escribes en la app, nunca te pedimos la contraseña de tu banco y nunca vendemos tus datos.",
     sections: [
       {
         h: "Quiénes somos",
         p: [
-          "Cuenta Clara (micuentaclara.app) es una app de presupuesto manejada por su fundador, Manny Abreu. Cuando esta política dice \"nosotros\", se refiere a Cuenta Clara.",
+          `Pocket Recon (${SITE_HOST}) es una app de presupuesto manejada por su fundador, Manny Abreu. Cuando esta política dice "nosotros", se refiere a Pocket Recon.`,
         ],
       },
       {
@@ -228,7 +229,7 @@ export const PRIVACY: Record<"es" | "en", LegalDoc> = {
       },
       {
         h: "Menores de edad",
-        p: ["Cuenta Clara es para adultos. No es para menores de 13 años y no guardamos a propósito información de ellos. Si crees que un menor nos dio información, escríbenos y la borramos."],
+        p: ["Pocket Recon es para adultos. No es para menores de 13 años y no guardamos a propósito información de ellos. Si crees que un menor nos dio información, escríbenos y la borramos."],
       },
       {
         h: "Dónde están tus datos",
@@ -249,19 +250,19 @@ export const PRIVACY: Record<"es" | "en", LegalDoc> = {
 export const TERMS: Record<"es" | "en", LegalDoc> = {
   en: {
     title: "Terms of use",
-    lead: "These terms are the agreement between you and Cuenta Clara when you use the app. By creating an account or using the app, you agree to them. We wrote them in plain words; please read them.",
+    lead: "These terms are the agreement between you and Pocket Recon when you use the app. By creating an account or using the app, you agree to them. We wrote them in plain words; please read them.",
     sections: [
       {
-        h: "Who can use Cuenta Clara",
+        h: "Who can use Pocket Recon",
         p: ["You must be at least 18 years old (or the age of adulthood where you live) and able to agree to these terms. The app is made for people in the United States."],
       },
       {
-        h: "What Cuenta Clara is, and isn't",
+        h: "What Pocket Recon is, and isn't",
         list: [
           "A tool to plan your money with the numbers you type. The results are only as accurate as those numbers.",
           "Not a bank, lender or money transmitter. We don't hold, move or invest your money.",
           "General information and education, not financial, tax, legal or investment advice. For decisions that matter, talk to a qualified professional.",
-          "The VA disability estimate and GI Bill planner give estimates from VA's published tables. Cuenta Clara is not affiliated with the U.S. Department of Veterans Affairs or any government agency; VA decides your benefits.",
+          "The VA disability estimate and GI Bill planner give estimates from VA's published tables. Pocket Recon is not affiliated with the U.S. Department of Veterans Affairs or any government agency; VA decides your benefits.",
           "Exchange rates, tax set-aside amounts and forecasts are estimates.",
         ],
         p: ["You are responsible for your own money decisions."],
@@ -289,7 +290,7 @@ export const TERMS: Record<"es" | "en", LegalDoc> = {
           "We don't give refunds for partial periods, except where the law requires it. If something went wrong with a charge, write to us and we'll make it right.",
           "Payments are processed by Whop under its own terms.",
           "If we change the price, we'll email you at least 30 days before, and the new price applies from your next renewal.",
-          "The basics of Cuenta Clara stay free.",
+          "The basics of Pocket Recon stay free.",
         ],
       },
       {
@@ -306,7 +307,7 @@ export const TERMS: Record<"es" | "en", LegalDoc> = {
         h: "Your information and our content",
         p: [
           "What you type is yours. You let us store and process it only to run the app for you, as described in our privacy policy.",
-          "The app, its design, lessons, dictionary, quiz and name belong to Cuenta Clara. You may use them for your own personal use.",
+          "The app, its design, lessons, dictionary, quiz and name belong to Pocket Recon. You may use them for your own personal use.",
         ],
       },
       {
@@ -335,7 +336,7 @@ export const TERMS: Record<"es" | "en", LegalDoc> = {
       {
         h: "Limit of liability",
         p: [
-          "To the extent the law allows, Cuenta Clara isn't responsible for indirect or consequential losses, and our total responsibility for any claim is limited to the greater of what you paid us in the 12 months before the claim or $50. Some places don't allow these limits, so they may not apply to you.",
+          "To the extent the law allows, Pocket Recon isn't responsible for indirect or consequential losses, and our total responsibility for any claim is limited to the greater of what you paid us in the 12 months before the claim or $50. Some places don't allow these limits, so they may not apply to you.",
         ],
       },
       {
@@ -352,19 +353,19 @@ export const TERMS: Record<"es" | "en", LegalDoc> = {
   },
   es: {
     title: "Términos de uso",
-    lead: "Estos términos son el acuerdo entre tú y Cuenta Clara cuando usas la app. Al crear una cuenta o usar la app, los aceptas. Los escribimos en palabras sencillas; por favor léelos.",
+    lead: "Estos términos son el acuerdo entre tú y Pocket Recon cuando usas la app. Al crear una cuenta o usar la app, los aceptas. Los escribimos en palabras sencillas; por favor léelos.",
     sections: [
       {
-        h: "Quién puede usar Cuenta Clara",
+        h: "Quién puede usar Pocket Recon",
         p: ["Debes tener al menos 18 años (o la mayoría de edad donde vives) y poder aceptar estos términos. La app está hecha para personas en Estados Unidos."],
       },
       {
-        h: "Qué es Cuenta Clara, y qué no es",
+        h: "Qué es Pocket Recon, y qué no es",
         list: [
           "Una herramienta para planear tu dinero con los números que tú escribes. Los resultados son tan exactos como esos números.",
           "No es un banco, prestamista ni servicio de envío de dinero. No guardamos, movemos ni invertimos tu dinero.",
           "Información general y educación, no asesoría financiera, de impuestos, legal ni de inversiones. Para decisiones importantes, habla con un profesional.",
-          "La calculadora de discapacidad del VA y el planificador del GI Bill dan estimados con las tablas publicadas del VA. Cuenta Clara no está afiliada al Departamento de Asuntos de Veteranos de EE. UU. ni a ninguna agencia del gobierno; el VA decide tus beneficios.",
+          "La calculadora de discapacidad del VA y el planificador del GI Bill dan estimados con las tablas publicadas del VA. Pocket Recon no está afiliado al Departamento de Asuntos de Veteranos de EE. UU. ni a ninguna agencia del gobierno; el VA decide tus beneficios.",
           "Los tipos de cambio, lo que apartas para impuestos y los pronósticos son estimados.",
         ],
         p: ["Tú eres responsable de tus decisiones con tu dinero."],
@@ -392,7 +393,7 @@ export const TERMS: Record<"es" | "en", LegalDoc> = {
           "No devolvemos dinero por partes de un periodo, salvo cuando la ley lo pide. Si algo salió mal con un cobro, escríbenos y lo arreglamos.",
           "Los pagos los procesa Whop con sus propios términos.",
           "Si cambiamos el precio, te avisamos por correo al menos 30 días antes, y el precio nuevo empieza en tu siguiente renovación.",
-          "Lo básico de Cuenta Clara sigue gratis.",
+          "Lo básico de Pocket Recon sigue gratis.",
         ],
       },
       {
@@ -409,7 +410,7 @@ export const TERMS: Record<"es" | "en", LegalDoc> = {
         h: "Tu información y nuestro contenido",
         p: [
           "Lo que escribes es tuyo. Nos das permiso de guardarlo y procesarlo solo para que la app funcione para ti, como explica nuestra política de privacidad.",
-          "La app, su diseño, las lecciones, el diccionario, el quiz y el nombre son de Cuenta Clara. Puedes usarlos para tu uso personal.",
+          "La app, su diseño, las lecciones, el diccionario, el quiz y el nombre son de Pocket Recon. Puedes usarlos para tu uso personal.",
         ],
       },
       {
@@ -438,7 +439,7 @@ export const TERMS: Record<"es" | "en", LegalDoc> = {
       {
         h: "Límite de responsabilidad",
         p: [
-          "Hasta donde la ley lo permite, Cuenta Clara no es responsable de pérdidas indirectas, y nuestra responsabilidad total por cualquier reclamo se limita a lo que sea mayor entre lo que nos pagaste en los 12 meses antes del reclamo o $50. En algunos lugares la ley no permite estos límites, así que puede que no apliquen para ti.",
+          "Hasta donde la ley lo permite, Pocket Recon no es responsable de pérdidas indirectas, y nuestra responsabilidad total por cualquier reclamo se limita a lo que sea mayor entre lo que nos pagaste en los 12 meses antes del reclamo o $50. En algunos lugares la ley no permite estos límites, así que puede que no apliquen para ti.",
         ],
       },
       {

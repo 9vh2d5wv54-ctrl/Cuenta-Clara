@@ -4,7 +4,7 @@ Send to 3–5 people you trust (1–2 veterans, 1 mostly Spanish speaker). Open 
 
 ## English
 
-Hey! I'm building an app called Cuenta Clara. It helps you plan your money in English or Spanish, and it has free tools for veterans (VA disability estimate, GI Bill planner, benefits checklist).
+Hey! I'm building an app called Pocket Recon. It helps you plan your money in English or Spanish, and it has free tools for veterans (VA disability estimate, GI Bill planner, benefits checklist).
 
 Could you try it this week and tell me what you think? It's free and takes about 10 minutes. You don't connect a bank, you just type your own numbers.
 
@@ -21,7 +21,7 @@ Be honest, it really helps. Thank you!
 
 ## Español
 
-¡Hola! Estoy creando una app que se llama Cuenta Clara. Te ayuda a planear tu dinero en español o inglés, y tiene herramientas gratis para veteranos (calculadora de discapacidad del VA, planificador del GI Bill y lista de beneficios).
+¡Hola! Estoy creando una app que se llama Pocket Recon. Te ayuda a planear tu dinero en español o inglés, y tiene herramientas gratis para veteranos (calculadora de discapacidad del VA, planificador del GI Bill y lista de beneficios).
 
 ¿Me ayudas a probarla esta semana y me dices qué piensas? Es gratis y toma unos 10 minutos. No conectas tu banco, solo escribes tus propios números.
 

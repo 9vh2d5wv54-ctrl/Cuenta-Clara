@@ -1,4 +1,4 @@
-// Cuenta Clara service worker: only phone notifications (no offline caching).
+// Pocket Recon service worker: only phone notifications (no offline caching).
 // The server sends { title, body, url, tag }; tapping opens that page in the app.
 
 self.addEventListener("install", () => self.skipWaiting());
@@ -11,7 +11,7 @@ self.addEventListener("push", (event) => {
   } catch {
     data = { body: event.data ? event.data.text() : "" };
   }
-  const title = data.title || "Cuenta Clara";
+  const title = data.title || "Pocket Recon";
   event.waitUntil(
     self.registration.showNotification(title, {
       body: data.body || "",

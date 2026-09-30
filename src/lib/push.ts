@@ -1,9 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createECDH } from "node:crypto";
 import webpush from "web-push";
+import { SITE_URL } from "./brand";
 
 // Phone notifications (web push). Works on Android and desktop browsers, and on
-// iPhone once Cuenta Clara is added to the Home Screen (iOS 16.4+). Only one key
+// iPhone once Pocket Recon is added to the Home Screen (iOS 16.4+). Only one key
 // lives in Vercel: VAPID_PRIVATE_KEY (made on the tester dashboard, /app/admin).
 // The public key is worked out from it, so the two can never mismatch; phones get
 // it from /api/push/key. VAPID_SUBJECT is optional.
@@ -45,7 +46,7 @@ let ready = false;
 function setup(): boolean {
   if (ready) return true;
   if (!pushConfigured()) return false;
-  const subject = process.env.VAPID_SUBJECT || "https://micuentaclara.app";
+  const subject = process.env.VAPID_SUBJECT || SITE_URL;
   webpush.setVapidDetails(subject, vapidPublicKey()!, process.env.VAPID_PRIVATE_KEY!.trim());
   ready = true;
   return true;

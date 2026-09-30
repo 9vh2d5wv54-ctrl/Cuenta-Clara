@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("title"), description: t("lead") };
 }
 
-// Cuenta Clara Academy: public, no account needed.
+// Pocket Recon Academy: public, no account needed.
 export default async function Academy() {
   const t = await getTranslations("academy");
   const ms = await getTranslations("moneyStyle");
@@ -21,7 +21,7 @@ export default async function Academy() {
     <main className="page page--bare">
       <header className="topbar">
         <Link href="/" className="wordmark">
-          Cuenta Clara
+          Pocket Recon
         </Link>
         <LanguageToggle />
       </header>

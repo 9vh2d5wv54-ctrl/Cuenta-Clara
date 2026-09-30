@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
 
-// Makes Cuenta Clara installable on the home screen (iPhone: Share → Add to Home
+// Makes Pocket Recon installable on the home screen (iPhone: Share → Add to Home
 // Screen; Android/desktop Chrome: Install app). Opens full screen, straight to the app.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Cuenta Clara",
-    short_name: "Cuenta Clara",
+    name: "Pocket Recon",
+    short_name: "Pocket Recon",
     description: "Your AI money coach: know what's safe to spend, plan side-hustle and self-employed pay, and reach your goals. In English or Spanish.",
     categories: ["finance", "business", "productivity", "education"],
     start_url: "/app",

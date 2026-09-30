@@ -110,8 +110,8 @@ export async function GET(request: NextRequest) {
           // PRD: one gentle Plus mention, at the bottom, only for free users who never tried it.
           footnote: neverTried
             ? es
-              ? "¿Quieres ver cómo vas a estar en 3 meses? Cuenta Clara Plus tiene 7 días gratis."
-              : "Want to see where you'll be in 3 months? Cuenta Clara Plus has a 7-day free trial."
+              ? "¿Quieres ver cómo vas a estar en 3 meses? Pocket Recon Plus tiene 7 días gratis."
+              : "Want to see where you'll be in 3 months? Pocket Recon Plus has a 7-day free trial."
             : undefined,
         },
       });

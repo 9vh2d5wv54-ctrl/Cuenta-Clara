@@ -13,7 +13,7 @@ import {
 import { useTranslations } from "next-intl";
 import { Icon } from "./Icon";
 
-// The Cuenta Clara component set. Styles live in globals.css and only use brand tokens.
+// The Pocket Recon component set. Styles live in globals.css and only use brand tokens.
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "ghost" | "danger";

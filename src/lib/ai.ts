@@ -10,7 +10,7 @@ import { formatUSD } from "./money";
 const MODEL = "claude-opus-5";
 
 // Verbatim from the MVP PRD → "Free hook: the money checkup".
-const CHECKUP_SYSTEM = `You create a free monthly money checkup for Cuenta Clara users. Reply in the user's language (Spanish or English), using "tú" in Spanish.
+const CHECKUP_SYSTEM = `You create a free monthly money checkup for Pocket Recon users. Reply in the user's language (Spanish or English), using "tú" in Spanish.
 
 Input: monthly income, rent, bills, family sends, savings (all numbers the user typed).
 
@@ -23,7 +23,7 @@ Output, under 150 words:
 
 Tone: warm, clear, like a relative who's good with money.`;
 
-const ASK_SYSTEM = `You answer "¿Me alcanza?" ("Can I afford it?") questions for Cuenta Clara users. Reply in the user's language (Spanish or English), using "tú" in Spanish.
+const ASK_SYSTEM = `You answer "¿Me alcanza?" ("Can I afford it?") questions for Pocket Recon users. Reply in the user's language (Spanish or English), using "tú" in Spanish.
 
 You get the user's budget for this month (every number already calculated) and one question. Answer in under 80 words:
 1) Start with a clear yes, no, or "it's tight", based only on their numbers.
@@ -89,7 +89,7 @@ async function write(system: string, user: string, maxTokens: number): Promise<s
   }
 }
 
-const WEEKLY_SYSTEM = `You write the one friendly opening line of a weekly budget email for a Cuenta Clara user. Reply in the user's language (Spanish or English), using "tú" in Spanish. One sentence, under 25 words, no exclamation marks, no emoji. Mention one real number from their budget. Never judge or shame. Tone: warm, clear, like a relative who's good with money.`;
+const WEEKLY_SYSTEM = `You write the one friendly opening line of a weekly budget email for a Pocket Recon user. Reply in the user's language (Spanish or English), using "tú" in Spanish. One sentence, under 25 words, no exclamation marks, no emoji. Mention one real number from their budget. Never judge or shame. Tone: warm, clear, like a relative who's good with money.`;
 
 /** The Claude-written line at the top of the weekly email. The numbers below it come from code. */
 export async function writeWeeklyLine(i: CheckupInput): Promise<string> {
@@ -102,9 +102,9 @@ export async function writeWeeklyLine(i: CheckupInput): Promise<string> {
     : `You're heading into the week with ${formatUSD(i.left_cents)} left for the rest of the month.`;
 }
 
-const PAYDAY_SYSTEM = `You write the one friendly opening line of a "payday tomorrow" email from Clara, the money copilot in Cuenta Clara. Reply in the user's language (Spanish or English), using "tú" in Spanish. One sentence, under 25 words, no exclamation marks, no emoji. Use only numbers given below, never calculate new ones. If what's left is negative, be calm and practical: bills first. Never judge or shame. Tone: warm, clear, like a relative who's good with money.`;
+const PAYDAY_SYSTEM = `You write the one friendly opening line of a "payday tomorrow" email from Clara, the money copilot in Pocket Recon. Reply in the user's language (Spanish or English), using "tú" in Spanish. One sentence, under 25 words, no exclamation marks, no emoji. Use only numbers given below, never calculate new ones. If what's left is negative, be calm and practical: bills first. Never judge or shame. Tone: warm, clear, like a relative who's good with money.`;
 
-const NOTE_SYSTEM = `You write Clara's weekly note in Cuenta Clara, an AI money coach app. Clara is warm and clear, like a relative who's good with money. Write in the language given (Spanish with "tú", or English).
+const NOTE_SYSTEM = `You write Clara's weekly note in Pocket Recon, an AI money coach app. Clara is warm and clear, like a relative who's good with money. Write in the language given (Spanish with "tú", or English).
 - 2 or 3 short sentences, under 60 words in total.
 - First, the one most useful thing from the facts: a change from last week, what their business kept, a goal getting close, or a bill coming up. Then one small, concrete step for this week.
 - Use only numbers that appear in the facts, exactly as written (same currency symbol). Never calculate, round or invent a number.
@@ -202,7 +202,7 @@ function templateCheckup(i: CheckupInput): string {
 }
 
 // Quick log (Plus): turn a sentence or a receipt photo into entries to confirm.
-const QUICK_LOG_SYSTEM = `You turn what a Cuenta Clara user said, typed, or photographed into budget entries. Users write in Spanish, English, or a mix.
+const QUICK_LOG_SYSTEM = `You turn what a Pocket Recon user said, typed, or photographed into budget entries. Users write in Spanish, English, or a mix.
 
 Entry types:
 - expense: everyday spending. Pick the closest category: food, transport, home, health, phone, kids, fun, other.

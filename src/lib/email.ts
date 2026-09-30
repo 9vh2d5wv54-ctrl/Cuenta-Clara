@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { senderAddress } from "./brand";
 
 // Server-only. Every email goes through Resend in the person's language, with a
 // one-click unsubscribe (link + List-Unsubscribe headers) and the sender's
@@ -51,7 +52,7 @@ export type EmailBody = {
 
 function render(body: EmailBody, unsubscribe: string | null): { html: string; text: string } {
   // Placeholder until the PO box exists (LAUNCH_CHECKLIST). Set MAILING_ADDRESS to the real one.
-  const address = process.env.MAILING_ADDRESS ?? "Cuenta Clara · Newark, NJ";
+  const address = process.env.MAILING_ADDRESS ?? "Pocket Recon · Newark, NJ";
   const unsubLabel = body.lang === "es" ? "Dejar de recibir estos correos" : "Unsubscribe from these emails";
   const paras = body.paragraphs
     .map((p) => `<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:${COLORS.ink}">${escape(p)}</p>`)
@@ -65,7 +66,7 @@ function render(body: EmailBody, unsubscribe: string | null): { html: string; te
   const html = `<!doctype html><html lang="${body.lang}"><body style="margin:0;background:${COLORS.surface};font-family:Figtree,system-ui,-apple-system,'Segoe UI',sans-serif">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:24px 16px">
 <table role="presentation" width="100%" style="max-width:480px"><tr><td>
-<p style="margin:0 0 16px;font-weight:700;font-size:20px;color:${COLORS.clara}">Cuenta Clara</p>
+<p style="margin:0 0 16px;font-weight:700;font-size:20px;color:${COLORS.clara}">Pocket Recon</p>
 <div style="background:${COLORS.raised};border-radius:20px;padding:24px">${paras}${button}${foot}</div>
 <p style="margin:16px 0 0;font-size:12px;line-height:18px;color:${COLORS.muted}">${unsubscribe ? `<a href="${escape(unsubscribe)}" style="color:${COLORS.muted}">${unsubLabel}</a><br>` : ""}${escape(address)}</p>
 </td></tr></table></td></tr></table></body></html>`;
@@ -92,7 +93,7 @@ export async function sendEmail(opts: { to: string; userId: string; kind: EmailK
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: process.env.REMINDER_FROM_EMAIL ?? "Cuenta Clara <hola@micuentaclara.app>",
+      from: senderAddress(),
       to: opts.to,
       subject: opts.subject,
       reply_to: opts.replyTo,

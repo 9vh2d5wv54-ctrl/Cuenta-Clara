@@ -1,6 +1,6 @@
-# Cuenta Clara on the iPhone App Store
+# Pocket Recon on the iPhone App Store
 
-Everything needed to put Cuenta Clara in the App Store, in the order to do it.
+Everything needed to put Pocket Recon in the App Store, in the order to do it.
 Screenshots are in `docs/app-store/` (English and Spanish, 1290 × 2796, the size
 Apple asks for from the biggest iPhones; Apple shrinks them for smaller phones).
 
@@ -31,7 +31,7 @@ Three ways to handle it:
 
 ## 3. Making it feel like a real app (Guideline 4.2)
 
-Apple rejects apps that are "just a website in a box". Cuenta Clara is wrapped with
+Apple rejects apps that are "just a website in a box". Pocket Recon is wrapped with
 **Capacitor** (the same app code, inside a native shell). To pass review, add:
 
 - Face ID / passcode lock when the app opens (money apps are expected to have it).
@@ -45,7 +45,7 @@ so "Sign in with Apple" isn't required).
 
 ## 4. App Store listing (copy and paste)
 
-**Name** (30 max): `Cuenta Clara`
+**Name** (30 max): `Pocket Recon`
 
 **Subtitle** (30 max)
 - English: `AI money coach & budget` (23)
@@ -63,13 +63,13 @@ so "Sign in with Apple" isn't required).
 
 **Description (English)**
 
-Cuenta Clara is an AI money coach. Clara reads your real numbers and tells you, in plain words, what you can afford and what to do next.
+Pocket Recon is an AI money coach. Clara reads your real numbers and tells you, in plain words, what you can afford and what to do next.
 
 CLARA, YOUR AI MONEY COACH
 Ask "Can I afford this?", "How much will I have on payday?" or "What if I save $200 more?" Clara answers with your own numbers. The app does the math; Clara explains it.
 
 SEE WHAT'S SAFE TO SPEND
-Type your balance and payday, and Cuenta Clara shows what you can spend until your next check, after bills, savings and everything you've planned.
+Type your balance and payday, and Pocket Recon shows what you can spend until your next check, after bills, savings and everything you've planned.
 
 SMART MONEY TECH
 Log spending by voice or a receipt photo. See a 3-month forecast and a "What if?" chart. Get bill reminders and payday plans by email.
@@ -84,7 +84,7 @@ LEARN AS YOU GO
 Short lessons, a money-style quiz and a glossary of money words, free and without an account.
 
 FOR VETERANS AND MILITARY FAMILIES
-Estimate your combined VA disability rating, plan your GI Bill, and check off benefits many veterans miss. Estimates only; Cuenta Clara is not affiliated with the VA.
+Estimate your combined VA disability rating, plan your GI Bill, and check off benefits many veterans miss. Estimates only; Pocket Recon is not affiliated with the VA.
 
 IN ENGLISH OR SPANISH, WITH FAMILY SENDS
 Use the app in English, Spanish or both, and plan money you send to family abroad in their currency.
@@ -95,17 +95,17 @@ U.S. dollar, Canadian dollar or British pound.
 FREE, AND PRIVATE
 The basics are free forever. We never connect to your bank and never sell your data.
 
-Cuenta Clara gives general information, not financial, tax or legal advice.
+Pocket Recon gives general information, not financial, tax or legal advice.
 
 **Description (Spanish)**
 
-Cuenta Clara es un coach de dinero con IA. Clara lee tus números reales y te dice, en palabras claras, qué te alcanza y qué hacer ahora.
+Pocket Recon es un coach de dinero con IA. Clara lee tus números reales y te dice, en palabras claras, qué te alcanza y qué hacer ahora.
 
 CLARA, TU COACH DE DINERO CON IA
 Pregunta "¿Me alcanza?", "¿Cuánto tendré el día de pago?" o "¿Y si ahorro $200 más?". Clara responde con tus propios números. La app hace las cuentas; Clara las explica.
 
 MIRA CUÁNTO PUEDES GASTAR
-Escribe tu saldo y tu día de pago, y Cuenta Clara te dice cuánto puedes gastar hasta tu próximo cheque, después de cuentas, ahorro y todo lo que planeaste.
+Escribe tu saldo y tu día de pago, y Pocket Recon te dice cuánto puedes gastar hasta tu próximo cheque, después de cuentas, ahorro y todo lo que planeaste.
 
 TECNOLOGÍA PARA TU DINERO
 Anota gastos con tu voz o una foto del recibo. Mira un pronóstico de 3 meses y una gráfica de "¿Y si…?". Recibe recordatorios de cuentas y planes de pago por email.
@@ -120,7 +120,7 @@ APRENDE MIENTRAS USAS
 Lecciones cortas, un quiz de tu estilo con el dinero y un glosario de palabras de dinero, gratis y sin cuenta.
 
 PARA VETERANOS Y FAMILIAS MILITARES
-Calcula tu calificación combinada de discapacidad del VA, planea tu GI Bill y marca los beneficios que muchos veteranos no usan. Solo estimados; Cuenta Clara no está afiliada con el VA.
+Calcula tu calificación combinada de discapacidad del VA, planea tu GI Bill y marca los beneficios que muchos veteranos no usan. Solo estimados; Pocket Recon no está afiliada con el VA.
 
 EN ESPAÑOL O INGLÉS, CON ENVÍOS A TU FAMILIA
 Usa la app en español, inglés o los dos, y planea lo que mandas a tu familia en su moneda.
@@ -131,7 +131,7 @@ Dólar estadounidense, dólar canadiense o libra esterlina.
 GRATIS Y PRIVADA
 Lo básico es gratis para siempre. Nunca nos conectamos a tu banco ni vendemos tus datos.
 
-Cuenta Clara da información general, no asesoría financiera, de impuestos ni legal.
+Pocket Recon da información general, no asesoría financiera, de impuestos ni legal.
 
 **URLs**
 - Privacy policy: `https://micuentaclara.app/privacidad`

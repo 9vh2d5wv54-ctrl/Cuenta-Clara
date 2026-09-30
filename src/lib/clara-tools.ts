@@ -124,7 +124,7 @@ export const CLARA_TOOLS: Anthropic.Beta.BetaTool[] = [
   {
     name: "suggest_lesson",
     description:
-      "Link one of Cuenta Clara Academy's 2-minute lessons under your answer. Call it when a concept comes up. Lessons: " +
+      "Link one of Pocket Recon Academy's 2-minute lessons under your answer. Call it when a concept comes up. Lessons: " +
       LESSONS.map((l) => `${l.slug} = ${l.en.title}`).join("; "),
     input_schema: {
       type: "object",

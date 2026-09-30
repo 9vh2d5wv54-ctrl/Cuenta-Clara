@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { vapidPublicKey } from "./push";
+import { senderAddress } from "./brand";
 import { CLARA_MODEL } from "./clara";
 import { planIdFor, whopAccountId, whopClient } from "./whop";
 
@@ -80,9 +81,9 @@ async function email(): Promise<Check> {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: process.env.REMINDER_FROM_EMAIL ?? "Cuenta Clara <hola@micuentaclara.app>",
+        from: senderAddress(),
         to: "delivered@resend.dev",
-        subject: "Cuenta Clara health check",
+        subject: "Pocket Recon health check",
         text: "Automatic daily check that sending works.",
       }),
     });

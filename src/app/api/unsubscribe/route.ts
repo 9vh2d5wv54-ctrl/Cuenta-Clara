@@ -40,8 +40,8 @@ export async function GET(request: NextRequest) {
     : lang === "es"
       ? "Este enlace no es válido. Cambia tus correos desde Ajustes."
       : "This link isn't valid. Change your emails from Settings.";
-  const html = `<!doctype html><html lang="${lang}"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cuenta Clara</title>
+  const html = `<!doctype html><html lang="${lang}"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pocket Recon</title>
 <body style="margin:0;background:#f8f8f4;color:#1c2826;font-family:system-ui,sans-serif"><main style="max-width:480px;margin:0 auto;padding:48px 16px">
-<p style="font-weight:700;font-size:20px;color:#0f6b5f">Cuenta Clara</p><p style="font-size:16px;line-height:24px">${msg}</p></main></body></html>`;
+<p style="font-weight:700;font-size:20px;color:#0f6b5f">Pocket Recon</p><p style="font-size:16px;line-height:24px">${msg}</p></main></body></html>`;
   return new NextResponse(html, { status: ok ? 200 : 400, headers: { "Content-Type": "text/html; charset=utf-8" } });
 }

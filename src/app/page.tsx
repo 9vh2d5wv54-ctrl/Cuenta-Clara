@@ -6,12 +6,13 @@ import { CtaLink } from "@/components/landing/CtaLink";
 import { StickyCta } from "@/components/landing/StickyCta";
 import { AuthHashForward } from "@/components/AuthHashForward";
 import { headers } from "next/headers";
+import { SITE_URL } from "@/lib/brand";
 import { COUNTRY_HEADER } from "@/lib/country";
 import { currencyFromCountry, formatUSD, localizeDollars, sampleCents, usdPrice, type AppCurrency } from "@/lib/money";
 import { PRICES } from "@/lib/plan";
 import { OrbMark } from "@/components/ClaraCard";
 
-// The ad landing page (Cuenta Clara Landing Page PRD). Order follows the teardown:
+// The ad landing page (Pocket Recon Landing Page PRD). Order follows the teardown:
 // result and trust first, then the pitch, then doubts, then the ask again.
 // No invented stats or testimonials: the trust strip holds true facts until real
 // results exist.
@@ -24,15 +25,15 @@ const MOCK_DOP: Record<AppCurrency, number> = { USD: 63.42, CAD: 46.3, GBP: 80.5
 const APP_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Cuenta Clara",
-  url: "https://micuentaclara.app",
+  name: "Pocket Recon",
+  url: SITE_URL,
   applicationCategory: "FinanceApplication",
   applicationSubCategory: "AI money coach, business finance for side hustles and self-employed pay, productivity",
   operatingSystem: "Web, iOS, Android",
   areaServed: ["US", "CA", "GB", "DO"],
   inLanguage: ["en", "es"],
   description:
-    "Cuenta Clara is an AI money coach. Clara reads your real numbers to show what's safe to spend, track side-hustle and self-employed income, costs and profit in Business mode, set money aside for taxes, and reach your goals.",
+    "Pocket Recon is an AI money coach. Clara reads your real numbers to show what's safe to spend, track side-hustle and self-employed income, costs and profit in Business mode, set money aside for taxes, and reach your goals.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 
@@ -85,7 +86,7 @@ export default async function Landing() {
     <div className="lp">
       <AuthHashForward />
       <header className="lp-top lp-wrap">
-        <span className="wordmark">Cuenta Clara</span>
+        <span className="wordmark">Pocket Recon</span>
         <LanguageToggle />
       </header>
 

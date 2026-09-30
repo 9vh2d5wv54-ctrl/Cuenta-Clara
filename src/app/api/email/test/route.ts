@@ -67,7 +67,7 @@ async function sendTest(request: NextRequest) {
       userId: data.user.id,
       kind: "weekly",
       subject: lang === "es" ? "Prueba: la nota de Clara" : "Test: Clara's note",
-      body: { lang, paragraphs: [note.body], button: { label: lang === "es" ? "Abrir Cuenta Clara" : "Open Cuenta Clara", url: email.appUrl("/app") } },
+      body: { lang, paragraphs: [note.body], button: { label: lang === "es" ? "Abrir Pocket Recon" : "Open Pocket Recon", url: email.appUrl("/app") } },
     });
     return NextResponse.json({
       ok: sent,
@@ -103,9 +103,9 @@ async function sendTest(request: NextRequest) {
       lang,
       paragraphs:
         lang === "es"
-          ? ["Esto es una prueba de Cuenta Clara.", "Luz y gas: $120.00, vence el viernes."]
-          : ["This is a Cuenta Clara test email.", "Power and gas: $120.00, due Friday."],
-      button: { label: lang === "es" ? "Abrir Cuenta Clara" : "Open Cuenta Clara", url: email.appUrl("/app") },
+          ? ["Esto es una prueba de Pocket Recon.", "Luz y gas: $120.00, vence el viernes."]
+          : ["This is a Pocket Recon test email.", "Power and gas: $120.00, due Friday."],
+      button: { label: lang === "es" ? "Abrir Pocket Recon" : "Open Pocket Recon", url: email.appUrl("/app") },
     },
   });
   return NextResponse.json({

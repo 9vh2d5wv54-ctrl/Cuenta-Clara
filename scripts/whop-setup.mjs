@@ -1,4 +1,4 @@
-// One-time setup: creates the "Cuenta Clara Premium" product and its two plans in Whop,
+// One-time setup: creates the "Pocket Recon Premium" product and its two plans in Whop,
 // then prints the env vars to copy into Vercel.
 //
 //   WHOP_API_KEY=... WHOP_ACCOUNT_ID=biz_... node scripts/whop-setup.mjs
@@ -17,10 +17,10 @@ const whop = new WhopClient({ token });
 
 const product = await whop.products.create({
   account_id,
-  title: "Cuenta Clara Plus",
+  title: "Pocket Recon Plus",
   headline: "Pronóstico de 3 meses, metas ilimitadas, alertas de cambio",
   description:
-    "Cuenta Clara es gratis. Plus suma el pronóstico de 3 meses, metas de ahorro ilimitadas, alertas cuando el cambio te favorece y la ayuda \"¿Me alcanza?\". / Cuenta Clara is free. Plus adds a 3-month forecast, unlimited savings goals, exchange-rate alerts, and the \"¿Me alcanza?\" helper.",
+    "Pocket Recon es gratis. Plus suma el pronóstico de 3 meses, metas de ahorro ilimitadas, alertas cuando el cambio te favorece y la ayuda \"¿Me alcanza?\". / Pocket Recon is free. Plus adds a 3-month forecast, unlimited savings goals, exchange-rate alerts, and the \"¿Me alcanza?\" helper.",
 });
 
 // 7-day free trial on both plans (MVP PRD → Premium plan).

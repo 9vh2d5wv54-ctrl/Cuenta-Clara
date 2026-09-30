@@ -88,7 +88,7 @@ async function healthAlert(db: ReturnType<typeof supabaseAdmin>) {
       to,
       userId: "health-check",
       kind: null,
-      subject: `Cuenta Clara: ${broken.length} ${broken.length === 1 ? "thing needs" : "things need"} attention`,
+      subject: `Pocket Recon: ${broken.length} ${broken.length === 1 ? "thing needs" : "things need"} attention`,
       body: {
         lang: "en",
         paragraphs: [
@@ -249,11 +249,11 @@ async function trialReminders(db: ReturnType<typeof supabaseAdmin>) {
         lang: user.language,
         paragraphs: es
           ? [
-              `Tu prueba gratis de Cuenta Clara Plus termina el ${when}. Ese día empieza el cobro del plan que elegiste.`,
+              `Tu prueba gratis de Pocket Recon Plus termina el ${when}. Ese día empieza el cobro del plan que elegiste.`,
               "Si no quieres seguir, cancela en Ajustes antes de esa fecha y no se cobra nada. Lo básico sigue gratis.",
             ]
           : [
-              `Your free Cuenta Clara Plus trial ends ${when}. The plan you picked starts billing that day.`,
+              `Your free Pocket Recon Plus trial ends ${when}. The plan you picked starts billing that day.`,
               "If you don't want to continue, cancel in Settings before then and nothing is charged. The basics stay free.",
             ],
         button: { label: es ? "Ir a Ajustes" : "Go to Settings", url: appUrl("/app/ajustes") },
@@ -349,11 +349,11 @@ async function taxReminders(db: ReturnType<typeof supabaseAdmin>) {
         paragraphs: es
           ? [
               `El pago estimado de impuestos al IRS vence el ${when}. Has estado apartando el ${user.tax_set_aside_pct}% de lo que entra para esto.`,
-              "En Cuenta Clara ves cuánto llevas apartado. Esto es información general, no asesoría de impuestos: un preparador de impuestos te puede decir cuánto pagar.",
+              "En Pocket Recon ves cuánto llevas apartado. Esto es información general, no asesoría de impuestos: un preparador de impuestos te puede decir cuánto pagar.",
             ]
           : [
               `Your IRS estimated tax payment is due ${when}. You've been setting aside ${user.tax_set_aside_pct}% of what comes in for it.`,
-              "Cuenta Clara shows how much you've set aside. This is general information, not tax advice: a tax preparer can tell you how much to pay.",
+              "Pocket Recon shows how much you've set aside. This is general information, not tax advice: a tax preparer can tell you how much to pay.",
             ],
         button: { label: es ? "Ver cuánto llevo" : "See what I've set aside", url: appUrl("/app") },
       },

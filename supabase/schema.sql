@@ -1,4 +1,4 @@
--- Cuenta Clara schema. Run once in the Supabase SQL editor.
+-- Pocket Recon schema. Run once in the Supabase SQL editor.
 -- All money is integer cents in USD; foreign amounts are computed at display time.
 
 create table public.users (

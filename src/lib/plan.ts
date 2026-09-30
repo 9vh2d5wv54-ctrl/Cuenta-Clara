@@ -1,6 +1,6 @@
 import type { Checkup, Goal, Profile, Subscription } from "./types";
 
-// Cuenta Clara Plus (MVP PRD → Premium plan). Free keeps the whole budget, the
+// Pocket Recon Plus (MVP PRD → Premium plan). Free keeps the whole budget, the
 // monthly checkup, family sends and bill reminders. Plus adds the forecast,
 // unlimited goals, rate alerts, the "¿Me alcanza?" helper, paycheck mode
 // and the tax set-aside.

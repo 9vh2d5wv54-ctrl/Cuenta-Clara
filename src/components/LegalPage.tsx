@@ -14,7 +14,7 @@ export async function LegalPage({ doc }: { doc: Record<"es" | "en", LegalDoc> })
     <main className="page page--bare legal">
       <header className="topbar">
         <Link href="/" className="wordmark">
-          Cuenta Clara
+          Pocket Recon
         </Link>
         <LanguageToggle />
       </header>

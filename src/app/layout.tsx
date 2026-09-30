@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { parseTheme, THEME_COOKIE } from "@/lib/theme";
+import { SITE_URL } from "@/lib/brand";
 import "./globals.css";
 
 // Brand type: Bricolage Grotesque for titles and money, Figtree for everything else.
@@ -24,10 +25,10 @@ const figtree = Figtree({
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("landing");
   return {
-    metadataBase: new URL("https://micuentaclara.app"),
-    title: "Cuenta Clara",
+    metadataBase: new URL(SITE_URL),
+    title: "Pocket Recon",
     description: t("sub"),
-    applicationName: "Cuenta Clara",
+    applicationName: "Pocket Recon",
     // How the app ranks what it is: Clara (AI) finance, technology, business, education, then veterans and Spanish.
     category: "finance",
     keywords: [
@@ -44,10 +45,10 @@ export async function generateMetadata(): Promise<Metadata> {
       "Spanish budget app",
     ],
     // The link preview picture is src/app/opengraph-image.png (and twitter-image.png).
-    openGraph: { title: "Cuenta Clara", description: t("sub"), siteName: "Cuenta Clara", type: "website", url: "/" },
-    twitter: { card: "summary_large_image", title: "Cuenta Clara", description: t("sub") },
-    // Full screen with the Cuenta Clara name when opened from the iPhone home screen.
-    appleWebApp: { capable: true, title: "Cuenta Clara", statusBarStyle: "default" },
+    openGraph: { title: "Pocket Recon", description: t("sub"), siteName: "Pocket Recon", type: "website", url: "/" },
+    twitter: { card: "summary_large_image", title: "Pocket Recon", description: t("sub") },
+    // Full screen with the Pocket Recon name when opened from the iPhone home screen.
+    appleWebApp: { capable: true, title: "Pocket Recon", statusBarStyle: "default" },
   };
 }
 

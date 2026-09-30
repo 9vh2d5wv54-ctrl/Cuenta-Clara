@@ -1,4 +1,4 @@
-// Cuenta Clara Academy: short bilingual lessons, public (no account needed).
+// Pocket Recon Academy: short bilingual lessons, public (no account needed).
 // General information, not financial, tax or legal advice. Numbers in examples
 // are hypothetical and rounded; rules that change (tax rates, VA amounts) are
 // described, not quoted, except where they're long-standing (FICA rates, FLSA

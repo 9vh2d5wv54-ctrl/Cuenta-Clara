@@ -48,9 +48,30 @@ Check it: open `https://micuentaclara.app/api/push/test` in Safari (signed in).
    step 1 (the SQL) first.
 
 1. In Safari, open micuentaclara.app → Share button → **Add to Home Screen** → Add
-   (skip if Cuenta Clara is already on your Home Screen).
-2. Open Cuenta Clara **from the Home Screen icon** → Settings → **Phone notifications**
+   (skip if Pocket Recon is already on your Home Screen).
+2. Open Pocket Recon **from the Home Screen icon** → Settings → **Phone notifications**
    → **Turn on notifications** → Allow.
 3. Tap **Send a test**. A notification from Clara should show up in a few seconds.
 4. Optional: `/app/admin` → Run the checks now → "Phone notifications: Ready. 1 phone
    signed up".
+
+## New name: Pocket Recon (the app is renamed; these are outside the code)
+
+Right away (5 minutes):
+1. **Whop:** rename the product "Pocket Recon Plus" (Whop dashboard → Products). It shows
+   on the checkout and receipts.
+2. **Supabase → Authentication → Emails (templates):** change "Cuenta Clara" to
+   "Pocket Recon" in the sign-in / magic-link emails, if they mention it.
+
+When you buy the new web address (pocketrecon.app or .com):
+3. **Vercel → Settings → Domains:** add it, follow the DNS steps, keep micuentaclara.app
+   too (it will forward, so old links keep working).
+4. **Vercel → Environment Variables:** `NEXT_PUBLIC_SITE_URL` = `https://pocketrecon.app`
+   and `NEXT_PUBLIC_CONTACT_EMAIL` = `hola@pocketrecon.app` (Config type). Redeploy.
+5. **Resend → Domains:** add the new domain and its DNS records, then change
+   `REMINDER_FROM_EMAIL` in Vercel to the new address (the sender name is always
+   "Pocket Recon" automatically).
+6. **Supabase → Authentication → URL Configuration:** Site URL = the new address; add
+   `https://pocketrecon.app/auth/callback` and `/auth/confirm` to Redirect URLs.
+7. **Whop:** update the webhook URL and any redirect to the new address.
+8. Tell Claude: it moves the remaining old-address mentions in docs and checks everything.

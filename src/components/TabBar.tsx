@@ -18,7 +18,7 @@ export function TabBar() {
   const path = usePathname();
   if (path.startsWith("/app/setup")) return null;
   return (
-    <nav className="tabbar" aria-label="Cuenta Clara">
+    <nav className="tabbar" aria-label="Pocket Recon">
       <div className="tabbar__inner">
         {TABS.map((tab) => {
           const active = path === tab.href;

@@ -1,30 +1,31 @@
 # Launch checklist
 
-Where Cuenta Clara stands, and what's next.
+Where Pocket Recon stands, and what's next.
 
 ## Done
-- [x] App, landing page, Cuenta Clara Plus and emails built (see README)
+- [x] App, landing page, Pocket Recon Plus and emails built (see README)
 - [x] Code on GitHub: `9vh2d5wv54-ctrl/Cuenta-Clara`
-- [x] Live on Vercel: https://cuenta-clara-six.vercel.app (team "Cuenta Clara", Hobby plan)
+- [x] Live on Vercel: https://cuenta-clara-six.vercel.app (team "Pocket Recon", Hobby plan)
 - [x] Supabase project created (`nbmmllyhddckoqsnxtki`), `supabase/schema.sql` run
 - [x] Supabase connected to Vercel through the Supabase → Vercel integration (keys sync automatically)
 - [x] Vercel env var added by hand: `APP_URL` (and `NEXT_PUBLIC_SUPABASE_URL`)
 - [x] Redeploy pushed (commit d02808e) so the app uses the real database
 
 ## Next
+0. [ ] New name Pocket Recon: app renamed (Sep 30). Outside steps (Whop, Supabase emails, new domain) are in docs/LAPTOP_TODO.md
 1. [x] Confirm the deploy is Ready and signing up shows no "Modo de prueba" banner (first real signup worked)
 2. [x] Supabase → Authentication → URL Configuration
        Site URL: `https://cuenta-clara-six.vercel.app`
        Redirect URL: `https://cuenta-clara-six.vercel.app/auth/callback`
 3. [x] Payments: live trial started and canceled from the app
-       [x] Whop product "Cuenta Clara Plus": $4.99/month and $39.99/year, 7-day trial (made in the dashboard)
+       [x] Whop product "Pocket Recon Plus": $4.99/month and $39.99/year, 7-day trial (made in the dashboard)
        [x] `WHOP_API_KEY` in Vercel (the app finds both plans by price; no plan ids needed)
        [x] Whop webhook → `https://cuenta-clara-six.vercel.app/api/webhooks/whop`, secret in Vercel as `WHOP_WEBHOOK_SECRET`
        [x] Test: finish setup → checkup → "Pruébalo gratis 7 días" → trial starts → Settings shows "Estás probando Plus" → cancel
 4. [x] AI checkup: `ANTHROPIC_API_KEY` in Vercel (added Sep 28, 2026; key "Vercel" expires Oct 5, 2027 — make a new one before then)
 5. [ ] Emails
        [x] `RESEND_API_KEY` and `CRON_SECRET` in Vercel
-       [ ] Get a PO box, add it as `MAILING_ADDRESS` (footer says "Cuenta Clara · Newark, NJ" until then) — required before emailing real users
+       [ ] Get a PO box, add it as `MAILING_ADDRESS` (footer says "Pocket Recon · Newark, NJ" until then) — required before emailing real users
        [x] micuentaclara.app verified in Resend; test email from hola@micuentaclara.app delivered to Gmail
        [x] Supabase login emails sent through Resend (custom SMTP)
        [x] Email login link works from the Mail app on micuentaclara.app
@@ -73,7 +74,7 @@ Veterans:
 - [ ] Every December 1: update `src/lib/va-rates.ts` with VA's new rates and effective date
 
 Accounts:
-- [x] Vercel project (team "Cuenta Clara", signed in with Apple) reconnected to GitHub `9vh2d5wv54-ctrl/Cuenta-Clara`
+- [x] Vercel project (team "Pocket Recon", signed in with Apple) reconnected to GitHub `9vh2d5wv54-ctrl/Cuenta-Clara`
 - [ ] Vercel: change that account's email to one you can read (it's an Apple hidden-relay address)
 - [ ] Delete the unused copy "cuenta-clara" (cuenta-clara-xi.vercel.app) in the mannyabreu92@gmail.com Vercel account
 
@@ -108,7 +109,7 @@ Money Health Score:
 
 Later:
 - [ ] Make the GitHub repo private (Settings → Danger Zone). GitHub emails a code to the Sign in with Apple relay address; find it in the inbox Apple forwards to (iPhone Settings → your name → Sign in with Apple → GitHub).
-- [ ] Delete the unused Whop API key "Cuenta Clara app" (keep "Cuenta Clara app2").
+- [ ] Delete the unused Whop API key "Pocket Recon app" (keep "Pocket Recon app2").
 - [x] `ANTHROPIC_API_KEY` in Vercel
 - [ ] Before Oct 5, 2027: new Claude key in the Console, replace it in Vercel
 - [ ] Delete the unused older Claude key "Cuenta-Clara" in the Console (API keys page)
@@ -121,16 +122,16 @@ Tip: adding variables and copying keys is much easier on a computer than on a ph
 - [x] Installable on the home screen (manifest, brand icons, full screen; install card on Home)
 - [ ] Real iPhone app with Capacitor: push notifications (payday, bills), Face ID lock
 - [ ] Plus through Apple in-app purchase (15% Small Business Program); Whop stays for the web
-- [ ] Apple Developer account ($99/year; LLC + D-U-N-S to show "Cuenta Clara" as seller)
+- [ ] Apple Developer account ($99/year; LLC + D-U-N-S to show "Pocket Recon" as seller)
 - [ ] App Store privacy "nutrition label" from the privacy policy; reviewer test account with sample data
 - [ ] Xcode on a Mac that supports it, or a cloud build service
-- [x] Whop: $39.99 yearly plan exists on Cuenta Clara Plus, with the 7-day trial (checked Sep 28, 2026)
+- [x] Whop: $39.99 yearly plan exists on Pocket Recon Plus, with the 7-day trial (checked Sep 28, 2026)
 - [ ] Plus trial test: check whether Whop checkout shows a crossed-out "$6.24, Save 20%" on the monthly plan; if so, remove it (setting or Whop support). Never show a "was" price that was not real.
 
 ## Design (later)
 - [x] Midnight redesign (navy + blue) is the default look; Light and Automatic in Settings → Appearance (Sep 29, 2026)
 - [x] Brand kit updated with the Midnight colors, glass cards, Home layout and the navy app icon (Sep 29)
 - [ ] Send yourself a test from Settings → Send feedback and check it reaches Gmail (spam too). Optional: set FEEDBACK_TO in Vercel to send feedback to a different inbox
-- [ ] Try the new first-time setup by signing up with a second email (like the Cuenta Clara Outlook), then check the dashboard at /app/admin
+- [ ] Try the new first-time setup by signing up with a second email (like the Pocket Recon Outlook), then check the dashboard at /app/admin
 - [x] Security review and fixes (Sep 28, 2026): see README "Security review"
 - [x] Automatic tests: 57 unit tests run before every deploy and on GitHub (Sep 28, 2026)

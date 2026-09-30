@@ -7,7 +7,7 @@ export function whopClient() {
   return new WhopClient({ token });
 }
 
-// The Cuenta Clara business in Whop (from the dashboard address). Not a secret.
+// The Pocket Recon business in Whop (from the dashboard address). Not a secret.
 // The last character was hard to read (lowercase L or capital i), so both are
 // tried once and the one Whop accepts is kept. WHOP_ACCOUNT_ID overrides.
 const ACCOUNT_CANDIDATES = ["biz_zmiyiY92Ucpo6l", "biz_zmiyiY92Ucpo6I"];

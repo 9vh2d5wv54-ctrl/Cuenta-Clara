@@ -23,11 +23,11 @@ export function welcomeEmail(lang: "es" | "en", setupUrl: string): { subject: st
       body: {
         lang,
         paragraphs: [
-          "Hola, gracias por unirte a Cuenta Clara.",
+          "Hola, gracias por unirte a Pocket Recon.",
           "Vi que todavía no terminaste de configurar tu cuenta. Son 5 preguntas cortas: cada cuánto te pagan, cuánto es tu cheque, cuándo te pagan, tu cuenta más grande y cuánto tienes hoy.",
           "Con eso te mostramos cuánto puedes gastar hasta tu próximo pago, después de tus cuentas. Nunca nos conectamos a tu banco.",
           "Si algo no quedó claro, responde este correo. Lo leo yo.",
-          "Manny, fundador de Cuenta Clara",
+          "Manny, fundador de Pocket Recon",
         ],
         button: { label: "Terminar en 1 minuto", url: setupUrl },
       },
@@ -38,11 +38,11 @@ export function welcomeEmail(lang: "es" | "en", setupUrl: string): { subject: st
     body: {
       lang,
       paragraphs: [
-        "Hi, thanks for joining Cuenta Clara.",
+        "Hi, thanks for joining Pocket Recon.",
         "I noticed you haven't finished setting up yet. It's 5 short questions: how often you're paid, how much each check is, when payday is, your biggest bill, and what's in your account today.",
         "Then we show you what's safe to spend until your next payday, after your bills. We never connect to your bank.",
         "If anything was confusing, just reply to this email. I read every one.",
-        "Manny, founder of Cuenta Clara",
+        "Manny, founder of Pocket Recon",
       ],
       button: { label: "Finish in 1 minute", url: setupUrl },
     },

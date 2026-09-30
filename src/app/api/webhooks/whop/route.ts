@@ -3,7 +3,7 @@ import { unwrapWebhook, WebhookVerificationError } from "@whop/sdk/helpers";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { whopClient } from "@/lib/whop";
 
-// Whop → Cuenta Clara. Keeps the subscriptions table in sync with the membership.
+// Whop → Pocket Recon. Keeps the subscriptions table in sync with the membership.
 // Subscribe in Whop to: membership.activated, membership.deactivated,
 // membership.cancel_at_period_end_changed.
 

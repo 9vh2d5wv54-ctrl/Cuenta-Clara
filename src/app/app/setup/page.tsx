@@ -126,7 +126,7 @@ export default function Setup() {
             <Icon name="back" />
           </button>
         ) : (
-          <span className="wordmark">Cuenta Clara</span>
+          <span className="wordmark">Pocket Recon</span>
         )}
         <LanguageToggle />
       </header>

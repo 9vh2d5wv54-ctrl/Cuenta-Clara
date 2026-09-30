@@ -1,4 +1,4 @@
-# Where Cuenta Clara is listed, and under what
+# Where Pocket Recon is listed, and under what
 
 How the app ranks what it is, everywhere:
 
@@ -37,8 +37,8 @@ client list is ever built.
 ## One-line descriptions (copy and paste)
 
 - Short (60): `Your AI money coach for personal and side-hustle money.`
-- Medium: `Cuenta Clara is an AI money coach. Clara reads your real numbers to show what's safe to spend, plan self-employed and gig pay, and set aside for taxes.`
-- Spanish: `Cuenta Clara es un coach de dinero con IA. Clara lee tus números para decirte cuánto puedes gastar, planear ingresos por tu cuenta y apartar para impuestos.`
+- Medium: `Pocket Recon is an AI money coach. Clara reads your real numbers to show what's safe to spend, plan self-employed and gig pay, and set aside for taxes.`
+- Spanish: `Pocket Recon es un coach de dinero con IA. Clara lee tus números para decirte cuánto puedes gastar, planear ingresos por tu cuenta y apartar para impuestos.`
 
 ## Links for UK, Canada and Dominican Republic ads
 

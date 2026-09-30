@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "Cuenta Clara",
+    "appName": "Pocket Recon",
     "switchTo": "Español",
     "switchToLabel": "Switch to Spanish",
     "save": "Save",
@@ -57,7 +57,7 @@
     "faqFreeQ": "Is it really free?",
     "faqFreeA": "Yes. The basics are free forever, no card required. If you want to see further ahead, Plus is {price} a month, with 7 days free to try it.",
     "faqWhereQ": "Does it work outside the U.S.?",
-    "faqWhereA": "Yes. Cuenta Clara works in the U.S., Canada, the UK and the Dominican Republic, and shows your money in U.S. dollars, Canadian dollars, pounds or Dominican pesos. Plus is billed in U.S. dollars. The veteran tools and tax reminders follow U.S. rules.",
+    "faqWhereA": "Yes. Pocket Recon works in the U.S., Canada, the UK and the Dominican Republic, and shows your money in U.S. dollars, Canadian dollars, pounds or Dominican pesos. Plus is billed in U.S. dollars. The veteran tools and tax reminders follow U.S. rules.",
     "faqBankQ": "Is it a bank?",
     "faqBankA": "No. It works with the bank you already have.",
     "faqForMeQ": "Is it for me?",
@@ -78,7 +78,7 @@
     "vetGiText": "What the Post-9/11 GI Bill covers for school or training: tuition, housing and books.",
     "vetBenefitsTitle": "Benefits checklist",
     "vetBenefitsText": "14 benefits veterans often miss, each with the official link to apply.",
-    "vetNote": "Estimates only. Cuenta Clara is not affiliated with the U.S. Department of Veterans Affairs.",
+    "vetNote": "Estimates only. Pocket Recon is not affiliated with the U.S. Department of Veterans Affairs.",
     "freeTitle": "Learn money, two minutes at a time",
     "quizTitle": "What's your money style?",
     "quizText": "A 2-minute quiz with 3 tips that fit you.",
@@ -350,9 +350,9 @@
     "goalMonthly": "What's still missing for your goal, divided by the months left until the date you picked."
   },
   "plus": {
-    "name": "Cuenta Clara Plus",
+    "name": "Pocket Recon Plus",
     "badge": "Plus",
-    "title": "Cuenta Clara Plus",
+    "title": "Pocket Recon Plus",
     "lead": "The basics stay free forever. Plus is for when you want to see further ahead.",
     "colFree": "Free",
     "colPlus": "Plus",
@@ -378,7 +378,7 @@
     "notNow": "Not now",
     "processing": "Confirming…",
     "processingSlow": "Your payment is processing. Plus turns on within a few minutes; you can leave this screen.",
-    "success": "You have Plus. Thanks for supporting Cuenta Clara.",
+    "success": "You have Plus. Thanks for supporting Pocket Recon.",
     "unavailable": "Payments aren't available right now. Try again later.",
     "demoNote": "Demo mode: no real payments.",
     "demoTrial": "Start pretend trial",
@@ -528,12 +528,12 @@
     "logIt": "Log {amount} as this paycheck",
     "plusTitle": "The paycheck checker is part of Plus",
     "homeLink": "Were you paid right? Check your pay stub",
-    "plusLater": "This is part of Cuenta Clara Plus. Finish your first money checkup to try Plus free for 7 days.",
+    "plusLater": "This is part of Pocket Recon Plus. Finish your first money checkup to try Plus free for 7 days.",
     "limit": "You've checked a lot of pay stubs today. Type the numbers below, or try the photo again tomorrow."
   },
   "whatsapp": {
     "title": "WhatsApp assistant",
-    "lead": "Text your expenses, receipt photos and \"¿Me alcanza?\" questions to Cuenta Clara on WhatsApp.",
+    "lead": "Text your expenses, receipt photos and \"¿Me alcanza?\" questions to Pocket Recon on WhatsApp.",
     "connect": "Connect WhatsApp",
     "step": "Send this message from your WhatsApp. It connects your number within a minute; the code works for 15 minutes.",
     "open": "Open WhatsApp",
@@ -640,7 +640,7 @@
   },
   "veterans": {
     "title": "VA disability estimate",
-    "lead": "Add your VA ratings to see your combined rating the way VA calculates it. Estimates only: Cuenta Clara isn't the VA.",
+    "lead": "Add your VA ratings to see your combined rating the way VA calculates it. Estimates only: Pocket Recon isn't the VA.",
     "rating": "Rating",
     "choose": "Choose",
     "bilateral": "Affects both arms or both legs (bilateral)",
@@ -655,7 +655,7 @@
     "monthlyLink": "See VA's rate table",
     "help": "For your claim, a VA-accredited representative (VSO) can help for free.",
     "helpLink": "Find an accredited representative",
-    "notVa": "Estimate only, not a decision on benefits. Cuenta Clara is not affiliated with the U.S. Department of Veterans Affairs.",
+    "notVa": "Estimate only, not a decision on benefits. Pocket Recon is not affiliated with the U.S. Department of Veterans Affairs.",
     "empty": "Add at least one rating to see your combined rating.",
     "goalsLink": "Veterans: VA disability estimate",
     "familyTitle": "Your family",
@@ -681,7 +681,7 @@
     "howShort": "How VA combines ratings"
   },
   "academy": {
-    "title": "Cuenta Clara Academy",
+    "title": "Pocket Recon Academy",
     "lead": "Short lessons about money in plain words. Free, in English and Spanish.",
     "minutes": "{n} min",
     "next": "Next lesson",
@@ -833,7 +833,7 @@
     "noHousing": "No monthly housing while on active duty.",
     "cap": "For this type of school, VA pays up to {cap} a year at 100%.",
     "ratesLink": "VA's GI Bill rates",
-    "rules": "Housing is paid when you take more than half-time classes (this assumes full time) and not during breaks. Rates effective {from} to {to}. Estimate only; Cuenta Clara is not affiliated with VA.",
+    "rules": "Housing is paid when you take more than half-time classes (this assumes full time) and not during breaks. Rates effective {from} to {to}. Estimate only; Pocket Recon is not affiliated with VA.",
     "vaLink": "GI Bill planner",
     "flight": "Flight training",
     "correspondence": "Correspondence school",
@@ -900,7 +900,7 @@
     "crisisTitle": "Veterans Crisis Line",
     "crisis": "If you or a veteran you know is in crisis: dial 988 and press 1, or text 838255. Free, confidential, 24/7.",
     "saved": "Your checks are saved on this device only.",
-    "notVa": "General information, not a decision on benefits. Cuenta Clara is not affiliated with the U.S. Department of Veterans Affairs or any government agency.",
+    "notVa": "General information, not a decision on benefits. Pocket Recon is not affiliated with the U.S. Department of Veterans Affairs or any government agency.",
     "vaLink": "Veteran benefits checklist"
   },
   "moneyStyle": {
@@ -988,7 +988,7 @@
     "watchOut": "Watch out for",
     "tipsTitle": "3 tips for you",
     "lesson": "2-minute lesson",
-    "cta": "Try Cuenta Clara free",
+    "cta": "Try Pocket Recon free",
     "share": "Share the quiz",
     "shareText": "What's your money style? Take the 2-minute quiz.",
     "copied": "Link copied",
@@ -1046,7 +1046,7 @@
     "yes": "Yes",
     "no": "No thanks",
     "title": "Veteran tools",
-    "thanks": "Thank you for your service. Free tools, estimates only. Cuenta Clara is not the VA.",
+    "thanks": "Thank you for your service. Free tools, estimates only. Pocket Recon is not the VA.",
     "disability": "VA disability estimate",
     "giBill": "GI Bill planner",
     "benefits": "Benefits checklist",
@@ -1125,7 +1125,7 @@
     "signupNote": "By creating an account you agree to the <terms>Terms of use</terms> and the <privacy>Privacy policy</privacy>."
   },
   "install": {
-    "title": "Put Cuenta Clara on your home screen",
+    "title": "Put Pocket Recon on your home screen",
     "lead": "Open it like an app, full screen, with one tap.",
     "ios1": "Tap the Share button (the square with an arrow) at the bottom or top of the screen.",
     "ios2": "Scroll down and tap \"Add to Home Screen\", then \"Add\".",
@@ -1172,7 +1172,7 @@
     "messageLabel": "Your message",
     "placeholder_confusing": "What were you trying to do, and where did you get stuck?",
     "placeholder_bug": "What happened, and what did you expect?",
-    "placeholder_idea": "What would make Cuenta Clara better for you?",
+    "placeholder_idea": "What would make Pocket Recon better for you?",
     "placeholder_love": "What's working well for you?",
     "privacy": "We'll see your email and the screen you were on, so we can write back. Please don't include card or account numbers.",
     "send": "Send",
@@ -1295,12 +1295,12 @@
     "failed": "Couldn't turn them on. Try again in a moment.",
     "unsupported": "This browser can't show notifications. Try Chrome or Safari, or the app on your phone.",
     "notSetUp": "Phone notifications aren't ready yet. Check back soon.",
-    "blocked": "Notifications are blocked for Cuenta Clara. Turn them on in your phone's Settings → Notifications → Cuenta Clara, then come back here.",
+    "blocked": "Notifications are blocked for Pocket Recon. Turn them on in your phone's Settings → Notifications → Pocket Recon, then come back here.",
     "demo": "Notifications work once you sign up (not in the demo).",
-    "iosTitle": "On iPhone, add Cuenta Clara to your Home Screen first",
+    "iosTitle": "On iPhone, add Pocket Recon to your Home Screen first",
     "ios1": "In Safari, tap the Share button (the square with an arrow).",
     "ios2": "Tap “Add to Home Screen”, then “Add”.",
-    "ios3": "Open Cuenta Clara from your Home Screen and come back to this page.",
+    "ios3": "Open Pocket Recon from your Home Screen and come back to this page.",
     "homeLink": "Get Clara's note on your phone"
   }
 }

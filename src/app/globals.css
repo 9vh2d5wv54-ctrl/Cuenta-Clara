@@ -527,7 +527,7 @@ textarea {
   gap: var(--space-3);
 }
 
-/* Landing page (Cuenta Clara Landing Page PRD) */
+/* Landing page (Pocket Recon Landing Page PRD) */
 .lp {
   padding-bottom: calc(88px + env(safe-area-inset-bottom));
 }

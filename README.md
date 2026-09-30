@@ -1,8 +1,8 @@
-# Cuenta Clara
+# Pocket Recon
 
 A bilingual (Spanish/English) budgeting web app for households that manage money across two countries. It shows what's left this month after bills, savings, and what goes to family. It is not a bank and never moves money.
 
-Built from the Cuenta Clara MVP PRD and styled with the Cuenta Clara brand kit.
+Built from the Pocket Recon MVP PRD and styled with the Pocket Recon brand kit.
 
 ## Run it
 
@@ -54,7 +54,7 @@ Language is chosen on the landing page, can be switched on every screen, and is 
 
 ## Landing page
 
-Built from the Cuenta Clara Landing Page PRD: hero with before/after cards, trust strip, how it works, the big-number phone mock, family sends, FAQ, and a final CTA. A sticky "Empezar gratis" bar appears on phones once the hero button scrolls away.
+Built from the Pocket Recon Landing Page PRD: hero with before/after cards, trust strip, how it works, the big-number phone mock, family sends, FAQ, and a final CTA. A sticky "Empezar gratis" bar appears on phones once the hero button scrolls away.
 
 - **Language from the ad:** `?lang=es` or `?lang=en` picks the language and saves it; every CTA carries it into signup.
 - **No invented proof:** the trust strip holds true facts until real testers give quotes and numbers.
@@ -71,7 +71,7 @@ Without `ANTHROPIC_API_KEY` (or if the API fails), a plain template writes the s
 
 The Claude calls use `claude-opus-5` with server-side refusal fallbacks (`fallbacks: "default"`) and medium effort. Change `MODEL` in `src/lib/ai.ts` if you want a cheaper model.
 
-## Cuenta Clara Plus (Whop)
+## Pocket Recon Plus (Whop)
 
 **$4.99/month or $39.99/year, with a 7-day free trial.**
 
@@ -117,7 +117,7 @@ Card on Home once there are 15+ expenses over 3+ weeks (last 130 days): biggest 
 
 `/app/veteranos/beneficios`, linked from the VA page. 14 benefits veterans often miss (disability, pension, state benefits, health care, life insurance, home loan and funding fee exemption, GI Bill, VR&E, SBA, DD214, veteran ID, national parks pass, burial), grouped, each linking only to the official government page and to our own tool when there is one. Checks are saved per person in this browser (`src/lib/vet-benefits.ts`). Ends with the Veterans Crisis Line (988, press 1).
 
-### Cuenta Clara Academy (free, public)
+### Pocket Recon Academy (free, public)
 
 `/aprende` and `/aprende/[slug]`: 10 short bilingual lessons (budget, emergency fund, APR, compound interest, credit score, sending money home, 1099 taxes, snowball vs. avalanche, pay stubs, VA benefits), each with an example and a "try it" link into the app. No account needed; linked from Home and the landing page. Content in `src/lib/lessons.ts`. General information, not financial, tax or legal advice.
 
@@ -182,7 +182,7 @@ The default Supabase email templates are fine. Login and confirm emails are sent
 ## Launch setup
 
 1. Run `supabase/schema.sql` in Supabase.
-2. Whop: create an API key, then `WHOP_API_KEY=… WHOP_ACCOUNT_ID=biz_… node scripts/whop-setup.mjs`. It creates "Cuenta Clara Plus" with both plans and the 7-day trial, and prints the plan ids. Check the prices in the Whop dashboard afterwards.
+2. Whop: create an API key, then `WHOP_API_KEY=… WHOP_ACCOUNT_ID=biz_… node scripts/whop-setup.mjs`. It creates "Pocket Recon Plus" with both plans and the 7-day trial, and prints the plan ids. Check the prices in the Whop dashboard afterwards.
 3. Whop → Developer → Webhooks: add `https://<your-domain>/api/webhooks/whop` with `membership.activated`, `membership.deactivated` and `membership.cancel_at_period_end_changed`.
 4. Resend: verify your sending domain.
 5. Set every variable in `.env.example` on Vercel.
