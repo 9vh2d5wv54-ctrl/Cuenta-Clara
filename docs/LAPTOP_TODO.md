@@ -63,7 +63,12 @@ Right away (5 minutes):
 2. **Supabase → Authentication → Emails (templates):** change "Cuenta Clara" to
    "Pocket Recon" in the sign-in / magic-link emails, if they mention it.
 
-When you buy the new web address (pocketrecon.app or .com):
+New web address pocketrecon.app (bought Sep 30 in Vercel, renews $15/yr; Vercel Pro):
+- ✓ Added to the project in Vercel (Domains)
+- ✓ Supabase Site URL = https://pocketrecon.app, redirect https://pocketrecon.app/** added
+- ✓ Vercel: APP_URL and NEXT_PUBLIC_SITE_URL = https://pocketrecon.app, redeployed
+
+Still to do:
 3. **Vercel → Settings → Domains:** add it, follow the DNS steps, keep micuentaclara.app
    too (it will forward, so old links keep working).
 4. **Vercel → Environment Variables:** `NEXT_PUBLIC_SITE_URL` = `https://pocketrecon.app`
