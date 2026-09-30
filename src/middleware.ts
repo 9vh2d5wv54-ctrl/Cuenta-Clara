@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isLocale, LOCALE_COOKIE } from "@/i18n/config";
 import { COUNTRY_COOKIE, COUNTRY_HEADER } from "@/lib/country";
+import { oldDomainRedirect } from "@/lib/old-domain";
 
 // Ads link with ?lang=es or ?lang=en. That choice wins for this request and is
 // saved in the locale cookie so the rest of the visit (and signup) keeps it.
@@ -13,6 +14,11 @@ export function middleware(request: NextRequest) {
     url.pathname = searchParams.has("token_hash") ? "/auth/confirm" : "/auth/callback";
     return NextResponse.redirect(url);
   }
+
+  // Old address (micuentaclara.app): send visitors to the same page on pocketrecon.app.
+  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  const moved = host ? oldDomainRedirect(new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, `https://${host}`)) : null;
+  if (moved) return NextResponse.redirect(moved, 308);
 
   const lang = request.nextUrl.searchParams.get("lang");
   // The visitor's country (Vercel knows it; ?country=GB|CA|US for ads and testing)

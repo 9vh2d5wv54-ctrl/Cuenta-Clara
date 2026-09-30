@@ -68,6 +68,10 @@ New web address pocketrecon.app (bought Sep 30 in Vercel, renews $15/yr; Vercel 
 - ✓ Supabase Site URL = https://pocketrecon.app, redirect https://pocketrecon.app/** added
 - ✓ Vercel: APP_URL and NEXT_PUBLIC_SITE_URL = https://pocketrecon.app, redeployed
 
+- ✓ Old address forwards: pages on micuentaclara.app go to the same page on pocketrecon.app
+  (done in code). Whop's webhook and sign-in links stay on micuentaclara.app on purpose;
+  keep micuentaclara.app connected in Vercel and renewing (Sep 25 each year).
+
 Still to do:
 3. **Vercel → Settings → Domains:** add it, follow the DNS steps, keep micuentaclara.app
    too (it will forward, so old links keep working).
