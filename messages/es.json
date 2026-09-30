@@ -30,7 +30,7 @@
     "settings": "Ajustes"
   },
   "landing": {
-    "headline": "Tu dinero, claro. En español, en inglés, o en los dos.",
+    "headline": "Adelántate a tu día de pago. Tu coach de dinero con IA.",
     "sub": "Un coach de dinero con IA que conoce tus números: mira cuánto puedes gastar hasta tu pago y pregúntale a Clara lo que quieras.",
     "cta": "Empezar gratis",
     "ctaMicro": "Sin tarjeta. Sin conectar tu banco.",
@@ -88,8 +88,8 @@
     "mockGoal1": "Fondo de emergencia",
     "mockGoal2": "Viaje a casa",
     "heroEyebrow": "Conoce a Clara, tu coach con IA",
-    "heroLine1": "Tu dinero,",
-    "heroLine2": "claro.",
+    "heroLine1": "Adelántate",
+    "heroLine2": "a tu día de pago.",
     "heroLine3": "Un coach de dinero con IA que conoce tus números.",
     "heroSub": "Clara mira lo que ganas, tus cuentas y tus metas, y te dice cuánto puedes gastar, qué viene y qué hacer después.",
     "artSafe": "Seguro para gastar",

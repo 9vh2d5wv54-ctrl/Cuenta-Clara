@@ -30,7 +30,7 @@
     "settings": "Settings"
   },
   "landing": {
-    "headline": "Your money, made clear. In Spanish, English, or both.",
+    "headline": "Scout ahead to payday. Your AI money coach.",
     "sub": "An AI money coach that knows your numbers: see what's safe to spend until payday, and ask Clara anything.",
     "cta": "Start free",
     "ctaMicro": "No card. No bank login.",
@@ -88,8 +88,8 @@
     "mockGoal1": "Emergency fund",
     "mockGoal2": "Trip home",
     "heroEyebrow": "Meet Clara, your AI money coach",
-    "heroLine1": "Your money,",
-    "heroLine2": "made clear.",
+    "heroLine1": "Scout ahead",
+    "heroLine2": "to payday.",
     "heroLine3": "An AI money coach that knows your numbers.",
     "heroSub": "Clara looks at your income, bills and goals, then tells you what's safe to spend, what's coming up, and what to do next.",
     "artSafe": "Safe to spend",
