@@ -25,6 +25,7 @@
   --positive: #0f6b5f;
   --violet: #6d4fd1;
   --glow: #0f6b5f;
+  --lime: #6fbf1f; /* tab bar icon glow */
 
   /* Cards (Midnight turns these into glass with depth) */
   --card-bg: var(--surface-raised);
@@ -80,6 +81,7 @@
   --positive: #21d19f;
   --violet: #a78bfa;
   --glow: #7aa8ff;
+  --lime: #b6f24a;
 
   /* Glass cards with depth */
   --card-bg: rgba(20, 34, 68, 0.75);
@@ -114,6 +116,8 @@
     --positive: #21d19f;
     --violet: #a78bfa;
     --glow: #7aa8ff;
+    --lime: #b6f24a;
+  --lime: #b6f24a;
 
     /* Glass cards with depth */
     --card-bg: rgba(20, 34, 68, 0.75);

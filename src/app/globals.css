@@ -434,6 +434,14 @@ textarea {
   justify-content: center;
   height: 32px;
 }
+/* A lime undertone glow under each icon; brighter on the page you're on. */
+.tabbar__icon svg {
+  filter: drop-shadow(0 3px 6px color-mix(in srgb, var(--lime) 55%, transparent));
+  transition: filter 0.2s ease;
+}
+.tabbar__item[aria-current="page"] .tabbar__icon svg {
+  filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--lime) 70%, transparent)) drop-shadow(0 4px 10px color-mix(in srgb, var(--lime) 55%, transparent));
+}
 .tabbar__add {
   width: 52px;
   height: 52px;
@@ -441,7 +449,13 @@ textarea {
   border-radius: var(--radius-full);
   background: var(--clara);
   color: var(--on-clara);
-  box-shadow: 0 0 0 4px var(--surface), 0 6px 22px color-mix(in srgb, var(--clara) 50%, transparent);
+  box-shadow:
+    0 0 0 4px var(--surface),
+    0 6px 22px color-mix(in srgb, var(--clara) 50%, transparent),
+    0 10px 26px color-mix(in srgb, var(--lime) 35%, transparent);
+}
+.tabbar__add svg {
+  filter: none;
 }
 
 /* Banners and notices */
