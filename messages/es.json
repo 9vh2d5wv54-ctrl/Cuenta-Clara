@@ -1334,6 +1334,7 @@
     "log_done": "Anotaste tu primer gasto",
     "claraQuestion": "¿Me alcanza para $100 esta semana?",
     "allSet": "¡Listo! 🎉",
-    "allSetLead": "Ya está todo. Anota tus gastos cuando pasen, y cada domingo Clara te manda una nota corta de cómo te fue en la semana."
+    "allSetLead": "Ya está todo. Anota tus gastos cuando pasen, y cada domingo Clara te manda una nota corta de cómo te fue en la semana.",
+    "next": "Sigue"
   }
 }

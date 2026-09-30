@@ -1334,6 +1334,7 @@
     "log_done": "Logged your first entry",
     "claraQuestion": "Can I afford $100 this week?",
     "allSet": "You're all set 🎉",
-    "allSetLead": "That's the whole setup. Log what you spend as you go, and every Sunday Clara sends you a short note on how the week went."
+    "allSetLead": "That's the whole setup. Log what you spend as you go, and every Sunday Clara sends you a short note on how the week went.",
+    "next": "Next"
   }
 }

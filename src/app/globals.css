@@ -4235,48 +4235,175 @@ button.explore-tile {
   background: color-mix(in srgb, var(--clara) 14%, transparent);
 }
 
-/* Home: your first 3 steps */
+/* Home: your first 3 steps (radar style: lime ring, glowing dots) */
 .first-steps {
+  position: relative;
+  overflow: hidden;
   border-color: color-mix(in srgb, var(--lime) 45%, transparent);
+  box-shadow: var(--card-shadow), 0 0 24px -6px color-mix(in srgb, var(--lime) 35%, transparent);
 }
-.first-steps__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--space-1);
+.first-steps::before {
+  /* a faint radar sweep in the corner behind the ring */
+  content: "";
+  position: absolute;
+  top: -70px;
+  left: -70px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--lime) 14%, transparent) 0%, transparent 65%);
+  pointer-events: none;
 }
-.first-steps__item {
+.first-steps > * {
+  position: relative;
+}
+.first-steps__head {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-2) 0;
-  color: inherit;
-  text-decoration: none;
-  min-height: 44px;
+}
+.first-steps__close {
+  align-self: flex-start;
 }
 .first-steps__text {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
+}
+.steps-ring {
+  position: relative;
+  flex: none;
+  width: 56px;
+  height: 56px;
+}
+.steps-ring > svg {
+  width: 100%;
+  height: 100%;
+}
+.steps-ring circle {
+  fill: none;
+  stroke-width: 9;
+}
+.steps-ring__track {
+  stroke: color-mix(in srgb, var(--lime) 16%, transparent);
+}
+.steps-ring__fill {
+  stroke: var(--lime);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--lime) 70%, transparent));
+  transition: stroke-dasharray 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.steps-ring__text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--lime) 65%, var(--ink));
+}
+.first-steps__list {
+  list-style: none;
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.first-steps__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  min-height: 52px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+a.first-steps__item {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+a.first-steps__item:hover {
+  background: color-mix(in srgb, var(--lime) 8%, transparent);
+}
+a.first-steps__item:active {
+  transform: scale(0.985);
+}
+.first-steps__item--next {
+  border-color: color-mix(in srgb, var(--lime) 55%, transparent);
+  background: color-mix(in srgb, var(--lime) 9%, transparent) !important;
 }
 .first-steps__dot {
   flex: none;
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 2px solid color-mix(in srgb, var(--lime) 60%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--lime) 55%, transparent);
+  color: color-mix(in srgb, var(--lime) 65%, var(--ink));
+}
+.first-steps__item--next .first-steps__dot {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--lime) 14%, transparent);
 }
 .first-steps__item--done .first-steps__dot {
   background: var(--lime);
   border-color: var(--lime);
   color: #06281c;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--lime) 55%, transparent);
+  animation: step-pop 420ms cubic-bezier(0.3, 1.6, 0.5, 1);
 }
 .first-steps__item--done .t-body {
   color: var(--ink-muted);
 }
-.first-steps .bar > span {
+.first-steps__pill {
+  flex: none;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #06281c;
   background: var(--lime);
+}
+.first-steps--done .steps-ring::after {
+  /* the radar ping when everything is done */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--lime);
+  animation: steps-ping 1.8s ease-out 3;
+  opacity: 0;
+}
+.first-steps--done .steps-ring__fill {
+  filter: drop-shadow(0 0 7px color-mix(in srgb, var(--lime) 85%, transparent));
+}
+@keyframes step-pop {
+  0% {
+    transform: scale(0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes steps-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .first-steps__item--done .first-steps__dot,
+  .first-steps--done .steps-ring::after {
+    animation: none;
+  }
 }
