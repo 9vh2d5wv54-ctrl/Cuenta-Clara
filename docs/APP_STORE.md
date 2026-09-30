@@ -35,7 +35,7 @@ Apple rejects apps that are "just a website in a box". Pocket Recon is wrapped w
 **Capacitor** (the same app code, inside a native shell). To pass review, add:
 
 - Face ID / passcode lock when the app opens (money apps are expected to have it).
-- Push notifications for bill reminders and payday (instead of only email).
+- Push notifications for bill reminders and payday (already built for the web app; the iPhone wrapper connects them to Apple's notifications).
 - A friendly "you're offline" screen.
 - Haptic taps when you log something.
 
@@ -45,21 +45,31 @@ so "Sign in with Apple" isn't required).
 
 ## 4. App Store listing (copy and paste)
 
-**Name** (30 max): `Pocket Recon`
+**Name** (30 max): `Pocket Recon: AI Money Coach` (28)
+Putting "AI Money Coach" in the name helps search: Apple ranks words in the name highest.
+Keywords below don't repeat words already in the name or subtitle (Apple counts them once).
 
 **Subtitle** (30 max)
-- English: `AI money coach & budget` (23)
-- Spanish: `Coach de dinero con IA` (22)
+- English: `Scout ahead to payday` (21)
+- Spanish: `Adelántate a tu día de pago` (27)
 
 **Category:** Finance. Secondary: Business.
 
 **Keywords** (100 max, commas, no spaces after commas)
-- English: `ai,coach,budget,finance,side hustle,self employed,gig,freelance,tax,paycheck,savings,debt,veteran` (97)
-- Spanish: `ia,coach,presupuesto,finanzas,negocio,independiente,impuestos,quincena,ahorro,deudas,veteranos` (94)
+- English: `budget,finance,side hustle,self employed,gig,freelance,tax,paycheck,savings,debt,bills,veteran,goals` (100)
+- Spanish: `presupuesto,finanzas,negocio,independiente,impuestos,quincena,ahorro,deudas,cuentas,veteranos,metas` (99)
 
 **Promotional text** (170 max, can change anytime)
-- English: `Ask Clara, your AI money coach, anything. See what's safe to spend, track what your side hustle really keeps, set aside for taxes, and hit your goals.`
-- Spanish: `Pregúntale a Clara, tu coach de dinero con IA. Mira cuánto puedes gastar, planea ingresos de negocio o por tu cuenta, aparta para impuestos y cumple tus metas.`
+- English: `Clara, your AI money coach, tells you what's safe to spend until payday, what your side hustle really keeps, and what to set aside for taxes. Free to start.` (156)
+- Spanish: `Clara, tu coach de dinero con IA, te dice cuánto puedes gastar hasta tu pago, cuánto te deja tu negocio y cuánto apartar para impuestos. Gratis para empezar.` (157)
+
+**Screenshots** (in `docs/app-store/`, in this order, English `en-1…6`, Spanish `es-1…6`)
+1. Scout ahead to payday: Home with Safe to Spend and Clara's weekly note
+2. Ask Clara, your AI money coach: a Clara answer
+3. See what your side hustle keeps: Business mode
+4. Watch your goals grow
+5. See when you'll be debt-free
+6. Free tools for veterans
 
 **Description (English)**
 
@@ -72,7 +82,7 @@ SEE WHAT'S SAFE TO SPEND
 Type your balance and payday, and Pocket Recon shows what you can spend until your next check, after bills, savings and everything you've planned.
 
 SMART MONEY TECH
-Log spending by voice or a receipt photo. See a 3-month forecast and a "What if?" chart. Get bill reminders and payday plans by email.
+Log spending by voice or a receipt photo. See a 3-month forecast and a "What if?" chart. Every Sunday, Clara sends a short note on how your week went. Get bill reminders and your payday plan as phone notifications or email.
 
 BUSINESS MODE FOR SIDE HUSTLES AND SELF-EMPLOYED PAY
 Mark income and costs as business in one tap and see what came in, what it cost and what you kept, this month and all year, with costs by category. Set aside for taxes on your profit. Plan each paycheck on its own when pay changes week to week, and snap a pay stub to check your hours and overtime.
@@ -90,7 +100,7 @@ IN ENGLISH OR SPANISH, WITH FAMILY SENDS
 Use the app in English, Spanish or both, and plan money you send to family abroad in their currency.
 
 YOUR CURRENCY
-U.S. dollar, Canadian dollar or British pound.
+U.S. dollar, Canadian dollar, British pound or Dominican peso.
 
 FREE, AND PRIVATE
 The basics are free forever. We never connect to your bank and never sell your data.
@@ -108,7 +118,7 @@ MIRA CUÁNTO PUEDES GASTAR
 Escribe tu saldo y tu día de pago, y Pocket Recon te dice cuánto puedes gastar hasta tu próximo cheque, después de cuentas, ahorro y todo lo que planeaste.
 
 TECNOLOGÍA PARA TU DINERO
-Anota gastos con tu voz o una foto del recibo. Mira un pronóstico de 3 meses y una gráfica de "¿Y si…?". Recibe recordatorios de cuentas y planes de pago por email.
+Anota gastos con tu voz o una foto del recibo. Mira un pronóstico de 3 meses y una gráfica de "¿Y si…?". Cada domingo, Clara te manda una nota corta sobre tu semana. Recibe recordatorios de cuentas y tu plan del día de pago como avisos en el teléfono o por email.
 
 MODO NEGOCIO PARA NEGOCIOS PROPIOS Y TRABAJO POR TU CUENTA
 Marca ingresos y gastos como del negocio con un toque y mira lo que entró, lo que costó y lo que te quedó, en el mes y en todo el año, con gastos por categoría. Aparta para impuestos sobre tu ganancia. Planea cada cheque por separado cuando tu pago cambia y toma foto de tu talón para revisar tus horas y overtime.
@@ -120,13 +130,13 @@ APRENDE MIENTRAS USAS
 Lecciones cortas, un quiz de tu estilo con el dinero y un glosario de palabras de dinero, gratis y sin cuenta.
 
 PARA VETERANOS Y FAMILIAS MILITARES
-Calcula tu calificación combinada de discapacidad del VA, planea tu GI Bill y marca los beneficios que muchos veteranos no usan. Solo estimados; Pocket Recon no está afiliada con el VA.
+Calcula tu calificación combinada de discapacidad del VA, planea tu GI Bill y marca los beneficios que muchos veteranos no usan. Solo estimados; Pocket Recon no está afiliado con el VA.
 
 EN ESPAÑOL O INGLÉS, CON ENVÍOS A TU FAMILIA
 Usa la app en español, inglés o los dos, y planea lo que mandas a tu familia en su moneda.
 
 TU MONEDA
-Dólar estadounidense, dólar canadiense o libra esterlina.
+Dólar estadounidense, dólar canadiense, libra esterlina o peso dominicano.
 
 GRATIS Y PRIVADA
 Lo básico es gratis para siempre. Nunca nos conectamos a tu banco ni vendemos tus datos.
@@ -136,7 +146,7 @@ Pocket Recon da información general, no asesoría financiera, de impuestos ni l
 **URLs**
 - Privacy policy: `https://pocketrecon.app/privacidad`
 - Terms: `https://pocketrecon.app/terminos`
-- Support: `https://pocketrecon.app` (Apple needs a page with a way to contact you; the landing page footer and the privacy page list hola@micuentaclara.app)
+- Support: `https://pocketrecon.app` (Apple needs a page with a way to contact you; the landing page footer and the privacy page list the contact email; switch it to hola@pocketrecon.app once Resend is verified)
 - Marketing: `https://pocketrecon.app`
 
 **Age rating:** answer Apple's questionnaire honestly (no gambling, no mature content,
