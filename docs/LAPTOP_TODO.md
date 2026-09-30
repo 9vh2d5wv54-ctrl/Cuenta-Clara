@@ -74,13 +74,20 @@ New web address pocketrecon.app (bought Sep 30 in Vercel, renews $15/yr; Vercel 
 
 - ✓ Whop webhook moved to https://pocketrecon.app/api/webhooks/whop (test event: 200, secret OK)
 
-- ⏳ Resend: pocketrecon.app added with Auto configure (Vercel), waiting for Verified.
-  When all 3 records say Verified: Vercel → Environment Variables →
-  REMINDER_FROM_EMAIL = "Pocket Recon <hola@pocketrecon.app>" (delete and re-add, Config),
-  add NEXT_PUBLIC_CONTACT_EMAIL = hola@pocketrecon.app, then Redeploy.
-  Don't switch before Verified, or emails fail.
-  Also then: Supabase → Authentication → Emails → SMTP Settings: sender email
-  hola@pocketrecon.app, sender name Pocket Recon (sign-in emails).
+- ⏳ Resend (account mannyabreu92@gmail.com): pocketrecon.app added; all 3 DNS records are in
+  Vercel (Cuenta Clara team) and live. Waiting for Resend to say Verified.
+  The app's current emails use a DIFFERENT, older Resend account (micuentaclara.app), so the
+  switch needs a new key from this account. When pocketrecon.app says Verified:
+  1. Resend → API keys → Create API key (name "Pocket Recon app", Sending access, domain
+     pocketrecon.app) → copy it. Don't paste it anywhere except Vercel.
+  2. Vercel (Cuenta Clara) → Environment Variables, all as Production:
+     - RESEND_API_KEY → replace with the new key (Secret)
+     - REMINDER_FROM_EMAIL → Pocket Recon <hola@pocketrecon.app>
+     - NEXT_PUBLIC_CONTACT_EMAIL → hola@pocketrecon.app (Config)
+     Change all three together, then Redeploy.
+  3. Test: /app/admin → Run the checks → Email says OK; or /api/email/test?kind=note.
+  4. Supabase sign-in emails (Authentication → Emails → SMTP): password = a second new key
+     from this account, sender hola@pocketrecon.app, name Pocket Recon.
 
 Still to do:
 3. **Vercel → Settings → Domains:** add it, follow the DNS steps, keep micuentaclara.app
