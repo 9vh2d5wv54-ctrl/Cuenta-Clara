@@ -36,3 +36,14 @@ describe("weekly mode", () => {
     expect(weeklyMode()).toBe("single");
   });
 });
+
+describe("the weekly email's month is the person's own month", () => {
+  it("at 6 PM on the last Sunday of May in Los Angeles, it's still May there (June in UTC)", async () => {
+    const { userNow } = await import("@/lib/clara-server");
+    const { todayISO } = await import("@/lib/dates");
+    const at = new Date(Date.UTC(2026, 5, 1, 1, 10)); // Mon Jun 1 01:10 UTC = Sun May 31 6:10 PM in LA
+    expect(isSunday6pm("America/Los_Angeles", at)).toBe(true);
+    expect(at.toISOString().slice(0, 7)).toBe("2026-06");
+    expect(todayISO(userNow("America/Los_Angeles", at)).slice(0, 7)).toBe("2026-05");
+  });
+});

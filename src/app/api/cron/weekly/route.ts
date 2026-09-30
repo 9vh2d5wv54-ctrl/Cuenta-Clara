@@ -3,7 +3,9 @@ import { writeWeeklyLine } from "@/lib/ai";
 import { makeClaraNote, saveClaraNote } from "@/lib/clara-note-server";
 import { pushUsers, sendPush } from "@/lib/push";
 import { goalMonthlyCents } from "@/lib/budget";
-import { cronUnauthorized, monthKeyUTC } from "@/lib/cron";
+import { cronUnauthorized } from "@/lib/cron";
+import { userNow } from "@/lib/clara-server";
+import { todayISO } from "@/lib/dates";
 import { daysBetween, nextDueDate } from "@/lib/dates";
 import { appUrl, sendEmail } from "@/lib/email";
 import { formatUSD } from "@/lib/money";
@@ -40,7 +42,6 @@ export async function GET(request: NextRequest) {
     .select("id, email, language, timezone, email_weekly_on, subscriptions(plan, status, trial_ends_at)");
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const month = monthKeyUTC();
   let sent = 0;
   let notes = 0;
   let pushed = 0;
@@ -64,13 +65,16 @@ export async function GET(request: NextRequest) {
       }
       if (!user.email_weekly_on) return;
 
+      // The person's own date: at 6 PM on the last Sunday of a month, UTC is often
+      // already the next month for anyone west of New York.
+      const now = userNow(user.timezone);
+      const month = todayISO(now).slice(0, 7);
       const u = await loadUserMonth(db, user.id, month);
       if (!u.income) return; // nothing to summarize before setup
       const es = user.language !== "en";
-      const totals = monthTotals(u);
-      const line = note?.body ?? (await writeWeeklyLine(monthInput(u, user.language, month)));
+      const totals = monthTotals(u, now);
+      const line = note?.body ?? (await writeWeeklyLine(monthInput(u, user.language, month, now)));
   
-      const now = new Date();
       const dueSoon = u.bills
         .map((b) => ({ b, days: daysBetween(now, nextDueDate(b.due_day, now)) }))
         .filter((x) => x.days <= 7)
@@ -80,8 +84,8 @@ export async function GET(request: NextRequest) {
       const goals = u.goals.map((g) => {
         const pct = Math.min(100, Math.round((g.saved_cents / g.target_cents) * 100));
         return es
-          ? `${g.name}: ${formatUSD(g.saved_cents)} de ${formatUSD(g.target_cents)} (${pct}%), aparta ${formatUSD(goalMonthlyCents(g))} al mes.`
-          : `${g.name}: ${formatUSD(g.saved_cents)} of ${formatUSD(g.target_cents)} (${pct}%), set aside ${formatUSD(goalMonthlyCents(g))} a month.`;
+          ? `${g.name}: ${formatUSD(g.saved_cents)} de ${formatUSD(g.target_cents)} (${pct}%), aparta ${formatUSD(goalMonthlyCents(g, now))} al mes.`
+          : `${g.name}: ${formatUSD(g.saved_cents)} of ${formatUSD(g.target_cents)} (${pct}%), set aside ${formatUSD(goalMonthlyCents(g, now))} a month.`;
       });
   
       const sub = user.subscriptions;
