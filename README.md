@@ -171,7 +171,7 @@ Sent through Resend in each person's language. Every marketing email has a one-c
 | Plus trial ends in 2 days | 2 days before the trial ends | `/api/cron/daily` |
 | Exchange-rate alert (Plus) | When the dollar buys 1% more than its recent low | `/api/cron/daily` |
 
-By default the weekly email goes to everyone once, Sundays at 22:00 UTC (6 PM New York time in summer, 5 PM in winter), which fits Vercel's Hobby plan (one run per day per job). On Vercel Pro, set the `/api/cron/weekly` schedule to `0 * * * 0` and `WEEKLY_LOCAL_TIME=true` so each person gets it at 6 PM in their own timezone.
+The weekly email and Clara's note go out Sunday at 6 PM in each person's own timezone. The weekly cron runs every hour on Sundays and Mondays UTC (`0 * * * 0,1`, needs Vercel Pro) and each run handles the people for whom it's 6 PM; a note written in the last 3 hours is never sent again. To send to everyone on one run instead, set `WEEKLY_LOCAL_TIME=false` and change the cron back to `0 22 * * 0`.
 
 ### Login emails (Supabase)
 

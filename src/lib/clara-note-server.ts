@@ -17,6 +17,6 @@ export async function makeClaraNote(db: SupabaseClient, userId: string | undefin
 
 /** Saves (or replaces) this week's note. Before migration 011 there's no table; that's fine. */
 export async function saveClaraNote(db: SupabaseClient, userId: string, week: string, body: string): Promise<boolean> {
-  const { error } = await db.from("clara_notes").upsert({ user_id: userId, week, body, seen_at: null }, { onConflict: "user_id,week" });
+  const { error } = await db.from("clara_notes").upsert({ user_id: userId, week, body, seen_at: null, created_at: new Date().toISOString() }, { onConflict: "user_id,week" });
   return !error;
 }

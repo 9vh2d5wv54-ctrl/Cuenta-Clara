@@ -10,14 +10,17 @@ import { formatUSD } from "@/lib/money";
 import { currencyFor, inCurrency } from "@/lib/currency-scope";
 import { loadUserMonth, monthInput, monthTotals } from "@/lib/server-budget";
 import { supabaseAdmin } from "@/lib/supabase-server";
+import { isSunday6pm, weeklyMode } from "@/lib/weekly-time";
 
 // "Tu resumen / Your week": Sundays at 6 PM. It also writes Clara's weekly note
 // for everyone with something to write about (shown on Home), and leads the
 // email with it.
-// Default (works on Vercel Hobby): one run Sundays 22:00 UTC, which is 6 PM in
-// New York during daylight time, sent to everyone. With WEEKLY_LOCAL_TIME=true
-// and the cron set to hourly on Sundays (Vercel Pro), each person gets it at 6 PM
-// in their own timezone.
+// When: Sunday 6 PM in each person's own timezone. The cron runs hourly on Sundays
+// and Mondays UTC (vercel.json, needs Vercel Pro); each run handles the people for
+// whom it's 6 PM right now. WEEKLY_LOCAL_TIME=false sends to everyone on one run.
+
+// Room for Claude to write many notes in one run.
+export const maxDuration = 300;
 
 type Row = {
   id: string;
@@ -27,17 +30,6 @@ type Row = {
   email_weekly_on: boolean;
   subscriptions: { plan: string; status: string; trial_ends_at: string | null } | null;
 };
-
-function isSunday6pm(timeZone: string, now = new Date()): boolean {
-  try {
-    const parts = new Intl.DateTimeFormat("en-US", { timeZone, weekday: "short", hour: "numeric", hour12: false }).formatToParts(now);
-    const weekday = parts.find((p) => p.type === "weekday")?.value;
-    const hour = Number(parts.find((p) => p.type === "hour")?.value);
-    return weekday === "Sun" && hour === 18;
-  } catch {
-    return false;
-  }
-}
 
 export async function GET(request: NextRequest) {
   const denied = cronUnauthorized(request);
@@ -52,10 +44,18 @@ export async function GET(request: NextRequest) {
   let sent = 0;
   let notes = 0;
   let pushed = 0;
+  const local = weeklyMode() === "local";
+  const due = ((data ?? []) as unknown as Row[]).filter((u) => !local || isSunday6pm(u.timezone));
+  if (due.length === 0) return NextResponse.json({ sent: 0, notes: 0, pushed: 0, due: 0 });
   const wantsPush = await pushUsers(db, "note");
-  for (const user of (data ?? []) as unknown as Row[]) {
+  let skipped = 0;
+  for (const user of due) {
+    // A retried or repeated run in the same hour must not send twice.
+    if (await noteJustWritten(db, user.id)) {
+      skipped++;
+      continue;
+    }
     await inCurrency(await currencyFor(db, user.id), async () => {
-      if (process.env.WEEKLY_LOCAL_TIME === "true" && !isSunday6pm(user.timezone)) return;
       // Clara's note first: it goes on Home even for people who turned the email off.
       const note = await makeClaraNote(db, user.id, user.language === "en" ? "en" : "es", user.timezone).catch(() => null);
       if (note && (await saveClaraNote(db, user.id, note.week, note.body))) notes++;
@@ -118,5 +118,12 @@ export async function GET(request: NextRequest) {
       if (ok) sent++;
     });
   }
-  return NextResponse.json({ sent, notes, pushed });
+  return NextResponse.json({ sent, notes, pushed, due: due.length, skipped });
+}
+
+/** True when this person's weekly note was written in the last 3 hours (this run already happened). */
+async function noteJustWritten(db: ReturnType<typeof supabaseAdmin>, userId: string): Promise<boolean> {
+  const since = new Date(Date.now() - 3 * 3600_000).toISOString();
+  const { data, error } = await db.from("clara_notes").select("id").eq("user_id", userId).gte("created_at", since).limit(1);
+  return !error && (data?.length ?? 0) > 0;
 }

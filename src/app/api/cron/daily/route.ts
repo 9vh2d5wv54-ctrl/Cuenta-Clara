@@ -33,6 +33,9 @@ type User = {
   home_currency: string | null;
 };
 
+// Room for many people (emails and Claude) in one run (Vercel Pro).
+export const maxDuration = 300;
+
 export async function GET(request: NextRequest) {
   const denied = cronUnauthorized(request);
   if (denied) return denied;

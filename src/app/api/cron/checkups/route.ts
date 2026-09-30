@@ -11,6 +11,9 @@ import { supabaseAdmin } from "@/lib/supabase-server";
 
 type Row = { id: string; email: string; language: "es" | "en"; email_weekly_on: boolean };
 
+// Room for many people (emails and Claude) in one run (Vercel Pro).
+export const maxDuration = 300;
+
 export async function GET(request: NextRequest) {
   const denied = cronUnauthorized(request);
   if (denied) return denied;
